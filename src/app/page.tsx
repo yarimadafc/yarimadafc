@@ -5,10 +5,11 @@ import { supabase } from '@/lib/supabase';
 import FadeIn from '@/components/FadeIn';
 import MatchesTabs from '@/components/MatchesTabs';
 import AnalogClock from '@/components/AnalogClock';
+import { t, type Lang } from '@/lib/i18n';
 
 export default async function Home() {
   const cookieStore = await cookies();
-  const lang = cookieStore.get('NEXT_LOCALE')?.value || 'AZ';
+  const lang = (cookieStore.get('NEXT_LOCALE')?.value || 'AZ') as Lang;
 
   let matches: any[] = [];
   let news: any[] = [];
@@ -49,12 +50,12 @@ export default async function Home() {
           
           <div className="relative z-10 max-w-4xl">
             <FadeIn>
-              <p className="font-mono text-sm uppercase tracking-[0.2em] text-[var(--ks-kinpaku)] mb-4 font-bold">Yarımada FK • Rəsmi Sayt</p>
+              <p className="font-mono text-sm uppercase tracking-[0.2em] text-[var(--ks-kinpaku)] mb-4 font-bold">{t('hero_label', lang)}</p>
               <h1 className="text-4xl sm:text-5xl md:text-8xl lg:text-9xl font-black font-condensed uppercase tracking-normal text-white mb-6 leading-[1] md:leading-[0.85] drop-shadow-xl">
-                {heroBanner?.title || 'MEYDANDA GÜC, QƏLBDƏ FUTBOL!'} 
+                {heroBanner?.title || t('hero_title', lang)} 
               </h1>
               <p className="text-base sm:text-lg md:text-2xl text-gray-200 mb-10 max-w-2xl leading-relaxed">
-                {heroBanner?.subtitle || 'Futbol sadəcə oyun deyil, bir həyat tərzidir. Əsl futbol ruhunu hiss et, zəfərlərə bizimlə addımla və gələcəyin çempionu ol!'}
+                {heroBanner?.subtitle || t('hero_subtitle', lang)}
               </p>
               <div className="flex flex-col sm:flex-row w-full gap-4">
                 <Link href="/komandalar" className="ks-button ks-button-primary !bg-[var(--ks-kinpaku)] !text-[var(--ks-ink)] !border-none hover:!bg-[var(--ks-kinpaku-vivid)] !px-8 !py-4 text-lg font-bold !rounded-full w-full sm:w-auto text-center flex justify-center">
@@ -74,7 +75,7 @@ export default async function Home() {
         <FadeIn>
           <div className="flex flex-col md:flex-row justify-between items-center md:items-end mb-10 gap-4 md:gap-0">
             <div className="text-center md:text-left w-full md:w-auto">
-              <p className="font-mono text-sm uppercase tracking-[0.2em] text-[#0a1628]/60 mb-4 font-bold">MEYDANDA</p>
+              <p className="font-mono text-sm uppercase tracking-[0.2em] text-[#0a1628]/60 mb-4 font-bold">{t('matches_label', lang)}</p>
               <h2 className="text-6xl md:text-7xl font-black font-condensed uppercase text-[var(--ks-ink)] leading-[0.9]">
                 OYUNLAR
               </h2>
@@ -96,7 +97,7 @@ export default async function Home() {
         <FadeIn>
           <div className="flex flex-col md:flex-row justify-between items-center md:items-end mb-8 gap-4 md:gap-0">
             <div className="text-center md:text-left w-full md:w-auto">
-              <p className="font-mono text-sm uppercase tracking-[0.2em] text-[#0a1628]/60 mb-2 font-bold">STATİSTİKA</p>
+              <p className="font-mono text-sm uppercase tracking-[0.2em] text-[#0a1628]/60 mb-2 font-bold">{t('standings_label', lang)}</p>
               <h2 className="text-4xl md:text-6xl font-black font-condensed uppercase text-[var(--ks-ink)] leading-[0.9]">
                 TURNİR CƏDVƏLİ
               </h2>
@@ -133,7 +134,7 @@ export default async function Home() {
                 </tbody>
               </table>
               <div className="mt-6 flex justify-center lg:hidden">
-                <Link href="/turnir-cedveli" className="text-sm font-bold uppercase tracking-wider text-[var(--ks-kinpaku-rich)]">Tam cədvələ bax →</Link>
+                <Link href="/turnir-cedveli" className="text-sm font-bold uppercase tracking-wider text-[var(--ks-kinpaku-rich)]">{t('full_table', lang)}</Link>
               </div>
             </div>
 
@@ -150,12 +151,12 @@ export default async function Home() {
           <FadeIn>
             <div className="flex flex-col lg:flex-row justify-between gap-12 mb-16">
               <div className="max-w-2xl">
-                <p className="font-mono text-sm uppercase tracking-[0.2em] text-[#0a1628]/60 mb-4 font-bold">BİZ KİMİK?</p>
+                <p className="font-mono text-sm uppercase tracking-[0.2em] text-[#0a1628]/60 mb-4 font-bold">{t('about_label', lang)}</p>
                 <h2 className="text-6xl md:text-7xl font-black font-condensed uppercase text-[var(--ks-ink)] mb-8 leading-[0.9]">
                   YARIMADA FK HAQQINDA.
                 </h2>
                 <p className="text-xl text-[var(--ks-ink)]/70 mb-8">
-                  Yarımada Futbol Klubu gənc istedadları üzə çıxarmaq, onlara peşəkar futbol təhsili vermək və Azərbaycan futboluna yeni nəfəs gətirmək məqsədilə yaradılmışdır. Biz sadəcə bir klub deyil, həm də böyük bir ailəyik.
+                  {t('about_text', lang)}
                 </p>
                 <Link href="/klub" className="ks-button ks-button-primary !bg-[var(--ks-ink)] !text-white hover:!bg-[#15294a]">
                   Ətraflı
@@ -199,7 +200,7 @@ export default async function Home() {
         <FadeIn>
           <div className="flex flex-col md:flex-row justify-between items-center md:items-end mb-10 gap-4 md:gap-0">
             <div className="text-center md:text-left w-full md:w-auto">
-              <p className="font-mono text-sm uppercase tracking-[0.2em] text-[#0a1628]/60 mb-4 font-bold">XƏBƏRLƏR</p>
+              <p className="font-mono text-sm uppercase tracking-[0.2em] text-[#0a1628]/60 mb-4 font-bold">{t('news_label', lang)}</p>
               <h2 className="text-6xl md:text-7xl font-black font-condensed uppercase text-[var(--ks-ink)] leading-[0.9]">
                 SON YENİLİKLƏR
               </h2>

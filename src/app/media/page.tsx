@@ -1,111 +1,126 @@
-import { supabase } from '@/lib/supabase'
-import Link from 'next/link'
-import Image from 'next/image'
+export const dynamic = 'force-dynamic';
 
+import Link from 'next/link';
+import { supabase } from '@/lib/supabase';
+import FadeIn from '@/components/FadeIn';
 
+export default async function MediaPage(props: { searchParams: Promise<{ tab?: string }> }) {
+  const searchParams = await props.searchParams;
+  const activeTab = searchParams.tab || 'fotolar';
 
-
-
-export default async function MediaPage({
-  searchParams
-}: {
-  searchParams: { tab?: string }
-}) {
-  const currentTab = searchParams.tab || 'photos';
-
-  let photos = [];
-  let videos = [];
+  let photos: any[] = [];
+  let videos: any[] = [];
 
   try {
-    if (currentTab === 'photos') {
-      const { data, error } = await supabase.from('media_photos').select('*');
-      if (data && !error && data.length > 0) photos = data;
-    } else {
-      const { data, error } = await supabase.from('media_videos').select('*');
-      if (data && !error && data.length > 0) videos = data;
-    }
+    const [photosRes, videosRes] = await Promise.all([
+      supabase.from('media_photos').select('*').order('created_at', { ascending: false }),
+      supabase.from('media_videos').select('*').order('created_at', { ascending: false })
+    ]);
+
+    if (photosRes.data) photos = photosRes.data;
+    if (videosRes.data) videos = videosRes.data;
   } catch (error) {
-    console.error("Error fetching media:", error);
+    console.error('Error fetching media:', error);
+  }
+
+  // Mock data if empty
+  if (photos.length === 0) {
+    photos = Array(8).fill({
+      title: 'U-12 Məşq Prosesi',
+      url: '',
+      category: 'Məşqlər',
+      created_at: '2026-10-01'
+    });
+  }
+
+  if (videos.length === 0) {
+    videos = Array(4).fill({
+      title: 'Yarımada FK 3-1 Neftçi',
+      video_url: 'https://youtube.com/watch?v=mock',
+      category: 'Oyunlar',
+      created_at: '2026-10-05'
+    });
   }
 
   return (
-    <main className="min-h-screen bg-[#f5f5f5] text-[#0a1628] pt-24 pb-12">
-      <div className="container mx-auto px-4 max-w-6xl">
-        <h1 className="text-4xl md:text-5xl font-bold uppercase tracking-wider text-center mb-12">
-          Media
-        </h1>
+    <main className="flex-grow bg-[var(--ks-paper)] text-[var(--ks-ink)]">
+      
+      {/* HERO SECTION */}
+      <section className="pt-32 pb-8 px-4 sm:px-6 lg:px-8 max-w-[1400px] mx-auto">
+        <div className="relative rounded-[2rem] overflow-hidden min-h-[40vh] flex flex-col justify-end p-8 md:p-16 bg-[#0a1628]">
+          <div className="absolute inset-0 bg-gradient-to-t from-[#0a1628] to-transparent z-0" />
+          <div className="relative z-10 max-w-4xl">
+            <FadeIn>
+              <p className="font-mono text-sm uppercase tracking-[0.2em] text-[var(--ks-kinpaku)] mb-4 font-bold">QALEREYA</p>
+              <h1 className="text-7xl md:text-9xl font-black font-condensed uppercase tracking-normal text-white mb-6 leading-[0.85] drop-shadow-xl">
+                MEDİA
+              </h1>
+            </FadeIn>
+          </div>
+        </div>
+      </section>
 
-        {/* Tabs */}
-        <div className="flex justify-center mb-12">
-          <div className="inline-flex bg-white rounded-lg shadow-sm p-1">
+      {/* TABS */}
+      <section className="py-8 px-4 sm:px-6 lg:px-8 max-w-[1400px] mx-auto">
+        <FadeIn delay={0.1}>
+          <div className="flex gap-4 mb-12">
             <Link 
-              href="?tab=photos" 
-              className={`px-8 py-3 rounded-md font-bold uppercase tracking-wide transition-colors ${
-                currentTab === 'photos' 
-                  ? 'bg-[#0a1628] text-[#c9a84c]' 
-                  : 'text-gray-500 hover:text-[#0a1628]'
-              }`}
+              href="/media?tab=fotolar" 
+              className={`ks-button !rounded-full !px-8 !py-4 font-bold text-lg transition-colors ${activeTab === 'fotolar' ? '!bg-[var(--ks-ink)] !text-white' : '!bg-gray-100 !text-gray-500 hover:!bg-gray-200 hover:!text-[var(--ks-ink)]'}`}
             >
               Fotolar
             </Link>
             <Link 
-              href="?tab=videos" 
-              className={`px-8 py-3 rounded-md font-bold uppercase tracking-wide transition-colors ${
-                currentTab === 'videos' 
-                  ? 'bg-[#0a1628] text-[#c9a84c]' 
-                  : 'text-gray-500 hover:text-[#0a1628]'
-              }`}
+              href="/media?tab=videolar" 
+              className={`ks-button !rounded-full !px-8 !py-4 font-bold text-lg transition-colors ${activeTab === 'videolar' ? '!bg-[var(--ks-ink)] !text-white' : '!bg-gray-100 !text-gray-500 hover:!bg-gray-200 hover:!text-[var(--ks-ink)]'}`}
             >
               Videolar
             </Link>
           </div>
-        </div>
 
-        {/* Content */}
-        {currentTab === 'photos' ? (
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-            {photos.map((photo) => (
-              <div key={photo.id} className="bg-white rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-shadow group">
-                <div className="h-64 bg-gray-200 relative overflow-hidden">
+          {/* FOTOLAR */}
+          {activeTab === 'fotolar' && (
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+              {photos.map((photo, i) => (
+                <div key={i} className="group relative aspect-square bg-[var(--ks-paper-deep)] rounded-3xl overflow-hidden cursor-pointer shadow-sm border border-gray-100">
                   {photo.url ? (
-                    <Image src={photo.url} alt={photo.title} fill className="object-cover group-hover:scale-105 transition-transform duration-500" />
+                    <img src={photo.url} alt={photo.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
                   ) : (
-                    <div className="w-full h-full flex flex-col items-center justify-center text-gray-400">
-                      <span className="text-4xl mb-2">📸</span>
-                      <span className="uppercase text-xs font-bold tracking-widest">{photo.category}</span>
+                    <div className="absolute inset-0 flex items-center justify-center bg-[#0a1628]/5 group-hover:bg-[#0a1628]/10 transition-colors">
+                      <span className="font-black font-condensed text-4xl text-gray-300 uppercase tracking-widest opacity-30">YARIMADA FK</span>
                     </div>
                   )}
-                </div>
-                <div className="p-4">
-                  <p className="font-bold text-lg">{photo.title}</p>
-                </div>
-              </div>
-            ))}
-          </div>
-        ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {videos.map((video) => (
-              <div key={video.id} className="bg-white rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-shadow">
-                <div className="h-48 bg-gray-800 relative group cursor-pointer">
-                  {video.thumbnail ? (
-                    <Image src={video.thumbnail} alt={video.title} fill className="object-cover opacity-80 group-hover:opacity-100 transition-opacity" />
-                  ) : (
-                    <div className="w-full h-full flex flex-col items-center justify-center text-gray-400">
-                      <span className="text-5xl mb-2 text-white/50 group-hover:text-white transition-colors">▶</span>
-                    </div>
-                  )}
-                  <div className="absolute top-3 left-3 bg-[#c9a84c] text-[#0a1628] px-2 py-1 rounded text-xs font-bold uppercase tracking-wider z-10">
-                    {video.category}
+                  <div className="absolute inset-0 bg-gradient-to-t from-[#0a1628]/90 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-6 text-white">
+                    <span className="text-[var(--ks-kinpaku)] font-mono text-xs uppercase tracking-widest font-bold mb-1">{photo.category}</span>
+                    <h3 className="font-bold text-lg leading-tight">{photo.title}</h3>
                   </div>
                 </div>
-                <div className="p-5">
-                  <p className="font-bold text-lg leading-snug hover:text-[#0a1628]/80 cursor-pointer">{video.title}</p>
+              ))}
+            </div>
+          )}
+
+          {/* VİDEOLAR */}
+          {activeTab === 'videolar' && (
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+              {videos.map((video, i) => (
+                <div key={i} className="group bg-[#0a1628] rounded-[2rem] p-4 flex flex-col shadow-lg border border-gray-100">
+                  <div className="aspect-video bg-black rounded-xl overflow-hidden mb-6 relative cursor-pointer border border-white/10">
+                    <div className="absolute inset-0 bg-gray-800 flex items-center justify-center group-hover:bg-gray-700 transition-colors">
+                      <div className="w-16 h-16 rounded-full bg-white/20 flex items-center justify-center backdrop-blur-sm group-hover:scale-110 transition-transform">
+                        <div className="w-0 h-0 border-t-[10px] border-t-transparent border-l-[16px] border-l-white border-b-[10px] border-b-transparent ml-1"></div>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="px-4 pb-4 text-white">
+                    <span className="text-[var(--ks-kinpaku)] font-mono text-xs uppercase tracking-widest font-bold mb-2 block">{video.category}</span>
+                    <h3 className="text-2xl font-black font-condensed uppercase tracking-wide">{video.title}</h3>
+                  </div>
                 </div>
-              </div>
-            ))}
-          </div>
-        )}
-      </div>
+              ))}
+            </div>
+          )}
+        </FadeIn>
+      </section>
     </main>
   );
 }

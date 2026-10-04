@@ -1,60 +1,96 @@
-// Make page completely dynamic to prevent static generation timeout build errors
 export const dynamic = 'force-dynamic';
-export const revalidate = 0;
 
-import Image from 'next/image';
 import Link from 'next/link';
 import { supabase } from '@/lib/supabase';
+import FadeIn from '@/components/FadeIn';
 
-export default async function NewsDetailPage({ params }: { params: { slug: string } }) {
-  let news = null;
-  
+export default async function NewsDetailPage(props: { params: Promise<{ slug: string }> }) {
+  const params = await props.params;
+  let article: any = null;
+
   try {
-    const res = await supabase.from('news').select('*').eq('slug', params.slug).single();
-    if (res.data) news = res.data;
-  } catch (e) {
-    console.error(e);
+    const res = await supabase.from('news').select('*').or(`slug.eq.${params.slug},id.eq.${params.slug}`).single();
+    if (res.data) article = res.data;
+  } catch (error) {
+    console.error('Error fetching article:', error);
   }
 
-  // Fallback mock
-  if (!news) return <div className="pt-32 text-center text-2xl">Xəbər tapılmadı</div>;
+  // Mock data if not found
+  if (!article) {
+    article = {
+      title: 'Yarımada FK yeni transferini rəsmən elan etdi',
+      content: 'U-12 komandamıza yeni hücumçu cəlb olundu. Gənc istedadın transferi ilə hücum xəttimiz daha da gücləndi. Klub rəhbərliyi bu barədə mətbuata açıqlama verdi və gənc oyunçunun gələcək inkişafı üçün hər cür şərait yaradılacağını bildirdi. \n\nOyunçu artıq bu həftədən etibarən komanda ilə birgə məşqlərə qatılacaq və ilk rəsmi oyununa çıxmağa hazırlaşacaq.',
+      author: 'Klubun Mətbuat Xidməti',
+      category: 'Klub xəbərləri',
+      published_at: '2026-10-04T12:00:00Z',
+      image_url: ''
+    };
+  }
 
   return (
-    <main className="flex-grow pt-24 pb-16">
-      <article className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-        <header className="mb-10 text-center">
-          <div className="inline-block px-3 py-1 bg-[#c9a84c]/10 text-[#c9a84c] font-mono text-sm uppercase tracking-widest rounded-full mb-6">
-            {news.category}
+    <main className="flex-grow bg-[var(--ks-paper)] text-[var(--ks-ink)] pt-32 pb-16 px-4 sm:px-6 lg:px-8 max-w-4xl mx-auto">
+      
+      <FadeIn>
+        <Link href="/xeberler" className="text-gray-500 hover:text-[var(--ks-ink)] font-bold flex items-center gap-2 transition-colors mb-10">
+          &larr; Bütün Xəbərlər
+        </Link>
+
+        {/* HEADER */}
+        <div className="mb-10 text-center md:text-left">
+          <div className="flex flex-wrap items-center justify-center md:justify-start gap-4 mb-6">
+            <span className="bg-[var(--ks-kinpaku)] text-[#0a1628] px-4 py-1 rounded-md text-sm font-bold uppercase tracking-widest shadow-sm">
+              {article.category || 'Xəbər'}
+            </span>
+            <span className="font-mono text-sm text-gray-500">
+              {new Date(article.published_at || Date.now()).toLocaleDateString('az-AZ', { day: 'numeric', month: 'long', year: 'numeric' })}
+            </span>
           </div>
-          <h1 className="text-3xl md:text-5xl font-black text-[#0a1628] uppercase tracking-wide mb-6">
-            {news.title_az}
+          
+          <h1 className="text-5xl md:text-7xl font-black font-condensed uppercase leading-[0.9] mb-6">
+            {article.title}
           </h1>
-          <div className="text-gray-500 font-mono">
-            {new Date(news.published_at).toLocaleDateString('az-AZ')}
-            {news.author && ` • ${news.author}`}
-          </div>
-        </header>
-
-        {news.image_url ? (
-          <div className="relative w-full h-[300px] md:h-[500px] rounded-3xl overflow-hidden mb-12">
-            <Image src={news.image_url} alt={news.title_az} fill className="object-cover" />
-          </div>
-        ) : (
-          <div className="w-full h-[300px] bg-gray-200 rounded-3xl mb-12 flex items-center justify-center">
-            <svg className="w-20 h-20 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
-          </div>
-        )}
-
-        <div className="prose prose-lg max-w-none text-gray-700">
-          <div dangerouslySetInnerHTML={{ __html: news.content_az || '' }} />
+          
+          {article.author && (
+            <p className="font-mono text-gray-500 uppercase tracking-widest text-sm">
+              Müəllif: <span className="font-bold text-[var(--ks-ink)]">{article.author}</span>
+            </p>
+          )}
         </div>
 
-        <div className="mt-16 pt-8 border-t border-gray-200 text-center">
-          <Link href="/xeberler" className="inline-block px-8 py-4 bg-[#0a1628] text-white rounded-full font-bold hover:bg-[#0a1628]/90 transition-colors">
-            Xəbərlərə Qayıt
-          </Link>
+        {/* MAIN IMAGE */}
+        <div className="aspect-[16/9] md:aspect-[2/1] bg-[var(--ks-paper-deep)] rounded-[2rem] overflow-hidden mb-12 shadow-md relative">
+          {article.image_url ? (
+            <img src={article.image_url} alt={article.title} className="w-full h-full object-cover" />
+          ) : (
+            <div className="absolute inset-0 flex items-center justify-center bg-[#0a1628]/5 border border-gray-100 rounded-[2rem]">
+              <span className="font-black font-condensed text-5xl text-gray-300 uppercase tracking-widest opacity-50">YARIMADA FK</span>
+            </div>
+          )}
         </div>
-      </article>
+
+        {/* CONTENT */}
+        <div className="prose prose-xl max-w-none text-[var(--ks-ink)]/80 leading-relaxed font-medium">
+          {article.content.split('\n').map((paragraph: string, i: number) => (
+            <p key={i}>{paragraph}</p>
+          ))}
+        </div>
+
+        {/* SHARE BAR (Mock) */}
+        <div className="mt-16 pt-8 border-t border-gray-200 flex items-center gap-4">
+          <span className="font-black font-condensed uppercase tracking-widest text-gray-400 text-xl">Paylaş:</span>
+          <button className="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center hover:bg-[#1877F2] hover:text-white transition-colors">
+            FB
+          </button>
+          <button className="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center hover:bg-[#25D366] hover:text-white transition-colors">
+            WP
+          </button>
+          <button className="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center hover:bg-black hover:text-white transition-colors">
+            X
+          </button>
+        </div>
+
+      </FadeIn>
+
     </main>
   );
 }

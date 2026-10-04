@@ -3,7 +3,10 @@ import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { supabase } from '@/lib/supabase';
 
-export default function AdminNewsEdit({ params }: { params: { id: string } }) {
+import { use } from 'react';
+
+export default function AdminNewsEdit({ params }: { params: Promise<{ id: string }> }) {
+  const resolvedParams = use(params);
   const router = useRouter();
   const [loading, setLoading] = useState(false);
   const [fetching, setFetching] = useState(true);
@@ -16,14 +19,14 @@ export default function AdminNewsEdit({ params }: { params: { id: string } }) {
 
   useEffect(() => {
     const fetchNews = async () => {
-      const { data } = await supabase.from('news').select('*').eq('id', params.id).single();
+      const { data } = await supabase.from('news').select('*').eq('id', resolvedParams.id).single();
       if (data) {
         setFormData(data);
       }
       setFetching(false);
     };
     fetchNews();
-  }, [params.id]);
+  }, [resolvedParams.id]);
 
   const generateSlug = (text: string) => text.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)+/g, '');
 
@@ -55,7 +58,7 @@ export default function AdminNewsEdit({ params }: { params: { id: string } }) {
     const slug = generateSlug(formData.title_az);
     
     try {
-      const { error } = await supabase.from('news').update({ ...formData, slug }).eq('id', params.id);
+      const { error } = await supabase.from('news').update({ ...formData, slug }).eq('id', resolvedParams.id);
       if (error) throw error;
       router.push('/adminpanel/xeberler');
     } catch (error: any) {

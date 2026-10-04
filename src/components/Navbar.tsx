@@ -45,7 +45,7 @@ export default function Navbar() {
             <div className="relative w-12 h-12 md:w-16 md:h-16 shrink-0 rounded-full overflow-hidden border-2 border-white/20 group-hover:border-[var(--ks-kinpaku)] transition-all duration-300">
               <Image src="/Logo.JPG.jpeg" alt="Yarımada FK Logo" fill className="object-cover" />
             </div>
-            <span className="text-white font-black font-condensed uppercase tracking-wider text-xl sm:text-3xl md:text-4xl mt-1 truncate group-hover:text-[var(--ks-kinpaku)] transition-colors">
+            <span className="text-white font-black font-condensed uppercase tracking-wider text-xl sm:text-2xl md:text-3xl mt-1 truncate group-hover:text-[var(--ks-kinpaku)] transition-colors">
               Yarımada FK
             </span>
           </Link>
@@ -95,7 +95,7 @@ export default function Navbar() {
             <a 
               href="https://wa.me/994554477467?text=Salam,%20Akademiyaya%20qeydiyyatdan%20keçmək%20istəyirəm." 
               target="_blank"
-              className="ks-button !bg-[var(--ks-kinpaku)] !text-white !border-none hover:!bg-[#d7bf7b] !rounded-full !font-black uppercase tracking-widest shadow-sm transition-all duration-200 hidden sm:flex !min-h-[44px] !px-8 !text-[13px]"
+              className="ks-button !bg-[var(--ks-kinpaku)] !text-white !border-none hover:!bg-[#d7bf7b] !rounded-full !font-black uppercase tracking-widest shadow-sm transition-all duration-200 hidden lg:flex !min-h-[44px] !px-8 !text-[13px]"
             >
               QEYDİYYAT
             </a>

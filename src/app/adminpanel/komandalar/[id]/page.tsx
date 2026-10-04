@@ -3,7 +3,10 @@ import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { supabase } from '@/lib/supabase';
 
-export default function AdminTeamEdit({ params }: { params: { id: string } }) {
+import { use } from 'react';
+
+export default function AdminTeamEdit({ params }: { params: Promise<{ id: string }> }) {
+  const resolvedParams = use(params);
   const router = useRouter();
   const [loading, setLoading] = useState(false);
   const [fetching, setFetching] = useState(true);
@@ -13,12 +16,12 @@ export default function AdminTeamEdit({ params }: { params: { id: string } }) {
 
   useEffect(() => {
     const fetchTeam = async () => {
-      const { data } = await supabase.from('teams').select('*').eq('id', params.id).single();
+      const { data } = await supabase.from('teams').select('*').eq('id', resolvedParams.id).single();
       if (data) setFormData(data);
       setFetching(false);
     };
     fetchTeam();
-  }, [params.id]);
+  }, [resolvedParams.id]);
 
   const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -47,7 +50,7 @@ export default function AdminTeamEdit({ params }: { params: { id: string } }) {
     setLoading(true);
     
     try {
-      const { error } = await supabase.from('teams').update(formData).eq('id', params.id);
+      const { error } = await supabase.from('teams').update(formData).eq('id', resolvedParams.id);
       if (error) throw error;
       router.push('/adminpanel/komandalar');
     } catch (error: any) {

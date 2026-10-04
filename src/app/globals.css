@@ -2,26 +2,48 @@
 @import "../styles/kinpaku-tokens.css";
 @import "../styles/kinpaku-kit.css";
 
+@theme {
+  --color-bg-main: #0a1712;
+  --color-bg-2: #0d1e17;
+  --color-surface-1: #12261d;
+  --color-surface-2: #17301f;
+  --color-border-subtle: rgba(233, 190, 122, 0.14);
+  --color-border-strong: rgba(233, 190, 122, 0.30);
+  --color-text-main: #f3eee1;
+  --color-text-muted: #9db0a2;
+  --color-text-dim: #6f8377;
+  --color-accent-main: #e6b866;
+  --color-accent-2: #f2d29a;
+  --color-accent-deep: #c9954a;
+  --color-accent-ink: #0a1712;
+  --color-glow: rgba(230, 184, 102, 0.35);
+
+  --font-sans: "Inter", system-ui, sans-serif;
+  --font-display: "Space Grotesk", system-ui, sans-serif;
+}
+
 :root {
-  /* Yarımada specific color overrides for the Impeccable system */
-  --ks-kinpaku: #d7bf7b; 
-  --ks-kinpaku-vivid: #ebd38a;
-  --ks-kinpaku-rich: #d7bf7b;
-  --ks-kinpaku-deep: #8c7128;
-  
-  --ks-ink: #0a1628; 
-  --ks-instrument: #0a1628;
-  --ks-instrument-deep: #050b14;
-  --ks-instrument-raised: #15294a;
-  
-  --ks-paper: #ffffff;
-  --ks-paper-raised: #ffffff;
-  --ks-paper-deep: #f8fafc;
-  
-  /* Impeccable Fonts */
-  --ks-font: var(--font-albert), system-ui, sans-serif;
-  --ks-font-condensed: var(--font-alumni), system-ui, sans-serif;
-  --ks-font-mono: var(--font-jetbrains), monospace;
+  --bg: #0a1712;
+  --bg-2: #0d1e17;
+  --surface: #12261d;
+  --surface-2: #17301f;
+  --border: rgba(233, 190, 122, 0.14);
+  --border-strong: rgba(233, 190, 122, 0.30);
+
+  --text: #f3eee1;
+  --text-muted: #9db0a2;
+  --text-dim: #6f8377;
+
+  --accent: #e6b866;
+  --accent-2: #f2d29a;
+  --accent-deep: #c9954a;
+  --accent-ink: #0a1712;
+
+  --glow: rgba(230, 184, 102, 0.35);
+
+  --ease: cubic-bezier(0.44, 0, 0.56, 1);
+  --ease-out: cubic-bezier(0.44, 0, 0.56, 1);
+  --ease-in-out: cubic-bezier(0.44, 0, 0.56, 1);
 }
 
 html {
@@ -29,23 +51,17 @@ html {
 }
 
 body {
-  background-color: #0a1628;
-  color: var(--ks-ink);
-  font-family: var(--ks-font);
+  background-color: var(--bg);
+  color: var(--text);
+  font-family: var(--font-sans);
+  overflow-x: clip;
+  -webkit-font-smoothing: antialiased;
 }
 
-/* Typography Overrides */
 h1, h2, h3, h4, h5, h6 {
-  font-family: var(--ks-font);
-}
-
-.font-condensed {
-  font-family: var(--ks-font-condensed);
-  letter-spacing: 0.02em;
-}
-
-.font-mono {
-  font-family: var(--ks-font-mono);
+  font-family: var(--font-display);
+  font-weight: 600;
+  letter-spacing: -0.02em;
 }
 
 ::-webkit-scrollbar {
@@ -56,14 +72,55 @@ h1, h2, h3, h4, h5, h6 {
   background: transparent;
 }
 ::-webkit-scrollbar-thumb {
-  background: rgba(10, 22, 40, 0.2);
+  background: var(--surface-2);
   border-radius: 10px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: rgba(10, 22, 40, 0.4);
+  background: var(--text-dim);
 }
 
 @keyframes marquee {
   0% { transform: translateX(0%); }
   100% { transform: translateX(-50%); }
+}
+
+@property --led-angle {
+  syntax: '<angle>';
+  initial-value: 0deg;
+  inherits: false;
+}
+
+.led-border { position: relative; }
+.led-border::before {
+  content: "";
+  position: absolute;
+  inset: -1px;
+  border-radius: inherit;
+  padding: 1px;
+  background: conic-gradient(
+    from var(--led-angle),
+    transparent 0%,
+    transparent 62%,
+    rgba(230, 184, 102, 0.18) 72%,
+    var(--accent-2) 84%,
+    var(--accent) 90%,
+    var(--accent-2) 94%,
+    rgba(230, 184, 102, 0.18) 97%,
+    transparent 100%
+  );
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+          mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: source-out;
+  mask-composite: exclude;
+  filter: drop-shadow(0 0 5px var(--glow));
+  pointer-events: none;
+  z-index: 1;
+  animation: led-border-spin 4s linear infinite;
+}
+@keyframes led-border-spin {
+  to { --led-angle: 360deg; }
+}
+
+.font-display {
+  font-family: var(--font-display);
 }

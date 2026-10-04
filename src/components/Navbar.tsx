@@ -4,6 +4,7 @@ import { useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { motion, AnimatePresence } from 'framer-motion';
+import LangSwitcher from "./LangSwitcher";
 import { useRouter, usePathname } from 'next/navigation';
 
 export default function Navbar() {
@@ -80,25 +81,17 @@ export default function Navbar() {
             </div>
 
             {/* Lang Switcher */}
-            <div className="hidden md:flex gap-2 text-[12px] font-black uppercase text-white/40 bg-white/5 px-4 py-2 rounded-full border border-white/10">
-              {['AZ', 'RU', 'EN'].map(l => (
-                <button 
-                  key={l}
-                  onClick={() => setLang(l)}
-                  className={`hover:text-white transition-colors ${lang === l ? 'text-white' : ''}`}
-                >
-                  {l}
-                </button>
-              ))}
-            </div>
+            <LangSwitcher lang={lang} setLang={setLang} />
 
-            <a 
-              href="https://wa.me/994554477467?text=Salam,%20Akademiyaya%20qeydiyyatdan%20keçmək%20istəyirəm." 
-              target="_blank"
-              className="ks-button !bg-[var(--ks-kinpaku)] !text-white !border-none hover:!bg-[#d7bf7b] !rounded-full !font-black uppercase tracking-widest shadow-sm transition-all duration-200 hidden lg:flex !min-h-[44px] !px-8 !text-[13px]"
-            >
-              QEYDİYYAT
-            </a>
+            <div className="hidden lg:block">
+              <a 
+                href="https://wa.me/994554477467?text=Salam,%20Akademiyaya%20qeydiyyatdan%20keçmək%20istəyirəm." 
+                target="_blank"
+                className="ks-button !bg-[var(--ks-kinpaku)] !text-white !border-none hover:!bg-[#d7bf7b] !rounded-full !font-black uppercase tracking-widest shadow-sm transition-all duration-200 !min-h-[44px] !px-8 !text-[13px]"
+              >
+                QEYDİYYAT
+              </a>
+            </div>
 
             {/* Mobile / Tablet Menu Button */}
             <button 
@@ -121,7 +114,7 @@ export default function Navbar() {
             animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
             exit={{ opacity: 0, y: -20, filter: 'blur(10px)' }}
             transition={{ duration: 0.3, ease: [0.25, 1, 0.5, 1] }}
-            className="fixed inset-0 z-[60] bg-[#0a1628]/95 backdrop-blur-2xl p-6 flex flex-col overflow-y-auto"
+            className="fixed top-0 left-0 right-0 z-[60] bg-[#0a1628]/98 backdrop-blur-3xl p-6 pb-10 flex flex-col shadow-2xl rounded-b-[2.5rem] border-b border-white/10 max-h-[90vh] overflow-y-auto"
           >
             <div className="flex justify-between items-center mb-8 shrink-0 border-b border-white/10 pb-6">
               <Link href="/" onClick={(e) => { handleLogoClick(e); setMobileOpen(false); }} className="flex items-center gap-4">
@@ -139,7 +132,7 @@ export default function Navbar() {
               </button>
             </div>
 
-            <nav className="flex flex-col gap-4 flex-grow justify-center items-center pb-8 text-center">
+            <nav className="flex flex-col gap-3 items-center pb-4 text-center">
               <Link href="/" onClick={() => setMobileOpen(false)} className="text-white text-3xl font-black font-condensed uppercase tracking-widest hover:text-[var(--ks-kinpaku)] transition-colors">Ana Səhifə</Link>
               {navLinks.map((link) => (
                 <Link 

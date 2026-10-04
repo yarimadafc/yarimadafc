@@ -1,13 +1,15 @@
-export const dynamic = 'force-dynamic';
-
-import Image from 'next/image';
 import Link from 'next/link';
+import Image from 'next/image';
+import { cookies } from 'next/headers';
 import { supabase } from '@/lib/supabase';
 import FadeIn from '@/components/FadeIn';
 import MatchesTabs from '@/components/MatchesTabs';
 import AnalogClock from '@/components/AnalogClock';
 
 export default async function Home() {
+  const cookieStore = await cookies();
+  const lang = cookieStore.get('NEXT_LOCALE')?.value || 'AZ';
+
   let matches: any[] = [];
   let news: any[] = [];
   let teams: any[] = [];

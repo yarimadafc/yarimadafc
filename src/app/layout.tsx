@@ -4,6 +4,7 @@ import './globals.css';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import InstrumentStripInit from '@/components/InstrumentStripInit';
+import PushNotificationManager from '@/components/PushNotificationManager';
 
 const albert = Albert_Sans({ 
   subsets: ['latin'], 
@@ -36,6 +37,7 @@ export default function RootLayout({
   return (
     <html lang="az" className={`${albert.variable} ${alumni.variable} ${jetbrains.variable}`}>
       <body className="min-h-screen flex flex-col antialiased">
+        <PushNotificationManager />
         <InstrumentStripInit />
         <Navbar />
         {children}

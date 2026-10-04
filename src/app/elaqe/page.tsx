@@ -1,95 +1,106 @@
-'use client';
-import React, { useState } from 'react';
-import { supabase } from '@/lib/supabase';
+export const dynamic = 'force-dynamic';
+
+import FadeIn from '@/components/FadeIn';
 
 export default function ContactPage() {
-  const [formData, setFormData] = useState({
-    first_name: '',
-    last_name: '',
-    phone: '',
-    email: '',
-    subject: '',
-    message: ''
-  });
-  const [status, setStatus] = useState({ loading: false, success: false, error: '' });
-
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
-  };
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setStatus({ loading: true, success: false, error: '' });
-    try {
-      const { error } = await supabase.from('contact_messages').insert([formData]);
-      if (error) throw error;
-      setStatus({ loading: false, success: true, error: '' });
-      setFormData({ first_name: '', last_name: '', phone: '', email: '', subject: '', message: '' });
-    } catch (error: any) {
-      setStatus({ loading: false, success: false, error: error.message || 'Xəta baş verdi' });
-    }
-  };
-
   return (
-    <div className="min-h-screen bg-[#0a1628] text-white pt-24 pb-12 px-4 md:px-8">
-      <div className="max-w-6xl mx-auto">
-        <h1 className="text-4xl md:text-5xl font-bold uppercase tracking-wider text-center mb-12">Əlaqə</h1>
-        
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
-          {/* Form */}
-          <div className="bg-[#112240] p-8 rounded-xl shadow-lg">
-            <h2 className="text-2xl font-bold mb-6 text-[#c9a84c]">Bizə Yazın</h2>
-            {status.success && <div className="bg-green-500/20 text-green-400 p-4 rounded mb-6">Mesajınız uğurla göndərildi!</div>}
-            {status.error && <div className="bg-red-500/20 text-red-400 p-4 rounded mb-6">{status.error}</div>}
-            <form onSubmit={handleSubmit} className="space-y-4">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <input required type="text" name="first_name" value={formData.first_name} onChange={handleChange} placeholder="Ad" className="w-full bg-[#0a1628] border border-gray-700 rounded p-3 focus:outline-none focus:border-[#c9a84c] transition-colors" />
-                <input required type="text" name="last_name" value={formData.last_name} onChange={handleChange} placeholder="Soyad" className="w-full bg-[#0a1628] border border-gray-700 rounded p-3 focus:outline-none focus:border-[#c9a84c] transition-colors" />
+    <main className="flex-grow bg-[var(--ks-paper)] text-[var(--ks-ink)] pt-32 pb-16 px-4 sm:px-6 lg:px-8 max-w-[1400px] mx-auto">
+      
+      {/* HERO SECTION */}
+      <div className="relative rounded-[2rem] overflow-hidden min-h-[30vh] flex flex-col justify-end p-8 md:p-12 bg-[#0a1628] mb-12">
+        <div className="absolute inset-0 bg-gradient-to-t from-[#0a1628] to-transparent z-0" />
+        <div className="relative z-10 max-w-4xl">
+          <FadeIn>
+            <p className="font-mono text-sm uppercase tracking-[0.2em] text-[var(--ks-kinpaku)] mb-4 font-bold">BİZİMLƏ ƏLAQƏ</p>
+            <h1 className="text-6xl md:text-8xl font-black font-condensed uppercase tracking-normal text-white leading-[0.85] drop-shadow-xl">
+              ƏLAQƏ SAXLAYIN
+            </h1>
+          </FadeIn>
+        </div>
+      </div>
+
+      <FadeIn delay={0.1}>
+        <div className="flex flex-col lg:flex-row gap-12">
+          
+          {/* CONTACT FORM */}
+          <div className="flex-1 bg-[var(--ks-paper-deep)] rounded-[2rem] p-8 md:p-12 border border-gray-100 shadow-sm">
+            <h2 className="text-4xl font-black font-condensed uppercase mb-8">Mesaj Göndərin</h2>
+            
+            <form className="flex flex-col gap-6">
+              <div className="flex flex-col md:flex-row gap-6">
+                <div className="flex-1">
+                  <label className="block text-xs font-mono font-bold uppercase tracking-widest text-gray-500 mb-2">Adınız</label>
+                  <input type="text" className="w-full bg-white border border-gray-200 rounded-xl px-4 py-3 focus:outline-none focus:border-[var(--ks-kinpaku)] focus:ring-1 focus:ring-[var(--ks-kinpaku)] transition-colors" placeholder="Ad və Soyad" />
+                </div>
+                <div className="flex-1">
+                  <label className="block text-xs font-mono font-bold uppercase tracking-widest text-gray-500 mb-2">Əlaqə Nömrəsi</label>
+                  <input type="tel" className="w-full bg-white border border-gray-200 rounded-xl px-4 py-3 focus:outline-none focus:border-[var(--ks-kinpaku)] focus:ring-1 focus:ring-[var(--ks-kinpaku)] transition-colors" placeholder="+994 (__) ___-__-__" />
+                </div>
               </div>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <input required type="tel" name="phone" value={formData.phone} onChange={handleChange} placeholder="Telefon" className="w-full bg-[#0a1628] border border-gray-700 rounded p-3 focus:outline-none focus:border-[#c9a84c] transition-colors" />
-                <input required type="email" name="email" value={formData.email} onChange={handleChange} placeholder="Email" className="w-full bg-[#0a1628] border border-gray-700 rounded p-3 focus:outline-none focus:border-[#c9a84c] transition-colors" />
+              
+              <div>
+                <label className="block text-xs font-mono font-bold uppercase tracking-widest text-gray-500 mb-2">E-poçt</label>
+                <input type="email" className="w-full bg-white border border-gray-200 rounded-xl px-4 py-3 focus:outline-none focus:border-[var(--ks-kinpaku)] focus:ring-1 focus:ring-[var(--ks-kinpaku)] transition-colors" placeholder="nümunə@email.com" />
               </div>
-              <input required type="text" name="subject" value={formData.subject} onChange={handleChange} placeholder="Mövzu" className="w-full bg-[#0a1628] border border-gray-700 rounded p-3 focus:outline-none focus:border-[#c9a84c] transition-colors" />
-              <textarea required name="message" value={formData.message} onChange={handleChange} placeholder="Mesajınız" rows={5} className="w-full bg-[#0a1628] border border-gray-700 rounded p-3 focus:outline-none focus:border-[#c9a84c] transition-colors"></textarea>
-              <button disabled={status.loading} type="submit" className="w-full bg-[#c9a84c] hover:bg-[#00c98b] text-[#0a1628] font-bold py-3 rounded transition-colors disabled:opacity-50">
-                {status.loading ? 'Göndərilir...' : 'Göndər'}
+              
+              <div>
+                <label className="block text-xs font-mono font-bold uppercase tracking-widest text-gray-500 mb-2">Mövzu</label>
+                <input type="text" className="w-full bg-white border border-gray-200 rounded-xl px-4 py-3 focus:outline-none focus:border-[var(--ks-kinpaku)] focus:ring-1 focus:ring-[var(--ks-kinpaku)] transition-colors" placeholder="Nə barədə yazırsınız?" />
+              </div>
+
+              <div>
+                <label className="block text-xs font-mono font-bold uppercase tracking-widest text-gray-500 mb-2">Mesajınız</label>
+                <textarea rows={5} className="w-full bg-white border border-gray-200 rounded-xl px-4 py-3 focus:outline-none focus:border-[var(--ks-kinpaku)] focus:ring-1 focus:ring-[var(--ks-kinpaku)] transition-colors resize-none" placeholder="Mesajınızı bura daxil edin..."></textarea>
+              </div>
+
+              <button type="button" className="ks-button !bg-[var(--ks-ink)] !text-[var(--ks-kinpaku)] hover:!bg-[#15294a] !rounded-xl !py-4 font-black uppercase tracking-widest text-lg mt-4 shadow-md transition-all">
+                Göndər
               </button>
             </form>
           </div>
 
-          {/* Contact Info */}
-          <div className="space-y-8">
-            <div className="bg-[#112240] p-8 rounded-xl shadow-lg h-full">
-              <h2 className="text-2xl font-bold mb-6 text-[#c9a84c]">Əlaqə Məlumatları</h2>
-              <ul className="space-y-4 text-gray-300">
-                <li className="flex items-start">
-                  <span className="font-bold w-24">Ünvan:</span>
-                  <span>Bakı, Azərbaycan</span>
+          {/* CONTACT INFO & MAP */}
+          <div className="w-full lg:w-1/3 flex flex-col gap-8 shrink-0">
+            <div className="bg-[#0a1628] text-white rounded-[2rem] p-8 md:p-10 shadow-lg relative overflow-hidden">
+              <div className="absolute -right-10 -bottom-10 text-[var(--ks-kinpaku)]/10 font-black text-9xl">Y</div>
+              
+              <h2 className="text-3xl font-black font-condensed uppercase mb-8 text-[var(--ks-kinpaku)]">Əlaqə Məlumatları</h2>
+              
+              <ul className="space-y-8 relative z-10">
+                <li>
+                  <p className="text-[var(--ks-kinpaku)] font-mono text-xs uppercase tracking-widest mb-1">Ünvan</p>
+                  <p className="font-bold text-lg leading-tight">Bakı ş., Nərimanov r.,<br/>Əhməd Rəcəbli küç. 15</p>
                 </li>
-                <li className="flex items-start">
-                  <span className="font-bold w-24">Telefon:</span>
-                  <span>+994 50 000 00 00</span>
+                <li>
+                  <p className="text-[var(--ks-kinpaku)] font-mono text-xs uppercase tracking-widest mb-1">Telefon / WhatsApp</p>
+                  <p className="font-bold text-lg leading-tight">+994 50 123 45 67</p>
                 </li>
-                <li className="flex items-start">
-                  <span className="font-bold w-24">WhatsApp:</span>
-                  <span>+994 50 000 00 00</span>
-                </li>
-                <li className="flex items-start">
-                  <span className="font-bold w-24">Email:</span>
-                  <span>info@yarimadafk.az</span>
+                <li>
+                  <p className="text-[var(--ks-kinpaku)] font-mono text-xs uppercase tracking-widest mb-1">E-poçt</p>
+                  <p className="font-bold text-lg leading-tight">info@yarimadafc.az</p>
                 </li>
               </ul>
-              
-              <div className="mt-8">
-                <div className="w-full h-64 bg-gray-700 rounded-lg flex items-center justify-center text-gray-400">
-                  Google Maps Placeholder
-                </div>
+
+              <div className="mt-12 flex gap-4 relative z-10">
+                <a href="#" className="w-12 h-12 rounded-full bg-white/10 flex items-center justify-center hover:bg-[var(--ks-kinpaku)] hover:text-[#0a1628] transition-colors">FB</a>
+                <a href="#" className="w-12 h-12 rounded-full bg-white/10 flex items-center justify-center hover:bg-[var(--ks-kinpaku)] hover:text-[#0a1628] transition-colors">IN</a>
+                <a href="#" className="w-12 h-12 rounded-full bg-white/10 flex items-center justify-center hover:bg-[var(--ks-kinpaku)] hover:text-[#0a1628] transition-colors">YT</a>
               </div>
             </div>
+
+            <div className="bg-gray-200 rounded-[2rem] h-64 overflow-hidden border border-gray-300 relative group cursor-pointer">
+              <div className="absolute inset-0 bg-[#0a1628]/10 group-hover:bg-transparent transition-colors z-10" />
+              <div className="absolute inset-0 flex items-center justify-center">
+                <span className="bg-white/90 backdrop-blur px-6 py-2 rounded-full font-bold shadow-md text-[#0a1628] z-20 group-hover:scale-105 transition-transform">Xəritədə Bax</span>
+              </div>
+              {/* Google Maps placeholder */}
+              <div className="w-full h-full bg-cover bg-center" style={{ backgroundImage: "url('https://maps.googleapis.com/maps/api/staticmap?center=Baku,Azerbaijan&zoom=13&size=600x300&maptype=roadmap&key=mock')" }}></div>
+            </div>
           </div>
+
         </div>
-      </div>
-    </div>
+      </FadeIn>
+
+    </main>
   );
 }

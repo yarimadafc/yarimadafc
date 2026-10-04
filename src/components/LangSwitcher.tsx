@@ -1,7 +1,7 @@
 'use client';
 import { useState, useRef, useEffect } from 'react';
 import { useLocale } from 'next-intl';
-import { useRouter, usePathname, Link } from '@/i18n/routing';
+import { useRouter, usePathname } from '@/i18n/routing';
 
 export default function LangSwitcher() {
   const locale = useLocale();
@@ -46,15 +46,14 @@ export default function LangSwitcher() {
         <div className="absolute top-full right-0 mt-2 w-16 md:w-20 bg-white rounded-xl shadow-xl overflow-hidden py-1 border border-black/5 flex flex-col">
           {['az', 'en', 'ru'].map((l) => (
             // @ts-ignore
-            <Link
+            <a
               key={l}
-              href={pathname || '/'}
-              locale={l}
+              href={`/${l}${pathname === '/' ? '' : pathname}`}
               onClick={() => setOpen(false)}
               className={`block text-center py-2 md:py-2.5 text-[13px] md:text-sm font-bold tracking-wider transition-colors ${locale === l ? 'bg-[#0a1628] text-[var(--ks-kinpaku)]' : 'text-[#0a1628] hover:bg-gray-100'}`}
             >
               {l.toUpperCase()}
-            </Link>
+            </a>
           ))}
         </div>
       )}

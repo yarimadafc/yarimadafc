@@ -3,14 +3,14 @@ import Image from 'next/image';
 
 export default function Footer() {
   return (
-    <footer className="bg-[#0a1628] pt-12 md:pt-20 pb-8 relative overflow-hidden flex-shrink-0 w-full mt-auto text-white">
+    <footer className="bg-[#0a1628] pt-8 md:pt-10 pb-6 relative overflow-hidden flex-shrink-0 w-full mt-auto text-white">
       {/* Decorative gradient blur in background */}
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-5xl h-px bg-gradient-to-r from-transparent via-[var(--ks-kinpaku)]/50 to-transparent"></div>
       
       <div className="max-w-[1400px] mx-auto px-6 md:px-12 relative z-10 flex flex-col items-center">
         
         {/* TOP SECTION: Logo + Slogan */}
-        <div className="flex flex-col items-center justify-center mb-12 md:mb-16 w-full gap-4">
+        <div className="flex flex-col items-center justify-center mb-8 md:mb-10 w-full gap-4">
           <div className="flex items-center gap-4 justify-center">
             <div className="relative w-16 h-16 md:w-20 md:h-20 rounded-full border border-white/10 shadow-[0_0_30px_rgba(255,255,255,0.05)] overflow-hidden shrink-0">
               <Image src="/Logo.JPG.jpeg" alt="Yarımada FK Logo" fill className="object-cover" />
@@ -22,7 +22,7 @@ export default function Footer() {
         </div>
 
         {/* MIDDLE SECTION: Grid of ALL links */}
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-x-4 gap-y-8 w-full justify-items-center md:justify-items-start">
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-x-4 gap-y-6 w-full justify-items-center md:justify-items-start">
           {/* Col 1 */}
           <div className="text-center md:text-left">
             <h3 className="text-[var(--ks-kinpaku)] font-black font-condensed text-lg md:text-xl uppercase tracking-widest mb-4">Klub</h3>
@@ -92,7 +92,7 @@ export default function Footer() {
         </div>
 
         {/* BOTTOM SECTION */}
-        <div className="mt-12 pt-6 border-t border-white/10 flex flex-col items-center justify-center w-full text-center">
+        <div className="mt-8 pt-4 border-t border-white/10 flex flex-col items-center justify-center w-full text-center">
           <p className="text-gray-500 font-bold uppercase tracking-widest text-xs md:text-sm text-center">
             &copy; 2026 Bütün hüquqlar qorunur. Yarımada FK.
           </p>

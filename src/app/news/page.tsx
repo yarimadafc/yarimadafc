@@ -14,13 +14,13 @@ export default function NewsPage() {
       
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
         {newsList.map((news) => (
-          <div key={news.id} className="bg-white rounded-xl shadow-md overflow-hidden flex flex-col sm:flex-row">
+          <div key={news.id} className="bg-[var(--surface)] rounded-xl shadow-md overflow-hidden flex flex-col sm:flex-row">
             <div className="sm:w-1/3 bg-gray-300 min-h-[150px]"></div>
             <div className="p-5 flex-1 flex flex-col justify-between">
               <div>
                 <span className="text-sm text-green-600 font-semibold block mb-2">{news.date}</span>
                 <h3 className="text-xl font-bold mb-3 hover:text-green-700 cursor-pointer">{news.title}</h3>
-                <p className="text-gray-600 mb-4">{news.excerpt}</p>
+                <p className="text-[var(--text-muted)] mb-4">{news.excerpt}</p>
               </div>
               <Link href="#" className="text-green-700 font-medium hover:underline w-max">
                 Daha çox oxu &rarr;

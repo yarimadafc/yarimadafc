@@ -127,7 +127,7 @@ export default async function Home() {
                 {name:'Məlumat yüklənir', played:'-', won:'-', lost:'-', diff:'-', pts:'-', yarimada:false},
               ].map((row, idx) => (
                 <div key={idx}
-                  className={`grid items-center border-b border-gray-50 transition-colors ${row.yarimada ? 'bg-[var(--accent)]/10 border-l-4 border-l-[var(--accent)]' : 'hover:bg-gray-50'}`}
+                  className={`grid items-center border-b border-gray-50 transition-colors ${row.yarimada ? 'bg-[var(--accent)]/10 border-l-4 border-l-[var(--accent)]' : 'hover:bg-[var(--surface-2)]'}`}
                   style={{gridTemplateColumns:'2.5rem 1fr 2rem 2rem 2rem 2rem 3rem'}}>
                   <div className="py-3 text-center text-xs font-black text-gray-300">{idx+1}</div>
                   <div className="py-3 pl-3 flex items-center gap-2 min-w-0">
@@ -141,7 +141,7 @@ export default async function Home() {
                   <div className="py-3 text-center text-xs font-mono text-red-400 hidden sm:block">{row.lost}</div>
                   <div className="py-3 text-center text-xs font-mono text-[var(--text-muted)] hidden sm:block">{row.diff}</div>
                   <div className="py-3 flex justify-center">
-                    <span className={`w-7 h-7 rounded-full flex items-center justify-center text-xs font-black ${row.yarimada ? 'bg-[var(--accent)] text-[var(--surface-2)]' : 'bg-[var(--surface-2)] text-gray-600'}`}>{row.pts}</span>
+                    <span className={`w-7 h-7 rounded-full flex items-center justify-center text-xs font-black ${row.yarimada ? 'bg-[var(--accent)] text-[var(--surface-2)]' : 'bg-[var(--surface-2)] text-[var(--text-muted)]'}`}>{row.pts}</span>
                   </div>
                 </div>
               ))}

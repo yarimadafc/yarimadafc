@@ -52,7 +52,7 @@ export default function LangSwitcher({ lang, setLang }: { lang: string, setLang:
                   setOpen(false);
                   // Quick hack to force re-render across the app if needed, usually we'd use Context
                   document.cookie = `NEXT_LOCALE=${l.code}; path=/`;
-                  router.refresh();
+                  window.location.reload();
                 }}
                 className={`flex items-center justify-between px-4 py-3 text-sm font-bold transition-colors ${lang === l.code ? 'bg-[var(--ks-kinpaku)]/10 text-[var(--ks-kinpaku)]' : 'text-white/70 hover:bg-white/5 hover:text-white'}`}
               >

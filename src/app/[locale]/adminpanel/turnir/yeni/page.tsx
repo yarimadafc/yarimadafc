@@ -1,44 +1,71 @@
 'use client';
-import { useState } from 'react';
-import { supabase } from '@/lib/supabase';
+import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
+import { supabase } from '@/lib/supabase';
+import { autoTranslateFields } from '@/lib/autoTranslate';
 
-export default function YeniTurnir() {
+export default function AdminCreate() {
   const router = useRouter();
-  const [formData, setFormData] = useState({ team_name: '', played: 0, won: 0, drawn: 0, lost: 0, goals_for: 0, goals_against: 0, points: 0, tournament_id: 'default' });
   const [loading, setLoading] = useState(false);
+  const [formData, setFormData] = useState<any>({"name":"","name_az":"","name_en":"","name_ru":"","season":"","age_group":""});
+
+  const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>, field: string) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = async () => {
+      const base64 = (reader.result as string).split(',')[1];
+      try {
+        const res = await fetch('/api/upload', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ image: base64 }) });
+        const data = await res.json();
+        if (data.url) setFormData({ ...formData, [field]: data.url });
+      } catch (err) { alert('Şəkil yüklənərkən xəta'); }
+    };
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
-    await supabase.from('standings').insert([formData]);
-    setLoading(false);
-    router.push('/adminpanel/turnir');
-  };
-
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const val = e.target.type === 'number' ? Number(e.target.value) : e.target.value;
-    setFormData({ ...formData, [e.target.name]: val });
+    try {
+      const { updatedData } = await autoTranslateFields(formData, ['name']);
+      const { error } = await supabase.from('tournaments').insert([updatedData]);
+      if (error) throw error;
+      router.push('/adminpanel/turnir');
+    } catch (error: any) {
+      alert(error.message);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
-    <div className="bg-white p-6 rounded shadow max-w-xl">
-      <h1 className="text-2xl font-bold mb-4">Cədvələ Komanda Əlavə Et</h1>
-      <form onSubmit={handleSubmit} className="space-y-4">
-        <div>
-          <label className="block text-sm font-bold mb-1">Komanda Adı</label>
-          <input required type="text" name="team_name" className="w-full p-2 border rounded" value={formData.team_name} onChange={handleChange} />
+    <div className="max-w-4xl bg-white p-8 rounded-lg shadow">
+      <h2 className="text-2xl font-bold mb-6">Yeni Turnir</h2>
+      <form onSubmit={handleSubmit}>
+        
+        <div className="p-4 bg-gray-50 rounded border mb-4">
+          <label className="block text-sm font-bold text-gray-700 mb-2">Turnirin Adı</label>
+          <div className="space-y-3">
+            <div><span className="text-xs font-bold text-gray-500">AZ</span><input type="text" value={formData.name_az || ''} onChange={e => setFormData({...formData, name_az: e.target.value})} className="w-full border rounded p-2" /></div>
+            <div><span className="text-xs font-bold text-gray-500">EN (Avto-tərcümə olunacaq)</span><input type="text" value={formData.name_en || ''} onChange={e => setFormData({...formData, name_en: e.target.value})} className="w-full border rounded p-2" /></div>
+            <div><span className="text-xs font-bold text-gray-500">RU (Avto-tərcümə olunacaq)</span><input type="text" value={formData.name_ru || ''} onChange={e => setFormData({...formData, name_ru: e.target.value})} className="w-full border rounded p-2" /></div>
+          </div>
         </div>
-        <div className="grid grid-cols-2 gap-4">
-          <div><label className="block text-sm font-bold mb-1">Oyun</label><input type="number" name="played" className="w-full p-2 border rounded" value={formData.played} onChange={handleChange} /></div>
-          <div><label className="block text-sm font-bold mb-1">Qələbə</label><input type="number" name="won" className="w-full p-2 border rounded" value={formData.won} onChange={handleChange} /></div>
-          <div><label className="block text-sm font-bold mb-1">Heç-heçə</label><input type="number" name="drawn" className="w-full p-2 border rounded" value={formData.drawn} onChange={handleChange} /></div>
-          <div><label className="block text-sm font-bold mb-1">Məğlubiyyət</label><input type="number" name="lost" className="w-full p-2 border rounded" value={formData.lost} onChange={handleChange} /></div>
-          <div><label className="block text-sm font-bold mb-1">Vurduğu Top</label><input type="number" name="goals_for" className="w-full p-2 border rounded" value={formData.goals_for} onChange={handleChange} /></div>
-          <div><label className="block text-sm font-bold mb-1">Buraxdığı Top</label><input type="number" name="goals_against" className="w-full p-2 border rounded" value={formData.goals_against} onChange={handleChange} /></div>
-          <div className="col-span-2"><label className="block text-sm font-bold mb-1">Xal</label><input type="number" name="points" className="w-full p-2 border rounded" value={formData.points} onChange={handleChange} /></div>
+      
+        <div className="mb-4">
+          <label className="block text-sm font-bold text-gray-700 mb-1">Mövsüm</label>
+          <input type="text" value={formData.season || ''} onChange={e => setFormData({...formData, season: e.target.value})} className="w-full border rounded p-2" />
         </div>
-        <button disabled={loading} type="submit" className="bg-[var(--ks-kinpaku)] text-white px-4 py-2 rounded font-bold w-full">Yadda Saxla</button>
+    
+        <div className="mb-4">
+          <label className="block text-sm font-bold text-gray-700 mb-1">Yaş Qrupu</label>
+          <input type="text" value={formData.age_group || ''} onChange={e => setFormData({...formData, age_group: e.target.value})} className="w-full border rounded p-2" />
+        </div>
+    
+        <button disabled={loading} type="submit" className="mt-6 bg-[#0a1628] text-white px-8 py-3 rounded font-medium hover:bg-[#112240] transition disabled:opacity-50">
+          {loading ? 'Yadda saxlanılır (Tərcümə edilir)...' : 'Yadda Saxla'}
+        </button>
       </form>
     </div>
   );

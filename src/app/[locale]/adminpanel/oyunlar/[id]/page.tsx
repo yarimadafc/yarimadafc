@@ -1,13 +1,20 @@
 'use client';
-import React, { useState } from 'react';
+import React, { useState, useEffect, use } from 'react';
 import { useRouter } from 'next/navigation';
 import { supabase } from '@/lib/supabase';
 import { autoTranslateFields } from '@/lib/autoTranslate';
 
-export default function AdminCreate() {
+export default function AdminEdit({ params }: { params: Promise<{ id: string }> }) {
   const router = useRouter();
+  const { id } = use(params);
   const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState<any>({"home_team":"","away_team":"","date":"","time":"","home_score":0,"away_score":0,"stadium":"","stadium_az":"","stadium_en":"","stadium_ru":"","status":"","report":"","report_az":"","report_en":"","report_ru":""});
+
+  useEffect(() => {
+    supabase.from('matches').select('*').eq('id', id).single().then(({ data }) => {
+      if (data) setFormData(data);
+    });
+  }, [id]);
 
   const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>, field: string) => {
     const file = e.target.files?.[0];
@@ -29,7 +36,7 @@ export default function AdminCreate() {
     setLoading(true);
     try {
       const { updatedData } = await autoTranslateFields(formData, ['stadium', 'report']);
-      const { error } = await supabase.from('matches').insert([updatedData]);
+      const { error } = await supabase.from('matches').update(updatedData).eq('id', id);
       if (error) throw error;
       router.push('/adminpanel/oyunlar');
     } catch (error: any) {
@@ -41,7 +48,7 @@ export default function AdminCreate() {
 
   return (
     <div className="max-w-4xl bg-white p-8 rounded-lg shadow">
-      <h2 className="text-2xl font-bold mb-6">Yeni Oyun</h2>
+      <h2 className="text-2xl font-bold mb-6">Oyun Redaktə</h2>
       <form onSubmit={handleSubmit}>
         
         <div className="mb-4">
@@ -98,7 +105,7 @@ export default function AdminCreate() {
         </div>
       
         <button disabled={loading} type="submit" className="mt-6 bg-[#0a1628] text-white px-8 py-3 rounded font-medium hover:bg-[#112240] transition disabled:opacity-50">
-          {loading ? 'Yadda saxlanılır (Tərcümə edilir)...' : 'Yadda Saxla'}
+          {loading ? 'Yadda saxlanılır (Tərcümə edilir)...' : 'Dəyişiklikləri Yadda Saxla'}
         </button>
       </form>
     </div>

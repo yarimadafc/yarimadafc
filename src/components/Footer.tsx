@@ -27,9 +27,9 @@ export default function Footer() {
           <div className="text-center md:text-left">
             <h3 className="text-[var(--ks-kinpaku)] font-black font-condensed text-lg md:text-xl uppercase tracking-widest mb-4">Klub</h3>
             <ul className="space-y-2 font-bold text-gray-400 text-xs md:text-sm">
-              <li><Link href="/klub" className="hover:text-white transition-colors">Haqqımızda</Link></li>
-              <li><Link href="/klub#nailiyyetler" className="hover:text-white transition-colors">Nailiyyətlər</Link></li>
-              <li><Link href="/klub#rehberlik" className="hover:text-white transition-colors">Rəhbərlik</Link></li>
+              <li><Link href="/klub" className="flex items-center justify-center md:justify-start gap-2 hover:text-white transition-colors group"><span className="text-[var(--ks-kinpaku)] text-[8px] opacity-60 group-hover:opacity-100 transition-opacity">■</span> Haqqımızda</Link></li>
+              <li><Link href="/klub#nailiyyetler" className="flex items-center justify-center md:justify-start gap-2 hover:text-white transition-colors group"><span className="text-[var(--ks-kinpaku)] text-[8px] opacity-60 group-hover:opacity-100 transition-opacity">■</span> Nailiyyətlər</Link></li>
+              <li><Link href="/klub#rehberlik" className="flex items-center justify-center md:justify-start gap-2 hover:text-white transition-colors group"><span className="text-[var(--ks-kinpaku)] text-[8px] opacity-60 group-hover:opacity-100 transition-opacity">■</span> Rəhbərlik</Link></li>
             </ul>
           </div>
 
@@ -37,11 +37,11 @@ export default function Footer() {
           <div className="text-center md:text-left">
             <h3 className="text-[var(--ks-kinpaku)] font-black font-condensed text-lg md:text-xl uppercase tracking-widest mb-4">Komandalar</h3>
             <ul className="space-y-2 font-bold text-gray-400 text-xs md:text-sm">
-              <li><Link href="/komandalar" className="hover:text-white transition-colors">Bütün Komandalar</Link></li>
-              <li><Link href="/komandalar?age=U-12" className="hover:text-white transition-colors">U-12</Link></li>
-              <li><Link href="/komandalar?age=U-11" className="hover:text-white transition-colors">U-11</Link></li>
-              <li><Link href="/komandalar?age=U-10" className="hover:text-white transition-colors">U-10</Link></li>
-              <li><Link href="/komandalar?age=U-9" className="hover:text-white transition-colors">U-9</Link></li>
+              <li><Link href="/komandalar" className="flex items-center justify-center md:justify-start gap-2 hover:text-white transition-colors group"><span className="text-[var(--ks-kinpaku)] text-[8px] opacity-60 group-hover:opacity-100 transition-opacity">■</span> Bütün Komandalar</Link></li>
+              <li><Link href="/komandalar?age=U-12" className="flex items-center justify-center md:justify-start gap-2 hover:text-white transition-colors group"><span className="text-[var(--ks-kinpaku)] text-[8px] opacity-60 group-hover:opacity-100 transition-opacity">■</span> U-12</Link></li>
+              <li><Link href="/komandalar?age=U-11" className="flex items-center justify-center md:justify-start gap-2 hover:text-white transition-colors group"><span className="text-[var(--ks-kinpaku)] text-[8px] opacity-60 group-hover:opacity-100 transition-opacity">■</span> U-11</Link></li>
+              <li><Link href="/komandalar?age=U-10" className="flex items-center justify-center md:justify-start gap-2 hover:text-white transition-colors group"><span className="text-[var(--ks-kinpaku)] text-[8px] opacity-60 group-hover:opacity-100 transition-opacity">■</span> U-10</Link></li>
+              <li><Link href="/komandalar?age=U-9" className="flex items-center justify-center md:justify-start gap-2 hover:text-white transition-colors group"><span className="text-[var(--ks-kinpaku)] text-[8px] opacity-60 group-hover:opacity-100 transition-opacity">■</span> U-9</Link></li>
             </ul>
           </div>
 
@@ -49,9 +49,9 @@ export default function Footer() {
           <div className="text-center md:text-left">
             <h3 className="text-[var(--ks-kinpaku)] font-black font-condensed text-lg md:text-xl uppercase tracking-widest mb-4">Oyun Günü</h3>
             <ul className="space-y-2 font-bold text-gray-400 text-xs md:text-sm">
-              <li><Link href="/oyunlar" className="hover:text-white transition-colors">Oyunlar</Link></li>
-              <li><Link href="/turnir-cedveli" className="hover:text-white transition-colors">Turnir Cədvəli</Link></li>
-              <li><Link href="/teqvim" className="hover:text-white transition-colors">Məşq Cədvəli</Link></li>
+              <li><Link href="/oyunlar" className="flex items-center justify-center md:justify-start gap-2 hover:text-white transition-colors group"><span className="text-[var(--ks-kinpaku)] text-[8px] opacity-60 group-hover:opacity-100 transition-opacity">■</span> Oyunlar</Link></li>
+              <li><Link href="/turnir-cedveli" className="flex items-center justify-center md:justify-start gap-2 hover:text-white transition-colors group"><span className="text-[var(--ks-kinpaku)] text-[8px] opacity-60 group-hover:opacity-100 transition-opacity">■</span> Turnir Cədvəli</Link></li>
+              <li><Link href="/teqvim" className="flex items-center justify-center md:justify-start gap-2 hover:text-white transition-colors group"><span className="text-[var(--ks-kinpaku)] text-[8px] opacity-60 group-hover:opacity-100 transition-opacity">■</span> Məşq Cədvəli</Link></li>
             </ul>
           </div>
 
@@ -59,9 +59,9 @@ export default function Footer() {
           <div className="text-center md:text-left">
             <h3 className="text-[var(--ks-kinpaku)] font-black font-condensed text-lg md:text-xl uppercase tracking-widest mb-4">Media</h3>
             <ul className="space-y-2 font-bold text-gray-400 text-xs md:text-sm">
-              <li><Link href="/xeberler" className="hover:text-white transition-colors">Xəbərlər</Link></li>
-              <li><Link href="/media?tab=videolar" className="hover:text-white transition-colors">Videolar</Link></li>
-              <li><Link href="/media?tab=fotolar" className="hover:text-white transition-colors">Fotoqalereya</Link></li>
+              <li><Link href="/xeberler" className="flex items-center justify-center md:justify-start gap-2 hover:text-white transition-colors group"><span className="text-[var(--ks-kinpaku)] text-[8px] opacity-60 group-hover:opacity-100 transition-opacity">■</span> Xəbərlər</Link></li>
+              <li><Link href="/media?tab=videolar" className="flex items-center justify-center md:justify-start gap-2 hover:text-white transition-colors group"><span className="text-[var(--ks-kinpaku)] text-[8px] opacity-60 group-hover:opacity-100 transition-opacity">■</span> Videolar</Link></li>
+              <li><Link href="/media?tab=fotolar" className="flex items-center justify-center md:justify-start gap-2 hover:text-white transition-colors group"><span className="text-[var(--ks-kinpaku)] text-[8px] opacity-60 group-hover:opacity-100 transition-opacity">■</span> Fotoqalereya</Link></li>
             </ul>
           </div>
 
@@ -69,8 +69,8 @@ export default function Footer() {
           <div className="text-center md:text-left">
             <h3 className="text-[var(--ks-kinpaku)] font-black font-condensed text-lg md:text-xl uppercase tracking-widest mb-4">İcma</h3>
             <ul className="space-y-2 font-bold text-gray-400 text-xs md:text-sm">
-              <li><Link href="/mesqciler" className="hover:text-white transition-colors">Məşqçilər</Link></li>
-              <li><Link href="/elaqe" className="hover:text-white transition-colors">Əlaqə</Link></li>
+              <li><Link href="/mesqciler" className="flex items-center justify-center md:justify-start gap-2 hover:text-white transition-colors group"><span className="text-[var(--ks-kinpaku)] text-[8px] opacity-60 group-hover:opacity-100 transition-opacity">■</span> Məşqçilər</Link></li>
+              <li><Link href="/elaqe" className="flex items-center justify-center md:justify-start gap-2 hover:text-white transition-colors group"><span className="text-[var(--ks-kinpaku)] text-[8px] opacity-60 group-hover:opacity-100 transition-opacity">■</span> Əlaqə</Link></li>
               <li className="flex justify-center md:justify-start gap-2 pt-2 flex-wrap">
                 {/* Social Icons */}
                 <a href="#" className="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center hover:bg-[#1877F2] hover:text-white transition-colors" title="Facebook"><svg className="w-3 h-3" fill="currentColor" viewBox="0 0 24 24"><path d="M22.675 0h-21.35c-.732 0-1.325.593-1.325 1.325v21.351c0 .731.593 1.324 1.325 1.324h11.495v-9.294h-3.128v-3.622h3.128v-2.671c0-3.1 1.893-4.788 4.659-4.788 1.325 0 2.463.099 2.795.143v3.24l-1.918.001c-1.504 0-1.795.715-1.795 1.763v2.312h3.587l-.467 3.622h-3.12v9.293h6.116c.73 0 1.323-.593 1.323-1.325v-21.35c0-.732-.593-1.325-1.325-1.325z"/></svg></a>
@@ -84,9 +84,9 @@ export default function Footer() {
           <div className="text-center md:text-left">
             <h3 className="text-[var(--ks-kinpaku)] font-black font-condensed text-lg md:text-xl uppercase tracking-widest mb-4">Hüquqi</h3>
             <ul className="space-y-2 font-bold text-gray-400 text-xs md:text-sm">
-              <li><Link href="/mexfilik" className="hover:text-white transition-colors">Məxfilik Siyasəti</Link></li>
-              <li><Link href="/istifade-sertleri" className="hover:text-white transition-colors">İstifadə Şərtləri</Link></li>
-              <li><Link href="/cookie" className="hover:text-white transition-colors">Cookie Siyasəti</Link></li>
+              <li><Link href="/mexfilik" className="flex items-center justify-center md:justify-start gap-2 hover:text-white transition-colors group"><span className="text-[var(--ks-kinpaku)] text-[8px] opacity-60 group-hover:opacity-100 transition-opacity">■</span> Məxfilik Siyasəti</Link></li>
+              <li><Link href="/istifade-sertleri" className="flex items-center justify-center md:justify-start gap-2 hover:text-white transition-colors group"><span className="text-[var(--ks-kinpaku)] text-[8px] opacity-60 group-hover:opacity-100 transition-opacity">■</span> İstifadə Şərtləri</Link></li>
+              <li><Link href="/cookie" className="flex items-center justify-center md:justify-start gap-2 hover:text-white transition-colors group"><span className="text-[var(--ks-kinpaku)] text-[8px] opacity-60 group-hover:opacity-100 transition-opacity">■</span> Cookie Siyasəti</Link></li>
             </ul>
           </div>
         </div>

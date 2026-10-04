@@ -42,10 +42,10 @@ export default async function StandingsPage(props: { searchParams: Promise<{ tou
   }
 
   return (
-    <main className="flex-grow bg-[var(--ks-paper)] text-[var(--ks-ink)] pt-40 pb-16 px-4 sm:px-6 lg:px-8 max-w-[1400px] mx-auto">
+    <main className="flex-grow bg-[var(--ks-paper)] text-[var(--ks-ink)] pt-32 pb-8 px-4 sm:px-6 lg:px-8 max-w-[1400px] mx-auto">
       
       {/* 1. HERO SECTION */}
-      <div className="relative rounded-[2rem] overflow-hidden min-h-[30vh] flex flex-col justify-end p-8 md:p-12 bg-[#0a1628] mb-12">
+      <div className="relative rounded-[2rem] overflow-hidden min-h-[15vh] flex flex-col justify-end p-6 md:p-8 bg-[#0a1628] mb-12">
         <div className="absolute inset-0 bg-gradient-to-t from-[#0a1628] to-transparent z-0" />
         <div className="relative z-10 max-w-4xl">
           <FadeIn>
@@ -79,19 +79,19 @@ export default async function StandingsPage(props: { searchParams: Promise<{ tou
       <FadeIn delay={0.2}>
         <div className="bg-[var(--ks-paper-deep)] rounded-[2rem] overflow-hidden border border-gray-100 shadow-sm">
           <div className="overflow-x-auto">
-            <table className="w-full text-left border-collapse min-w-[800px]">
+            <table className="w-full text-left border-collapse min-w-full">
               <thead>
                 <tr className="bg-[#0a1628] text-[var(--ks-kinpaku)] font-mono text-xs uppercase tracking-widest">
-                  <th className="p-6 font-bold w-16 text-center">#</th>
-                  <th className="p-6 font-bold">Komanda</th>
-                  <th className="p-6 font-bold text-center w-16" title="Oyun Sayı">O</th>
-                  <th className="p-6 font-bold text-center w-16" title="Qələbə">Q</th>
-                  <th className="p-6 font-bold text-center w-16" title="Heç-heçə">H</th>
-                  <th className="p-6 font-bold text-center w-16" title="Məğlubiyyət">M</th>
-                  <th className="p-6 font-bold text-center w-16" title="Vurulan Qol">VQ</th>
-                  <th className="p-6 font-bold text-center w-16" title="Buraxılan Qol">BQ</th>
-                  <th className="p-6 font-bold text-center w-16" title="Top Fərqi">+/-</th>
-                  <th className="p-6 font-bold text-center w-20 text-white" title="Xal">X</th>
+                  <th className="p-3 md:p-6 font-bold w-16 text-center">#</th>
+                  <th className="p-3 md:p-6 font-bold">Komanda</th>
+                  <th className="p-3 md:p-6 font-bold text-center w-16" title="Oyun Sayı">O</th>
+                  <th className="p-3 md:p-6 font-bold text-center w-16" title="Qələbə">Q</th>
+                  <th className="p-3 md:p-6 font-bold text-center w-16" title="Heç-heçə">H</th>
+                  <th className="p-3 md:p-6 font-bold text-center w-16" title="Məğlubiyyət">M</th>
+                  <th className="hidden sm:table-cell p-3 md:p-6 font-bold text-center w-16" title="Vurulan Qol">VQ</th>
+                  <th className="hidden md:table-cell p-3 md:p-6 font-bold text-center w-16" title="Buraxılan Qol">BQ</th>
+                  <th className="hidden md:table-cell p-3 md:p-6 font-bold text-center w-16" title="Top Fərqi">+/-</th>
+                  <th className="p-3 md:p-6 font-bold text-center w-20 text-white" title="Xal">X</th>
                 </tr>
               </thead>
               <tbody className="text-[var(--ks-ink)]">
@@ -100,16 +100,16 @@ export default async function StandingsPage(props: { searchParams: Promise<{ tou
                     key={idx} 
                     className={`border-b border-gray-100 transition-colors ${team.is_yarimada || team.team_name.includes('Yarımada') ? 'bg-[var(--ks-kinpaku)]/10 border-l-4 border-l-[var(--ks-kinpaku)] hover:bg-[var(--ks-kinpaku)]/20' : 'hover:bg-gray-50'}`}
                   >
-                    <td className="p-6 text-center font-black font-condensed text-xl text-gray-400">{idx + 1}</td>
-                    <td className="p-6 font-bold text-lg">{team.team_name}</td>
-                    <td className="p-6 text-center font-mono">{team.played}</td>
-                    <td className="p-6 text-center font-mono">{team.won}</td>
-                    <td className="p-6 text-center font-mono">{team.drawn}</td>
-                    <td className="p-6 text-center font-mono">{team.lost}</td>
-                    <td className="p-6 text-center font-mono">{team.goals_for}</td>
-                    <td className="p-6 text-center font-mono">{team.goals_against}</td>
-                    <td className="p-6 text-center font-mono font-bold text-gray-400">{team.goal_difference > 0 ? `+${team.goal_difference}` : team.goal_difference}</td>
-                    <td className="p-6 text-center font-black font-condensed text-2xl text-[var(--ks-ink)] bg-gray-50/50">{team.points}</td>
+                    <td className="p-3 md:p-6 text-center font-black font-condensed text-xl text-gray-400">{idx + 1}</td>
+                    <td className="p-3 md:p-6 font-bold text-lg">{team.team_name}</td>
+                    <td className="p-3 md:p-6 text-center font-mono">{team.played}</td>
+                    <td className="p-3 md:p-6 text-center font-mono">{team.won}</td>
+                    <td className="p-3 md:p-6 text-center font-mono">{team.drawn}</td>
+                    <td className="p-3 md:p-6 text-center font-mono">{team.lost}</td>
+                    <td className="hidden sm:table-cell p-6 text-center font-mono">{team.goals_for}</td>
+                    <td className="hidden md:table-cell p-6 text-center font-mono">{team.goals_against}</td>
+                    <td className="p-3 md:p-6 text-center font-mono font-bold text-gray-400">{team.goal_difference > 0 ? `+${team.goal_difference}` : team.goal_difference}</td>
+                    <td className="p-3 md:p-6 text-center font-black font-condensed text-2xl text-[var(--ks-ink)] bg-gray-50/50">{team.points}</td>
                   </tr>
                 ))}
               </tbody>

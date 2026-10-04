@@ -93,7 +93,7 @@ export default function Footer() {
 
         {/* BOTTOM SECTION */}
         <div className="mt-8 pt-4 border-t border-white/10 flex flex-col items-center justify-center w-full text-center">
-          <p className="text-gray-500 font-bold uppercase tracking-widest text-xs md:text-sm text-center">
+          <p className="text-gray-500 font-bold uppercase tracking-widest text-[10px] sm:text-xs md:text-sm text-center whitespace-nowrap">
             &copy; 2026 Bütün hüquqlar qorunur. Yarımada FK.
           </p>
         </div>

@@ -108,15 +108,15 @@ export default async function Home() {
           
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
             <div className="lg:col-span-2 bg-white rounded-[2rem] p-6 md:p-10 shadow-xl shadow-[var(--ks-ink)]/5 overflow-x-auto flex flex-col justify-between">
-              <table className="w-full text-left border-collapse min-w-[600px]">
+              <table className="w-full text-left border-collapse min-w-full">
                 <thead>
                   <tr className="border-b border-gray-200">
                     <th className="py-4 px-4 font-mono text-xs text-gray-400 uppercase tracking-widest font-bold">#</th>
                     <th className="py-4 px-4 font-mono text-xs text-gray-400 uppercase tracking-widest font-bold">Komanda</th>
-                    <th className="py-4 px-2 text-center font-mono text-xs text-gray-400 uppercase tracking-widest font-bold">O</th>
-                    <th className="py-4 px-2 text-center font-mono text-xs text-gray-400 uppercase tracking-widest font-bold">Q</th>
-                    <th className="py-4 px-2 text-center font-mono text-xs text-gray-400 uppercase tracking-widest font-bold">H</th>
-                    <th className="py-4 px-2 text-center font-mono text-xs text-gray-400 uppercase tracking-widest font-bold">M</th>
+                    <th className="hidden sm:table-cell py-4 px-2 text-center font-mono text-xs text-gray-400 uppercase tracking-widest font-bold">O</th>
+                    <th className="hidden md:table-cell py-4 px-2 text-center font-mono text-xs text-gray-400 uppercase tracking-widest font-bold">Q</th>
+                    <th className="hidden md:table-cell py-4 px-2 text-center font-mono text-xs text-gray-400 uppercase tracking-widest font-bold">H</th>
+                    <th className="hidden md:table-cell py-4 px-2 text-center font-mono text-xs text-gray-400 uppercase tracking-widest font-bold">M</th>
                     <th className="py-4 px-4 text-right font-mono text-xs text-[var(--ks-kinpaku-rich)] uppercase tracking-widest font-black">XAL</th>
                   </tr>
                 </thead>
@@ -124,10 +124,10 @@ export default async function Home() {
                   <tr className="border-b border-gray-50 hover:bg-gray-50 transition-colors">
                     <td className="py-4 px-4 text-sm font-bold text-gray-400">1</td>
                     <td className="py-4 px-4 font-bold text-[var(--ks-ink)] uppercase">Məlumat yüklənir...</td>
-                    <td className="py-4 px-2 text-center text-sm font-mono text-gray-500">-</td>
-                    <td className="py-4 px-2 text-center text-sm font-mono text-gray-500">-</td>
-                    <td className="py-4 px-2 text-center text-sm font-mono text-gray-500">-</td>
-                    <td className="py-4 px-2 text-center text-sm font-mono text-gray-500">-</td>
+                    <td className="hidden md:table-cell py-4 px-2 text-center text-sm font-mono text-gray-500">-</td>
+                    <td className="hidden md:table-cell py-4 px-2 text-center text-sm font-mono text-gray-500">-</td>
+                    <td className="hidden md:table-cell py-4 px-2 text-center text-sm font-mono text-gray-500">-</td>
+                    <td className="hidden md:table-cell py-4 px-2 text-center text-sm font-mono text-gray-500">-</td>
                     <td className="py-4 px-4 text-right font-black text-xl text-[var(--ks-kinpaku)]">-</td>
                   </tr>
                 </tbody>

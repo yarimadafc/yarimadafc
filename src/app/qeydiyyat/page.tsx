@@ -4,10 +4,10 @@ import FadeIn from '@/components/FadeIn';
 
 export default function RegistrationPage() {
   return (
-    <main className="flex-grow bg-[var(--ks-paper)] text-[var(--ks-ink)] pt-40 pb-16 px-4 sm:px-6 lg:px-8 max-w-[1400px] mx-auto">
+    <main className="flex-grow bg-[var(--ks-paper)] text-[var(--ks-ink)] pt-32 pb-8 px-4 sm:px-6 lg:px-8 max-w-[1400px] mx-auto">
       
       {/* HERO SECTION */}
-      <div className="relative rounded-[2rem] overflow-hidden min-h-[40vh] flex flex-col justify-end p-8 md:p-12 bg-[#0a1628] mb-12 text-center md:text-left">
+      <div className="relative rounded-[2rem] overflow-hidden min-h-[40vh] flex flex-col justify-end p-6 md:p-8 bg-[#0a1628] mb-12 text-center md:text-left">
         <div className="absolute inset-0 bg-gradient-to-t from-[#0a1628] to-transparent z-0" />
         <div className="relative z-10 max-w-4xl">
           <FadeIn>

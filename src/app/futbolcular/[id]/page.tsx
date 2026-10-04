@@ -4,7 +4,8 @@ import Link from 'next/link';
 import { supabase } from '@/lib/supabase';
 import FadeIn from '@/components/FadeIn';
 
-export default async function PlayerProfilePage({ params }: { params: { id: string } }) {
+export default async function PlayerProfilePage(props: { params: Promise<{ id: string }> }) {
+  const params = await props.params;
   let player: any = null;
   let team: any = null;
 

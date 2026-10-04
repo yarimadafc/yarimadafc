@@ -13,6 +13,7 @@ export default function Navbar() {
     { name: 'Klub', href: '/klub' },
     { name: 'Komandalar', href: '/komandalar' },
     { name: 'Oyunlar', href: '/oyunlar' },
+    { name: 'Təqvim', href: '/teqvim' },
     { name: 'Turnir', href: '/turnir-cedveli' },
     { name: 'Xəbərlər', href: '/xeberler' },
     { name: 'Media', href: '/media' },

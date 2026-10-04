@@ -4,7 +4,8 @@ import Link from 'next/link';
 import { supabase } from '@/lib/supabase';
 import FadeIn from '@/components/FadeIn';
 
-export default async function TeamsPage({ searchParams }: { searchParams: { age?: string } }) {
+export default async function TeamsPage(props: { searchParams: Promise<{ age?: string }> }) {
+  const searchParams = await props.searchParams;
   const ageFilter = searchParams.age;
   
   let teams: any[] = [];

@@ -4,7 +4,8 @@ import Link from 'next/link';
 import { supabase } from '@/lib/supabase';
 import FadeIn from '@/components/FadeIn';
 
-export default async function CoachProfilePage({ params }: { params: { id: string } }) {
+export default async function CoachProfilePage(props: { params: Promise<{ id: string }> }) {
+  const params = await props.params;
   let coach: any = null;
 
   try {

@@ -19,7 +19,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
   }
 
   const menuItems = [
-    { name: 'İdarə paneli', path: '/admin' },
+    { name: 'İdarə paneli', path: '/adminpanel' },
     { name: 'Xəbərlər', path: '/adminpanel/xeberler' },
     { name: 'Komandalar', path: '/adminpanel/komandalar' },
     { name: 'Futbolçular', path: '/adminpanel/futbolcular' },
@@ -53,7 +53,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
             <Link 
               key={item.path} 
               href={item.path}
-              className={`block px-4 py-3 rounded transition-colors ${pathname === item.path || (item.path !== '/admin' && pathname.startsWith(item.path)) ? 'bg-[#112240] text-[#c9a84c] font-medium border-l-4 border-[#c9a84c]' : 'text-gray-300 hover:bg-[#112240] hover:text-white'}`}
+              className={`block px-4 py-3 rounded transition-colors ${pathname === item.path || (item.path !== '/adminpanel' && pathname.startsWith(item.path)) ? 'bg-[#112240] text-[#c9a84c] font-medium border-l-4 border-[#c9a84c]' : 'text-gray-300 hover:bg-[#112240] hover:text-white'}`}
             >
               {item.name}
             </Link>

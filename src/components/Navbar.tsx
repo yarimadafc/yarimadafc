@@ -42,10 +42,10 @@ export default function Navbar() {
           
           {/* Logo Section */}
           <Link href="/" onClick={handleLogoClick} className="flex items-center gap-3 shrink-0 group">
-            <div className="relative w-12 h-12 md:w-14 md:h-14 rounded-full overflow-hidden border-2 border-white/20 group-hover:border-[var(--ks-kinpaku)] transition-all duration-300">
+            <div className="relative w-10 h-10 md:w-14 md:h-14 rounded-full overflow-hidden border-2 border-white/20 group-hover:border-[var(--ks-kinpaku)] transition-all duration-300">
               <Image src="/Logo.JPG.jpeg" alt="Yarımada FK Logo" fill className="object-cover" />
             </div>
-            <span className="text-white font-black font-condensed uppercase tracking-wider text-xl md:text-3xl mt-1 hidden lg:block group-hover:text-[var(--ks-kinpaku)] transition-colors">
+            <span className="text-white font-black font-condensed uppercase tracking-wider text-lg sm:text-xl md:text-3xl mt-1 group-hover:text-[var(--ks-kinpaku)] transition-colors">
               Yarımada FC
             </span>
           </Link>

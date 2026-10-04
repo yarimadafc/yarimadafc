@@ -46,7 +46,14 @@ export default function MatchesTabs({ nextMatch, lastMatch }: { nextMatch: any, 
         {match ? (
           <>
             <div className="flex flex-col sm:flex-row justify-between items-center gap-6 mb-8 text-center sm:text-left">
-              <div className="flex-1">
+              <div className="flex-1 flex flex-col items-center sm:items-start">
+                <div className="w-16 h-16 rounded-full bg-gray-50 border border-gray-100 flex items-center justify-center mb-4">
+                  {match.home_team.includes('Yarımada') ? (
+                    <img src="/Logo.JPG.jpeg" alt="Yarımada" className="w-full h-full object-cover rounded-full" />
+                  ) : (
+                    <svg className="w-8 h-8 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" /></svg>
+                  )}
+                </div>
                 <span className="text-3xl sm:text-4xl font-black uppercase tracking-tight">{match.home_team}</span>
               </div>
               
@@ -64,7 +71,14 @@ export default function MatchesTabs({ nextMatch, lastMatch }: { nextMatch: any, 
                 </div>
               )}
 
-              <div className="flex-1 sm:text-right">
+              <div className="flex-1 flex flex-col items-center sm:items-end sm:text-right">
+                <div className="w-16 h-16 rounded-full bg-gray-50 border border-gray-100 flex items-center justify-center mb-4">
+                  {match.away_team.includes('Yarımada') ? (
+                    <img src="/Logo.JPG.jpeg" alt="Yarımada" className="w-full h-full object-cover rounded-full" />
+                  ) : (
+                    <svg className="w-8 h-8 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" /></svg>
+                  )}
+                </div>
                 <span className="text-3xl sm:text-4xl font-black uppercase tracking-tight">{match.away_team}</span>
               </div>
             </div>

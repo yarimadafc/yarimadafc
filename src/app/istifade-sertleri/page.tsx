@@ -4,7 +4,7 @@ export default function TermsOfService() {
   return (
     <div className="min-h-screen bg-[#0a1628] text-white pt-32 pb-12 px-4 md:px-8">
       <div className="max-w-4xl mx-auto bg-[#112240] p-8 md:p-12 rounded-xl shadow-lg">
-        <h1 className="text-3xl md:text-4xl font-bold uppercase tracking-wider mb-8 text-[#00e5a0]">İstifadə Şərtləri</h1>
+        <h1 className="text-3xl md:text-4xl font-bold uppercase tracking-wider mb-8 text-[#c9a84c]">İstifadə Şərtləri</h1>
         <div className="space-y-6 text-gray-300">
           <p>Bu istifadə şərtləri Yarımada FK veb saytının istifadəsini tənzimləyir. Sayta daxil olmaqla bu şərtlərlə razılaşmış olursunuz.</p>
           <h2 className="text-xl font-bold text-white">1. Ümumi Müddəalar</h2>

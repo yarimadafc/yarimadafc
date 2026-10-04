@@ -63,7 +63,7 @@ export default function PlayerProfilePage() {
   return (
     <div className="min-h-screen bg-gray-50 pt-24 pb-16">
       <div className="container mx-auto px-4">
-        <Link href={`/komandalar/${player.team_id}`} className="inline-block mb-8 text-[#0a1628] font-bold hover:text-[#00e5a0] transition">
+        <Link href={`/komandalar/${player.team_id}`} className="inline-block mb-8 text-[#0a1628] font-bold hover:text-[#c9a84c] transition">
           ← Komandaya qayıt
         </Link>
 
@@ -71,14 +71,14 @@ export default function PlayerProfilePage() {
         <div className="bg-white rounded-2xl shadow-xl overflow-hidden mb-12">
           <div className="flex flex-col md:flex-row">
             <div className="md:w-1/3 bg-[#0a1628] p-8 flex flex-col items-center justify-center relative">
-              <div className="absolute top-4 left-4 bg-[#00e5a0] text-[#0a1628] text-4xl font-black w-16 h-16 rounded-full flex items-center justify-center">
+              <div className="absolute top-4 left-4 bg-[#c9a84c] text-[#0a1628] text-4xl font-black w-16 h-16 rounded-full flex items-center justify-center">
                 {player.jersey_number}
               </div>
-              <div className="w-48 h-48 bg-gray-700 rounded-full flex items-center justify-center mb-6 border-4 border-[#00e5a0]">
+              <div className="w-48 h-48 bg-gray-700 rounded-full flex items-center justify-center mb-6 border-4 border-[#c9a84c]">
                 <span className="text-gray-400">Şəkil</span>
               </div>
               <h1 className="text-3xl font-bold text-white uppercase text-center mb-2">{player.name}</h1>
-              <p className="text-[#00e5a0] text-xl font-semibold uppercase">{player.position}</p>
+              <p className="text-[#c9a84c] text-xl font-semibold uppercase">{player.position}</p>
             </div>
             <div className="md:w-2/3 p-8 lg:p-12">
               <h2 className="text-2xl font-bold text-[#0a1628] border-b-2 border-gray-100 pb-4 mb-6 uppercase tracking-wide">
@@ -107,7 +107,7 @@ export default function PlayerProfilePage() {
         </div>
 
         {/* Stats Grid */}
-        <h2 className="text-2xl font-bold text-[#0a1628] uppercase tracking-wider mb-6 border-l-4 border-[#00e5a0] pl-4">
+        <h2 className="text-2xl font-bold text-[#0a1628] uppercase tracking-wider mb-6 border-l-4 border-[#c9a84c] pl-4">
           Statistika (Cari Mövsüm)
         </h2>
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">

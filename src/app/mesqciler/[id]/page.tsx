@@ -46,18 +46,18 @@ export default function CoachProfilePage() {
   return (
     <div className="min-h-screen bg-gray-50 pt-24 pb-16">
       <div className="container mx-auto px-4">
-        <Link href="/mesqciler" className="inline-block mb-8 text-[#0a1628] font-bold hover:text-[#00e5a0] transition">
+        <Link href="/mesqciler" className="inline-block mb-8 text-[#0a1628] font-bold hover:text-[#c9a84c] transition">
           ← Məşqçilərə qayıt
         </Link>
 
         <div className="bg-white rounded-2xl shadow-xl overflow-hidden max-w-4xl mx-auto">
           <div className="md:flex">
             <div className="md:w-2/5 bg-[#0a1628] p-10 flex flex-col items-center justify-center text-center">
-              <div className="w-48 h-48 bg-gray-700 rounded-full flex items-center justify-center mb-6 border-4 border-[#00e5a0]">
+              <div className="w-48 h-48 bg-gray-700 rounded-full flex items-center justify-center mb-6 border-4 border-[#c9a84c]">
                 <span className="text-gray-400">Şəkil</span>
               </div>
               <h1 className="text-3xl font-bold text-white uppercase mb-2">{coach.name}</h1>
-              <div className="bg-[#00e5a0] text-[#0a1628] px-4 py-1 rounded font-bold uppercase tracking-wider text-sm">
+              <div className="bg-[#c9a84c] text-[#0a1628] px-4 py-1 rounded font-bold uppercase tracking-wider text-sm">
                 {coach.role}
               </div>
             </div>

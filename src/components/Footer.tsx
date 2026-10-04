@@ -17,7 +17,7 @@ export default function Footer() {
             />
           </div>
           <div className="text-center md:text-left max-w-2xl">
-            <h2 className="text-[#00e5a0] font-black text-3xl uppercase tracking-widest mb-2">
+            <h2 className="text-[#c9a84c] font-black text-3xl uppercase tracking-widest mb-2">
               Yarımada FC
             </h2>
             <p className="text-gray-400 text-base leading-relaxed">
@@ -30,7 +30,7 @@ export default function Footer() {
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-8 mb-12">
           {/* Column 1 */}
           <div>
-            <h3 className="text-[#00e5a0] font-bold text-sm uppercase tracking-wider mb-4">Klub</h3>
+            <h3 className="text-[#c9a84c] font-bold text-sm uppercase tracking-wider mb-4">Klub</h3>
             <ul className="space-y-3">
               <li><Link href="/klub" className="text-gray-400 hover:text-white text-sm transition-colors">Haqqımızda</Link></li>
               <li><Link href="/klub#nailiyyetler" className="text-gray-400 hover:text-white text-sm transition-colors">Nailiyyətlər</Link></li>
@@ -41,7 +41,7 @@ export default function Footer() {
 
           {/* Column 2 */}
           <div>
-            <h3 className="text-[#00e5a0] font-bold text-sm uppercase tracking-wider mb-4">Komandalar</h3>
+            <h3 className="text-[#c9a84c] font-bold text-sm uppercase tracking-wider mb-4">Komandalar</h3>
             <ul className="space-y-3">
               <li><Link href="/komandalar?age=U-12" className="text-gray-400 hover:text-white text-sm transition-colors">U-12</Link></li>
               <li><Link href="/komandalar?age=U-11" className="text-gray-400 hover:text-white text-sm transition-colors">U-11</Link></li>
@@ -52,7 +52,7 @@ export default function Footer() {
 
           {/* Column 3 */}
           <div>
-            <h3 className="text-[#00e5a0] font-bold text-sm uppercase tracking-wider mb-4">Oyunlar</h3>
+            <h3 className="text-[#c9a84c] font-bold text-sm uppercase tracking-wider mb-4">Oyunlar</h3>
             <ul className="space-y-3">
               <li><Link href="/oyunlar" className="text-gray-400 hover:text-white text-sm transition-colors">Oyunlar</Link></li>
               <li><Link href="/turnir-cedveli" className="text-gray-400 hover:text-white text-sm transition-colors">Turnir cədvəli</Link></li>
@@ -62,7 +62,7 @@ export default function Footer() {
 
           {/* Column 4 */}
           <div>
-            <h3 className="text-[#00e5a0] font-bold text-sm uppercase tracking-wider mb-4">Media</h3>
+            <h3 className="text-[#c9a84c] font-bold text-sm uppercase tracking-wider mb-4">Media</h3>
             <ul className="space-y-3">
               <li><Link href="/xeberler" className="text-gray-400 hover:text-white text-sm transition-colors">Xəbərlər</Link></li>
               <li><Link href="/media?tab=videos" className="text-gray-400 hover:text-white text-sm transition-colors">Videolar</Link></li>
@@ -72,7 +72,7 @@ export default function Footer() {
 
           {/* Column 5 */}
           <div>
-            <h3 className="text-[#00e5a0] font-bold text-sm uppercase tracking-wider mb-4">İcma</h3>
+            <h3 className="text-[#c9a84c] font-bold text-sm uppercase tracking-wider mb-4">İcma</h3>
             <ul className="space-y-3">
               <li><a href="#" className="text-gray-400 hover:text-white text-sm transition-colors">Instagram</a></li>
               <li><a href="#" className="text-gray-400 hover:text-white text-sm transition-colors">Facebook</a></li>
@@ -83,7 +83,7 @@ export default function Footer() {
 
           {/* Column 6 */}
           <div>
-            <h3 className="text-[#00e5a0] font-bold text-sm uppercase tracking-wider mb-4">Hüquqi</h3>
+            <h3 className="text-[#c9a84c] font-bold text-sm uppercase tracking-wider mb-4">Hüquqi</h3>
             <ul className="space-y-3">
               <li><Link href="/elaqe" className="text-gray-400 hover:text-white text-sm transition-colors">Əlaqə</Link></li>
               <li><Link href="/mexfilik" className="text-gray-400 hover:text-white text-sm transition-colors">Məxfilik siyasəti</Link></li>
@@ -95,7 +95,7 @@ export default function Footer() {
 
         {/* BOTTOM: Copyright & Socials */}
         <div className="pt-8 border-t border-gray-800 flex flex-col md:flex-row items-center justify-between gap-4">
-          <p className="text-[#00e5a0] text-sm">
+          <p className="text-[#c9a84c] text-sm">
             &copy; {new Date().getFullYear()} Yarımada FC. Bütün hüquqlar qorunur.
           </p>
           <div className="flex gap-4">

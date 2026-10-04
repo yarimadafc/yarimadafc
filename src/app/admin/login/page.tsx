@@ -46,14 +46,14 @@ export default function AdminLogin() {
               type="password" 
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              className="w-full bg-[#0a1628] border border-gray-700 text-white rounded p-3 focus:border-[#00e5a0] outline-none" 
+              className="w-full bg-[#0a1628] border border-gray-700 text-white rounded p-3 focus:border-[#c9a84c] outline-none" 
               required
             />
           </div>
           <button 
             type="submit" 
             disabled={loading}
-            className="w-full bg-[#00e5a0] hover:bg-[#00c98b] text-[#0a1628] font-bold py-3 rounded transition-colors disabled:opacity-50"
+            className="w-full bg-[#c9a84c] hover:bg-[#00c98b] text-[#0a1628] font-bold py-3 rounded transition-colors disabled:opacity-50"
           >
             {loading ? 'Daxil olunur...' : 'Daxil Ol'}
           </button>

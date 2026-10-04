@@ -45,7 +45,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
       {/* Sidebar */}
       <aside className="w-64 bg-[#0a1628] text-white hidden md:flex flex-col fixed h-full z-10">
         <div className="p-6">
-          <h2 className="text-2xl font-bold text-[#00e5a0] tracking-wider">YARIMADA FK</h2>
+          <h2 className="text-2xl font-bold text-[#c9a84c] tracking-wider">YARIMADA FK</h2>
           <p className="text-gray-400 text-sm mt-1">Admin Panel</p>
         </div>
         <nav className="flex-1 overflow-y-auto px-4 py-2 space-y-1 custom-scrollbar">
@@ -53,7 +53,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
             <Link 
               key={item.path} 
               href={item.path}
-              className={`block px-4 py-3 rounded transition-colors ${pathname === item.path || (item.path !== '/admin' && pathname.startsWith(item.path)) ? 'bg-[#112240] text-[#00e5a0] font-medium border-l-4 border-[#00e5a0]' : 'text-gray-300 hover:bg-[#112240] hover:text-white'}`}
+              className={`block px-4 py-3 rounded transition-colors ${pathname === item.path || (item.path !== '/admin' && pathname.startsWith(item.path)) ? 'bg-[#112240] text-[#c9a84c] font-medium border-l-4 border-[#c9a84c]' : 'text-gray-300 hover:bg-[#112240] hover:text-white'}`}
             >
               {item.name}
             </Link>

@@ -2,35 +2,7 @@ import { supabase } from '@/lib/supabase'
 import Link from 'next/link'
 import Image from 'next/image'
 
-const MOCK_NEWS = [
-  {
-    id: '1',
-    slug: 'yeni-transfer',
-    title: 'Yarımada FK yeni transferini təqdim etdi',
-    excerpt: 'Klubumuz hücum xəttini gücləndirmək məqsədilə gənc və istedadlı hücumçu ilə müqavilə imzaladı.',
-    published_at: '2026-10-02',
-    image_url: null,
-    category: 'Transfer'
-  },
-  {
-    id: '2',
-    slug: 'region-liqasi-qelebe',
-    title: 'Səfərdə mühüm qələbə',
-    excerpt: 'Region Liqasının növbəti turunda səfərdə çətin oyundan 3 xalla ayrıldıq.',
-    published_at: '2026-10-01',
-    image_url: null,
-    category: 'Əsas Komanda'
-  },
-  {
-    id: '3',
-    slug: 'akademiya-uguru',
-    title: 'U-17 komandamız çempion oldu',
-    excerpt: 'Akademiyamızın U-17 komandası gərgin keçən final oyununda rəqibini məğlub edərək qızıl medallara sahib çıxdı.',
-    published_at: '2026-09-28',
-    image_url: null,
-    category: 'Akademiya'
-  }
-];
+
 
 export default async function XeberlerPage({
   searchParams
@@ -38,7 +10,7 @@ export default async function XeberlerPage({
   searchParams: { cat?: string }
 }) {
   const currentCategory = searchParams.cat || 'all';
-  let news = MOCK_NEWS;
+  let news = [];
 
   try {
     let query = supabase
@@ -72,7 +44,7 @@ export default async function XeberlerPage({
             href="/xeberler"
             className={`px-4 py-2 rounded-full text-sm font-bold uppercase tracking-wide transition-colors ${
               currentCategory === 'all' 
-                ? 'bg-[#0a1628] text-[#00e5a0]' 
+                ? 'bg-[#0a1628] text-[#c9a84c]' 
                 : 'bg-white text-gray-600 hover:bg-gray-100'
             }`}
           >
@@ -84,7 +56,7 @@ export default async function XeberlerPage({
               href={`/xeberler?cat=${cat}`}
               className={`px-4 py-2 rounded-full text-sm font-bold uppercase tracking-wide transition-colors ${
                 currentCategory === cat 
-                  ? 'bg-[#0a1628] text-[#00e5a0]' 
+                  ? 'bg-[#0a1628] text-[#c9a84c]' 
                   : 'bg-white text-gray-600 hover:bg-gray-100'
               }`}
             >
@@ -105,7 +77,7 @@ export default async function XeberlerPage({
                     <span className="uppercase tracking-widest text-sm font-bold">Şəkil yoxdur</span>
                   </div>
                 )}
-                <div className="absolute top-4 left-4 bg-[#00e5a0] text-[#0a1628] px-3 py-1 rounded text-xs font-bold uppercase tracking-wider">
+                <div className="absolute top-4 left-4 bg-[#c9a84c] text-[#0a1628] px-3 py-1 rounded text-xs font-bold uppercase tracking-wider">
                   {item.category}
                 </div>
               </div>
@@ -121,7 +93,7 @@ export default async function XeberlerPage({
                 </p>
                 <Link 
                   href={`/xeberler/${item.slug}`}
-                  className="inline-block border-b-2 border-[#00e5a0] text-[#0a1628] font-bold uppercase tracking-wider text-sm pb-1 w-max hover:text-[#00e5a0] transition-colors"
+                  className="inline-block border-b-2 border-[#c9a84c] text-[#0a1628] font-bold uppercase tracking-wider text-sm pb-1 w-max hover:text-[#c9a84c] transition-colors"
                 >
                   Ətraflı Oxu →
                 </Link>

@@ -2,20 +2,9 @@ import { supabase } from '@/lib/supabase'
 import Link from 'next/link'
 import Image from 'next/image'
 
-const MOCK_PHOTOS = [
-  { id: 1, title: 'Məşq prosesi', url: null, category: 'Məşq' },
-  { id: 2, title: 'Azarkeşlərimiz', url: null, category: 'Azarkeş' },
-  { id: 3, title: 'Oyun anı', url: null, category: 'Oyun' },
-  { id: 4, title: 'Oyun anı 2', url: null, category: 'Oyun' },
-  { id: 5, title: 'Komanda', url: null, category: 'Əsas Komanda' },
-  { id: 6, title: 'Akademiya məşqi', url: null, category: 'Akademiya' }
-];
 
-const MOCK_VIDEOS = [
-  { id: 1, title: 'Yarımada FK 2-1 Neftçi IK | İcmal', url: 'https://youtube.com/embed/1', thumbnail: null, category: 'İcmal' },
-  { id: 2, title: 'Məşqdən görüntülər', url: 'https://youtube.com/embed/2', thumbnail: null, category: 'Məşq' },
-  { id: 3, title: 'Baş məşqçinin müsahibəsi', url: 'https://youtube.com/embed/3', thumbnail: null, category: 'Müsahibə' },
-];
+
+
 
 export default async function MediaPage({
   searchParams
@@ -24,8 +13,8 @@ export default async function MediaPage({
 }) {
   const currentTab = searchParams.tab || 'photos';
 
-  let photos = MOCK_PHOTOS;
-  let videos = MOCK_VIDEOS;
+  let photos = [];
+  let videos = [];
 
   try {
     if (currentTab === 'photos') {
@@ -53,7 +42,7 @@ export default async function MediaPage({
               href="?tab=photos" 
               className={`px-8 py-3 rounded-md font-bold uppercase tracking-wide transition-colors ${
                 currentTab === 'photos' 
-                  ? 'bg-[#0a1628] text-[#00e5a0]' 
+                  ? 'bg-[#0a1628] text-[#c9a84c]' 
                   : 'text-gray-500 hover:text-[#0a1628]'
               }`}
             >
@@ -63,7 +52,7 @@ export default async function MediaPage({
               href="?tab=videos" 
               className={`px-8 py-3 rounded-md font-bold uppercase tracking-wide transition-colors ${
                 currentTab === 'videos' 
-                  ? 'bg-[#0a1628] text-[#00e5a0]' 
+                  ? 'bg-[#0a1628] text-[#c9a84c]' 
                   : 'text-gray-500 hover:text-[#0a1628]'
               }`}
             >
@@ -105,7 +94,7 @@ export default async function MediaPage({
                       <span className="text-5xl mb-2 text-white/50 group-hover:text-white transition-colors">▶</span>
                     </div>
                   )}
-                  <div className="absolute top-3 left-3 bg-[#00e5a0] text-[#0a1628] px-2 py-1 rounded text-xs font-bold uppercase tracking-wider z-10">
+                  <div className="absolute top-3 left-3 bg-[#c9a84c] text-[#0a1628] px-2 py-1 rounded text-xs font-bold uppercase tracking-wider z-10">
                     {video.category}
                   </div>
                 </div>

@@ -28,7 +28,7 @@ export default function AdminPlayersList() {
     <div>
       <div className="flex justify-between items-center mb-6">
         <h2 className="text-2xl font-bold text-gray-800">Futbolçular</h2>
-        <Link href="/admin/futbolcular/yeni" className="bg-[#00e5a0] text-[#0a1628] px-4 py-2 rounded font-bold hover:bg-[#00c98b] transition">Yeni Futbolçu</Link>
+        <Link href="/admin/futbolcular/yeni" className="bg-[#c9a84c] text-[#0a1628] px-4 py-2 rounded font-bold hover:bg-[#00c98b] transition">Yeni Futbolçu</Link>
       </div>
 
       <div className="bg-white rounded-lg shadow overflow-hidden">

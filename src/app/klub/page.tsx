@@ -32,10 +32,7 @@ export default async function ClubPage() {
   const visionText = clubInfo?.vision_az || 'Ölkənin ən qabaqcıl və müasir infrastruktura malik futbol akademiyalarından biri olmaq.';
   const foundedYear = clubInfo?.founded_year || 2023;
 
-  const mockLeadership: Leadership[] = leadership.length > 0 ? leadership : [
-    { id: '1', name: 'Rəhbərlik', role: 'Klub Prezidenti', sort_order: 1, created_at: new Date().toISOString() },
-    { id: '2', name: 'İdarə Heyəti', role: 'İdman Direktoru', sort_order: 2, created_at: new Date().toISOString() },
-  ];
+  const mockLeadership: Leadership[] = leadership;
 
   return (
     <main className="flex-grow pt-20">
@@ -44,7 +41,7 @@ export default async function ClubPage() {
         <div className="absolute inset-0 opacity-40 bg-gradient-to-t from-[#0a1628] to-transparent z-10" />
         <div className="relative z-20 text-center px-4 max-w-4xl mx-auto">
           <h1 className="text-4xl md:text-6xl font-black text-white uppercase tracking-wider mb-4">
-            Klub <span className="text-[#00e5a0]">Haqqında</span>
+            Klub <span className="text-[#c9a84c]">Haqqında</span>
           </h1>
           <p className="text-gray-300 text-lg md:text-xl">
             Tariximiz, fəlsəfəmiz və məqsədlərimiz
@@ -57,7 +54,7 @@ export default async function ClubPage() {
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             <div>
-              <div className="inline-block px-3 py-1 bg-[#00e5a0]/10 text-[#00e5a0] font-mono text-sm uppercase tracking-widest rounded-full mb-6">
+              <div className="inline-block px-3 py-1 bg-[#c9a84c]/10 text-[#c9a84c] font-mono text-sm uppercase tracking-widest rounded-full mb-6">
                 Tarixçə
               </div>
               <h2 className="text-3xl md:text-5xl font-black text-[#0a1628] uppercase tracking-wide mb-6">
@@ -68,7 +65,7 @@ export default async function ClubPage() {
               </div>
               <div className="flex gap-4">
                 <div className="bg-[#f5f5f5] p-6 rounded-2xl flex-1 text-center">
-                  <div className="text-4xl font-black text-[#00e5a0] mb-2">{foundedYear}</div>
+                  <div className="text-4xl font-black text-[#c9a84c] mb-2">{foundedYear}</div>
                   <div className="text-sm text-gray-500 uppercase tracking-widest font-bold">Yaranma ili</div>
                 </div>
               </div>
@@ -76,14 +73,14 @@ export default async function ClubPage() {
             
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
               <div className="bg-[#0a1628] text-white p-8 rounded-3xl col-span-1 sm:col-span-2">
-                <h3 className="text-[#00e5a0] font-mono uppercase tracking-widest text-sm mb-4">Missiya</h3>
+                <h3 className="text-[#c9a84c] font-mono uppercase tracking-widest text-sm mb-4">Missiya</h3>
                 <p className="text-lg leading-relaxed">{missionText}</p>
               </div>
               <div className="bg-[#f5f5f5] p-8 rounded-3xl">
-                <h3 className="text-[#00e5a0] font-mono uppercase tracking-widest text-sm mb-4">Vizyon</h3>
+                <h3 className="text-[#c9a84c] font-mono uppercase tracking-widest text-sm mb-4">Vizyon</h3>
                 <p className="text-gray-700">{visionText}</p>
               </div>
-              <div className="bg-[#00e5a0] p-8 rounded-3xl">
+              <div className="bg-[#c9a84c] p-8 rounded-3xl">
                 <h3 className="text-[#0a1628] font-mono uppercase tracking-widest text-sm mb-4 font-bold">Dəyərlər</h3>
                 <ul className="text-[#0a1628] space-y-2 font-medium">
                   <li>• İntizam</li>
@@ -104,7 +101,7 @@ export default async function ClubPage() {
             <h2 className="text-3xl md:text-5xl font-black text-[#0a1628] uppercase tracking-wide mb-4">
               Klub Rəhbərliyi
             </h2>
-            <div className="w-24 h-1 bg-[#00e5a0] mx-auto"></div>
+            <div className="w-24 h-1 bg-[#c9a84c] mx-auto"></div>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
@@ -121,7 +118,7 @@ export default async function ClubPage() {
                 </div>
                 <div className="p-6 text-center">
                   <h3 className="text-xl font-bold text-[#0a1628] mb-1">{leader.name}</h3>
-                  <p className="text-[#00e5a0] font-mono text-sm uppercase">{leader.role}</p>
+                  <p className="text-[#c9a84c] font-mono text-sm uppercase">{leader.role}</p>
                 </div>
               </div>
             ))}

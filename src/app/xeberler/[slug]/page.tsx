@@ -17,22 +17,13 @@ export default async function NewsDetailPage({ params }: { params: { slug: strin
   }
 
   // Fallback mock
-  if (!news) {
-    news = {
-      title_az: 'Xəbər tapılmadı',
-      content_az: 'Bu xəbər mövcud deyil və ya silinib.',
-      published_at: new Date().toISOString(),
-      category: 'Klub xəbərləri',
-      author: '',
-      image_url: ''
-    };
-  }
+  if (!news) return <div className="pt-32 text-center text-2xl">Xəbər tapılmadı</div>;
 
   return (
     <main className="flex-grow pt-24 pb-16">
       <article className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
         <header className="mb-10 text-center">
-          <div className="inline-block px-3 py-1 bg-[#00e5a0]/10 text-[#00e5a0] font-mono text-sm uppercase tracking-widest rounded-full mb-6">
+          <div className="inline-block px-3 py-1 bg-[#c9a84c]/10 text-[#c9a84c] font-mono text-sm uppercase tracking-widest rounded-full mb-6">
             {news.category}
           </div>
           <h1 className="text-3xl md:text-5xl font-black text-[#0a1628] uppercase tracking-wide mb-6">

@@ -1,16 +1,9 @@
 import { supabase } from '@/lib/supabase'
 
-const MOCK_STANDINGS = [
-  { id: 1, team: 'Neftçi IK', played: 10, won: 8, drawn: 1, lost: 1, goals_for: 25, goals_against: 8, points: 25 },
-  { id: 2, team: 'Yarımada FK', played: 10, won: 7, drawn: 2, lost: 1, goals_for: 22, goals_against: 10, points: 23 },
-  { id: 3, team: 'Qarabağ-2', played: 10, won: 6, drawn: 3, lost: 1, goals_for: 18, goals_against: 9, points: 21 },
-  { id: 4, team: 'Turan-2', played: 10, won: 4, drawn: 2, lost: 4, goals_for: 15, goals_against: 15, points: 14 },
-  { id: 5, team: 'Kəpəz-2', played: 10, won: 2, drawn: 2, lost: 6, goals_for: 10, goals_against: 20, points: 8 },
-  { id: 6, team: 'Zirə-2', played: 10, won: 1, drawn: 1, lost: 8, goals_for: 7, goals_against: 24, points: 4 },
-];
+
 
 export default async function TurnirCedveliPage() {
-  let standings = MOCK_STANDINGS;
+  let standings = [];
 
   try {
     const { data, error } = await supabase
@@ -33,7 +26,7 @@ export default async function TurnirCedveliPage() {
 
         <div className="bg-white rounded-xl shadow-md overflow-hidden">
           <div className="bg-[#0a1628] text-white p-6 flex justify-between items-center">
-            <h2 className="text-2xl font-bold uppercase tracking-wider text-[#00e5a0]">Region Liqası 2026/27</h2>
+            <h2 className="text-2xl font-bold uppercase tracking-wider text-[#c9a84c]">Region Liqası 2026/27</h2>
           </div>
           
           <div className="overflow-x-auto">
@@ -61,7 +54,7 @@ export default async function TurnirCedveliPage() {
                     <tr 
                       key={row.id} 
                       className={`border-b border-gray-100 hover:bg-gray-50 transition-colors ${
-                        isYarimada ? 'bg-[#00e5a0]/10 border-l-4 border-l-[#00e5a0]' : ''
+                        isYarimada ? 'bg-[#c9a84c]/10 border-l-4 border-l-[#c9a84c]' : ''
                       }`}
                     >
                       <td className="p-4 text-center font-bold text-gray-500">{index + 1}</td>

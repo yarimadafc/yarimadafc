@@ -2,44 +2,7 @@ import { supabase } from '@/lib/supabase'
 import Link from 'next/link'
 
 // Mock Data
-const MOCK_MATCHES = [
-  {
-    id: '1',
-    home_team: 'Yarımada FK',
-    away_team: 'Bakı FK',
-    date: '2026-10-10',
-    time: '18:00',
-    stadium: 'ASCO Arena',
-    tournament: 'Region Liqası',
-    home_score: null,
-    away_score: null,
-    status: 'upcoming'
-  },
-  {
-    id: '2',
-    home_team: 'Neftçi IK',
-    away_team: 'Yarımada FK',
-    date: '2026-10-01',
-    time: '16:00',
-    stadium: 'İsmət Qayıbov',
-    tournament: 'Region Liqası',
-    home_score: 1,
-    away_score: 2,
-    status: 'completed'
-  },
-  {
-    id: '3',
-    home_team: 'Yarımada FK',
-    away_team: 'Turan Tovuz',
-    date: '2026-09-24',
-    time: '15:30',
-    stadium: 'ASCO Arena',
-    tournament: 'Azərbaycan Kuboku',
-    home_score: 3,
-    away_score: 0,
-    status: 'completed'
-  }
-];
+
 
 export default async function OyunlarPage({
   searchParams
@@ -48,7 +11,7 @@ export default async function OyunlarPage({
 }) {
   const currentTab = searchParams.tab || 'upcoming';
 
-  let matches = MOCK_MATCHES;
+  let matches = [];
   try {
     const { data, error } = await supabase
       .from('matches')
@@ -81,7 +44,7 @@ export default async function OyunlarPage({
               href="?tab=upcoming" 
               className={`px-6 py-3 rounded-md font-bold uppercase tracking-wide transition-colors ${
                 currentTab === 'upcoming' 
-                  ? 'bg-[#0a1628] text-[#00e5a0]' 
+                  ? 'bg-[#0a1628] text-[#c9a84c]' 
                   : 'text-gray-500 hover:text-[#0a1628]'
               }`}
             >
@@ -91,7 +54,7 @@ export default async function OyunlarPage({
               href="?tab=completed" 
               className={`px-6 py-3 rounded-md font-bold uppercase tracking-wide transition-colors ${
                 currentTab === 'completed' 
-                  ? 'bg-[#0a1628] text-[#00e5a0]' 
+                  ? 'bg-[#0a1628] text-[#c9a84c]' 
                   : 'text-gray-500 hover:text-[#0a1628]'
               }`}
             >
@@ -109,7 +72,7 @@ export default async function OyunlarPage({
               <div key={match.id} className="bg-white rounded-xl shadow-md overflow-hidden transition-transform hover:-translate-y-1">
                 <div className="flex flex-col md:flex-row items-center">
                   <div className="w-full md:w-1/4 bg-[#0a1628] text-white p-6 flex flex-col justify-center items-center h-full">
-                    <span className="text-[#00e5a0] text-sm font-bold tracking-wider mb-2">{match.tournament}</span>
+                    <span className="text-[#c9a84c] text-sm font-bold tracking-wider mb-2">{match.tournament}</span>
                     <span className="text-lg">{match.date}</span>
                     <span className="text-xl font-bold">{match.time}</span>
                   </div>
@@ -146,7 +109,7 @@ export default async function OyunlarPage({
                     {currentTab === 'completed' && (
                       <Link 
                         href={`/oyunlar/${match.id}`}
-                        className="bg-[#00e5a0] text-[#0a1628] px-6 py-2 rounded-md font-bold uppercase tracking-wider hover:bg-[#00c98b] transition-colors w-full text-center"
+                        className="bg-[#c9a84c] text-[#0a1628] px-6 py-2 rounded-md font-bold uppercase tracking-wider hover:bg-[#00c98b] transition-colors w-full text-center"
                       >
                         Ətraflı
                       </Link>

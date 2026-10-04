@@ -70,11 +70,11 @@ export default function TeamDetailPage() {
       <div className="bg-[#0a1628] text-white pt-24 pb-16">
         <div className="container mx-auto px-4">
           <div className="flex flex-col md:flex-row items-center gap-8">
-            <div className="w-48 h-48 bg-gray-800 rounded-full flex items-center justify-center border-4 border-[#00e5a0]">
+            <div className="w-48 h-48 bg-gray-800 rounded-full flex items-center justify-center border-4 border-[#c9a84c]">
               <span className="text-gray-400">Komanda Loqosu</span>
             </div>
             <div className="text-center md:text-left">
-              <div className="inline-block bg-[#00e5a0] text-[#0a1628] px-3 py-1 font-bold rounded mb-4">
+              <div className="inline-block bg-[#c9a84c] text-[#0a1628] px-3 py-1 font-bold rounded mb-4">
                 {team.age_group}
               </div>
               <h1 className="text-4xl md:text-5xl font-bold uppercase tracking-wider mb-2">
@@ -88,7 +88,7 @@ export default function TeamDetailPage() {
       <div className="container mx-auto px-4 mt-12 space-y-16">
         {/* Coaches */}
         <section>
-          <h2 className="text-3xl font-bold text-[#0a1628] uppercase tracking-wider mb-8 border-l-4 border-[#00e5a0] pl-4">
+          <h2 className="text-3xl font-bold text-[#0a1628] uppercase tracking-wider mb-8 border-l-4 border-[#c9a84c] pl-4">
             Məşqçi Heyəti
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -108,7 +108,7 @@ export default function TeamDetailPage() {
 
         {/* Players */}
         <section>
-          <h2 className="text-3xl font-bold text-[#0a1628] uppercase tracking-wider mb-8 border-l-4 border-[#00e5a0] pl-4">
+          <h2 className="text-3xl font-bold text-[#0a1628] uppercase tracking-wider mb-8 border-l-4 border-[#c9a84c] pl-4">
             Oyunçular
           </h2>
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
@@ -134,7 +134,7 @@ export default function TeamDetailPage() {
         <div className="grid md:grid-cols-2 gap-8">
           {/* Matches */}
           <section>
-            <h2 className="text-2xl font-bold text-[#0a1628] uppercase tracking-wider mb-6 border-l-4 border-[#00e5a0] pl-4">
+            <h2 className="text-2xl font-bold text-[#0a1628] uppercase tracking-wider mb-6 border-l-4 border-[#c9a84c] pl-4">
               Son Oyunlar
             </h2>
             <div className="bg-white rounded-xl shadow border border-gray-100 overflow-hidden">
@@ -161,7 +161,7 @@ export default function TeamDetailPage() {
 
           {/* Training Schedule */}
           <section>
-            <h2 className="text-2xl font-bold text-[#0a1628] uppercase tracking-wider mb-6 border-l-4 border-[#00e5a0] pl-4">
+            <h2 className="text-2xl font-bold text-[#0a1628] uppercase tracking-wider mb-6 border-l-4 border-[#c9a84c] pl-4">
               Məşq Cədvəli
             </h2>
             <div className="bg-white rounded-xl shadow border border-gray-100 p-6">

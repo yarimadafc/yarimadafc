@@ -35,7 +35,7 @@ export default function CoachesPage() {
           <h1 className="text-4xl md:text-5xl font-bold uppercase tracking-wider text-white">
             Məşqçilərimiz
           </h1>
-          <div className="w-24 h-1 bg-[#00e5a0] mx-auto mt-6"></div>
+          <div className="w-24 h-1 bg-[#c9a84c] mx-auto mt-6"></div>
         </div>
       </div>
 
@@ -51,7 +51,7 @@ export default function CoachesPage() {
                     <span className="text-gray-400">Şəkil</span>
                     <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-[#0a1628] to-transparent p-4">
                       <h2 className="text-white font-bold text-2xl truncate">{coach.name}</h2>
-                      <p className="text-[#00e5a0] font-semibold">{coach.role}</p>
+                      <p className="text-[#c9a84c] font-semibold">{coach.role}</p>
                     </div>
                   </div>
                   <div className="p-6">

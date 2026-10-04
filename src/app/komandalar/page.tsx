@@ -40,7 +40,7 @@ export default function KomandalarPage() {
           <h1 className="text-4xl md:text-5xl font-bold uppercase tracking-wider text-white">
             Komandalarımız
           </h1>
-          <div className="w-24 h-1 bg-[#00e5a0] mx-auto mt-6"></div>
+          <div className="w-24 h-1 bg-[#c9a84c] mx-auto mt-6"></div>
         </div>
       </div>
 
@@ -53,7 +53,7 @@ export default function KomandalarPage() {
               onClick={() => setFilter(age)}
               className={`px-6 py-2 rounded-full font-bold uppercase tracking-wide transition-colors ${
                 filter === age 
-                  ? "bg-[#0a1628] text-[#00e5a0]" 
+                  ? "bg-[#0a1628] text-[#c9a84c]" 
                   : "bg-gray-100 text-[#0a1628] hover:bg-gray-200"
               }`}
             >
@@ -72,7 +72,7 @@ export default function KomandalarPage() {
                 <div className="bg-white rounded-xl overflow-hidden shadow-lg border border-gray-100 transition-transform group-hover:-translate-y-2">
                   <div className="h-48 bg-gray-200 flex items-center justify-center relative">
                     <span className="text-gray-400 font-medium">Komanda şəkli ({team.age_group})</span>
-                    <div className="absolute top-4 right-4 bg-[#0a1628] text-[#00e5a0] px-3 py-1 rounded font-bold">
+                    <div className="absolute top-4 right-4 bg-[#0a1628] text-[#c9a84c] px-3 py-1 rounded font-bold">
                       {team.age_group}
                     </div>
                   </div>
@@ -82,7 +82,7 @@ export default function KomandalarPage() {
                       <p><span className="font-semibold">Baş Məşqçi:</span> {team.coach_name || "Təyin edilməyib"}</p>
                       <p><span className="font-semibold">Heyət:</span> {team.player_count || 0} oyunçu</p>
                     </div>
-                    <div className="mt-6 flex items-center text-[#0a1628] font-bold group-hover:text-[#00e5a0] transition-colors uppercase text-sm tracking-wider">
+                    <div className="mt-6 flex items-center text-[#0a1628] font-bold group-hover:text-[#c9a84c] transition-colors uppercase text-sm tracking-wider">
                       Ətraflı <span className="ml-2">→</span>
                     </div>
                   </div>

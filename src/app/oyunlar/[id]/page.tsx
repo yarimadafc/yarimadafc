@@ -73,7 +73,7 @@ export default async function OyunDetaliPage({ params }: { params: { id: string 
       <div className="bg-[#0a1628] text-white py-16 px-4">
         <div className="container mx-auto max-w-5xl">
           <div className="text-center mb-6">
-            <span className="text-[#00e5a0] font-bold tracking-widest uppercase text-sm">{match.tournament}</span>
+            <span className="text-[#c9a84c] font-bold tracking-widest uppercase text-sm">{match.tournament}</span>
             <p className="text-gray-400 mt-2">{match.date} • {match.time}</p>
           </div>
           
@@ -84,7 +84,7 @@ export default async function OyunDetaliPage({ params }: { params: { id: string 
             
             <div className="bg-white/10 px-8 py-4 rounded-xl flex items-center gap-4 text-4xl md:text-6xl font-bold">
               <span>{match.home_score}</span>
-              <span className="text-[#00e5a0]">-</span>
+              <span className="text-[#c9a84c]">-</span>
               <span>{match.away_score}</span>
             </div>
             
@@ -153,7 +153,7 @@ export default async function OyunDetaliPage({ params }: { params: { id: string 
         {/* Right Column: Lineups */}
         <div className="space-y-8">
           <div className="bg-[#0a1628] text-white rounded-xl shadow-sm p-6">
-            <h2 className="text-2xl font-bold uppercase tracking-wider mb-6 border-b border-white/20 pb-4 text-[#00e5a0]">Heyət</h2>
+            <h2 className="text-2xl font-bold uppercase tracking-wider mb-6 border-b border-white/20 pb-4 text-[#c9a84c]">Heyət</h2>
             
             <div className="mb-8">
               <h3 className="font-bold text-lg mb-4 text-gray-300">Əsas Heyət</h3>

@@ -94,22 +94,22 @@ export default function QeydiyyatFormPage() {
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div>
                   <label className="block text-sm font-bold text-[#0a1628] mb-2 uppercase tracking-wide">Uşağın adı *</label>
-                  <input required type="text" name="child_name" value={formData.child_name} onChange={handleChange} className="w-full bg-[#f8fafc] border-transparent focus:border-[#00e5a0] focus:bg-white focus:ring-0 rounded-xl px-4 py-3" />
+                  <input required type="text" name="child_name" value={formData.child_name} onChange={handleChange} className="w-full bg-[#f8fafc] border-transparent focus:border-[#c9a84c] focus:bg-white focus:ring-0 rounded-xl px-4 py-3" />
                 </div>
                 <div>
                   <label className="block text-sm font-bold text-[#0a1628] mb-2 uppercase tracking-wide">Uşağın soyadı *</label>
-                  <input required type="text" name="child_surname" value={formData.child_surname} onChange={handleChange} className="w-full bg-[#f8fafc] border-transparent focus:border-[#00e5a0] focus:bg-white focus:ring-0 rounded-xl px-4 py-3" />
+                  <input required type="text" name="child_surname" value={formData.child_surname} onChange={handleChange} className="w-full bg-[#f8fafc] border-transparent focus:border-[#c9a84c] focus:bg-white focus:ring-0 rounded-xl px-4 py-3" />
                 </div>
               </div>
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div>
                   <label className="block text-sm font-bold text-[#0a1628] mb-2 uppercase tracking-wide">Doğum tarixi</label>
-                  <input type="date" name="birth_date" value={formData.birth_date} onChange={handleChange} className="w-full bg-[#f8fafc] border-transparent focus:border-[#00e5a0] focus:bg-white focus:ring-0 rounded-xl px-4 py-3" />
+                  <input type="date" name="birth_date" value={formData.birth_date} onChange={handleChange} className="w-full bg-[#f8fafc] border-transparent focus:border-[#c9a84c] focus:bg-white focus:ring-0 rounded-xl px-4 py-3" />
                 </div>
                 <div>
                   <label className="block text-sm font-bold text-[#0a1628] mb-2 uppercase tracking-wide">Yaş qrupu *</label>
-                  <select required name="age_group" value={formData.age_group} onChange={handleChange} className="w-full bg-[#f8fafc] border-transparent focus:border-[#00e5a0] focus:bg-white focus:ring-0 rounded-xl px-4 py-3">
+                  <select required name="age_group" value={formData.age_group} onChange={handleChange} className="w-full bg-[#f8fafc] border-transparent focus:border-[#c9a84c] focus:bg-white focus:ring-0 rounded-xl px-4 py-3">
                     <option value="U-9">U-9 (8-9 yaş)</option>
                     <option value="U-10">U-10 (9-10 yaş)</option>
                     <option value="U-11">U-11 (10-11 yaş)</option>
@@ -121,29 +121,29 @@ export default function QeydiyyatFormPage() {
 
               <div>
                 <label className="block text-sm font-bold text-[#0a1628] mb-2 uppercase tracking-wide">Valideynin adı və soyadı *</label>
-                <input required type="text" name="parent_name" value={formData.parent_name} onChange={handleChange} className="w-full bg-[#f8fafc] border-transparent focus:border-[#00e5a0] focus:bg-white focus:ring-0 rounded-xl px-4 py-3" />
+                <input required type="text" name="parent_name" value={formData.parent_name} onChange={handleChange} className="w-full bg-[#f8fafc] border-transparent focus:border-[#c9a84c] focus:bg-white focus:ring-0 rounded-xl px-4 py-3" />
               </div>
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div>
                   <label className="block text-sm font-bold text-[#0a1628] mb-2 uppercase tracking-wide">Əlaqə nömrəsi *</label>
-                  <input required type="tel" name="phone" value={formData.phone} onChange={handleChange} className="w-full bg-[#f8fafc] border-transparent focus:border-[#00e5a0] focus:bg-white focus:ring-0 rounded-xl px-4 py-3" placeholder="(050) 123-45-67" />
+                  <input required type="tel" name="phone" value={formData.phone} onChange={handleChange} className="w-full bg-[#f8fafc] border-transparent focus:border-[#c9a84c] focus:bg-white focus:ring-0 rounded-xl px-4 py-3" placeholder="(050) 123-45-67" />
                 </div>
                 <div>
                   <label className="block text-sm font-bold text-[#0a1628] mb-2 uppercase tracking-wide">WhatsApp nömrəsi</label>
-                  <input type="tel" name="whatsapp" value={formData.whatsapp} onChange={handleChange} className="w-full bg-[#f8fafc] border-transparent focus:border-[#00e5a0] focus:bg-white focus:ring-0 rounded-xl px-4 py-3" placeholder="(050) 123-45-67" />
+                  <input type="tel" name="whatsapp" value={formData.whatsapp} onChange={handleChange} className="w-full bg-[#f8fafc] border-transparent focus:border-[#c9a84c] focus:bg-white focus:ring-0 rounded-xl px-4 py-3" placeholder="(050) 123-45-67" />
                 </div>
               </div>
 
               <div>
                 <label className="block text-sm font-bold text-[#0a1628] mb-2 uppercase tracking-wide">Əlavə qeydlər</label>
-                <textarea name="note" value={formData.note} onChange={handleChange} rows={4} className="w-full bg-[#f8fafc] border-transparent focus:border-[#00e5a0] focus:bg-white focus:ring-0 rounded-xl px-4 py-3" placeholder="Övladınızın əvvəlki futbol təcrübəsi və ya sağlamlıq vəziyyəti haqqında məlumat..."></textarea>
+                <textarea name="note" value={formData.note} onChange={handleChange} rows={4} className="w-full bg-[#f8fafc] border-transparent focus:border-[#c9a84c] focus:bg-white focus:ring-0 rounded-xl px-4 py-3" placeholder="Övladınızın əvvəlki futbol təcrübəsi və ya sağlamlıq vəziyyəti haqqında məlumat..."></textarea>
               </div>
 
               <button
                 type="submit"
                 disabled={loading}
-                className="w-full bg-[#00e5a0] hover:bg-[#00c98c] text-[#0a1628] font-black uppercase tracking-widest py-4 px-6 rounded-full transition-colors disabled:opacity-50 disabled:cursor-not-allowed mt-4"
+                className="w-full bg-[#c9a84c] hover:bg-[#b39542] text-[#0a1628] font-black uppercase tracking-widest py-4 px-6 rounded-full transition-colors disabled:opacity-50 disabled:cursor-not-allowed mt-4"
               >
                 {loading ? 'Göndərilir...' : 'Müraciəti Göndər'}
               </button>

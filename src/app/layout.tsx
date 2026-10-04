@@ -1,11 +1,7 @@
 import type { Metadata } from 'next';
 import { Albert_Sans, JetBrains_Mono, Alumni_Sans } from 'next/font/google';
 import './globals.css';
-import Preloader from "@/components/Preloader";
-import Navbar from '@/components/Navbar';
-import Footer from '@/components/Footer';
-import InstrumentStripInit from '@/components/InstrumentStripInit';
-import PushNotificationManager from '@/components/PushNotificationManager';
+import ClientLayout from '@/components/ClientLayout';
 
 const albert = Albert_Sans({ 
   subsets: ['latin'], 
@@ -28,10 +24,6 @@ export const metadata: Metadata = {
   title: 'Yarmada FK',
   description: 'Yarımada Futbol Klubunun rəsmi veb səhifəsi. Oyunlar, komandalar, xəbərlər və daha çoxu.',
   keywords: ['Yarımada FK', 'Yarımada Football Club', 'futbol akademiyası Bakı', 'uşaq futbolu Bakı', 'AFFA U-12'],
-  icons: {
-    icon: '/Logo.JPG.jpeg',
-    apple: '/Logo.JPG.jpeg',
-  }
 };
 
 export default function RootLayout({
@@ -46,12 +38,7 @@ export default function RootLayout({
         <link rel="apple-touch-icon" href="/Logo.JPG.jpeg" />
       </head>
       <body className="min-h-screen flex flex-col antialiased">
-        <Preloader />
-        <PushNotificationManager />
-        <InstrumentStripInit />
-        <Navbar />
-        {children}
-        <Footer />
+        <ClientLayout>{children}</ClientLayout>
       </body>
     </html>
   );

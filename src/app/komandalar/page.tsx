@@ -1,97 +1,106 @@
-"use client";
+export const dynamic = 'force-dynamic';
 
-import { useEffect, useState } from "react";
-import { supabase } from "@/lib/supabase";
-import Link from "next/link";
-import Image from "next/image";
+import Link from 'next/link';
+import { supabase } from '@/lib/supabase';
+import FadeIn from '@/components/FadeIn';
 
-export default function KomandalarPage() {
-  const [teams, setTeams] = useState<any[]>([]);
-  const [filter, setFilter] = useState("Hamısı");
-  const [loading, setLoading] = useState(true);
+export default async function TeamsPage({ searchParams }: { searchParams: { age?: string } }) {
+  const ageFilter = searchParams.age;
+  
+  let teams: any[] = [];
+  try {
+    let query = supabase.from('teams').select('*').order('created_at', { ascending: true });
+    if (ageFilter) {
+      query = query.eq('age_group', ageFilter);
+    }
+    const res = await query;
+    if (res.data) teams = res.data;
+  } catch (error) {
+    console.error('Error fetching teams:', error);
+  }
 
-  useEffect(() => {
-    const fetchTeams = async () => {
-      try {
-        const { data, error } = await supabase.from("teams").select("*");
-        if (error) throw error;
-        setTeams(data || []);
-      } catch (err) {
-        console.error(err);
-        setTeams([
-          { id: 1, name: "Yarımada U-12", age_group: "U-12", coach_name: "Əhməd Əhmədov", player_count: 18 },
-          { id: 2, name: "Yarımada U-11", age_group: "U-11", coach_name: "Rəşad Məmmədov", player_count: 20 },
-          { id: 3, name: "Yarımada U-10", age_group: "U-10", coach_name: "Elşən Quliyev", player_count: 16 },
-        ]);
-      } finally {
-        setLoading(false);
-      }
-    };
-    fetchTeams();
-  }, []);
+  // Fallback data for the UI if database is empty
+  const mockTeams = [
+    { id: '1', name: 'Yarımada U-12', age_group: 'U-12', coach: 'Əhməd Məmmədov', players: 18 },
+    { id: '2', name: 'Yarımada U-11', age_group: 'U-11', coach: 'Emin Quliyev', players: 16 },
+    { id: '3', name: 'Yarımada U-10', age_group: 'U-10', coach: 'Rəşad Əliyev', players: 20 },
+    { id: '4', name: 'Yarımada U-9', age_group: 'U-9', coach: 'Vüsal Həsənov', players: 22 },
+  ];
 
-  const filteredTeams = filter === "Hamısı" ? teams : teams.filter(t => t.age_group === filter);
+  const displayTeams = teams.length > 0 ? teams : (ageFilter ? mockTeams.filter(t => t.age_group === ageFilter) : mockTeams);
 
   return (
-    <div className="min-h-screen bg-white">
-      {/* Hero Section */}
-      <div className="bg-[#0a1628] py-16">
-        <div className="container mx-auto px-4 text-center">
-          <h1 className="text-4xl md:text-5xl font-bold uppercase tracking-wider text-white">
-            Komandalarımız
-          </h1>
-          <div className="w-24 h-1 bg-[#c9a84c] mx-auto mt-6"></div>
+    <main className="flex-grow bg-[var(--ks-paper)] text-[var(--ks-ink)]">
+      
+      {/* 1. HERO SECTION */}
+      <section className="pt-32 pb-8 px-4 sm:px-6 lg:px-8 max-w-[1400px] mx-auto">
+        <div className="relative rounded-[2rem] overflow-hidden min-h-[40vh] flex flex-col justify-end p-8 md:p-16 bg-[#0a1628]">
+          <div className="relative z-10 max-w-4xl">
+            <FadeIn>
+              <p className="font-mono text-sm uppercase tracking-[0.2em] text-[var(--ks-kinpaku)] mb-4 font-bold">AKADEMİYA</p>
+              <h1 className="text-7xl md:text-9xl font-black font-condensed uppercase tracking-normal text-white mb-6 leading-[0.85] drop-shadow-xl">
+                KOMANDALAR
+              </h1>
+            </FadeIn>
+          </div>
         </div>
-      </div>
+      </section>
 
-      <div className="container mx-auto px-4 py-12">
-        {/* Filters */}
-        <div className="flex flex-wrap justify-center gap-4 mb-12">
-          {["Hamısı", "U-12", "U-11", "U-10", "U-9"].map(age => (
-            <button
-              key={age}
-              onClick={() => setFilter(age)}
-              className={`px-6 py-2 rounded-full font-bold uppercase tracking-wide transition-colors ${
-                filter === age 
-                  ? "bg-[#0a1628] text-[#c9a84c]" 
-                  : "bg-gray-100 text-[#0a1628] hover:bg-gray-200"
-              }`}
+      {/* 2. FILTER & LIST */}
+      <section className="py-16 px-4 sm:px-6 lg:px-8 max-w-[1400px] mx-auto">
+        <FadeIn>
+          {/* Filters */}
+          <div className="flex flex-wrap gap-4 mb-12">
+            <Link 
+              href="/komandalar" 
+              className={`ks-button !rounded-full !px-6 !py-3 font-bold ${!ageFilter ? '!bg-[var(--ks-ink)] !text-white' : '!bg-white !text-[var(--ks-ink)] !border-gray-200 hover:!border-[var(--ks-ink)]'}`}
             >
-              {age}
-            </button>
-          ))}
-        </div>
+              Bütün komandalar
+            </Link>
+            {['U-12', 'U-11', 'U-10', 'U-9'].map(age => (
+              <Link 
+                key={age}
+                href={`/komandalar?age=${age}`} 
+                className={`ks-button !rounded-full !px-6 !py-3 font-bold ${ageFilter === age ? '!bg-[var(--ks-ink)] !text-white' : '!bg-white !text-[var(--ks-ink)] !border-gray-200 hover:!border-[var(--ks-ink)]'}`}
+              >
+                {age}
+              </Link>
+            ))}
+          </div>
 
-        {/* Grid */}
-        {loading ? (
-          <div className="text-center text-[#0a1628]">Yüklənir...</div>
-        ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {filteredTeams.map(team => (
-              <Link key={team.id} href={`/komandalar/${team.id}`} className="group">
-                <div className="bg-white rounded-xl overflow-hidden shadow-lg border border-gray-100 transition-transform group-hover:-translate-y-2">
-                  <div className="h-48 bg-gray-200 flex items-center justify-center relative">
-                    <span className="text-gray-400 font-medium">Komanda şəkli ({team.age_group})</span>
-                    <div className="absolute top-4 right-4 bg-[#0a1628] text-[#c9a84c] px-3 py-1 rounded font-bold">
-                      {team.age_group}
-                    </div>
+          {/* Grid */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+            {displayTeams.map((team, idx) => (
+              <Link key={team.id || idx} href={`/komandalar/${team.id}`} className="group block bg-[var(--ks-paper-deep)] rounded-[2rem] p-8 hover:bg-[#0a1628] hover:text-white transition-colors duration-500">
+                <div className="flex justify-between items-start mb-12">
+                  <div className="w-20 h-20 bg-white rounded-full flex items-center justify-center border-4 border-[var(--ks-paper-deep)] group-hover:border-[#0a1628] transition-colors shadow-sm">
+                    <span className="text-2xl font-black text-[var(--ks-ink)]">{team.age_group}</span>
                   </div>
-                  <div className="p-6">
-                    <h2 className="text-2xl font-bold text-[#0a1628] mb-2 uppercase">{team.name}</h2>
-                    <div className="space-y-2 text-gray-600">
-                      <p><span className="font-semibold">Baş Məşqçi:</span> {team.coach_name || "Təyin edilməyib"}</p>
-                      <p><span className="font-semibold">Heyət:</span> {team.player_count || 0} oyunçu</p>
-                    </div>
-                    <div className="mt-6 flex items-center text-[#0a1628] font-bold group-hover:text-[#c9a84c] transition-colors uppercase text-sm tracking-wider">
-                      Ətraflı <span className="ml-2">→</span>
-                    </div>
+                  <div className="w-12 h-12 rounded-full border border-gray-300 group-hover:border-white/20 flex items-center justify-center group-hover:bg-white/10 transition-colors">
+                    <svg className="w-5 h-5 text-[var(--ks-ink)] group-hover:text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" /></svg>
+                  </div>
+                </div>
+                
+                <h3 className="text-4xl md:text-5xl font-black font-condensed uppercase tracking-wide mb-2 group-hover:text-[var(--ks-kinpaku)] transition-colors">
+                  {team.name}
+                </h3>
+                
+                <div className="flex flex-wrap gap-6 mt-6">
+                  <div>
+                    <p className="text-xs font-mono uppercase text-gray-500 group-hover:text-white/50 mb-1">Baş Məşqçi</p>
+                    <p className="font-bold">{team.coach || 'Təyin edilməyib'}</p>
+                  </div>
+                  <div>
+                    <p className="text-xs font-mono uppercase text-gray-500 group-hover:text-white/50 mb-1">Heyət</p>
+                    <p className="font-bold">{team.players || 0} Futbolçu</p>
                   </div>
                 </div>
               </Link>
             ))}
           </div>
-        )}
-      </div>
-    </div>
+        </FadeIn>
+      </section>
+
+    </main>
   );
 }

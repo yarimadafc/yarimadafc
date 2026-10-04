@@ -31,7 +31,7 @@ export default async function Home() {
   return (
     <main className="flex-grow bg-[var(--ks-paper)] text-[var(--ks-ink)]">
       
-      {/* 1. HERO SECTION (Iballa Style - Rounded Box) */}
+      {/* 1. HERO SECTION */}
       <section className="pt-24 pb-8 px-4 sm:px-6 lg:px-8 max-w-[1400px] mx-auto">
         <div className="relative rounded-[2rem] overflow-hidden min-h-[75vh] flex flex-col justify-end p-8 md:p-16">
           <div className="absolute inset-0 z-0">
@@ -40,14 +40,13 @@ export default async function Home() {
             ) : (
               <div className="w-full h-full bg-[#0a1628]" />
             )}
-            {/* Gradient matching the video - dark from bottom and left */}
             <div className="absolute inset-0 bg-gradient-to-t from-[#0a1628] via-[#0a1628]/60 to-transparent" />
             <div className="absolute inset-0 bg-gradient-to-r from-[#0a1628]/80 to-transparent" />
           </div>
           
           <div className="relative z-10 max-w-4xl">
             <FadeIn>
-              <p className="font-mono text-sm uppercase tracking-[0.2em] text-[var(--ks-kinpaku)] mb-4 font-bold">2026/27 MÖVSÜM</p>
+              <p className="font-mono text-sm uppercase tracking-[0.2em] text-[var(--ks-kinpaku)] mb-4 font-bold">Yarımada FK • Rəsmi Sayt</p>
               <h1 className="text-7xl md:text-9xl font-black font-condensed uppercase tracking-normal text-white mb-6 leading-[0.85] drop-shadow-xl">
                 {heroBanner?.title || 'BU YARIMADA FK.'}
               </h1>
@@ -55,11 +54,11 @@ export default async function Home() {
                 {heroBanner?.subtitle || 'Bakının ən gənc və dinamik futbol akademiyası. Hər oyunu, hər komandanı və hər anı yaxından izlə.'}
               </p>
               <div className="flex flex-wrap gap-4">
-                <Link href={heroBanner?.button_link || "/qeydiyyat"} className="ks-button ks-button-primary !bg-[var(--ks-kinpaku)] !text-[var(--ks-ink)] !border-none hover:!bg-[var(--ks-kinpaku-vivid)] !px-8 !py-4 text-lg font-bold">
-                  {heroBanner?.button_text || 'Akademiyaya Qoşul'}
+                <Link href="/komandalar" className="ks-button ks-button-primary !bg-[var(--ks-kinpaku)] !text-[var(--ks-ink)] !border-none hover:!bg-[var(--ks-kinpaku-vivid)] !px-8 !py-4 text-lg font-bold">
+                  Komandalarımıza bax
                 </Link>
-                <Link href="/oyunlar" className="ks-button ks-button-secondary !bg-white/10 !text-white !border-white/20 hover:!bg-white hover:!text-[var(--ks-ink)] backdrop-blur-sm !px-8 !py-4 text-lg font-bold">
-                  Oyunlara bax
+                <Link href="#oyunlar" className="ks-button ks-button-secondary !bg-white/10 !text-white !border-white/20 hover:!bg-white hover:!text-[var(--ks-ink)] backdrop-blur-sm !px-8 !py-4 text-lg font-bold">
+                  Son oyunlar
                 </Link>
               </div>
             </FadeIn>
@@ -67,42 +66,8 @@ export default async function Home() {
         </div>
       </section>
 
-      {/* 2. MATCHDAY DONE PROPERLY (Like the Hospitality section in Iballa) */}
-      <section className="py-8 px-4 sm:px-6 lg:px-8 max-w-[1400px] mx-auto">
-        <div className="bg-[var(--ks-paper-deep)] rounded-[2rem] p-8 md:p-16">
-          <FadeIn>
-            <p className="font-mono text-sm uppercase tracking-[0.2em] text-[#0a1628]/60 mb-4 font-bold">YARIMADA AKADEMİYASI</p>
-            <h2 className="text-6xl md:text-7xl font-black font-condensed uppercase text-[var(--ks-ink)] mb-8 leading-[0.9]">
-              GƏLƏCƏYİN<br />ULDUZLARI BURADA.
-            </h2>
-            <p className="text-xl text-[var(--ks-ink)]/70 mb-10 max-w-3xl">
-              Müasir futbol fəlsəfəsi, peşəkar məşqçilər heyəti və yüksək səviyyəli təlim mərkəzi ilə 
-              U-9'dan U-12'yə qədər bütün yaş qruplarında gələcəyin futbolçularını yetişdiririk.
-            </p>
-            <Link href="/qeydiyyat" className="ks-button ks-button-primary !bg-[var(--ks-ink)] !text-white hover:!bg-[#15294a] mb-12">
-              Akademiya haqqında
-            </Link>
-            
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-              <div className="aspect-[4/3] rounded-2xl bg-gray-200 overflow-hidden relative">
-                <div className="absolute inset-0 bg-[var(--ks-ink)]/10"></div>
-                <div className="absolute bottom-4 left-4 font-mono text-sm font-bold bg-white/90 px-3 py-1 rounded-full">U-12 Komandası</div>
-              </div>
-              <div className="aspect-[4/3] rounded-2xl bg-gray-200 overflow-hidden relative">
-                <div className="absolute inset-0 bg-[var(--ks-ink)]/10"></div>
-                <div className="absolute bottom-4 left-4 font-mono text-sm font-bold bg-white/90 px-3 py-1 rounded-full">U-11 Komandası</div>
-              </div>
-              <div className="aspect-[4/3] rounded-2xl bg-gray-200 overflow-hidden relative">
-                <div className="absolute inset-0 bg-[var(--ks-ink)]/10"></div>
-                <div className="absolute bottom-4 left-4 font-mono text-sm font-bold bg-white/90 px-3 py-1 rounded-full">U-10 Komandası</div>
-              </div>
-            </div>
-          </FadeIn>
-        </div>
-      </section>
-
-      {/* 3. MATCHES (Slider Component) */}
-      <section className="py-16 px-4 sm:px-6 lg:px-8 max-w-[1400px] mx-auto">
+      {/* MATCHES (Next Match & Last Match) */}
+      <section id="oyunlar" className="py-16 px-4 sm:px-6 lg:px-8 max-w-[1400px] mx-auto">
         <FadeIn>
           <div className="flex justify-between items-end mb-10">
             <div>
@@ -123,14 +88,64 @@ export default async function Home() {
         </FadeIn>
       </section>
 
-      {/* 4. NEWS */}
+      {/* KLUB HAQQINDA & KOMANDALAR */}
+      <section className="py-8 px-4 sm:px-6 lg:px-8 max-w-[1400px] mx-auto">
+        <div className="bg-[var(--ks-paper-deep)] rounded-[2rem] p-8 md:p-16">
+          <FadeIn>
+            <div className="flex flex-col lg:flex-row justify-between gap-12 mb-16">
+              <div className="max-w-2xl">
+                <p className="font-mono text-sm uppercase tracking-[0.2em] text-[#0a1628]/60 mb-4 font-bold">BİZ KİMİK?</p>
+                <h2 className="text-6xl md:text-7xl font-black font-condensed uppercase text-[var(--ks-ink)] mb-8 leading-[0.9]">
+                  YARIMADA FK HAQQINDA.
+                </h2>
+                <p className="text-xl text-[var(--ks-ink)]/70 mb-8">
+                  Yarımada Futbol Klubu gənc istedadları üzə çıxarmaq, onlara peşəkar futbol təhsili vermək və Azərbaycan futboluna yeni nəfəs gətirmək məqsədilə yaradılmışdır. Biz sadəcə bir klub deyil, həm də böyük bir ailəyik.
+                </p>
+                <Link href="/klub" className="ks-button ks-button-primary !bg-[var(--ks-ink)] !text-white hover:!bg-[#15294a]">
+                  Ətraflı
+                </Link>
+              </div>
+              <div className="flex-1 rounded-2xl overflow-hidden bg-gray-200">
+                {/* Klub sekli placeholder */}
+                <div className="w-full h-full min-h-[300px] bg-[#0a1628]/10"></div>
+              </div>
+            </div>
+
+            <hr className="border-[var(--ks-ink)]/10 mb-16" />
+
+            {/* Komandalar */}
+            <p className="font-mono text-sm uppercase tracking-[0.2em] text-[#0a1628]/60 mb-4 font-bold">AKADEMİYA</p>
+            <div className="flex justify-between items-end mb-8">
+              <h2 className="text-5xl md:text-6xl font-black font-condensed uppercase text-[var(--ks-ink)] leading-[0.9]">
+                KOMANDALAR
+              </h2>
+              <Link href="/komandalar" className="text-sm font-bold uppercase tracking-wider text-[var(--ks-kinpaku-rich)] hover:text-[var(--ks-ink)] transition-colors">
+                Bütün yaş qrupları →
+              </Link>
+            </div>
+            
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+              {['U-12', 'U-11', 'U-10', 'U-9'].map((age) => (
+                <Link key={age} href={`/komandalar?age=${age}`} className="group aspect-square rounded-2xl bg-white border border-gray-100 shadow-sm flex flex-col items-center justify-center p-6 hover:border-[var(--ks-kinpaku)] hover:shadow-md transition-all">
+                  <div className="w-16 h-16 rounded-full bg-[#0a1628]/5 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+                    <span className="text-2xl font-black text-[var(--ks-ink)]">{age}</span>
+                  </div>
+                  <span className="font-bold text-[var(--ks-ink)] group-hover:text-[var(--ks-kinpaku-deep)]">Komandası</span>
+                </Link>
+              ))}
+            </div>
+          </FadeIn>
+        </div>
+      </section>
+
+      {/* XƏBƏRLƏR */}
       <section className="py-16 px-4 sm:px-6 lg:px-8 max-w-[1400px] mx-auto">
         <FadeIn>
           <div className="flex justify-between items-end mb-10">
             <div>
               <p className="font-mono text-sm uppercase tracking-[0.2em] text-[#0a1628]/60 mb-4 font-bold">XƏBƏRLƏR</p>
               <h2 className="text-6xl md:text-7xl font-black font-condensed uppercase text-[var(--ks-ink)] leading-[0.9]">
-                KLUBDAN YENİLİKLƏR
+                SON YENİLİKLƏR
               </h2>
             </div>
           </div>
@@ -149,9 +164,11 @@ export default async function Home() {
                     )}
                   </div>
                   <p className="font-mono text-xs text-[#0a1628]/60 mb-3">{new Date(item.published_at || item.created_at).toLocaleDateString('az-AZ')}</p>
-                  <h3 className="text-xl font-bold leading-tight group-hover:text-[var(--ks-kinpaku-rich)] transition-colors line-clamp-3">
+                  <h3 className="text-xl font-bold leading-tight group-hover:text-[var(--ks-kinpaku-rich)] transition-colors line-clamp-2 mb-2">
                     {item.title}
                   </h3>
+                  <p className="text-sm text-gray-500 line-clamp-2 mb-4">{item.excerpt}</p>
+                  <span className="text-sm font-bold text-[var(--ks-kinpaku-rich)] group-hover:text-[var(--ks-ink)] transition-colors">Ətraflı oxu &rarr;</span>
                 </Link>
               ))
             ) : (
@@ -169,19 +186,61 @@ export default async function Home() {
         </FadeIn>
       </section>
 
-      {/* 5. MARQUEE SPONSORS */}
-      <section className="py-20 border-t border-[var(--ks-ink)]/10 overflow-hidden">
+      {/* MEDİA: VİDEO VƏ QALEREYA */}
+      <section className="py-16 px-4 sm:px-6 lg:px-8 max-w-[1400px] mx-auto">
+        <FadeIn>
+          <div className="flex flex-col lg:flex-row gap-8">
+            {/* Videolar */}
+            <div className="flex-1 bg-[#0a1628] rounded-[2rem] p-8 md:p-12 text-white">
+              <p className="font-mono text-sm uppercase tracking-[0.2em] text-[var(--ks-kinpaku)] mb-4 font-bold">MEDİA</p>
+              <div className="flex justify-between items-end mb-8">
+                <h2 className="text-5xl md:text-6xl font-black font-condensed uppercase leading-[0.9]">SON VİDEOLAR</h2>
+                <Link href="/media?tab=videos" className="text-sm font-bold text-white/70 hover:text-white transition-colors">Hamısı &rarr;</Link>
+              </div>
+              
+              <div className="aspect-video bg-black rounded-xl overflow-hidden mb-6 relative group cursor-pointer border border-white/10">
+                {/* YouTube Video Placeholder */}
+                <div className="absolute inset-0 bg-gray-800 flex items-center justify-center group-hover:bg-gray-700 transition-colors">
+                  <div className="w-16 h-16 rounded-full bg-white/20 flex items-center justify-center backdrop-blur-sm">
+                    <div className="w-0 h-0 border-t-[10px] border-t-transparent border-l-[16px] border-l-white border-b-[10px] border-b-transparent ml-1"></div>
+                  </div>
+                </div>
+              </div>
+              <h3 className="text-xl font-bold">U-12 Komandasının Möhtəşəm Qələbəsi</h3>
+            </div>
+
+            {/* Foto Qalereya */}
+            <div className="flex-1 bg-white border border-gray-200 rounded-[2rem] p-8 md:p-12 shadow-sm">
+              <p className="font-mono text-sm uppercase tracking-[0.2em] text-[#0a1628]/60 mb-4 font-bold">MEDİA</p>
+              <div className="flex justify-between items-end mb-8">
+                <h2 className="text-5xl md:text-6xl font-black font-condensed uppercase text-[var(--ks-ink)] leading-[0.9]">FOTO QALEREYA</h2>
+                <Link href="/media?tab=photos" className="text-sm font-bold text-[var(--ks-ink)]/70 hover:text-[var(--ks-ink)] transition-colors">Hamısı &rarr;</Link>
+              </div>
+              
+              <div className="grid grid-cols-2 gap-4">
+                <div className="aspect-square bg-gray-200 rounded-xl overflow-hidden hover:opacity-90 transition-opacity cursor-pointer"></div>
+                <div className="aspect-square bg-gray-200 rounded-xl overflow-hidden hover:opacity-90 transition-opacity cursor-pointer"></div>
+                <div className="aspect-square bg-gray-200 rounded-xl overflow-hidden hover:opacity-90 transition-opacity cursor-pointer"></div>
+                <div className="aspect-square bg-gray-200 rounded-xl overflow-hidden hover:opacity-90 transition-opacity cursor-pointer"></div>
+              </div>
+            </div>
+          </div>
+        </FadeIn>
+      </section>
+
+      {/* MARQUEE SPONSORLAR / TƏRƏFDAŞLAR */}
+      <section className="py-20 border-t border-[var(--ks-ink)]/10 overflow-hidden bg-white">
+        <div className="text-center mb-8">
+          <p className="font-mono text-sm uppercase tracking-[0.2em] text-[#0a1628]/60 font-bold">SPONSORLAR VƏ TƏRƏFDAŞLAR</p>
+        </div>
         <div className="w-full flex space-x-16 items-center opacity-60 grayscale hover:grayscale-0 hover:opacity-100 transition-all duration-500 animate-[marquee_20s_linear_infinite] whitespace-nowrap">
-          <span className="text-3xl font-black font-condensed tracking-widest text-[#0a1628]">NIKE</span>
-          <span className="text-3xl font-black font-condensed tracking-widest text-[#0a1628]">BAKCELL</span>
-          <span className="text-3xl font-black font-condensed tracking-widest text-[#0a1628]">KAPITAL BANK</span>
-          <span className="text-3xl font-black font-condensed tracking-widest text-[#0a1628]">AFFA</span>
-          <span className="text-3xl font-black font-condensed tracking-widest text-[#0a1628]">NIKE</span>
-          <span className="text-3xl font-black font-condensed tracking-widest text-[#0a1628]">BAKCELL</span>
-          <span className="text-3xl font-black font-condensed tracking-widest text-[#0a1628]">KAPITAL BANK</span>
-          <span className="text-3xl font-black font-condensed tracking-widest text-[#0a1628]">AFFA</span>
-          <span className="text-3xl font-black font-condensed tracking-widest text-[#0a1628]">NIKE</span>
-          <span className="text-3xl font-black font-condensed tracking-widest text-[#0a1628]">BAKCELL</span>
+          {/* Loqolar ucun yazilar */}
+          {['NIKE', 'BAKCELL', 'KAPITAL BANK', 'AFFA', 'SOCAR', 'ASAN'].map((sponsor, i) => (
+             <span key={i} className="text-3xl font-black font-condensed tracking-widest text-[#0a1628]">{sponsor}</span>
+          ))}
+          {['NIKE', 'BAKCELL', 'KAPITAL BANK', 'AFFA', 'SOCAR', 'ASAN'].map((sponsor, i) => (
+             <span key={`dup-${i}`} className="text-3xl font-black font-condensed tracking-widest text-[#0a1628]">{sponsor}</span>
+          ))}
         </div>
       </section>
 

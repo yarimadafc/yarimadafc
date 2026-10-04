@@ -1,75 +1,77 @@
-"use client";
+export const dynamic = 'force-dynamic';
 
-import { useEffect, useState } from "react";
-import { supabase } from "@/lib/supabase";
-import Link from "next/link";
+import Link from 'next/link';
+import { supabase } from '@/lib/supabase';
+import FadeIn from '@/components/FadeIn';
 
-export default function CoachesPage() {
-  const [coaches, setCoaches] = useState<any[]>([]);
-  const [loading, setLoading] = useState(true);
+export default async function CoachesPage() {
+  let coaches: any[] = [];
 
-  useEffect(() => {
-    const fetchCoaches = async () => {
-      try {
-        const { data, error } = await supabase.from("coaches").select("*, team:teams(name)");
-        if (error) throw error;
-        setCoaches(data || []);
-      } catch (err) {
-        console.error(err);
-        setCoaches([
-          { id: 1, name: "Əhməd Əhmədov", role: "Baş Məşqçi", license: "UEFA B", team: { name: "Yarımada U-12" } },
-          { id: 2, name: "Rəşad Məmmədov", role: "Məşqçi", license: "UEFA C", team: { name: "Yarımada U-11" } },
-          { id: 3, name: "Elşən Quliyev", role: "Qapıçı Məşqçisi", license: "UEFA C", team: { name: "Bütün komandalar" } },
-        ]);
-      } finally {
-        setLoading(false);
-      }
-    };
-    fetchCoaches();
-  }, []);
+  try {
+    const res = await supabase.from('coaches').select('*, teams(name)');
+    if (res.data) coaches = res.data;
+  } catch (error) {
+    console.error('Error fetching coaches:', error);
+  }
+
+  // Fallback data
+  if (coaches.length === 0) {
+    coaches = [
+      { id: '1', name: 'Əhməd Məmmədov', role: 'Baş məşqçi', license: 'UEFA B', team_name: 'Yarımada U-12' },
+      { id: '2', name: 'Emin Quliyev', role: 'Baş məşqçi', license: 'UEFA C', team_name: 'Yarımada U-11' },
+      { id: '3', name: 'Rəşad Əliyev', role: 'Baş məşqçi', license: 'UEFA C', team_name: 'Yarımada U-10' },
+      { id: '4', name: 'Vüsal Həsənov', role: 'Məşqçi', license: 'AFFA C', team_name: 'Yarımada U-9' },
+    ];
+  } else {
+    coaches = coaches.map(c => ({...c, team_name: c.teams?.name}));
+  }
 
   return (
-    <div className="min-h-screen bg-white">
-      <div className="bg-[#0a1628] py-16">
-        <div className="container mx-auto px-4 text-center">
-          <h1 className="text-4xl md:text-5xl font-bold uppercase tracking-wider text-white">
-            Məşqçilərimiz
-          </h1>
-          <div className="w-24 h-1 bg-[#c9a84c] mx-auto mt-6"></div>
+    <main className="flex-grow bg-[var(--ks-paper)] text-[var(--ks-ink)]">
+      
+      {/* 1. HERO SECTION */}
+      <section className="pt-32 pb-8 px-4 sm:px-6 lg:px-8 max-w-[1400px] mx-auto">
+        <div className="relative rounded-[2rem] overflow-hidden min-h-[40vh] flex flex-col justify-end p-8 md:p-16 bg-[#0a1628]">
+          <div className="relative z-10 max-w-4xl">
+            <FadeIn>
+              <p className="font-mono text-sm uppercase tracking-[0.2em] text-[var(--ks-kinpaku)] mb-4 font-bold">AKADEMİYA</p>
+              <h1 className="text-7xl md:text-9xl font-black font-condensed uppercase tracking-normal text-white mb-6 leading-[0.85] drop-shadow-xl">
+                MƏŞQÇİLƏRİMİZ
+              </h1>
+            </FadeIn>
+          </div>
         </div>
-      </div>
+      </section>
 
-      <div className="container mx-auto px-4 py-16">
-        {loading ? (
-          <div className="text-center">Yüklənir...</div>
-        ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {coaches.map(coach => (
-              <Link href={`/mesqciler/${coach.id}`} key={coach.id}>
-                <div className="bg-white rounded-xl shadow-lg border border-gray-100 overflow-hidden group hover:-translate-y-2 transition-transform">
-                  <div className="h-64 bg-gray-200 flex items-center justify-center relative">
-                    <span className="text-gray-400">Şəkil</span>
-                    <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-[#0a1628] to-transparent p-4">
-                      <h2 className="text-white font-bold text-2xl truncate">{coach.name}</h2>
-                      <p className="text-[#c9a84c] font-semibold">{coach.role}</p>
+      {/* 2. GRID LIST */}
+      <section className="py-16 px-4 sm:px-6 lg:px-8 max-w-[1400px] mx-auto">
+        <FadeIn>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            {coaches.map((coach) => (
+              <Link key={coach.id} href={`/mesqciler/${coach.id}`} className="bg-[var(--ks-paper-deep)] rounded-[2rem] overflow-hidden group">
+                <div className="aspect-[3/4] bg-gray-200 relative overflow-hidden">
+                  {coach.photo_url ? (
+                    <img src={coach.photo_url} alt={coach.name} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                  ) : (
+                    <div className="absolute inset-0 flex items-center justify-center bg-[#0a1628]/5 text-gray-400">
+                      <svg className="w-20 h-20" fill="currentColor" viewBox="0 0 24 24"><path d="M24 20.993V24H0v-2.996A14.977 14.977 0 0112.004 15c4.904 0 9.26 2.354 11.996 5.993zM16.002 8.999a4 4 0 11-8 0 4 4 0 018 0z" /></svg>
                     </div>
+                  )}
+                  <div className="absolute top-4 right-4 bg-white px-3 py-1 rounded-full shadow-sm text-xs font-bold font-mono text-[var(--ks-ink)]">
+                    {coach.license || 'Lisenziya'}
                   </div>
-                  <div className="p-6">
-                    <div className="flex justify-between items-center text-sm mb-2">
-                      <span className="text-gray-500">Komanda:</span>
-                      <span className="font-bold text-[#0a1628]">{coach.team?.name || "-"}</span>
-                    </div>
-                    <div className="flex justify-between items-center text-sm">
-                      <span className="text-gray-500">Lisenziya:</span>
-                      <span className="font-bold text-[#0a1628]">{coach.license || "-"}</span>
-                    </div>
-                  </div>
+                </div>
+                <div className="p-8 border-t-4 border-transparent group-hover:border-[var(--ks-kinpaku)] transition-colors">
+                  <h3 className="text-2xl font-black font-condensed uppercase tracking-wide text-[var(--ks-ink)] mb-1">{coach.name}</h3>
+                  <p className="text-[var(--ks-kinpaku-rich)] font-bold text-sm uppercase tracking-wider mb-3">{coach.role}</p>
+                  <p className="text-xs font-mono text-gray-500 uppercase">{coach.team_name || 'Komandasız'}</p>
                 </div>
               </Link>
             ))}
           </div>
-        )}
-      </div>
-    </div>
+        </FadeIn>
+      </section>
+
+    </main>
   );
 }

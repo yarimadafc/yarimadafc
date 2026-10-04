@@ -1,97 +1,83 @@
-"use client";
+export const dynamic = 'force-dynamic';
 
-import { useEffect, useState } from "react";
-import { supabase } from "@/lib/supabase";
-import Link from "next/link";
-import { useParams } from "next/navigation";
+import Link from 'next/link';
+import { supabase } from '@/lib/supabase';
+import FadeIn from '@/components/FadeIn';
 
-export default function CoachProfilePage() {
-  const params = useParams();
-  const id = params.id;
-  const [coach, setCoach] = useState<any>(null);
-  const [loading, setLoading] = useState(true);
+export default async function CoachProfilePage({ params }: { params: { id: string } }) {
+  let coach: any = null;
 
-  useEffect(() => {
-    const fetchCoach = async () => {
-      try {
-        const { data, error } = await supabase
-          .from("coaches")
-          .select("*, team:teams(name)")
-          .eq("id", id)
-          .single();
-          
-        if (error) throw error;
-        setCoach(data);
-      } catch (err) {
-        console.error(err);
-        setCoach({
-          id,
-          name: "Əhməd Əhmədov",
-          role: "Baş Məşqçi",
-          license: "UEFA B",
-          experience: "8 il",
-          team: { name: "Yarımada U-12" },
-          bio: "Əhməd Əhmədov 8 ildən çoxdur ki, uşaq futbolunda fəaliyyət göstərir. Müxtəlif yaş qruplarında çempionluqlar yaşayıb və istedadlı futbolçuların yetişməsində böyük rolu var."
-        });
-      } finally {
-        setLoading(false);
-      }
+  try {
+    const res = await supabase.from('coaches').select('*, teams(name)').eq('id', params.id).single();
+    if (res.data) coach = res.data;
+  } catch (error) {
+    console.error('Error fetching coach details:', error);
+  }
+
+  // Mock data if not found
+  if (!coach) {
+    coach = {
+      id: params.id,
+      name: 'Əhməd Məmmədov',
+      role: 'Baş məşqçi',
+      experience: '8 il',
+      license: 'UEFA B',
+      bio: 'Əhməd Məmmədov uzun illər peşəkar futbolda çıxış etdikdən sonra məşqçilik karyerasına başlamışdır. Uşaq futbolunda böyük təcrübəyə malikdir və akademiyamızın əsas fəlsəfəsini formalaşdıran mütəxəssislərdəndir.',
+      teams: { name: 'Yarımada U-12' }
     };
-    if (id) fetchCoach();
-  }, [id]);
-
-  if (loading) return <div className="min-h-screen pt-24 text-center">Yüklənir...</div>;
-  if (!coach) return <div className="min-h-screen pt-24 text-center">Məşqçi tapılmadı</div>;
+  }
 
   return (
-    <div className="min-h-screen bg-gray-50 pt-24 pb-16">
-      <div className="container mx-auto px-4">
-        <Link href="/mesqciler" className="inline-block mb-8 text-[#0a1628] font-bold hover:text-[#c9a84c] transition">
-          ← Məşqçilərə qayıt
-        </Link>
-
-        <div className="bg-white rounded-2xl shadow-xl overflow-hidden max-w-4xl mx-auto">
-          <div className="md:flex">
-            <div className="md:w-2/5 bg-[#0a1628] p-10 flex flex-col items-center justify-center text-center">
-              <div className="w-48 h-48 bg-gray-700 rounded-full flex items-center justify-center mb-6 border-4 border-[#c9a84c]">
-                <span className="text-gray-400">Şəkil</span>
+    <main className="flex-grow bg-[var(--ks-paper)] text-[var(--ks-ink)] pt-32 pb-16 px-4 sm:px-6 lg:px-8 max-w-[1400px] mx-auto">
+      <Link href="/mesqciler" className="text-gray-500 hover:text-[var(--ks-ink)] font-bold flex items-center gap-2 transition-colors mb-8">
+        &larr; Məşqçilərə qayıt
+      </Link>
+      
+      <FadeIn>
+        <div className="bg-[var(--ks-paper-deep)] rounded-[2rem] overflow-hidden flex flex-col md:flex-row shadow-sm">
+          {/* Coach Photo Section */}
+          <div className="w-full md:w-1/3 bg-[#0a1628] flex items-center justify-center relative min-h-[400px]">
+            {coach.photo_url ? (
+              <img src={coach.photo_url} alt={coach.name} className="absolute inset-0 w-full h-full object-cover" />
+            ) : (
+              <div className="absolute inset-0 flex items-center justify-center text-white/20">
+                <svg className="w-48 h-48" fill="currentColor" viewBox="0 0 24 24"><path d="M24 20.993V24H0v-2.996A14.977 14.977 0 0112.004 15c4.904 0 9.26 2.354 11.996 5.993zM16.002 8.999a4 4 0 11-8 0 4 4 0 018 0z" /></svg>
               </div>
-              <h1 className="text-3xl font-bold text-white uppercase mb-2">{coach.name}</h1>
-              <div className="bg-[#c9a84c] text-[#0a1628] px-4 py-1 rounded font-bold uppercase tracking-wider text-sm">
-                {coach.role}
+            )}
+            <div className="absolute inset-0 bg-gradient-to-t from-[#0a1628] to-transparent" />
+            
+            <div className="absolute bottom-8 left-8 right-8 text-center z-10">
+              <h1 className="text-4xl font-black font-condensed uppercase text-white mb-1">{coach.name}</h1>
+              <p className="text-[var(--ks-kinpaku)] font-mono uppercase tracking-widest text-sm">{coach.role}</p>
+            </div>
+          </div>
+
+          {/* Coach Info Section */}
+          <div className="flex-1 p-8 md:p-16">
+            <h2 className="text-2xl font-black font-condensed uppercase mb-8 text-gray-400">MƏŞQÇİ MƏLUMATLARI</h2>
+            
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 mb-12">
+              <div className="bg-white p-6 rounded-2xl border border-gray-100">
+                <p className="text-xs font-mono text-gray-500 uppercase mb-2">Komanda</p>
+                <p className="font-bold text-lg">{coach.teams?.name || 'Komandasız'}</p>
+              </div>
+              <div className="bg-white p-6 rounded-2xl border border-gray-100">
+                <p className="text-xs font-mono text-gray-500 uppercase mb-2">Təcrübə</p>
+                <p className="font-bold text-lg">{coach.experience || '-'}</p>
+              </div>
+              <div className="bg-[var(--ks-ink)] text-[var(--ks-kinpaku)] p-6 rounded-2xl">
+                <p className="text-xs font-mono uppercase mb-2 opacity-70">Lisenziya</p>
+                <p className="font-black font-condensed text-3xl uppercase">{coach.license || '-'}</p>
               </div>
             </div>
-            
-            <div className="md:w-3/5 p-10">
-              <h2 className="text-2xl font-bold text-[#0a1628] border-b-2 border-gray-100 pb-4 mb-6 uppercase tracking-wide">
-                Məşqçi Profili
-              </h2>
-              
-              <div className="grid grid-cols-2 gap-y-6 gap-x-8 mb-8">
-                <div>
-                  <p className="text-gray-500 text-sm mb-1">Lisenziya</p>
-                  <p className="font-bold text-lg text-[#0a1628]">{coach.license || "-"}</p>
-                </div>
-                <div>
-                  <p className="text-gray-500 text-sm mb-1">Təcrübə</p>
-                  <p className="font-bold text-lg text-[#0a1628]">{coach.experience || "-"}</p>
-                </div>
-                <div className="col-span-2">
-                  <p className="text-gray-500 text-sm mb-1">Məşq etdirdiyi komanda</p>
-                  <p className="font-bold text-lg text-[#0a1628]">{coach.team?.name || "Bütün komandalar"}</p>
-                </div>
-              </div>
 
-              <div>
-                <h3 className="text-lg font-bold text-[#0a1628] mb-3">Haqqında</h3>
-                <p className="text-gray-600 leading-relaxed">
-                  {coach.bio || "Məlumat daxil edilməyib."}
-                </p>
-              </div>
+            <h2 className="text-2xl font-black font-condensed uppercase mb-6 text-gray-400">QISA BİOQRAFİYA</h2>
+            <div className="prose prose-lg text-[var(--ks-ink)]/80 leading-relaxed">
+              <p>{coach.bio || 'Bioqrafiya əlavə edilməyib.'}</p>
             </div>
           </div>
         </div>
-      </div>
-    </div>
+      </FadeIn>
+    </main>
   );
 }

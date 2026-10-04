@@ -1,187 +1,142 @@
-"use client";
+export const dynamic = 'force-dynamic';
 
-import { useEffect, useState } from "react";
-import { supabase } from "@/lib/supabase";
-import Link from "next/link";
-import { useParams } from "next/navigation";
+import Image from 'next/image';
+import Link from 'next/link';
+import { supabase } from '@/lib/supabase';
+import FadeIn from '@/components/FadeIn';
 
-export default function TeamDetailPage() {
-  const params = useParams();
-  const id = params.id;
-  
-  const [data, setData] = useState<any>(null);
-  const [loading, setLoading] = useState(true);
+export default async function TeamDetailPage({ params }: { params: { id: string } }) {
+  let team: any = null;
+  let players: any[] = [];
+  let coaches: any[] = [];
+  let matches: any[] = [];
 
-  useEffect(() => {
-    const fetchTeamData = async () => {
-      try {
-        const [teamRes, playersRes, coachesRes] = await Promise.all([
-          supabase.from("teams").select("*").eq("id", id).single(),
-          supabase.from("players").select("*").eq("team_id", id),
-          supabase.from("coaches").select("*").eq("team_id", id)
-        ]);
+  try {
+    // Parallel fetch
+    const [teamRes, playersRes, coachesRes, matchesRes] = await Promise.all([
+      supabase.from('teams').select('*').eq('id', params.id).single(),
+      supabase.from('players').select('*').eq('team_id', params.id),
+      supabase.from('coaches').select('*').eq('team_id', params.id),
+      supabase.from('matches').select('*').or(`home_team_id.eq.${params.id},away_team_id.eq.${params.id}`).order('date', { ascending: false }).limit(5)
+    ]);
 
-        if (teamRes.error) throw teamRes.error;
+    if (teamRes.data) team = teamRes.data;
+    if (playersRes.data) players = playersRes.data;
+    if (coachesRes.data) coaches = coachesRes.data;
+    if (matchesRes.data) matches = matchesRes.data;
+  } catch (error) {
+    console.error('Error fetching team details:', error);
+  }
 
-        setData({
-          team: teamRes.data,
-          players: playersRes.data || [],
-          coaches: coachesRes.data || [],
-          matches: [],
-          schedule: []
-        });
-      } catch (err) {
-        console.error(err);
-        // Mock data
-        setData({
-          team: { id, name: "Yarımada U-12", age_group: "U-12" },
-          players: [
-            { id: 1, name: "Əli Əliyev", position: "Hücumçu", jersey_number: 9 },
-            { id: 2, name: "Vəli Vəliyev", position: "Yarımmüdafiəçi", jersey_number: 10 },
-          ],
-          coaches: [
-            { id: 1, name: "Əhməd Əhmədov", role: "Baş Məşqçi" }
-          ],
-          matches: [
-            { id: 1, date: "2023-10-15", opponent: "Qarabağ U-12", result: "2-1 (Q)" },
-            { id: 2, date: "2023-10-22", opponent: "Neftçi U-12", result: "1-1 (H)" },
-          ],
-          schedule: [
-            { id: 1, day: "Bazar ertəsi", time: "18:00 - 19:30", location: "Əsas Meydan" },
-            { id: 2, day: "Çərşənbə", time: "18:00 - 19:30", location: "Əsas Meydan" },
-          ]
-        });
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    if (id) fetchTeamData();
-  }, [id]);
-
-  if (loading) return <div className="min-h-screen pt-24 text-center">Yüklənir...</div>;
-  if (!data?.team) return <div className="min-h-screen pt-24 text-center">Komanda tapılmadı</div>;
-
-  const { team, players, coaches, matches, schedule } = data;
+  // Mock data if no team found
+  if (!team) {
+    team = { id: params.id, name: 'Yarımada U-12', age_group: 'U-12', description: 'Gələcəyin ulduzları' };
+    coaches = [{ id: '1', name: 'Əhməd Məmmədov', role: 'Baş məşqçi' }];
+    players = [
+      { id: '1', name: 'Vaqif Əliyev', position: 'Hücumçu', jersey_number: 9 },
+      { id: '2', name: 'Nadir Quliyev', position: 'Yarımmüdafiəçi', jersey_number: 10 },
+      { id: '3', name: 'Səməd Həsənov', position: 'Müdafiəçi', jersey_number: 4 },
+      { id: '4', name: 'Emil Kərimov', position: 'Qapıçı', jersey_number: 1 },
+    ];
+  }
 
   return (
-    <div className="min-h-screen bg-gray-50 pb-16">
-      {/* Header */}
-      <div className="bg-[#0a1628] text-white pt-24 pb-16">
-        <div className="container mx-auto px-4">
-          <div className="flex flex-col md:flex-row items-center gap-8">
-            <div className="w-48 h-48 bg-gray-800 rounded-full flex items-center justify-center border-4 border-[#c9a84c]">
-              <span className="text-gray-400">Komanda Loqosu</span>
-            </div>
-            <div className="text-center md:text-left">
-              <div className="inline-block bg-[#c9a84c] text-[#0a1628] px-3 py-1 font-bold rounded mb-4">
-                {team.age_group}
+    <main className="flex-grow bg-[var(--ks-paper)] text-[var(--ks-ink)]">
+      
+      {/* 1. HERO SECTION */}
+      <section className="pt-32 pb-8 px-4 sm:px-6 lg:px-8 max-w-[1400px] mx-auto">
+        <div className="relative rounded-[2rem] overflow-hidden min-h-[50vh] flex flex-col justify-end p-8 md:p-16 bg-[#0a1628]">
+          <Link href="/komandalar" className="absolute top-8 left-8 text-white/50 hover:text-white font-bold flex items-center gap-2 transition-colors z-20">
+            &larr; Bütün komandalar
+          </Link>
+          <div className="relative z-10 max-w-4xl">
+            <FadeIn>
+              <div className="flex items-center gap-4 mb-4">
+                <span className="bg-[var(--ks-kinpaku)] text-[#0a1628] font-black text-xl px-4 py-1 rounded-full">{team.age_group}</span>
               </div>
-              <h1 className="text-4xl md:text-5xl font-bold uppercase tracking-wider mb-2">
+              <h1 className="text-6xl md:text-8xl font-black font-condensed uppercase tracking-normal text-white mb-6 leading-[0.85]">
                 {team.name}
               </h1>
-            </div>
+            </FadeIn>
           </div>
         </div>
-      </div>
+      </section>
 
-      <div className="container mx-auto px-4 mt-12 space-y-16">
-        {/* Coaches */}
-        <section>
-          <h2 className="text-3xl font-bold text-[#0a1628] uppercase tracking-wider mb-8 border-l-4 border-[#c9a84c] pl-4">
-            Məşqçi Heyəti
-          </h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {coaches.map((coach: any) => (
-              <Link href={`/mesqciler/${coach.id}`} key={coach.id}>
-                <div className="bg-white p-6 rounded-xl shadow border border-gray-100 flex items-center gap-4 hover:shadow-md transition">
-                  <div className="w-20 h-20 bg-gray-200 rounded-full flex-shrink-0 flex items-center justify-center text-xs text-gray-500">Şəkil</div>
-                  <div>
-                    <h3 className="text-xl font-bold text-[#0a1628]">{coach.name}</h3>
-                    <p className="text-gray-500">{coach.role}</p>
-                  </div>
-                </div>
-              </Link>
-            ))}
-          </div>
-        </section>
-
-        {/* Players */}
-        <section>
-          <h2 className="text-3xl font-bold text-[#0a1628] uppercase tracking-wider mb-8 border-l-4 border-[#c9a84c] pl-4">
-            Oyunçular
-          </h2>
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
-            {players.map((player: any) => (
-              <Link href={`/futbolcular/${player.id}`} key={player.id}>
-                <div className="bg-white rounded-xl shadow border border-gray-100 overflow-hidden text-center group hover:-translate-y-1 transition">
-                  <div className="h-48 bg-gray-200 flex items-center justify-center relative">
-                    <span className="text-gray-400 text-sm">Oyunçu Şəkli</span>
-                    <div className="absolute top-2 left-2 bg-[#0a1628] text-white w-8 h-8 rounded-full flex items-center justify-center font-bold">
-                      {player.jersey_number}
+      {/* 2. MAIN CONTENT (GRID) */}
+      <section className="py-8 px-4 sm:px-6 lg:px-8 max-w-[1400px] mx-auto">
+        <div className="flex flex-col lg:flex-row gap-8">
+          
+          {/* LEFT COLUMN: Players */}
+          <div className="flex-1">
+            <FadeIn>
+              <h2 className="text-4xl font-black font-condensed uppercase mb-8">FUTBOLÇULAR</h2>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                {players.map((player) => (
+                  <Link key={player.id} href={`/futbolcular/${player.id}`} className="bg-[var(--ks-paper-deep)] rounded-[2rem] p-6 flex items-center gap-6 group hover:bg-[#0a1628] hover:text-white transition-colors">
+                    <div className="w-16 h-16 rounded-full bg-gray-200 overflow-hidden shrink-0 border-2 border-transparent group-hover:border-[var(--ks-kinpaku)]">
+                      {player.photo_url ? (
+                        <img src={player.photo_url} alt={player.name} className="w-full h-full object-cover" />
+                      ) : (
+                        <div className="w-full h-full bg-[#0a1628]/10 flex items-center justify-center">
+                          <span className="font-bold text-gray-400 text-xl">{player.jersey_number}</span>
+                        </div>
+                      )}
                     </div>
-                  </div>
-                  <div className="p-4">
-                    <h3 className="font-bold text-[#0a1628] truncate">{player.name}</h3>
-                    <p className="text-sm text-gray-500">{player.position}</p>
-                  </div>
-                </div>
-              </Link>
-            ))}
-          </div>
-        </section>
-
-        <div className="grid md:grid-cols-2 gap-8">
-          {/* Matches */}
-          <section>
-            <h2 className="text-2xl font-bold text-[#0a1628] uppercase tracking-wider mb-6 border-l-4 border-[#c9a84c] pl-4">
-              Son Oyunlar
-            </h2>
-            <div className="bg-white rounded-xl shadow border border-gray-100 overflow-hidden">
-              <table className="w-full text-left">
-                <thead className="bg-[#0a1628] text-white">
-                  <tr>
-                    <th className="p-4">Tarix</th>
-                    <th className="p-4">Rəqib</th>
-                    <th className="p-4">Nəticə</th>
-                  </tr>
-                </thead>
-                <tbody className="divide-y divide-gray-100">
-                  {matches.map((match: any) => (
-                    <tr key={match.id}>
-                      <td className="p-4 text-gray-600">{match.date}</td>
-                      <td className="p-4 font-bold text-[#0a1628]">{match.opponent}</td>
-                      <td className="p-4 font-bold">{match.result}</td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-          </section>
-
-          {/* Training Schedule */}
-          <section>
-            <h2 className="text-2xl font-bold text-[#0a1628] uppercase tracking-wider mb-6 border-l-4 border-[#c9a84c] pl-4">
-              Məşq Cədvəli
-            </h2>
-            <div className="bg-white rounded-xl shadow border border-gray-100 p-6">
-              <div className="space-y-4">
-                {schedule.map((item: any) => (
-                  <div key={item.id} className="flex justify-between items-center border-b border-gray-100 pb-4 last:border-0 last:pb-0">
                     <div>
-                      <h4 className="font-bold text-[#0a1628]">{item.day}</h4>
-                      <p className="text-sm text-gray-500">{item.location}</p>
+                      <h3 className="font-bold text-xl mb-1">{player.name}</h3>
+                      <p className="text-sm font-mono uppercase text-gray-500 group-hover:text-gray-400">{player.position}</p>
                     </div>
-                    <div className="bg-gray-100 px-3 py-1 rounded text-[#0a1628] font-semibold">
-                      {item.time}
-                    </div>
-                  </div>
+                  </Link>
                 ))}
               </div>
-            </div>
-          </section>
+            </FadeIn>
+          </div>
+
+          {/* RIGHT COLUMN: Sidebar (Coaches, Schedule, Stats) */}
+          <div className="w-full lg:w-96 flex flex-col gap-8 shrink-0">
+            <FadeIn delay={0.1}>
+              <div className="bg-[var(--ks-paper-deep)] rounded-[2rem] p-8">
+                <h3 className="text-2xl font-black font-condensed uppercase mb-6">MƏŞQÇİLƏR</h3>
+                <div className="flex flex-col gap-4">
+                  {coaches.map((coach) => (
+                    <Link key={coach.id} href={`/mesqciler/${coach.id}`} className="flex items-center gap-4 group">
+                      <div className="w-12 h-12 rounded-full bg-gray-300 overflow-hidden">
+                        {coach.photo_url && <img src={coach.photo_url} alt={coach.name} className="w-full h-full object-cover" />}
+                      </div>
+                      <div>
+                        <p className="font-bold group-hover:text-[var(--ks-kinpaku-rich)] transition-colors">{coach.name}</p>
+                        <p className="text-xs font-mono text-gray-500 uppercase">{coach.role}</p>
+                      </div>
+                    </Link>
+                  ))}
+                </div>
+              </div>
+            </FadeIn>
+
+            <FadeIn delay={0.2}>
+              <div className="bg-[#0a1628] text-white rounded-[2rem] p-8">
+                <h3 className="text-2xl font-black font-condensed uppercase mb-6 text-[var(--ks-kinpaku)]">MƏŞQ CƏDVƏLİ</h3>
+                <ul className="space-y-4 font-mono text-sm">
+                  <li className="flex justify-between border-b border-white/10 pb-2">
+                    <span className="text-gray-400">Çərşənbə axşamı</span>
+                    <span className="font-bold">18:00</span>
+                  </li>
+                  <li className="flex justify-between border-b border-white/10 pb-2">
+                    <span className="text-gray-400">Cümə axşamı</span>
+                    <span className="font-bold">18:00</span>
+                  </li>
+                  <li className="flex justify-between border-b border-white/10 pb-2">
+                    <span className="text-gray-400">Şənbə</span>
+                    <span className="font-bold">10:00</span>
+                  </li>
+                </ul>
+              </div>
+            </FadeIn>
+          </div>
+
         </div>
-      </div>
-    </div>
+      </section>
+
+    </main>
   );
 }

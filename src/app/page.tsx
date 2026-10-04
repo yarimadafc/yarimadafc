@@ -72,8 +72,8 @@ export default async function Home() {
       {/* MATCHES (Next Match & Last Match) */}
       <section id="oyunlar" className="py-16 px-4 sm:px-6 lg:px-8 max-w-[1400px] mx-auto">
         <FadeIn>
-          <div className="flex justify-between items-end mb-10">
-            <div>
+          <div className="flex flex-col md:flex-row justify-between items-center md:items-end mb-10 gap-4 md:gap-0">
+            <div className="text-center md:text-left w-full md:w-auto">
               <p className="font-mono text-sm uppercase tracking-[0.2em] text-[#0a1628]/60 mb-4 font-bold">MEYDANDA</p>
               <h2 className="text-6xl md:text-7xl font-black font-condensed uppercase text-[var(--ks-ink)] leading-[0.9]">
                 OYUNLAR
@@ -94,8 +94,8 @@ export default async function Home() {
       {/* TURNİR CƏDVƏLİ WIDGET */}
       <section className="py-8 px-4 sm:px-6 lg:px-8 max-w-[1400px] mx-auto">
         <FadeIn>
-          <div className="flex flex-col md:flex-row justify-between items-end mb-8">
-            <div>
+          <div className="flex flex-col md:flex-row justify-between items-center md:items-end mb-8 gap-4 md:gap-0">
+            <div className="text-center md:text-left w-full md:w-auto">
               <p className="font-mono text-sm uppercase tracking-[0.2em] text-[#0a1628]/60 mb-2 font-bold">STATİSTİKA</p>
               <h2 className="text-4xl md:text-6xl font-black font-condensed uppercase text-[var(--ks-ink)] leading-[0.9]">
                 TURNİR CƏDVƏLİ
@@ -197,8 +197,8 @@ export default async function Home() {
       {/* XƏBƏRLƏR */}
       <section className="py-16 px-4 sm:px-6 lg:px-8 max-w-[1400px] mx-auto">
         <FadeIn>
-          <div className="flex justify-between items-end mb-10">
-            <div>
+          <div className="flex flex-col md:flex-row justify-between items-center md:items-end mb-10 gap-4 md:gap-0">
+            <div className="text-center md:text-left w-full md:w-auto">
               <p className="font-mono text-sm uppercase tracking-[0.2em] text-[#0a1628]/60 mb-4 font-bold">XƏBƏRLƏR</p>
               <h2 className="text-6xl md:text-7xl font-black font-condensed uppercase text-[var(--ks-ink)] leading-[0.9]">
                 SON YENİLİKLƏR

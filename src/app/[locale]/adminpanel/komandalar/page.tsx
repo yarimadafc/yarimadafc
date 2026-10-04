@@ -39,7 +39,7 @@ export default function AdminList() {
           <tbody>
             {data.map(item => (
               <tr key={item.id} className="border-b">
-                <td className="p-4">{item.name}</td><td className="p-4">{item.age_group}</td>
+                <td className="p-4">{item.name_az || item.name}</td><td className="p-4">{item.age_group}</td>
                 <td className="p-4 text-right space-x-4">
                   <Link href={`/adminpanel/komandalar/${item.id}`} className="text-blue-500 hover:underline">Redaktə</Link>
                   <button onClick={() => deleteItem(item.id)} className="text-red-500 hover:underline">Sil</button>

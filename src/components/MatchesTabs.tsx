@@ -13,11 +13,11 @@ export default function MatchesTabs({ nextMatch, lastMatch }: { nextMatch: any, 
     <div className="flex flex-col items-center">
       {/* Instrument Strip (Thumb Slider) from Impeccable */}
       <div 
-        className="ks-instrument-strip is-paper mb-10" 
+        className="flex items-center bg-gray-100 border border-gray-200 p-1.5 rounded-full mb-10 w-full max-w-sm" 
         role="tablist"
       >
         <button 
-          className="ks-instrument-key" 
+          className={`flex-1 text-center py-2.5 px-4 rounded-full font-bold text-sm transition-colors ${isNext ? 'bg-[var(--ks-ink)] text-white shadow-sm' : 'text-gray-500 hover:text-[var(--ks-ink)]'}`} 
           role="tab" 
           aria-selected={isNext}
           onClick={() => setActiveTab('next')}
@@ -25,7 +25,7 @@ export default function MatchesTabs({ nextMatch, lastMatch }: { nextMatch: any, 
           Növbəti Oyun
         </button>
         <button 
-          className="ks-instrument-key" 
+          className={`flex-1 text-center py-2.5 px-4 rounded-full font-bold text-sm transition-colors ${!isNext ? 'bg-[var(--ks-ink)] text-white shadow-sm' : 'text-gray-500 hover:text-[var(--ks-ink)]'}`} 
           role="tab" 
           aria-selected={!isNext}
           onClick={() => setActiveTab('last')}

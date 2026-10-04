@@ -17,8 +17,8 @@ export default function TeamsPage() {
       
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
         {players.map((player, index) => (
-          <div key={index} className="bg-[var(--surface)] rounded-xl shadow-lg overflow-hidden border border-[var(--border)] flex flex-col items-center text-center p-6">
-            <div className="w-24 h-24 bg-[var(--border)] rounded-full mb-4 flex items-center justify-center text-[var(--text-muted)] text-3xl font-bold">
+          <div key={index} className="bg-white rounded-xl shadow-lg overflow-hidden border border-gray-100 flex flex-col items-center text-center p-6">
+            <div className="w-24 h-24 bg-gray-200 rounded-full mb-4 flex items-center justify-center text-gray-500 text-3xl font-bold">
               {player.number}
             </div>
             <h3 className="text-xl font-bold mb-1">{player.name}</h3>

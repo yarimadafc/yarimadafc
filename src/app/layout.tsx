@@ -1,17 +1,23 @@
 import type { Metadata } from 'next';
-import { Inter, Space_Grotesk } from 'next/font/google';
+import { Albert_Sans, JetBrains_Mono, Alumni_Sans } from 'next/font/google';
 import './globals.css';
 import ClientLayout from '@/components/ClientLayout';
 
-const inter = Inter({ 
+const albert = Albert_Sans({ 
   subsets: ['latin'], 
-  variable: '--font-sans'
+  weight: ['400', '500', '600', '700', '800', '900'],
+  variable: '--font-albert'
 });
 
-const spaceGrotesk = Space_Grotesk({ 
+const alumni = Alumni_Sans({ 
   subsets: ['latin'], 
-  weight: ['400', '500', '600', '700'],
-  variable: '--font-display'
+  weight: ['700', '800', '900'],
+  variable: '--font-alumni'
+});
+
+const jetbrains = JetBrains_Mono({ 
+  subsets: ['latin'],
+  variable: '--font-jetbrains'
 });
 
 export const metadata: Metadata = {
@@ -31,7 +37,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="az" className={`${inter.variable} ${spaceGrotesk.variable}`}>
+    <html lang="az" className={`${albert.variable} ${alumni.variable} ${jetbrains.variable}`}>
       <head>
         <link rel="icon" type="image/jpeg" href="/Logo.JPG.jpeg" />
         <link rel="apple-touch-icon" href="/Logo.JPG.jpeg" />

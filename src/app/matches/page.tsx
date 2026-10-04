@@ -9,7 +9,7 @@ export default function MatchesPage() {
     <div className="max-w-7xl mx-auto py-10 px-4 sm:px-6 lg:px-8">
       <h1 className="text-4xl font-bold mb-8 text-center text-green-800">Oyunlar və Nəticələr</h1>
       
-      <div className="bg-[var(--surface)] shadow-md rounded-lg overflow-hidden">
+      <div className="bg-white shadow-md rounded-lg overflow-hidden">
         <table className="min-w-full divide-y divide-gray-200">
           <thead className="bg-green-700 text-white">
             <tr>
@@ -20,18 +20,18 @@ export default function MatchesPage() {
               <th scope="col" className="px-6 py-3 text-center text-xs font-medium uppercase tracking-wider">Status</th>
             </tr>
           </thead>
-          <tbody className="bg-[var(--surface)] divide-y divide-gray-200">
+          <tbody className="bg-white divide-y divide-gray-200">
             {matches.map((match, index) => (
-              <tr key={index} className={index % 2 === 0 ? 'bg-[var(--surface)]' : 'bg-[var(--surface-2)]'}>
-                <td className="px-6 py-4 whitespace-nowrap text-sm text-[var(--text-muted)]">{match.date}</td>
-                <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-[var(--text)] text-right">{match.home}</td>
+              <tr key={index} className={index % 2 === 0 ? 'bg-white' : 'bg-gray-50'}>
+                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{match.date}</td>
+                <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 text-right">{match.home}</td>
                 <td className="px-6 py-4 whitespace-nowrap text-lg font-bold text-center">
                   <span className={match.status === 'Növbəti Oyun' ? 'bg-yellow-100 text-yellow-800 px-3 py-1 rounded-full' : 'bg-green-100 text-green-800 px-3 py-1 rounded-full'}>
                     {match.result}
                   </span>
                 </td>
-                <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-[var(--text)]">{match.away}</td>
-                <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-[var(--text-muted)]">{match.status}</td>
+                <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{match.away}</td>
+                <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-gray-500">{match.status}</td>
               </tr>
             ))}
           </tbody>

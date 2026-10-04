@@ -33,7 +33,7 @@ export default async function NewsPage({ searchParams }: { searchParams: Promise
   ];
 
   return (
-    <main className="flex-grow bg-[var(--ks-paper)] text-[var(--ks-ink)] pt-32 pb-16 px-4 sm:px-6 lg:px-8 max-w-[1400px] mx-auto">
+    <main className="flex-grow bg-[var(--ks-paper)] text-[var(--ks-ink)] pt-40 pb-16 px-4 sm:px-6 lg:px-8 max-w-[1400px] mx-auto">
       
       {/* HERO */}
       <div className="relative rounded-[2rem] overflow-hidden min-h-[30vh] flex flex-col justify-end p-8 md:p-12 bg-[#0a1628] mb-12">
@@ -41,7 +41,7 @@ export default async function NewsPage({ searchParams }: { searchParams: Promise
         <div className="relative z-10 max-w-4xl">
           <FadeIn>
             <p className="font-mono text-sm uppercase tracking-[0.2em] text-[var(--ks-kinpaku)] mb-4 font-bold">MEDİA</p>
-            <h1 className="text-6xl md:text-8xl font-black font-condensed uppercase tracking-normal text-white leading-[0.85] drop-shadow-xl">
+            <h1 className="text-4xl sm:text-5xl md:text-8xl font-black font-condensed uppercase tracking-normal text-white leading-[0.85] drop-shadow-xl">
               XƏBƏRLƏR
             </h1>
           </FadeIn>

@@ -29,7 +29,7 @@ html {
 }
 
 body {
-  background-color: var(--ks-paper);
+  background-color: #0a1628;
   color: var(--ks-ink);
   font-family: var(--ks-font);
 }

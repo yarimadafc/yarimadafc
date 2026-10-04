@@ -31,7 +31,7 @@ export default async function ClubPage() {
   return (
     <main className="flex-grow bg-[var(--ks-paper)] text-[var(--ks-ink)]">
       {/* 1. HERO SECTION */}
-      <section className="pt-32 pb-8 px-4 sm:px-6 lg:px-8 max-w-[1400px] mx-auto">
+      <section className="pt-40 pb-8 px-4 sm:px-6 lg:px-8 max-w-[1400px] mx-auto">
         <div className="relative rounded-[2rem] overflow-hidden min-h-[60vh] flex flex-col justify-end p-8 md:p-16">
           <div className="absolute inset-0 z-0">
             <div className="w-full h-full bg-[#0a1628]" />

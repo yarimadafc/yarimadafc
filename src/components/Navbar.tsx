@@ -116,8 +116,8 @@ export default function Navbar() {
             transition={{ duration: 0.3, ease: [0.25, 1, 0.5, 1] }}
             className="fixed top-0 left-0 right-0 z-[60] bg-[#0a1628]/98 backdrop-blur-3xl p-6 pb-10 flex flex-col shadow-2xl rounded-b-[2.5rem] border-b border-white/10 max-h-[90vh] overflow-y-auto"
           >
-            <div className="flex justify-between items-center mb-8 shrink-0 border-b border-white/10 pb-6">
-              <Link href="/" onClick={(e) => { handleLogoClick(e); setMobileOpen(false); }} className="flex items-center gap-4">
+            <div className="flex flex-col items-center justify-center relative mb-8 shrink-0 border-b border-white/10 pb-6">
+              <Link href="/" onClick={(e) => { handleLogoClick(e); setMobileOpen(false); }} className="flex flex-col items-center gap-2">
                 <div className="relative w-14 h-14 rounded-full overflow-hidden border-2 border-[var(--ks-kinpaku)] shadow-[0_0_20px_rgba(201,168,76,0.3)]">
                   <Image src="/Logo.JPG.jpeg" alt="Yarımada FK Logo" fill className="object-cover" />
                 </div>
@@ -125,7 +125,7 @@ export default function Navbar() {
                   Yarımada FK
                 </span>
               </Link>
-              <button onClick={() => setMobileOpen(false)} className="p-3 bg-white/10 rounded-full border border-white/20 text-white">
+              <button onClick={() => setMobileOpen(false)} className="absolute right-0 top-0 p-3 bg-white/10 rounded-full border border-white/20 text-white">
                 <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M6 18L18 6M6 6l12 12" />
                 </svg>

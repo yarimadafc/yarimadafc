@@ -1,0 +1,4 @@
+#!/bin/bash
+sed -i '' 's/className="flex justify-between items-center mb-8 shrink-0 border-b border-white\/10 pb-6"/className="flex flex-col items-center justify-center relative mb-8 shrink-0 border-b border-white\/10 pb-6"/g' src/components/Navbar.tsx
+sed -i '' 's/<Link href="\/" onClick={(e) => { handleLogoClick(e); setMobileOpen(false); }} className="flex items-center gap-4">/<Link href="\/" onClick={(e) => { handleLogoClick(e); setMobileOpen(false); }} className="flex flex-col items-center gap-2">/g' src/components/Navbar.tsx
+sed -i '' 's/<button onClick={() => setMobileOpen(false)} className="p-3 bg-white\/10 rounded-full border border-white\/20 text-white">/<button onClick={() => setMobileOpen(false)} className="absolute right-0 top-0 p-3 bg-white\/10 rounded-full border border-white\/20 text-white">/g' src/components/Navbar.tsx

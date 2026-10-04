@@ -35,7 +35,7 @@ export default function MatchesTabs({ nextMatch, lastMatch }: { nextMatch: any, 
       </div>
 
       {/* Match Card */}
-      <div className={`w-full max-w-2xl bg-white rounded-[2rem] p-10 border shadow-2xl shadow-[var(--ks-ink)]/5 transition-all duration-500 ease-out ${isNext ? 'border-[var(--ks-kinpaku)]/30' : 'border-gray-100'}`}>
+      <div className={`w-full max-w-2xl bg-white rounded-[2rem] p-5 sm:p-8  transition-all duration-500 ease-out `}>
         <div className="flex justify-between items-center mb-8">
           <p className="font-mono text-xs uppercase tracking-widest text-[var(--ks-kinpaku)] font-bold">
             {isNext ? 'Qarşıdakı Qarşılaşma' : 'Son Nəticə'}
@@ -83,7 +83,7 @@ export default function MatchesTabs({ nextMatch, lastMatch }: { nextMatch: any, 
               </div>
             </div>
 
-            <div className="flex justify-between items-end border-t border-gray-100 pt-8 mt-4">
+            <div className="flex justify-between items-end pt-8 mt-4">
               <div>
                 <p className="text-gray-500 text-sm font-medium">{match.time || '18:00'} • {match.stadium}</p>
                 <p className="text-gray-400 text-xs font-mono uppercase mt-1">{match.tournament}</p>

@@ -50,8 +50,8 @@ export default async function Home() {
           <div className="relative z-10 max-w-4xl">
             <FadeIn>
               <p className="font-mono text-sm uppercase tracking-[0.2em] text-[var(--ks-kinpaku)] mb-4 font-bold">Yarımada FK • Rəsmi Sayt</p>
-              <h1 className="text-4xl sm:text-5xl md:text-8xl lg:text-9xl font-black font-condensed uppercase tracking-normal text-white mb-6 leading-[1] md:leading-[0.85] drop-shadow-xl flex items-center gap-3">
-                {heroBanner?.title || 'BU YARIMADA FK.'} <span className="text-[var(--ks-kinpaku)]">⚽️</span>
+              <h1 className="text-4xl sm:text-5xl md:text-8xl lg:text-9xl font-black font-condensed uppercase tracking-normal text-white mb-6 leading-[1] md:leading-[0.85] drop-shadow-xl">
+                {heroBanner?.title || 'BU YARIMADA FK.'} 
               </h1>
               <p className="text-base sm:text-lg md:text-2xl text-gray-200 mb-10 max-w-2xl leading-relaxed">
                 {heroBanner?.subtitle || 'Bakının ən gənc və dinamik futbol akademiyası. Hər oyunu, hər komandanı və hər anı yaxından izlə.'}
@@ -107,7 +107,7 @@ export default async function Home() {
           </div>
           
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-            <div className="lg:col-span-2 bg-white rounded-[2rem] p-6 md:p-10 border border-gray-100 shadow-xl shadow-[var(--ks-ink)]/5 overflow-x-auto flex flex-col justify-between">
+            <div className="lg:col-span-2 bg-white rounded-[2rem] p-6 md:p-10 shadow-xl shadow-[var(--ks-ink)]/5 overflow-x-auto flex flex-col justify-between">
               <table className="w-full text-left border-collapse min-w-[600px]">
                 <thead>
                   <tr className="border-b border-gray-200">
@@ -182,7 +182,7 @@ export default async function Home() {
             
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
               {['U-12', 'U-11', 'U-10', 'U-9'].map((age) => (
-                <Link key={age} href={`/komandalar?age=${age}`} className="group aspect-square rounded-[2rem] bg-white border border-gray-100 shadow-sm flex flex-col items-center justify-center p-6 hover:border-[var(--ks-kinpaku)] hover:shadow-md transition-all">
+                <Link key={age} href={`/komandalar?age=${age}`} className="group aspect-square rounded-[2rem] bg-white flex flex-col items-center justify-center p-6 hover:border-[var(--ks-kinpaku)] hover:transition-all">
                   <div className="w-16 h-16 rounded-full bg-[#0a1628]/5 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
                     <span className="text-2xl font-black text-[var(--ks-ink)]">{age}</span>
                   </div>
@@ -266,7 +266,7 @@ export default async function Home() {
             </div>
 
             {/* Foto Qalereya */}
-            <div className="flex-1 bg-white border border-gray-200 rounded-[2rem] p-8 md:p-12 shadow-sm">
+            <div className="flex-1 bg-white rounded-[2rem] p-8 md:p-12 shadow-sm">
               <p className="font-mono text-sm uppercase tracking-[0.2em] text-[#0a1628]/60 mb-4 font-bold">MEDİA</p>
               <div className="flex justify-between items-end mb-8">
                 <h2 className="text-4xl md:text-6xl font-black font-condensed uppercase text-[var(--ks-ink)] leading-[0.9]">FOTO QALEREYA</h2>

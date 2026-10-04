@@ -73,7 +73,7 @@ export default function Navbar() {
               <Link 
                 key={link.name} 
                 href={link.href}
-                className={`uppercase font-black font-condensed tracking-widest transition-all duration-200 text-lg md:text-xl whitespace-nowrap ${pathname === link.href ? 'text-[var(--ks-kinpaku)]' : 'text-white/80 hover:text-white'}`}
+                className={`uppercase font-black font-condensed tracking-widest transition-all duration-200 text-sm md:text-base whitespace-nowrap font-medium ${pathname === link.href ? 'text-[var(--ks-kinpaku)]' : 'text-white/80 hover:text-white'}`}
               >
                 {link.name}
               </Link>

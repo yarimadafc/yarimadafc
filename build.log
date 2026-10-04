@@ -11,3 +11,7 @@
   Generating static pages using 9 workers (8/32) 
   Generating static pages using 9 workers (16/32) 
 Failed to build /klub/page: /klub (attempt 1 of 3) because it took more than 60 seconds. Retrying again shortly.
+Failed to build /klub/page: /klub (attempt 2 of 3) because it took more than 60 seconds. Retrying again shortly.
+Failed to build /klub/page: /klub after 3 attempts.
+Export encountered an error on /klub/page: /klub, exiting the build.
+⨯ Next.js build worker exited with code: 1 and signal: null

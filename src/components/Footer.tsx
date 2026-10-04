@@ -9,15 +9,20 @@ export default function Footer() {
       
       <div className="max-w-[1400px] mx-auto px-6 md:px-12 relative z-10 flex flex-col items-center">
         
-        {/* TOP SECTION: Logo + Slogan */}
-        <div className="flex flex-col items-center justify-center mb-8 md:mb-10 w-full gap-4">
-          <div className="flex items-center gap-4 justify-center">
-            <div className="relative w-16 h-16 md:w-20 md:h-20 rounded-full border border-white/10 shadow-[0_0_30px_rgba(255,255,255,0.05)] overflow-hidden shrink-0">
+        {/* TOP SECTION: Logo + Club Name + Slogan — left on desktop */}
+        <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-8 md:mb-10 w-full gap-4">
+          <div className="flex items-center gap-4 justify-center md:justify-start">
+            <div className="relative w-14 h-14 md:w-16 md:h-16 rounded-full border border-white/10 overflow-hidden shrink-0">
               <Image src="/Logo.JPG.jpeg" alt="Yarımada FK Logo" fill className="object-cover" />
             </div>
-            <span className="text-white/60 italic text-sm md:text-base max-w-[200px] text-left">
-              Gələcəyin ulduzları burada yetişir
-            </span>
+            <div className="flex flex-col">
+              <span className="text-white font-black font-condensed uppercase tracking-wider text-xl md:text-2xl leading-tight">
+                Yarımada FK
+              </span>
+              <span className="text-white/50 italic text-xs md:text-sm">
+                Gələcəyin ulduzları burada yetişir
+              </span>
+            </div>
           </div>
         </div>
 

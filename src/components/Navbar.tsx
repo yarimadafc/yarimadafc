@@ -7,9 +7,16 @@ import { motion, AnimatePresence } from 'framer-motion';
 import LangSwitcher from "./LangSwitcher";
 import { useRouter, usePathname } from "next/navigation";
 import { useTranslations, useLocale } from "next-intl";
+import { supabase } from "@/lib/supabase";
 
 export default function Navbar() {
   const t = useTranslations();
+  const [settings, setSettings] = useState<any>(null);
+  useEffect(() => {
+    supabase.from('site_settings').select('*').single().then(({ data }) => {
+      if (data) setSettings(data);
+    });
+  }, []);
   const locale = useLocale();
   const [mobileOpen, setMobileOpen] = useState(false);
   const pathname = usePathname();
@@ -99,7 +106,7 @@ export default function Navbar() {
 
             <div className="hidden lg:block">
               <a 
-                href="https://wa.me/994554477467?text=Salam,%20Akademiyaya%20qeydiyyatdan%20keçmək%20istəyirəm." 
+                href={`https://wa.me/${(settings?.phone || '994554477467').replace(/[^0-9]/g, '')}?text=Salam,%20Akademiyaya%20qeydiyyatdan%20keçmək%20istəyirəm.`} 
                 target="_blank"
                 className="ks-button !bg-[var(--ks-kinpaku)] !text-white !border-none hover:!bg-[#d7bf7b] !rounded-full !font-black uppercase tracking-widest shadow-sm transition-all duration-200 !min-h-[44px] !px-8 !text-[13px]"
               >
@@ -144,7 +151,7 @@ export default function Navbar() {
               ))}
               
               <a 
-                href="https://wa.me/994554477467?text=Salam,%20Akademiyaya%20qeydiyyatdan%20keçmək%20istəyirəm." 
+                href={`https://wa.me/${(settings?.phone || '994554477467').replace(/[^0-9]/g, '')}?text=Salam,%20Akademiyaya%20qeydiyyatdan%20keçmək%20istəyirəm.`} 
                 target="_blank"
                 onClick={() => setMobileOpen(false)}
                 className="text-[var(--ks-kinpaku)] text-base font-black font-condensed uppercase tracking-widest hover:text-white transition-colors mt-2 w-full text-left"

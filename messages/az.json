@@ -32,5 +32,13 @@
   "matches": "Oyunlar",
   "coaches": "Məşqçilər",
   "media": "Media",
-  "contact": "Əlaqə"
+  "contact": "Əlaqə",
+  "standings_club": "Klub",
+  "standings_pld": "O",
+  "standings_won": "Q",
+  "standings_drw": "H",
+  "standings_lst": "M",
+  "standings_pts": "X",
+  "standings_legend": "O=Oyun · Q=Qələbə · H=Heç-heçə · M=Məğlubiyyət · X=Xal",
+  "standings_loading": "Məlumat yüklənir"
 }

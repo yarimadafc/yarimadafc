@@ -3,9 +3,11 @@ export const dynamic = 'force-dynamic';
 import { supabase } from '@/lib/supabase';
 import FadeIn from '@/components/FadeIn';
 import Link from 'next/link';
+import { getTranslations } from 'next-intl/server';
 
 export default async function StandingsPage(props: { searchParams: Promise<{ tournament_id?: string }> }) {
   const searchParams = await props.searchParams;
+  const t = await getTranslations();
   let tournaments: any[] = [];
   let standings: any[] = [];
 
@@ -50,7 +52,7 @@ export default async function StandingsPage(props: { searchParams: Promise<{ tou
         <div className="absolute inset-0 opacity-10" style={{backgroundImage:'radial-gradient(circle at 70% 50%, #c9a84c 0%, transparent 60%)'}} />
         <div className="relative z-10">
           <FadeIn>
-            <p className="font-mono text-xs uppercase tracking-[0.3em] text-[var(--ks-kinpaku)] mb-3 font-bold">STATİSTİKA</p>
+            <p className="font-mono text-xs uppercase tracking-[0.3em] text-[var(--ks-kinpaku)] mb-3 font-bold">{t("standings_label")}</p>
             <h1 className="text-4xl sm:text-6xl md:text-8xl font-black font-condensed uppercase text-white leading-[0.85]">
               TURNİR CƏDVƏLİ
             </h1>
@@ -99,15 +101,15 @@ export default async function StandingsPage(props: { searchParams: Promise<{ tou
           <div className="bg-[#0a1628] grid text-[var(--ks-kinpaku)]"
             style={{gridTemplateColumns:'3rem 1fr 2.5rem 2.5rem 2.5rem 2.5rem 3rem 3rem 3rem 3.5rem'}}>
             <div className={colHead}>#</div>
-            <div className={`${colHead} text-left pl-4`}>Komanda</div>
-            <div className={colHead} title="Oyunlar">O</div>
-            <div className={colHead} title="Qələbə">Q</div>
-            <div className={colHead} title="Heç-heçə">H</div>
-            <div className={colHead} title="Məğlubiyyət">M</div>
+            <div className={`${colHead} text-left pl-4`}>{t("standings_club")}</div>
+            <div className={colHead} title="Oyunlar">{t("standings_pld")}</div>
+            <div className={colHead} title="Qələbə">{t("standings_won")}</div>
+            <div className={colHead} title="Heç-heçə">{t("standings_drw")}</div>
+            <div className={colHead} title="Məğlubiyyət">{t("standings_lst")}</div>
             <div className={`${colHead} hidden sm:block`} title="Vurulan Qol">VQ</div>
             <div className={`${colHead} hidden md:block`} title="Buraxılan Qol">BQ</div>
             <div className={`${colHead} hidden md:block`} title="Qol Fərqi">+/-</div>
-            <div className={`${colHead} text-white`} title="Xal">X</div>
+            <div className={`${colHead} text-white`} title="Xal">{t("standings_pts")}</div>
           </div>
 
           {/* Rows */}
@@ -173,7 +175,7 @@ export default async function StandingsPage(props: { searchParams: Promise<{ tou
       {/* COLUMN LEGEND */}
       <FadeIn delay={0.2}>
         <div className="mt-6 flex flex-wrap gap-x-6 gap-y-1 text-[11px] text-gray-400 font-mono">
-          {[['O','Oyunlar'],['Q','Qələbə'],['H','Heç-heçə'],['M','Məğlubiyyət'],['VQ','Vurulan Qol'],['BQ','Buraxılan Qol'],['+/-','Qol Fərqi'],['X','Xal']].map(([k,v])=>(
+          {t('standings_legend').split(' · ').map((item: string) => item.split('=')).map(([k, v]: string[]) => (
             <span key={k}><b className="text-gray-600">{k}</b> = {v}</span>
           ))}
         </div>

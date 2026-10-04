@@ -32,5 +32,13 @@
   "matches": "Matches",
   "coaches": "Coaches",
   "media": "Media",
-  "contact": "Contact"
+  "contact": "Contact",
+  "standings_club": "Club",
+  "standings_pld": "P",
+  "standings_won": "W",
+  "standings_drw": "D",
+  "standings_lst": "L",
+  "standings_pts": "Pts",
+  "standings_legend": "P=Played · W=Won · D=Draw · L=Lost · Pts=Points",
+  "standings_loading": "Loading..."
 }

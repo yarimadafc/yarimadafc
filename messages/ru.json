@@ -32,5 +32,13 @@
   "matches": "Матчи",
   "coaches": "Тренеры",
   "media": "Медиа",
-  "contact": "Контакты"
+  "contact": "Контакты",
+  "standings_club": "Клуб",
+  "standings_pld": "И",
+  "standings_won": "В",
+  "standings_drw": "Н",
+  "standings_lst": "П",
+  "standings_pts": "О",
+  "standings_legend": "И=Игры · В=Выигрыши · Н=Ничьи · П=Поражения · О=Очки",
+  "standings_loading": "Загрузка..."
 }

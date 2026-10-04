@@ -12,6 +12,13 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
   const { locale } = await params;
   setRequestLocale(locale);
   const t = await getTranslations();
+
+  const getDynamicText = (key: string) => {
+    const texts = siteSettings?.home_texts || {};
+    const langKey = `${key}_${lang.toLowerCase()}`;
+    return texts[langKey] || t(key);
+  };
+
   const lang = locale.toUpperCase();
 
   let matches: any[] = [];
@@ -112,16 +119,16 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
                 style={{gridTemplateColumns:'2.5rem 1fr 2rem 2rem 2rem 2rem 3rem'}}>
                 <div className="py-3 text-center">#</div>
                 <div className="py-3 pl-3">Komanda</div>
-                <div className="py-3 text-center" title="Oyunlar">O</div>
-                <div className="py-3 text-center hidden sm:block" title="Qələbə">Q</div>
-                <div className="py-3 text-center hidden sm:block" title="Məğlubiyyət">M</div>
+                <div className="py-3 text-center" title="Oyunlar">{t("standings_pld")}</div>
+                <div className="py-3 text-center hidden sm:block" title="Qələbə">{t("standings_won")}</div>
+                <div className="py-3 text-center hidden sm:block" title="Məğlubiyyət">{t("standings_lst")}</div>
                 <div className="py-3 text-center hidden sm:block" title="Qol Fərqi">+/-</div>
-                <div className="py-3 text-center text-white">X</div>
+                <div className="py-3 text-center text-white">{t("standings_pts")}</div>
               </div>
 
               {/* Placeholder rows */}
               {[
-                {name:'Məlumat yüklənir', played:'-', won:'-', lost:'-', diff:'-', pts:'-', yarimada:false},
+                {name: t('standings_loading'), played:'-', won:'-', lost:'-', diff:'-', pts:'-', yarimada:false},
               ].map((row, idx) => (
                 <div key={idx}
                   className={`grid items-center border-b border-gray-50 transition-colors ${row.yarimada ? 'bg-[var(--ks-kinpaku)]/10 border-l-4 border-l-[var(--ks-kinpaku)]' : 'hover:bg-gray-50'}`}
@@ -144,7 +151,7 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
               ))}
 
               <div className="mt-auto px-6 py-4 border-t border-gray-50 flex justify-between items-center">
-                <span className="text-[10px] text-gray-400 font-mono uppercase tracking-wider">O=Oyun · Q=Qələbə · M=Məğlubiyyət · X=Xal</span>
+                <span className="text-[10px] text-gray-400 font-mono uppercase tracking-wider">{t('standings_legend')}</span>
                 <Link href="/turnir-cedveli" className="text-xs font-black uppercase tracking-wider text-[var(--ks-kinpaku)] hover:underline">
                   {t('full_table')}
                 </Link>
@@ -169,7 +176,7 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
                   YARIMADA FK HAQQINDA.
                 </h2>
                 <p className="text-xl text-[var(--ks-ink)]/70 mb-8">
-                  {t('about_text')}
+                  {getDynamicText("about_text")}
                 </p>
                 <Link href="/klub" className="ks-button ks-button-primary !bg-[var(--ks-ink)] !text-white hover:!bg-[#15294a]">
                   Ətraflı

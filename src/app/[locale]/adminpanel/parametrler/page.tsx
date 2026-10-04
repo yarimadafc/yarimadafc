@@ -43,6 +43,17 @@ export default function AdminSettings() {
     setSaving(false);
   };
 
+  
+  const handleTextChange = (key: string, val: string) => {
+    setData((prev: any) => ({
+      ...prev,
+      home_texts: {
+        ...(prev.home_texts || {}),
+        [key]: val
+      }
+    }));
+  };
+
   const handleChange = (field: string, value: string) => {
     setData((prev: any) => ({ ...prev, [field]: value }));
   };
@@ -89,7 +100,16 @@ export default function AdminSettings() {
           <div>
             <label className="block text-sm font-bold text-gray-700 mb-1">YouTube</label>
             <input type="text" value={data?.youtube || ''} onChange={(e) => handleChange('youtube', e.target.value)} className="w-full p-2 border rounded" placeholder="https://youtube.com/..." />
+            <label className="block mt-4 mb-2 font-bold text-gray-700">Telegram</label>
+            <input type="text" value={data?.telegram || ''} onChange={(e) => handleChange('telegram', e.target.value)} className="w-full p-2 border rounded" placeholder="https://t.me/..." />
+            
+            <label className="block mt-4 mb-2 font-bold text-gray-700">TikTok</label>
+            <input type="text" value={data?.tiktok || ''} onChange={(e) => handleChange('tiktok', e.target.value)} className="w-full p-2 border rounded" placeholder="https://tiktok.com/..." />
+  
           </div>
+            <label className="block mt-4 mb-2 font-bold text-gray-700">Xəritə (Google Maps Embed URL)</label>
+            <input type="text" value={data?.map_iframe_url || ''} onChange={(e) => handleChange('map_iframe_url', e.target.value)} className="w-full p-2 border rounded" placeholder="https://www.google.com/maps/embed?pb=..." />
+  
 
           <div className="col-span-1 md:col-span-2 border-b pb-4 mb-2 mt-4">
             <h2 className="text-lg font-bold text-gray-800">Səhifə Arxa Plan Şəkilləri (URL)</h2>

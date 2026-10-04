@@ -229,18 +229,17 @@ export default async function Home() {
       </section>
 
       {/* MARQUEE SPONSORLAR / TƏRƏFDAŞLAR */}
-      <section className="py-20 border-t border-[var(--ks-ink)]/10 overflow-hidden bg-white">
-        <div className="text-center mb-8">
-          <p className="font-mono text-sm uppercase tracking-[0.2em] text-[#0a1628]/60 font-bold">SPONSORLAR VƏ TƏRƏFDAŞLAR</p>
-        </div>
-        <div className="w-full flex space-x-16 items-center opacity-60 grayscale hover:grayscale-0 hover:opacity-100 transition-all duration-500 animate-[marquee_20s_linear_infinite] whitespace-nowrap">
-          {/* Loqolar ucun yazilar */}
-          {['NIKE', 'BAKCELL', 'KAPITAL BANK', 'AFFA', 'SOCAR', 'ASAN'].map((sponsor, i) => (
-             <span key={i} className="text-3xl font-black font-condensed tracking-widest text-[#0a1628]">{sponsor}</span>
-          ))}
-          {['NIKE', 'BAKCELL', 'KAPITAL BANK', 'AFFA', 'SOCAR', 'ASAN'].map((sponsor, i) => (
-             <span key={`dup-${i}`} className="text-3xl font-black font-condensed tracking-widest text-[#0a1628]">{sponsor}</span>
-          ))}
+      <section className="py-24 border-t border-[var(--ks-ink)]/10 overflow-hidden bg-[var(--ks-kinpaku)]">
+        <div className="w-full flex space-x-12 items-center text-[#0a1628] whitespace-nowrap overflow-hidden relative">
+          <div className="flex space-x-12 px-6" style={{ animation: 'marquee 30s linear infinite' }}>
+            {['SPONSOR - NIKE', 'TƏRƏFDAŞ - BAKCELL', 'SPONSOR - KAPITAL BANK', 'TƏRƏFDAŞ - AFFA', 'SPONSOR - SOCAR', 'TƏRƏFDAŞ - ASAN'].map((sponsor, i) => (
+               <span key={i} className="text-5xl md:text-7xl font-black font-condensed tracking-widest uppercase">{sponsor}</span>
+            ))}
+            {/* Duplicate for infinite effect */}
+            {['SPONSOR - NIKE', 'TƏRƏFDAŞ - BAKCELL', 'SPONSOR - KAPITAL BANK', 'TƏRƏFDAŞ - AFFA', 'SPONSOR - SOCAR', 'TƏRƏFDAŞ - ASAN'].map((sponsor, i) => (
+               <span key={`dup-${i}`} className="text-5xl md:text-7xl font-black font-condensed tracking-widest uppercase">{sponsor}</span>
+            ))}
+          </div>
         </div>
       </section>
 

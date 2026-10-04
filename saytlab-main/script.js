@@ -1,0 +1,565 @@
+/* =========================================================================
+   SAYTLAB — script.js  (framework yoxdur, vanilla JS)
+
+   ANİMASİYA FƏLSƏFƏSİ (Emil Kowalski çərçivəsi):
+   • Hər animasiyanın konkret səbəbi var: feedback, state, spatial, jarring-change,
+     explanation, rare/delight. "Gözəl görünür" kifayət deyil.
+   • Custom cursor SİLİNDİ — məqsədsiz daimi hərəkət idi.
+   • Magnetic effekt yalnız 2 əsas CTA-da (hero + CTA banner).
+   • Tilt yalnız hover edilən kartda, zəif bucaqla (5°).
+   • Scroll-reveal: clip-path "pərdə açılması", BİR DƏFƏ (unobserve).
+
+   PERFORMANS:
+   • Bütün vizual yeniləmələr TƏK requestAnimationFrame loop-unda.
+   • mousemove / scroll yalnız dəyər yazır; DOM yazışı yalnız rAF-də.
+   • Bütün scroll/pointer listener-ləri { passive: true }.
+   • getBoundingClientRect yalnız mouseenter-də (scroll-da yox).
+   • Yalnız transform / opacity / clip-path animasiya olunur.
+   ========================================================================= */
+
+/* Səhifə yenilənəndə (F5) HƏMİŞƏ başdan açılsın — brauzerin scroll-bərpasını söndür.
+   Faylın ən başında, DOMContentLoaded-dən kənarda: mümkün qədər tez icra olunsun.
+
+   İSTİSNA — URL-də #hash varsa sıfırlama EDİLMİR. Alt səhifələrin (templates/terms/
+   privacy) naviqasiyası "/#pricing", "/#faq", "/#contact" kimi linklərlə ana səhifəyə
+   qayıdır; əvvəl bu sıfırlama brauzerin apardığı bölmədən səhifəni geri yuxarı atırdı,
+   yəni daxili keçidlər praktiki olaraq işləmirdi. Hash yoxdursa köhnə davranış eynidir. */
+if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
+if (!location.hash) window.scrollTo(0, 0);
+
+/* Çapa keçidlərində header-in altında qalmamaq üçün sabit offset — aşağıdakı
+   `a[href^="#"]` handler-i ilə eyni dəyər (tək mənbə). */
+const ANCHOR_OFFSET = 78;
+
+/* ANİ scroll. style.css-də `html { scroll-behavior: smooth }` var, ona görə sadə
+   window.scrollTo(0, y) ANİMASİYALI olur — səhifə yüklənəndə hədəf bölməyə "ani"
+   düşmək əvəzinə yuxarıdan aşağı sürüşürdü (və Lenis-lə toqquşurdu). `behavior:
+   'instant'` bunu bir dəfəlik söndürür; dəstəkləməyən brauzerdə köhnə çağırışa düşür. */
+function jumpTo(y) {
+  try { window.scrollTo({ top: y, left: 0, behavior: 'instant' }); }
+  catch (_) { window.scrollTo(0, y); }
+}
+
+/* ===================================================================
+   LENIS smooth-scroll — inertial/yumşaq scroll (Framer saytlarındakı hiss).
+   • Yalnız transform/scroll-position dəyişir, layout-a toxunmur.
+   • prefers-reduced-motion və ya CDN yüklənməzsə → native scroll (fallback).
+   • `lenis` dəyişəni fayl əhatəsindədir — DOMContentLoaded daxilində istifadə olunur
+     (loqo kliki → başa qayıt, mobil menyu → arxa scroll kilidi).
+   =================================================================== */
+const REDUCED_MOTION = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+let lenis = null;
+if (!REDUCED_MOTION && typeof window.Lenis === 'function') {
+  lenis = new window.Lenis({
+    duration: 1.1,
+    easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)), // expo ease-out
+    smoothWheel: true,
+  });
+  const raf = (time) => { lenis.raf(time); requestAnimationFrame(raf); };
+  requestAnimationFrame(raf);
+}
+/* header-mobile.js (bütün səhifələrdə işləyir) mobil menyu açılanda arxa scroll-u
+   kilidləmək üçün buna baxır. Lenis yoxdursa null qalır və orada native overflow işləyir. */
+window.lenis = lenis;
+
+// F5-dən sonra da tam yuxarıda başla (Safari bəzən load-dan sonra köhnə mövqeyə sıçrayır).
+// Hash varsa (alt səhifədən "/#pricing" ilə gəliş) yuxarı atmaq əvəzinə həmin bölməyə sürüşdür.
+window.addEventListener('load', () => {
+  const hash = location.hash;
+  if (!hash || hash.length < 2) {
+    if (lenis) lenis.scrollTo(0, { immediate: true });
+    jumpTo(0);
+    return;
+  }
+  let target = null;
+  try { target = document.getElementById(decodeURIComponent(hash.slice(1))); } catch (_) { /* pozuq hash */ }
+  if (!target) return;                     // belə bölmə yoxdursa heç nə etmə
+  const y = Math.max(0, target.getBoundingClientRect().top + window.pageYOffset - ANCHOR_OFFSET);
+  /* Əvvəlcə Lenis-in daxili hədəfi, sonra native scroll:
+     • Lenis-in `immediate` tətbiqi requestAnimationFrame dövründə baş verir — link
+       yeni fon tabında açılıbsa rAF dondurulur və scroll heç vaxt tətbiq olunmur.
+     • window.scrollTo isə dərhal işləyir. Lenis-in hədəfi eyni dəyərə qoyulduğu üçün
+       tab aktivləşəndə ilk frame-də səhifə geri yuxarı sıçramır. */
+  if (lenis) lenis.scrollTo(y, { immediate: true });
+  jumpTo(y);
+});
+
+/* ===================================================================
+   WhatsApp nömrəsi — TƏK MƏNBƏ.
+   Həm bu fayldakı "Sifariş et" düymələri, həm də domain-search.js bunu
+   istifadə edir; nömrə heç yerdə təkrar yazılmır (window-a da verilir ki,
+   ayrıca fayl ona müraciət edə bilsin).
+   =================================================================== */
+const WA_NUMBER = '994103136941';
+window.SAYTLAB_WA_NUMBER = WA_NUMBER;
+
+document.addEventListener('DOMContentLoaded', () => {
+
+  const prefersReduced = REDUCED_MOTION;
+  const finePointer = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+  const motion = !prefersReduced;
+
+  const $  = (s, c = document) => c.querySelector(s);
+  const $$ = (s, c = document) => [...c.querySelectorAll(s)];
+  const lerp = (a, b, t) => a + (b - a) * t;
+  const clamp = (n, min, max) => Math.min(Math.max(n, min), max);
+
+  /* Bölmə id-si → tab başlığında görünəcək təmiz ad.
+     "html", fayl adı və ya texniki heç nə YOXDUR — yalnız insan-oxunaqlı ad. */
+  const SECTION_TITLES = {
+    hero:     'Saytlab',
+    services: 'Xidmət — Saytlab',
+    about:    'Haqqımızda — Saytlab',
+    benefits: 'Üstünlüklər — Saytlab',
+    domain:   'Domen — Saytlab',
+    pricing:  'Qiymətlər — Saytlab',
+    faq:      'Suallar — Saytlab',
+    contact:  'Əlaqə — Saytlab',
+  };
+  const DEFAULT_TITLE = 'Saytlab';
+
+  // (js-reveal sinfi artıq <head>-dəki inline script ilə əlavə olunub — FOUC-suz)
+
+  /* ===================================================================
+     0. Sonsuz fon animasiyalarını yalnız öz bölmələri ekranda olarkən işlət.
+        Qalan sonsuz animasiyalar: hero blob-ları, marquee, 1 bento pulse.
+        Tək IntersectionObserver → CSS: animation-play-state: var(--anim-state).
+     =================================================================== */
+  const pauseIO = new IntersectionObserver((entries) => {
+    for (const entry of entries) {
+      entry.target.style.setProperty('--anim-state', entry.isIntersecting ? 'running' : 'paused');
+    }
+  }, { threshold: 0, rootMargin: '200px 0px' });
+  $$('[data-pause-offscreen]').forEach(el => pauseIO.observe(el));
+
+  /* ===================================================================
+     1. Paylaşılan vəziyyət — event-lər yalnız bunu yeniləyir
+     =================================================================== */
+  const pointer = { x: window.innerWidth / 2, y: window.innerHeight / 2 };
+  let scrollY = window.scrollY;
+  let lastScrollY = scrollY;
+  let scrollDirty = true;
+  let docMax = Math.max(1, document.documentElement.scrollHeight - window.innerHeight);
+
+  if (finePointer && motion) {
+    window.addEventListener('mousemove', (e) => { pointer.x = e.clientX; pointer.y = e.clientY; }, { passive: true });
+  }
+  window.addEventListener('scroll', () => { scrollY = window.scrollY; scrollDirty = true; }, { passive: true });
+
+  const recalcDoc = () => {
+    docMax = Math.max(1, document.documentElement.scrollHeight - window.innerHeight);
+    scrollDirty = true;
+  };
+  window.addEventListener('resize', recalcDoc, { passive: true });
+  window.addEventListener('load', recalcDoc);
+
+  /* ===================================================================
+     2. Maqnit düymələr — YALNIZ hero + CTA banner əsas CTA-ları.
+        rect mouseenter-də keşlənir, transform rAF-də tətbiq olunur.
+     =================================================================== */
+  const magnets = (finePointer && motion) ? $$('[data-magnetic]').map(el => ({
+    el, rect: null, active: false, cx: 0, cy: 0
+  })) : [];
+  magnets.forEach(m => {
+    m.el.addEventListener('mouseenter', () => { m.rect = m.el.getBoundingClientRect(); m.active = true; });
+    m.el.addEventListener('mouseleave', () => { m.active = false; });
+  });
+
+  /* ===================================================================
+     3. 3D tilt — yalnız hover edilən kartda, zəif bucaq (±5°).
+     =================================================================== */
+  const TILT_DEG = 5;
+  const tilts = (finePointer && motion) ? $$('.tilt').map(el => ({ el, rect: null, active: false })) : [];
+  tilts.forEach(t => {
+    t.el.addEventListener('mouseenter', () => {
+      t.rect = t.el.getBoundingClientRect();
+      t.active = true;
+      t.el.style.willChange = 'transform';   // yalnız hover müddətində
+    });
+    t.el.addEventListener('mouseleave', () => {
+      t.active = false;
+      t.el.style.transform = '';
+      t.el.style.willChange = 'auto';
+    });
+  });
+
+  /* ===================================================================
+     4. Parallax — YALNIZ hero fonu.
+     =================================================================== */
+  const parallax = motion ? $$('.hero [data-parallax]').map(el => ({
+    el, speed: parseFloat(el.dataset.parallax) || 0.1
+  })) : [];
+
+  /* ===================================================================
+     4b. Hero mouse-glow — dairəvi işıq, YALNIZ hero daxilində, fine pointer-də.
+         Sabit ölçü/blur/rəng, yalnız transform (translate3d) rAF-də yenilənir.
+     =================================================================== */
+  const heroSection = $('#hero');
+  const heroGlow = $('[data-hero-glow]');
+  const glow = (heroSection && heroGlow && finePointer && motion)
+    ? { el: heroGlow, rect: null, active: false, x: 0, y: 0 }
+    : null;
+  if (glow) {
+    heroSection.addEventListener('mouseenter', () => {
+      glow.rect = heroSection.getBoundingClientRect();
+      glow.active = true;
+      glow.el.classList.add('is-active');
+    });
+    heroSection.addEventListener('mousemove', (e) => {
+      if (!glow.rect) glow.rect = heroSection.getBoundingClientRect();
+      glow.x = e.clientX - glow.rect.left;
+      glow.y = e.clientY - glow.rect.top;
+    });
+    heroSection.addEventListener('mouseleave', () => {
+      glow.active = false;
+      glow.el.classList.remove('is-active');
+    });
+  }
+
+  /* ===================================================================
+     4c. Xüsusi cursor — boşluqda kiçik dot, klikə bilən / interaktiv
+         elementlərin üzərində LED-glow halqa.
+         • Yalnız fine-pointer + motion (mobil/touch-da ümumiyyətlə işə düşmür).
+         • Mövqe YALNIZ real maus hərəkətinə cavab verir — ayrıca/avtomatik
+           heç bir animasiya yoxdur (əvvəlki silinmiş versiyanın səbəbi).
+         • Mövqe yenilənməsi aşağıdakı TƏK rAF loop-unda (6-cı bölmə).
+     =================================================================== */
+  const HOT_CURSOR = 'a, button, input, textarea, select, label, summary, [role="button"], [data-order], .faq-q, .marquee';
+  const cursor = (finePointer && motion) ? (() => {
+    const dot = document.createElement('div');
+    const ring = document.createElement('div');
+    dot.className = 'cursor-dot';
+    ring.className = 'cursor-ring';
+    dot.setAttribute('aria-hidden', 'true');
+    ring.setAttribute('aria-hidden', 'true');
+    document.body.append(dot, ring);
+    const root = document.documentElement;
+    root.classList.add('cursor-custom');
+
+    document.addEventListener('mouseover', (e) => {
+      if (e.target.closest?.(HOT_CURSOR)) root.classList.add('cursor-hot');
+    }, { passive: true });
+    document.addEventListener('mouseout', (e) => {
+      if (e.target.closest?.(HOT_CURSOR) && !e.relatedTarget?.closest?.(HOT_CURSOR)) {
+        root.classList.remove('cursor-hot');
+      }
+    }, { passive: true });
+    root.addEventListener('mouseleave', () => root.classList.add('cursor-hidden'), { passive: true });
+    root.addEventListener('mouseenter', () => root.classList.remove('cursor-hidden'), { passive: true });
+    window.addEventListener('blur', () => root.classList.add('cursor-hidden'));
+
+    return { dot, ring, rx: pointer.x, ry: pointer.y };
+  })() : null;
+
+  /* ===================================================================
+     5. Proqres zolağı + header vəziyyəti
+     =================================================================== */
+  const progress = $('#scrollProgress');
+  const header = $('.site-header');
+  const HEADER_HIDE_AFTER = 120; // bu həddən əvvəl header həmişə görünür (yuxarıda gizlənmə olmasın)
+
+  /* ===================================================================
+     6. TƏK rAF loop
+     =================================================================== */
+  function frame() {
+    // --- maqnit düymələr ---
+    for (let i = 0; i < magnets.length; i++) {
+      const m = magnets[i];
+      let gx = 0, gy = 0;
+      if (m.active && m.rect) {
+        gx = (pointer.x - m.rect.left - m.rect.width / 2) * 0.3;
+        gy = (pointer.y - m.rect.top - m.rect.height / 2) * 0.3;
+      }
+      m.cx = lerp(m.cx, gx, 0.18);
+      m.cy = lerp(m.cy, gy, 0.18);
+      if (m.active || Math.abs(m.cx) > 0.05 || Math.abs(m.cy) > 0.05) {
+        m.el.style.transform = `translate3d(${m.cx.toFixed(2)}px, ${m.cy.toFixed(2)}px, 0)`;
+      } else if (m.el.style.transform) {
+        m.el.style.transform = '';
+      }
+    }
+
+    // --- tilt (yalnız hover edilən kart) ---
+    for (let i = 0; i < tilts.length; i++) {
+      const t = tilts[i];
+      if (t.active && t.rect) {
+        const px = clamp((pointer.x - t.rect.left) / t.rect.width, 0, 1);
+        const py = clamp((pointer.y - t.rect.top) / t.rect.height, 0, 1);
+        t.el.style.transform =
+          `perspective(900px) rotateY(${((px - 0.5) * TILT_DEG).toFixed(2)}deg) rotateX(${((0.5 - py) * TILT_DEG).toFixed(2)}deg)`;
+        t.el.style.setProperty('--mx', (px * 100).toFixed(1) + '%');
+        t.el.style.setProperty('--my', (py * 100).toFixed(1) + '%');
+      }
+    }
+
+    // --- hero mouse-glow (yalnız aktiv olanda) ---
+    if (glow && glow.active) {
+      glow.el.style.transform = `translate3d(${glow.x.toFixed(1)}px, ${glow.y.toFixed(1)}px, 0)`;
+    }
+
+    // --- xüsusi cursor: dot dəqiq maus mövqeyində, halqa yüngül gecikmə ilə ---
+    if (cursor) {
+      cursor.dot.style.transform = `translate3d(${pointer.x}px, ${pointer.y}px, 0)`;
+      cursor.rx = lerp(cursor.rx, pointer.x, 0.2);
+      cursor.ry = lerp(cursor.ry, pointer.y, 0.2);
+      cursor.ring.style.transform = `translate3d(${cursor.rx.toFixed(2)}px, ${cursor.ry.toFixed(2)}px, 0)`;
+    }
+
+    // --- scroll-driven (yalnız dəyişəndə) ---
+    if (scrollDirty) {
+      scrollDirty = false;
+      const ratio = clamp(scrollY / docMax, 0, 1);
+      progress.style.transform = `scaleX(${ratio.toFixed(4)})`;
+      // `is-scrolled` burada YOX — onu header-mobile.js edir (bütün səhifələrdə eyni məntiq).
+      // Əvvəl hər iki fayl eyni sinfi toggle edirdi; nəticə eyni idi, amma iş iki dəfə görülürdü.
+
+      // Header: aşağı scroll → gizlən, yuxarı scroll (və ya başa yaxın) → görün.
+      // Kiçik "jitter" (trackpad, mobil bounce) yanlış tetiklənməsin deyə min. fərq şərti qoyulub.
+      const delta = scrollY - lastScrollY;
+      if (scrollY <= HEADER_HIDE_AFTER) {
+        header.classList.remove('is-hidden');
+      } else if (delta > 4) {
+        header.classList.add('is-hidden');
+      } else if (delta < -4) {
+        header.classList.remove('is-hidden');
+      }
+      lastScrollY = scrollY;
+
+      for (let i = 0; i < parallax.length; i++) {
+        const p = parallax[i];
+        // müstəqil `translate` — CSS @keyframes (transform) ilə toqquşmur
+        p.el.style.translate = `0 ${(scrollY * p.speed).toFixed(2)}px`;
+      }
+    }
+
+    requestAnimationFrame(frame);
+  }
+  requestAnimationFrame(frame);
+
+  /* ===================================================================
+     7. Scroll-reveal — TƏKRARLANAN (Framer saytlarındakı kimi).
+        Element hər dəfə view-port-a girəndə animasiya olur; çıxanda
+        gizli başlanğıc vəziyyətinə (`.js-reveal .reveal` — transform/opacity/blur)
+        qayıdır. Yuxarı scroll da daxil — məhdudiyyət yoxdur, unobserve YOXDUR.
+        QEYD: sayğaclar (`[data-count]`) AYRI observer-dədir (aşağıda, bir dəfəlik).
+     =================================================================== */
+  const revealEls = $$('.reveal');
+  // stagger indeksi bir dəfə hesablanır (eyni valideyn altında sıra nömrəsi)
+  revealEls.forEach(el => {
+    const sibs = $$('.reveal', el.parentElement);
+    el.dataset.revealI = String(Math.max(0, sibs.indexOf(el)));
+  });
+  // keçid bitəndə GPU qatını burax (will-change yalnız animasiya müddətində qalır)
+  const releaseWillChange = (el) => {
+    el.addEventListener('transitionend', function h(e) {
+      if (e.target !== el) return;
+      el.style.willChange = '';
+      el.removeEventListener('transitionend', h);
+    });
+  };
+  const revealIO = new IntersectionObserver((entries) => {
+    for (const entry of entries) {
+      const el = entry.target;
+      el.style.willChange = 'transform, opacity, filter';
+      if (entry.isIntersecting) {
+        el.style.transitionDelay = (+el.dataset.revealI * 55) + 'ms';   // qısa stagger (giriş)
+        el.setAttribute('data-visible', '');
+      } else {
+        el.style.transitionDelay = '0ms';                                // çıxış — gecikməsiz
+        el.removeAttribute('data-visible');                              // gizli vəziyyətə qayıt
+      }
+      releaseWillChange(el);
+    }
+    // threshold/rootMargin dəyişdirilmədi — yalnız "bir dəfəlik" məntiq "təkrarlanan"a çevrildi.
+  }, { threshold: 0, rootMargin: '0px 0px -8% 0px' });
+
+  revealEls.forEach(el => revealIO.observe(el));
+
+  /* ===================================================================
+     7b. Tab başlığı — scroll ilə hansı bölmədə olduğunu göstərir.
+         Səhifənin ÖZÜ dəyişmir, YALNIZ brauzer tabındakı yazı yenilənir.
+         DOM-a yazı yalnız kəsişmə dəyişəndə olur (hər frame-də yox) — rAF strukturuna toxunmur.
+     =================================================================== */
+  const titleSections = Object.keys(SECTION_TITLES)
+    .map(id => document.getElementById(id))
+    .filter(Boolean);
+
+  if (titleSections.length) {
+    let currentTitleId = null;
+    const titleIO = new IntersectionObserver((entries) => {
+      // Ekranda görünən bölmələr arasından ən çox görünəni (ratio ən böyük) seç.
+      let best = null;
+      for (const entry of entries) {
+        if (entry.isIntersecting && (!best || entry.intersectionRatio > best.intersectionRatio)) {
+          best = entry;
+        }
+      }
+      if (best && best.target.id !== currentTitleId) {
+        currentTitleId = best.target.id;
+        document.title = SECTION_TITLES[currentTitleId] || DEFAULT_TITLE;
+      }
+    }, { threshold: [0.35, 0.5, 0.65] });   // bölmənin ~35–65%-i görünəndə tetiklənir
+    titleSections.forEach(el => titleIO.observe(el));
+  }
+
+  /* ===================================================================
+     8. Sayğac animasiyası — hero statistikası HƏR DƏFƏ ekrana gələndə 0 → hədəf.
+        Element görünmə sahəsindən çıxanda "0"-a sıfırlanır, təkrar girəndə yenidən sayılır.
+        Hər çağırış yeni "dövr" (el._countRun) alır → sürətli scroll-da köhnə rAF dövrü
+        özünü dayandırır (rəqəm titrəməsi / yanlış dəyər olmasın).
+     =================================================================== */
+  const fmt = (n) => n >= 1000 ? Math.round(n / 1000) + 'K' : String(Math.round(n));
+  const animateCount = (el) => {
+    const target = +el.dataset.count;
+    const suffix = el.dataset.suffix || '';
+    const dur = 1400;
+    const run = (el._countRun || 0) + 1;
+    el._countRun = run;
+    if (!motion) { el.textContent = fmt(target) + suffix; return; }
+    const start = performance.now();
+    const finish = () => { if (el._countRun === run) el.textContent = fmt(target) + suffix; };
+    const tick = (now) => {
+      if (el._countRun !== run) return;                       // yeni dövr başlayıb — bunu dayandır
+      const p = Math.min((now - start) / dur, 1);
+      el.textContent = fmt(target * (1 - Math.pow(1 - p, 3))) + suffix;
+      if (p < 1) requestAnimationFrame(tick); else finish();
+    };
+    requestAnimationFrame(tick);
+    setTimeout(finish, dur + 400);
+  };
+  const countIO = new IntersectionObserver((entries) => {
+    for (const entry of entries) {
+      const el = entry.target;
+      if (entry.isIntersecting) {
+        animateCount(el);
+      } else if (motion) {
+        el._countRun = (el._countRun || 0) + 1;               // gedən animasiyanı ləğv et
+        el.textContent = '0' + (el.dataset.suffix || '');     // sıfırla → təkrar girəndə animasiya azadan
+      }
+    }
+  }, { threshold: 0.6 });
+  $$('[data-count]').forEach(el => countIO.observe(el));
+
+  /* ===================================================================
+     9. Hero giriş animasiyası — bir dəfəlik "delight" büdcəsi (səhifə açılışı)
+     =================================================================== */
+  const heroEls = $$('[data-hero]').sort((a, b) => +a.dataset.hero - +b.dataset.hero);
+  function playHeroReveal() {
+    if (motion) {
+      // Stagger sıxlaşdırıldı (60ms -> 28ms): 11 element olsa belə son element ~370ms-də başlayır,
+      // öz 0.85s transition-u ilə birlikdə hero cəmi ~1.2s-dən ~0.9s-ə enir — "gec açılır" hissini azaldır.
+      heroEls.forEach((el, i) => setTimeout(() => el.classList.add('is-in'), 60 + i * 28));
+    } else {
+      heroEls.forEach(el => el.classList.add('is-in'));
+    }
+  }
+  // Preloader VARSA, hero animasiyası səhifə yüklənən kimi (overlay-in arxasında, gizli) YOX,
+  // preloader sönüb page-ready elan edəndə başlamalıdır — <head>-dəki preloader script-i
+  // window.__saytlabPlayHeroReveal-i reveal() içində çağırır. Preloader yoxdursa (terms/privacy,
+  // və ya artıq silinibsə) — köhnə davranış: dərhal başlat.
+  if (document.getElementById('preloader')) {
+    window.__saytlabPlayHeroReveal = playHeroReveal;
+  } else {
+    playHeroReveal();
+  }
+
+  /* ===================================================================
+     10. Mobil menyu — MƏNTİQ header-mobile.js-DƏDİR.
+         Səbəb: o fayl 4 səhifənin hamısında yüklənir, bu fayl isə yalnız index.html-də.
+         Menyu burada qurulanda alt səhifələrdə (templates/terms/privacy) telefonda
+         naviqasiya heç açıla bilmirdi. Aşağıdakı yerlərdə (loqo, çapa linkləri, səhifə
+         keçidi) menyunu bağlamaq üçün həmin faylın ixrac etdiyi funksiya çağırılır.
+         Fayl yüklənməyibsə (nəzəri hal) çağırış səssizcə heç nə etmir.
+     =================================================================== */
+  const setMenu = (open) => {
+    if (typeof window.saytlabSetMenu === 'function') window.saytlabSetMenu(open);
+  };
+
+  /* ===================================================================
+     10b. Loqo klikləndə səhifə HƏMİŞƏ tam yuxarıya qayıtsın.
+          #top header elementindədir, amma URL-də artıq "#top" varsa brauzer
+          təkrar scroll etmir — ona görə açıq handler yazılır. Mobil menyu
+          açıqdırsa bağlanır. prefers-reduced-motion-da ani, əks halda smooth.
+     =================================================================== */
+  $$('a.logo').forEach(logoLink => {
+    logoLink.addEventListener('click', (e) => {
+      e.preventDefault();
+      setMenu(false);
+      if (lenis) lenis.scrollTo(0, { duration: 1.1 });
+      else window.scrollTo({ top: 0, behavior: prefersReduced ? 'auto' : 'smooth' });
+      history.replaceState(null, '', location.pathname + location.search);
+    });
+  });
+
+  /* ===================================================================
+     10b2. Daxili çapa (#) linkləri — Lenis aktivdirsə onun smooth scrollTo-su
+           ilə (native "auto" jump əvəzinə). Header hündürlüyü qədər offset.
+           Loqo (.logo) istisnadır — öz handler-i var.
+     =================================================================== */
+  // .skip-link istisnadır: onun məqsədi fokusu <main>-ə köçürməkdir — native davranış lazımdır.
+  $$('a[href^="#"]:not(.logo):not(.skip-link)').forEach(link => {
+    const hash = link.getAttribute('href');
+    if (!hash || hash.length < 2) return;
+    link.addEventListener('click', (e) => {
+      const target = document.getElementById(hash.slice(1));
+      if (!target) return;
+      e.preventDefault();
+      setMenu(false);
+      if (lenis) lenis.scrollTo(target, { offset: -ANCHOR_OFFSET, duration: 1.1 });
+      else target.scrollIntoView({ behavior: prefersReduced ? 'auto' : 'smooth', block: 'start' });
+      history.replaceState(null, '', hash);
+    });
+  });
+
+  /* ===================================================================
+     10c. Ayrı səhifələrə (Qaydalar / Məxfilik / Şablonlar) keçiddə sürətli fade-out,
+          sonra yönləndir — belə ki keçid hər iki tərəfdən hamar görünsün.
+          (o səhifələr legal.js ilə fade-in edir.)
+     =================================================================== */
+  $$('a[href="/terms"], a[href="/privacy"], a[href="/templates"]').forEach(link => {
+    link.addEventListener('click', (e) => {
+      if (e.metaKey || e.ctrlKey || e.shiftKey || e.button !== 0 || link.target === '_blank') return;
+      e.preventDefault();
+      const url = link.href;
+      if (prefersReduced) { window.location.href = url; return; }
+      setMenu(false);
+      document.body.classList.add('is-leaving');
+      setTimeout(() => { window.location.href = url; }, 190);
+    });
+  });
+
+  /* ===================================================================
+     11. FAQ accordion — bir anda yalnız biri açıq (grid-template-rows)
+     =================================================================== */
+  const faqItems = $$('.faq-item');
+  const syncFaqAria = () => {
+    faqItems.forEach(i => {
+      const btn = $('.faq-q', i);
+      if (btn) btn.setAttribute('aria-expanded', String(i.classList.contains('is-open')));
+    });
+  };
+  faqItems.forEach(item => {
+    $('.faq-q', item).addEventListener('click', () => {
+      const open = item.classList.contains('is-open');
+      faqItems.forEach(i => i.classList.remove('is-open'));
+      if (!open) item.classList.add('is-open');
+      syncFaqAria();   // ekran oxuyucusu açıq/bağlı vəziyyəti eşitsin
+    });
+  });
+  syncFaqAria();
+
+  /* ===================================================================
+     12. Pricing "Sifariş et" — yalnız paket adı ilə əvvəlcədən doldurulmuş
+         WhatsApp mesajı. Qiymət saytda göstərilmir, mesajda da keçmir.
+         HTML-dəki href yalnız fallback (JS işləməzsə).
+     =================================================================== */
+  $$('.price-card').forEach(card => {
+    const link = $('a[data-order]', card);
+    if (!link) return;
+    const plan = ($('h3', card)?.textContent || '').trim();
+    if (!plan) return;
+    const msg = `Salam! ${plan} paketi ilə maraqlanıram, ətraflı məlumat almaq istəyirəm.`;
+    link.href = `https://wa.me/${WA_NUMBER}?text=${encodeURIComponent(msg)}`;
+  });
+
+});

@@ -1,0 +1,11 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "saytlab",
+      "runtimeExecutable": "node",
+      "runtimeArgs": ["/Users/faiqkarimli/Downloads/WebSite/saytlab-proje/.claude/static-server.js"],
+      "port": 4173
+    }
+  ]
+}

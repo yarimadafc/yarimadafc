@@ -1,209 +1,295 @@
 import Link from 'next/link';
+import { supabase } from '@/lib/supabase';
 
-export default function Home() {
+// --- MOCK DATA FALLBACKS ---
+const MOCK_NEXT_MATCH = {
+  id: '1',
+  home_team: 'Yarımada FK',
+  away_team: 'Qarabağ FK',
+  date: '2026-10-15',
+  time: '19:00',
+  stadium: 'Zirə İdman Kompleksi',
+  status: 'upcoming'
+};
+
+const MOCK_LAST_RESULT = {
+  id: '2',
+  home_team: 'Yarımada FK',
+  away_team: 'Neftçi PFK',
+  home_score: 3,
+  away_score: 1,
+  date: '2026-10-08',
+  status: 'completed'
+};
+
+const MOCK_NEWS = [
+  { id: '1', title: 'YENİ MÖVSÜMƏ HAZIRLIQ BAŞLADI', excerpt: 'Komandamız yeni mövsüm hazırlıqlarına start verdi...', published_at: '2026-10-01' },
+  { id: '2', title: 'AKADEMİYA SEÇİMLƏRİ DAVAM EDİR', excerpt: 'Gənc istedadların axtarışı üçün növbəti seçim turu keçiriləcək.', published_at: '2026-09-28' },
+  { id: '3', title: 'YENİ TRANSFERİMİZ', excerpt: 'Komandamıza yeni hücumçu qatıldı.', published_at: '2026-09-25' },
+];
+
+const MOCK_TEAMS = [
+  { id: '1', name: 'U-12', age_group: '12' },
+  { id: '2', name: 'U-11', age_group: '11' },
+  { id: '3', name: 'U-10', age_group: '10' },
+  { id: '4', name: 'U-9', age_group: '9' },
+];
+
+const MOCK_VIDEOS = [
+  { id: '1', title: 'Maçın İcmalı: Yarımada FK 3 - 1 Neftçi', url: '#' },
+  { id: '2', title: 'Məşq Prosesi - 2026', url: '#' },
+  { id: '3', title: 'Baş Məşqçinin Müsahibəsi', url: '#' },
+];
+
+const MOCK_SPONSORS = [
+  { id: '1', name: 'Sponsor 1' },
+  { id: '2', name: 'Sponsor 2' },
+  { id: '3', name: 'Sponsor 3' },
+  { id: '4', name: 'Sponsor 4' },
+];
+
+export default async function HomePage() {
+  // --- FETCH DATA ---
+  let nextMatch = MOCK_NEXT_MATCH;
+  let lastResult = MOCK_LAST_RESULT;
+  let news = MOCK_NEWS;
+  let teams = MOCK_TEAMS;
+  let videos = MOCK_VIDEOS;
+  let sponsors = MOCK_SPONSORS;
+
+  try {
+    const { data: nm } = await supabase.from('matches').select('*').eq('status', 'upcoming').order('date', { ascending: true }).limit(1).single();
+    if (nm) nextMatch = nm;
+  } catch (e) { /* ignore */ }
+
+  try {
+    const { data: lr } = await supabase.from('matches').select('*').eq('status', 'completed').order('date', { ascending: false }).limit(1).single();
+    if (lr) lastResult = lr;
+  } catch (e) { /* ignore */ }
+
+  try {
+    const { data: n } = await supabase.from('news').select('*').eq('published', true).order('published_at', { ascending: false }).limit(3);
+    if (n && n.length) news = n;
+  } catch (e) { /* ignore */ }
+
+  try {
+    const { data: t } = await supabase.from('teams').select('*').order('name');
+    if (t && t.length) teams = t;
+  } catch (e) { /* ignore */ }
+
+  try {
+    const { data: v } = await supabase.from('media_videos').select('*').limit(3);
+    if (v && v.length) videos = v;
+  } catch (e) { /* ignore */ }
+
+  try {
+    const { data: s } = await supabase.from('sponsors').select('*');
+    if (s && s.length) sponsors = s;
+  } catch (e) { /* ignore */ }
+
   return (
     <main className="min-h-screen bg-white">
       {/* 1. HERO SECTION */}
-      <section className="relative w-full h-[600px] flex items-center justify-center overflow-hidden">
-        {/* Background Image Placeholder with Overlay */}
-        <div className="absolute inset-0 bg-gray-800">
-          {/* Using a gradient overlay to match the design description */}
-          <div className="absolute inset-0 bg-gradient-to-t from-[#0a1628] via-[#0a1628]/60 to-transparent"></div>
-        </div>
+      <section className="relative w-full min-h-[600px] bg-[#0a1628] flex flex-col items-center justify-center text-center px-4 overflow-hidden">
+        <div className="absolute inset-0 bg-black/40 z-0"></div>
+        <div className="absolute inset-0 bg-gradient-to-t from-[#0a1628] to-transparent z-0"></div>
         
-        <div className="relative z-10 max-w-6xl w-full mx-auto px-4 flex flex-col justify-end h-full pb-16">
-          <p className="font-mono uppercase tracking-widest text-sm text-[#00e5a0] mb-4">
+        <div className="relative z-10 max-w-4xl mx-auto flex flex-col items-center gap-6 mt-16">
+          <span className="text-[#00e5a0] font-mono uppercase tracking-widest text-sm md:text-base font-bold">
             2026/27 MÖVSÜM
-          </p>
-          <h1 className="text-5xl md:text-7xl font-black uppercase tracking-wider text-white mb-6">
+          </span>
+          <h1 className="text-5xl md:text-7xl font-black uppercase text-white tracking-wider leading-tight">
             BU YARIMADA FK.
           </h1>
-          <p className="text-lg md:text-xl text-gray-200 max-w-2xl mb-8">
-            Bakının ən gənc futbol akademiyası. Hər oyunu, hər komandanı və hər anı yaxından izlə.
+          <p className="text-gray-300 max-w-2xl text-lg md:text-xl">
+            Gələcəyin çempionlarını yetişdirən klub. İnamla, əzmlə və peşəkarlıqla irəli!
           </p>
-          <div className="flex flex-wrap gap-4">
-            <Link 
-              href="/join" 
-              className="bg-[#00e5a0] text-[#0a1628] font-bold uppercase tracking-wider rounded-full px-8 py-4 hover:bg-[#00c98b] transition-colors"
-            >
+          <div className="flex flex-col sm:flex-row gap-4 mt-8">
+            <Link href="/akademiya" className="bg-[#00e5a0] text-[#0a1628] font-bold px-8 py-4 rounded-full uppercase tracking-wider hover:bg-[#00c98b] transition-colors">
               Akademiyaya Qoşul
             </Link>
-            <Link 
-              href="/matches" 
-              className="bg-transparent border border-white text-white font-bold uppercase tracking-wider rounded-full px-8 py-4 hover:bg-white/10 transition-colors"
-            >
-              Oyunlara bax
+            <Link href="/oyunlar" className="border-2 border-white text-white font-bold px-8 py-4 rounded-full uppercase tracking-wider hover:bg-white hover:text-[#0a1628] transition-colors">
+              Oyunlara Bax
             </Link>
           </div>
         </div>
       </section>
 
-      {/* 2. MEMBERSHIP/JOIN SECTION */}
-      <section className="max-w-6xl mx-auto px-4 py-16">
-        <div className="bg-[#f0f2f5] rounded-3xl p-8 md:p-12 flex flex-col md:flex-row items-center gap-12">
-          <div className="flex-1">
-            <p className="font-mono uppercase tracking-widest text-sm text-[#00e5a0] mb-4">
-              AKADEMİYA
-            </p>
-            <h2 className="text-4xl md:text-5xl font-black uppercase tracking-wider text-[#0a1628] mb-6">
-              YARIMADA FK AKADEMİYASINA QOŞUL
-            </h2>
-            <p className="text-[#0a1628]/70 mb-8 text-lg">
-              Peşəkar məşqçilər, müasir infrastruktur və gələcəyin ulduzları arasında yerini al. Karyerana bizimlə başla!
-            </p>
-            <Link 
-              href="/register" 
-              className="inline-block bg-[#00e5a0] text-[#0a1628] font-bold uppercase tracking-wider rounded-full px-8 py-4 hover:bg-[#00c98b] transition-colors"
-            >
-              Qeydiyyatdan keç
-            </Link>
-          </div>
-          <div className="w-full md:w-[400px] h-[300px] bg-gray-300 rounded-2xl flex items-center justify-center shrink-0">
-            <span className="text-gray-500 font-bold uppercase">Image Placeholder (350x250)</span>
-          </div>
-        </div>
-      </section>
-
-      {/* 3. NEXT MATCH SECTION */}
-      <section className="max-w-6xl mx-auto px-4 pb-16">
-        <div className="bg-[#f0f2f5] rounded-3xl p-8 md:p-12 flex flex-col md:flex-row items-center gap-12">
-          <div className="w-full md:w-[400px] h-[300px] bg-gray-300 rounded-2xl flex items-center justify-center shrink-0">
-            <span className="text-gray-500 font-bold uppercase">Match Image Placeholder</span>
-          </div>
-          <div className="flex-1">
-            <p className="font-mono uppercase tracking-widest text-sm text-[#00e5a0] mb-4">
-              NÖVBƏTİ OYUN
-            </p>
-            <h2 className="text-3xl md:text-4xl font-black uppercase tracking-wider text-[#0a1628] mb-6">
-              YARIMADA FK vs. BAKI SPOR
-            </h2>
-            <div className="space-y-2 mb-8 text-[#0a1628]/80 text-lg">
-              <p><strong>Tarix:</strong> 15 Oktyabr 2026, 18:00</p>
-              <p><strong>Məkan:</strong> Yarımada Arena</p>
-              <p><strong>Turnir:</strong> Həvəskarlar Liqası</p>
-            </div>
-            <Link 
-              href="/match/next" 
-              className="inline-block bg-[#00e5a0] text-[#0a1628] font-bold uppercase tracking-wider rounded-full px-8 py-4 hover:bg-[#00c98b] transition-colors"
-            >
-              Ətraflı
-            </Link>
-          </div>
-        </div>
-      </section>
-
-      {/* 4. LATEST NEWS SECTION */}
-      <section className="max-w-6xl mx-auto px-4 pb-16">
-        <div className="flex flex-col md:flex-row md:items-end justify-between mb-10 gap-6">
+      {/* MATCH DASHBOARD AREA (Next Match & Last Result) */}
+      <section className="relative z-20 px-4 -mt-16 max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-8 mb-20">
+        
+        {/* 2. NEXT MATCH CARD */}
+        <div className="bg-[#f5f5f5] rounded-2xl p-8 shadow-xl border border-gray-200 flex flex-col justify-between">
           <div>
-            <p className="font-mono uppercase tracking-widest text-sm text-[#00e5a0] mb-4">
+            <span className="text-[#00e5a0] font-mono font-bold uppercase tracking-widest text-sm bg-[#0a1628] px-3 py-1 rounded">
+              NÖVBƏTİ OYUN
+            </span>
+            <div className="mt-8 flex justify-between items-center text-[#0a1628]">
+              <div className="text-center w-1/3">
+                <div className="w-20 h-20 bg-gray-300 rounded-full mx-auto mb-3 flex items-center justify-center text-xs font-bold">LİQO</div>
+                <h3 className="font-bold text-lg">{nextMatch.home_team}</h3>
+              </div>
+              <div className="text-center w-1/3">
+                <div className="text-3xl font-black mb-1">VS</div>
+                <div className="text-sm font-bold text-gray-500">{nextMatch.date}</div>
+                <div className="text-sm font-bold text-gray-500">{nextMatch.time}</div>
+              </div>
+              <div className="text-center w-1/3">
+                <div className="w-20 h-20 bg-gray-300 rounded-full mx-auto mb-3 flex items-center justify-center text-xs font-bold">LİQO</div>
+                <h3 className="font-bold text-lg">{nextMatch.away_team}</h3>
+              </div>
+            </div>
+          </div>
+          <div className="mt-8 pt-4 border-t border-gray-300 text-center text-sm font-bold text-gray-600 uppercase">
+            🏟 {nextMatch.stadium}
+          </div>
+        </div>
+
+        {/* 3. LAST RESULT CARD */}
+        <div className="bg-[#0a1628] text-white rounded-2xl p-8 shadow-xl flex flex-col justify-between">
+          <div>
+            <span className="text-[#0a1628] bg-[#00e5a0] font-mono font-bold uppercase tracking-widest text-sm px-3 py-1 rounded">
+              SON NƏTİCƏ
+            </span>
+            <div className="mt-8 flex justify-between items-center">
+              <div className="text-center w-1/3">
+                <div className="w-20 h-20 bg-gray-700 rounded-full mx-auto mb-3 flex items-center justify-center text-xs font-bold">LİQO</div>
+                <h3 className="font-bold text-lg">{lastResult.home_team}</h3>
+              </div>
+              <div className="text-center w-1/3">
+                <div className="text-5xl font-black text-[#00e5a0] tracking-widest">
+                  {lastResult.home_score} - {lastResult.away_score}
+                </div>
+                <div className="text-sm font-bold text-gray-400 mt-2">{lastResult.date}</div>
+              </div>
+              <div className="text-center w-1/3">
+                <div className="w-20 h-20 bg-gray-700 rounded-full mx-auto mb-3 flex items-center justify-center text-xs font-bold">LİQO</div>
+                <h3 className="font-bold text-lg">{lastResult.away_team}</h3>
+              </div>
+            </div>
+          </div>
+          <div className="mt-8 pt-4 border-t border-gray-700 text-center">
+            <Link href="/oyunlar" className="text-[#00e5a0] font-bold uppercase hover:underline">
+              BÜTÜN NƏTİCƏLƏR ➔
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      {/* 4. LATEST NEWS */}
+      <section className="py-16 px-4 max-w-7xl mx-auto">
+        <div className="flex flex-col md:flex-row justify-between items-end mb-10 gap-4">
+          <div>
+            <span className="text-[#00e5a0] font-mono font-bold uppercase tracking-widest text-sm">
               SON XƏBƏRLƏR
-            </p>
-            <h2 className="text-4xl font-black uppercase tracking-wider text-[#0a1628]">
+            </span>
+            <h2 className="text-4xl font-black uppercase text-[#0a1628] tracking-wider mt-2">
               YARIMADA FK-DAN XƏBƏRLƏR
             </h2>
           </div>
-          <Link 
-            href="/news" 
-            className="inline-block bg-transparent border-2 border-[#0a1628] text-[#0a1628] font-bold uppercase tracking-wider rounded-full px-8 py-4 hover:bg-[#0a1628] hover:text-white transition-colors"
-          >
-            Bütün xəbərlər
+          <Link href="/xeberler" className="border-2 border-[#0a1628] text-[#0a1628] font-bold px-6 py-3 rounded-full uppercase tracking-wider hover:bg-[#0a1628] hover:text-white transition-colors">
+            Bütün Xəbərlər
           </Link>
         </div>
-
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          {/* News Card 1 */}
-          <div className="bg-[#f0f2f5] rounded-2xl overflow-hidden flex flex-col">
-            <div className="w-full h-48 bg-gray-300 flex items-center justify-center">
-              <span className="text-gray-500 font-bold text-sm uppercase">News Image</span>
+          {news.map((item) => (
+            <div key={item.id} className="bg-[#f5f5f5] rounded-2xl overflow-hidden hover:shadow-lg transition-shadow">
+              <div className="h-48 bg-gray-300 w-full flex items-center justify-center text-gray-500 font-bold">
+                ŞƏKİL (XƏBƏR)
+              </div>
+              <div className="p-6">
+                <div className="text-gray-500 font-mono text-sm mb-3 font-bold">{item.published_at}</div>
+                <h3 className="text-xl font-bold text-[#0a1628] mb-3 leading-tight uppercase">{item.title}</h3>
+                <p className="text-gray-600 line-clamp-3">{item.excerpt}</p>
+              </div>
             </div>
-            <div className="p-6 flex-1 flex flex-col">
-              <p className="font-mono text-sm text-[#0a1628]/60 mb-2">Okt 8, 2026</p>
-              <h3 className="text-xl font-bold uppercase text-[#0a1628] mb-3 leading-snug">
-                Yarımada Derbidə Son Dəqiqə Qələbəsi Qazandı
-              </h3>
-              <p className="text-[#0a1628]/70 text-sm mt-auto">
-                Klubumuz həlledici derbi oyununda son dəqiqə qolu ilə əzmkar qələbə qazandı...
-              </p>
-            </div>
-          </div>
+          ))}
+        </div>
+      </section>
 
-          {/* News Card 2 */}
-          <div className="bg-[#f0f2f5] rounded-2xl overflow-hidden flex flex-col">
-            <div className="w-full h-48 bg-gray-300 flex items-center justify-center">
-              <span className="text-gray-500 font-bold text-sm uppercase">News Image</span>
-            </div>
-            <div className="p-6 flex-1 flex flex-col">
-              <p className="font-mono text-sm text-[#0a1628]/60 mb-2">Okt 5, 2026</p>
-              <h3 className="text-xl font-bold uppercase text-[#0a1628] mb-3 leading-snug">
-                Akademiya Məzunu İlk Peşəkar Müqaviləsini İmzaladı
-              </h3>
-              <p className="text-[#0a1628]/70 text-sm mt-auto">
-                U-19 komandasının parlaq üzvü A komanda ilə 3 illik müqavilə imzaladı...
-              </p>
-            </div>
-          </div>
-
-          {/* News Card 3 */}
-          <div className="bg-[#f0f2f5] rounded-2xl overflow-hidden flex flex-col">
-            <div className="w-full h-48 bg-gray-300 flex items-center justify-center">
-              <span className="text-gray-500 font-bold text-sm uppercase">News Image</span>
-            </div>
-            <div className="p-6 flex-1 flex flex-col">
-              <p className="font-mono text-sm text-[#0a1628]/60 mb-2">Okt 2, 2026</p>
-              <h3 className="text-xl font-bold uppercase text-[#0a1628] mb-3 leading-snug">
-                Klub Yeni Yarımmüdafiəçinin Transferini Tamamladı
-              </h3>
-              <p className="text-[#0a1628]/70 text-sm mt-auto">
-                Yarımada FK mərkəz xəttini gücləndirmək üçün gənc istedadı rənglərinə bağladı...
-              </p>
-            </div>
+      {/* 5. TEAMS SECTION */}
+      <section className="py-16 px-4 bg-[#f5f5f5]">
+        <div className="max-w-7xl mx-auto text-center">
+          <span className="text-[#00e5a0] font-mono font-bold uppercase tracking-widest text-sm">
+            BİZİM GƏLƏCƏYİMİZ
+          </span>
+          <h2 className="text-4xl font-black uppercase text-[#0a1628] tracking-wider mt-2 mb-10">
+            KOMANDALARIMIZ
+          </h2>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            {teams.map((team) => (
+              <Link key={team.id} href={`/komandalar?age=${team.age_group}`} className="group relative block overflow-hidden rounded-2xl bg-[#0a1628] aspect-square">
+                <div className="absolute inset-0 bg-gray-400 group-hover:scale-105 transition-transform duration-500 flex items-center justify-center text-gray-600 font-bold text-xl">
+                  ŞƏKİL (KOMANDA)
+                </div>
+                <div className="absolute inset-0 bg-gradient-to-t from-[#0a1628] via-transparent to-transparent opacity-80"></div>
+                <div className="absolute bottom-0 left-0 w-full p-6 text-left">
+                  <h3 className="text-3xl font-black text-white group-hover:text-[#00e5a0] transition-colors">{team.name}</h3>
+                </div>
+              </Link>
+            ))}
           </div>
         </div>
       </section>
 
-      {/* 5. STADIUM/ABOUT SECTION */}
-      <section className="w-full relative h-[500px] flex items-center justify-center overflow-hidden mb-16">
-        <div className="absolute inset-0 bg-gray-800">
-          <div className="absolute inset-0 bg-[#0a1628]/80 mix-blend-multiply"></div>
-        </div>
-        <div className="relative z-10 max-w-4xl mx-auto px-4 text-center text-white">
-          <p className="font-mono uppercase tracking-widest text-sm text-[#00e5a0] mb-6">
-            AKADEMİYA
-          </p>
-          <h2 className="text-4xl md:text-6xl font-black uppercase tracking-wider mb-6">
-            YARIMADA FK AKADEMİYASINI KƏŞF ET
+      {/* 6. VIDEOS SECTION */}
+      <section className="py-16 px-4 max-w-7xl mx-auto">
+        <div className="text-center mb-10">
+          <span className="text-[#00e5a0] font-mono font-bold uppercase tracking-widest text-sm">
+            MULTİMEDİYA
+          </span>
+          <h2 className="text-4xl font-black uppercase text-[#0a1628] tracking-wider mt-2">
+            SON VİDEOLAR
           </h2>
-          <p className="text-lg text-gray-300 mb-8 max-w-2xl mx-auto">
-            Ən yüksək standartlara cavab verən təlim mərkəzimiz gənclərin fiziki və taktiki hazırlığı üçün xüsusi olaraq dizayn edilib.
+        </div>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          {videos.map((vid) => (
+            <div key={vid.id} className="relative aspect-video bg-gray-300 rounded-2xl overflow-hidden flex items-center justify-center group cursor-pointer">
+              <div className="absolute inset-0 bg-black/20 group-hover:bg-black/40 transition-colors"></div>
+              <div className="w-16 h-16 bg-[#00e5a0] rounded-full flex items-center justify-center text-[#0a1628] z-10 pl-1 shadow-lg group-hover:scale-110 transition-transform">
+                ▶
+              </div>
+              <div className="absolute bottom-4 left-4 right-4 text-white font-bold z-10 truncate drop-shadow-md">
+                {vid.title}
+              </div>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* 7. ABOUT SECTION */}
+      <section className="relative py-24 px-4 bg-[#0a1628] overflow-hidden text-center flex flex-col items-center justify-center">
+        <div className="absolute inset-0 bg-gray-800 opacity-30 z-0"></div>
+        <div className="relative z-10 max-w-3xl">
+          <span className="text-[#00e5a0] font-mono font-bold uppercase tracking-widest text-sm bg-black/30 px-3 py-1 rounded">
+            KLUB HAQQINDA
+          </span>
+          <h2 className="text-4xl md:text-5xl font-black uppercase text-white tracking-wider mt-6 mb-6">
+            BİZ KİMİK?
+          </h2>
+          <p className="text-gray-300 text-lg md:text-xl mb-10">
+            Yarımada FK sadəcə bir futbol klubu deyil. Biz gənc istedadları kəşf edir, 
+            onları peşəkar futbola hazırlayır və milli futbolumuzun inkişafına töhfə veririk.
           </p>
-          <Link 
-            href="/academy" 
-            className="inline-block bg-[#0a1628] border border-white/20 text-white font-bold uppercase tracking-wider rounded-full px-8 py-4 hover:bg-white hover:text-[#0a1628] transition-colors"
-          >
-            Ətraflı
+          <Link href="/klub" className="bg-[#00e5a0] text-[#0a1628] font-bold px-8 py-4 rounded-full uppercase tracking-wider hover:bg-[#00c98b] transition-colors inline-block">
+            Ətraflı Oxu
           </Link>
         </div>
       </section>
 
-      {/* 6. SPONSOR SECTION */}
-      <section className="max-w-6xl mx-auto px-4 pb-20">
-        <div className="bg-[#f0f2f5] rounded-3xl p-8 md:p-12 text-center flex flex-col items-center">
-          <p className="font-mono uppercase tracking-widest text-sm text-[#00e5a0] mb-8">
-            TƏRƏFDAŞIMIZ
-          </p>
-          <div className="w-24 h-24 bg-gray-300 rounded-2xl flex items-center justify-center mb-6">
-            <span className="text-gray-500 text-xs font-bold uppercase">Logo</span>
-          </div>
-          <h2 className="text-3xl font-black uppercase text-[#0a1628] mb-4">
-            AQUAVITA
-          </h2>
-          <p className="text-[#0a1628]/70 max-w-xl mx-auto mb-6">
-            Yarımada FK-nın rəsmi tərəfdaşı və gənc istedadların ən böyük dəstəkçisi. Birlikdə daha güclüyük.
-          </p>
-          <span className="inline-block font-mono bg-white text-[#0a1628] px-4 py-2 rounded-lg text-sm border border-gray-200 uppercase">
-            Əsas Tərəfdaş
+      {/* 8. SPONSORS */}
+      <section className="py-12 px-4 border-t border-gray-200">
+        <div className="max-w-7xl mx-auto text-center">
+          <span className="text-[#0a1628] font-mono font-bold uppercase tracking-widest text-sm mb-6 block">
+            TƏRƏFDAŞLARIMIZ
           </span>
+          <div className="flex flex-wrap justify-center items-center gap-8 md:gap-16 opacity-60 grayscale">
+            {sponsors.map((sp) => (
+              <div key={sp.id} className="w-32 h-16 bg-gray-200 rounded flex items-center justify-center font-bold text-gray-500">
+                {sp.name} LOGO
+              </div>
+            ))}
+          </div>
         </div>
       </section>
     </main>

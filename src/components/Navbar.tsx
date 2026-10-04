@@ -57,7 +57,7 @@ export default function Navbar() {
           </div>
 
           {/* MOBILE CENTER TEXT */}
-          <Link href="/" onClick={handleLogoClick} className="xl:hidden absolute left-1/2 -translate-x-1/2 z-10 w-auto text-center">
+          <Link href="/" onClick={handleLogoClick} className="xl:hidden absolute left-[57%] -translate-x-1/2 z-10 w-auto text-center">
             <span className="text-white font-black font-condensed uppercase tracking-wider text-2xl sm:text-3xl whitespace-nowrap hover:text-[var(--ks-kinpaku)] transition-colors mt-1">
               Yarımada FK
             </span>

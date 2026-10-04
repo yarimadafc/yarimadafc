@@ -21,17 +21,18 @@ export default function Navbar() {
   }, []);
 
 
-  const navLinks = [
-    { name: 'Klub', href: '/klub' },
-    { name: 'Komandalar', href: '/komandalar' },
-    { name: 'Oyunlar', href: '/oyunlar' },
-    { name: 'Təqvim', href: '/teqvim' },
-    { name: 'Turnir', href: '/turnir-cedveli' },
-    { name: 'Xəbərlər', href: '/xeberler' },
-    { name: 'Media', href: '/media' },
-    { name: 'Məşqçilər', href: '/mesqciler' },
-    { name: 'Əlaqə', href: '/elaqe' },
+    const getNavLinks = (l: string) => [
+    { name: l === 'EN' ? 'Club' : l === 'RU' ? 'Клуб' : 'Klub', href: '/klub' },
+    { name: l === 'EN' ? 'Teams' : l === 'RU' ? 'Команды' : 'Komandalar', href: '/komandalar' },
+    { name: l === 'EN' ? 'Matches' : l === 'RU' ? 'Матчи' : 'Oyunlar', href: '/oyunlar' },
+    { name: l === 'EN' ? 'Calendar' : l === 'RU' ? 'Календарь' : 'Təqvim', href: '/teqvim' },
+    { name: l === 'EN' ? 'Standings' : l === 'RU' ? 'Таблица' : 'Turnir', href: '/turnir-cedveli' },
+    { name: l === 'EN' ? 'News' : l === 'RU' ? 'Новости' : 'Xəbərlər', href: '/xeberler' },
+    { name: l === 'EN' ? 'Media' : l === 'RU' ? 'Медиа' : 'Media', href: '/media' },
+    { name: l === 'EN' ? 'Coaches' : l === 'RU' ? 'Тренеры' : 'Məşqçilər', href: '/mesqciler' },
+    { name: l === 'EN' ? 'Contact' : l === 'RU' ? 'Контакты' : 'Əlaqə', href: '/elaqe' },
   ];
+  const navLinks = getNavLinks(lang);
 
   const handleLogoClick = (e: React.MouseEvent) => {
     if (pathname === '/') {
@@ -45,31 +46,26 @@ export default function Navbar() {
       <motion.header
         initial={{ y: -50, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
-        transition={{ duration: 0.4, ease: [0.25, 1, 0.5, 1] }} 
+        transition={{ duration: 0.4, ease: [0.44, 0, 0.56, 1] }} 
         className="fixed top-4 left-0 right-0 z-50 flex justify-center px-4"
       >
         <div className="bg-[#0a1628]/95 backdrop-blur-xl border border-white/10 shadow-2xl rounded-[3rem] flex items-center justify-between relative w-full max-w-[1350px] py-3 px-4 md:py-4 md:px-8">
           
           {/* LEFT SIDE (Logo + Desktop Text) */}
-          <div className="flex items-center gap-2 sm:gap-3 z-20 shrink-0">
+          <div className="flex items-center gap-3 z-20 shrink-0">
             <Link href="/" onClick={handleLogoClick}>
               <div className="relative w-11 h-11 md:w-16 md:h-16 rounded-full overflow-hidden border-2 border-[var(--ks-kinpaku)] shadow-[0_0_15px_rgba(201,168,76,0.3)] hover:border-white transition-all duration-300 shrink-0">
                 <Image src="/Logo.JPG.jpeg" alt="Yarımada FK Logo" fill className="object-cover" />
               </div>
             </Link>
-            <Link href="/" onClick={handleLogoClick} className="hidden xl:block">
-              <span className="text-white font-black font-condensed uppercase tracking-wider text-3xl whitespace-nowrap hover:text-[var(--ks-kinpaku)] transition-colors leading-none mt-1">
+            <Link href="/" onClick={handleLogoClick} className="block">
+              <span className="text-white font-black font-condensed uppercase tracking-wider text-[22px] md:text-lg whitespace-nowrap hover:text-[var(--ks-kinpaku)] transition-colors leading-none mt-1">
                 Yarımada FK
               </span>
             </Link>
           </div>
 
-          {/* MOBILE CENTER TEXT */}
-          <Link href="/" onClick={handleLogoClick} className="xl:hidden absolute left-1/2 -translate-x-1/2 z-10 w-auto text-center">
-            <span className="text-white font-black font-condensed uppercase tracking-wider text-[22px] sm:text-3xl whitespace-nowrap hover:text-[var(--ks-kinpaku)] transition-colors leading-none">
-              Yarımada FK
-            </span>
-          </Link>
+          
 
           {/* Links */}
           <nav className="hidden xl:flex items-center justify-center gap-5 flex-1 mx-4">
@@ -133,44 +129,27 @@ export default function Navbar() {
             initial={{ opacity: 0, y: -20, filter: 'blur(10px)' }}
             animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
             exit={{ opacity: 0, y: -20, filter: 'blur(10px)' }}
-            transition={{ duration: 0.3, ease: [0.25, 1, 0.5, 1] }}
-            className="fixed top-0 left-0 right-0 z-[60] bg-[#0a1628]/98 backdrop-blur-3xl p-6 pb-10 flex flex-col shadow-2xl rounded-b-[2.5rem] border-b border-white/10 max-h-[90vh] overflow-y-auto"
+            transition={{ duration: 0.3, ease: [0.44, 0, 0.56, 1] }}
+            className="absolute top-[80px] right-4 w-[240px] z-[60] bg-[var(--ks-instrument-deep)] backdrop-blur-3xl p-6 flex flex-col shadow-2xl rounded-2xl border border-white/10"
           >
-            <div className="flex flex-col items-center justify-center relative mb-8 shrink-0 border-b border-white/10 pb-6">
-              <Link href="/" onClick={(e) => { handleLogoClick(e); setMobileOpen(false); }} className="flex flex-col items-center gap-2">
-                <div className="relative w-14 h-14 rounded-full overflow-hidden border-2 border-[var(--ks-kinpaku)] shadow-[0_0_20px_rgba(201,168,76,0.3)]">
-                  <Image src="/Logo.JPG.jpeg" alt="Yarımada FK Logo" fill className="object-cover" />
-                </div>
-                <span className="text-white font-black font-condensed text-3xl uppercase tracking-wider mt-1">
-                  Yarımada FK
-                </span>
-              </Link>
-              <button onClick={() => setMobileOpen(false)} className="absolute right-0 top-0 p-3 bg-white/10 rounded-full border border-white/20 text-white">
-                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M6 18L18 6M6 6l12 12" />
-                </svg>
-              </button>
-            </div>
-
-            <nav className="flex flex-col gap-3 items-center pb-4 text-center">
-              <Link href="/" onClick={() => setMobileOpen(false)} className="text-white text-3xl font-black font-condensed uppercase tracking-widest hover:text-[var(--ks-kinpaku)] transition-colors">Ana Səhifə</Link>
+            <nav className="flex flex-col gap-4 items-start pb-2">
+              <Link href="/" onClick={() => setMobileOpen(false)} className="text-white text-base font-black font-condensed uppercase tracking-widest hover:text-[var(--ks-kinpaku)] transition-colors w-full text-left">{lang === "EN" ? "Home" : lang === "RU" ? "Главная" : "Ana Səhifə"}</Link>
               {navLinks.map((link) => (
                 <Link 
                   key={link.name}
                   href={link.href}
                   onClick={() => setMobileOpen(false)}
-                  className="text-white text-3xl font-black font-condensed uppercase tracking-widest hover:text-[var(--ks-kinpaku)] transition-colors"
+                  className="text-white text-base font-black font-condensed uppercase tracking-widest hover:text-[var(--ks-kinpaku)] transition-colors w-full text-left"
                 >
                   {link.name}
                 </Link>
               ))}
               
-              {/* Qeydiyyat Text Link in Mobile Menu */}
               <a 
                 href="https://wa.me/994554477467?text=Salam,%20Akademiyaya%20qeydiyyatdan%20keçmək%20istəyirəm." 
                 target="_blank"
                 onClick={() => setMobileOpen(false)}
-                className="text-[var(--ks-kinpaku)] text-3xl font-black font-condensed uppercase tracking-widest hover:text-white transition-colors mt-2"
+                className="text-[var(--ks-kinpaku)] text-base font-black font-condensed uppercase tracking-widest hover:text-white transition-colors mt-2 w-full text-left"
               >
                 QEYDİYYAT
               </a>

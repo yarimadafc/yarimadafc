@@ -1,7 +1,24 @@
+'use client';
+
+import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 
 export default function Footer() {
+  const [lang, setLang] = useState('AZ');
+
+  useEffect(() => {
+    const match = document.cookie.match(/(?:^|;\s*)NEXT_LOCALE=([^;]+)/);
+    if (match && match[1]) {
+      setLang(match[1]);
+    }
+    
+    // Listen for custom lang change event
+    const handleLangChange = (e: any) => setLang(e.detail);
+    window.addEventListener('langChange', handleLangChange);
+    return () => window.removeEventListener('langChange', handleLangChange);
+  }, []);
+
   return (
     <footer className="bg-[#0a1628] pt-8 md:pt-10 pb-6 relative overflow-hidden flex-shrink-0 w-full mt-auto text-white">
       {/* Decorative gradient blur in background */}
@@ -40,7 +57,7 @@ export default function Footer() {
 
           {/* Col 2 */}
           <div className="text-center md:text-left">
-            <h3 className="text-[var(--ks-kinpaku)] font-black font-condensed text-lg md:text-xl uppercase tracking-widest mb-4">Komandalar</h3>
+            <h3 className="text-[var(--ks-kinpaku)] font-black font-condensed text-lg md:text-xl uppercase tracking-widest mb-4">{lang === "EN" ? "Teams" : lang === "RU" ? "Команды" : "Komandalar"}</h3>
             <ul className="space-y-2 font-bold text-gray-400 text-sm">
               <li><Link href="/komandalar" className="flex items-center justify-center md:justify-start gap-2 hover:text-white transition-colors group"><span className="text-[var(--ks-kinpaku)] text-[8px] opacity-60 group-hover:opacity-100 transition-opacity">■</span> Bütün Komandalar</Link></li>
               <li><Link href="/komandalar?age=U-12" className="flex items-center justify-center md:justify-start gap-2 hover:text-white transition-colors group"><span className="text-[var(--ks-kinpaku)] text-[8px] opacity-60 group-hover:opacity-100 transition-opacity">■</span> U-12</Link></li>
@@ -62,7 +79,7 @@ export default function Footer() {
 
           {/* Col 4 */}
           <div className="text-center md:text-left">
-            <h3 className="text-[var(--ks-kinpaku)] font-black font-condensed text-lg md:text-xl uppercase tracking-widest mb-4">Media</h3>
+            <h3 className="text-[var(--ks-kinpaku)] font-black font-condensed text-lg md:text-xl uppercase tracking-widest mb-4">{lang === "EN" ? "Media" : lang === "RU" ? "Медиа" : "Media"}</h3>
             <ul className="space-y-2 font-bold text-gray-400 text-sm">
               <li><Link href="/xeberler" className="flex items-center justify-center md:justify-start gap-2 hover:text-white transition-colors group"><span className="text-[var(--ks-kinpaku)] text-[8px] opacity-60 group-hover:opacity-100 transition-opacity">■</span> Xəbərlər</Link></li>
               <li><Link href="/media?tab=videolar" className="flex items-center justify-center md:justify-start gap-2 hover:text-white transition-colors group"><span className="text-[var(--ks-kinpaku)] text-[8px] opacity-60 group-hover:opacity-100 transition-opacity">■</span> Videolar</Link></li>
@@ -72,7 +89,7 @@ export default function Footer() {
 
           {/* Col 5 */}
           <div className="text-center md:text-left">
-            <h3 className="text-[var(--ks-kinpaku)] font-black font-condensed text-lg md:text-xl uppercase tracking-widest mb-4">İcma</h3>
+            <h3 className="text-[var(--ks-kinpaku)] font-black font-condensed text-lg md:text-xl uppercase tracking-widest mb-4">{lang === "EN" ? "Community" : lang === "RU" ? "Сообщество" : "İcma"}</h3>
             <ul className="space-y-2 font-bold text-gray-400 text-sm">
               <li><Link href="/mesqciler" className="flex items-center justify-center md:justify-start gap-2 hover:text-white transition-colors group"><span className="text-[var(--ks-kinpaku)] text-[8px] opacity-60 group-hover:opacity-100 transition-opacity">■</span> Məşqçilər</Link></li>
               <li><Link href="/elaqe" className="flex items-center justify-center md:justify-start gap-2 hover:text-white transition-colors group"><span className="text-[var(--ks-kinpaku)] text-[8px] opacity-60 group-hover:opacity-100 transition-opacity">■</span> Əlaqə</Link></li>
@@ -88,7 +105,7 @@ export default function Footer() {
 
           {/* Col 6 */}
           <div className="text-center md:text-left">
-            <h3 className="text-[var(--ks-kinpaku)] font-black font-condensed text-lg md:text-xl uppercase tracking-widest mb-4">Hüquqi</h3>
+            <h3 className="text-[var(--ks-kinpaku)] font-black font-condensed text-lg md:text-xl uppercase tracking-widest mb-4">{lang === "EN" ? "Legal" : lang === "RU" ? "Правовая инф." : "Hüquqi"}</h3>
             <ul className="space-y-2 font-bold text-gray-400 text-sm">
               <li><Link href="/mexfilik" className="flex items-center justify-center md:justify-start gap-2 hover:text-white transition-colors group"><span className="text-[var(--ks-kinpaku)] text-[8px] opacity-60 group-hover:opacity-100 transition-opacity">■</span> Məxfilik Siyasəti</Link></li>
               <li><Link href="/istifade-sertleri" className="flex items-center justify-center md:justify-start gap-2 hover:text-white transition-colors group"><span className="text-[var(--ks-kinpaku)] text-[8px] opacity-60 group-hover:opacity-100 transition-opacity">■</span> İstifadə Şərtləri</Link></li>
@@ -100,7 +117,7 @@ export default function Footer() {
         {/* BOTTOM SECTION */}
         <div className="mt-8 pt-4 border-t border-white/10 flex flex-col items-center justify-center w-full text-center">
           <p className="text-gray-500 font-bold uppercase tracking-widest text-[10px] sm:text-sm text-center whitespace-nowrap">
-            &copy; 2026 Bütün hüquqlar qorunur. Yarımada FK.
+            &copy; 2026 {lang === "EN" ? "All rights reserved" : lang === "RU" ? "Все права защищены" : "{lang === "EN" ? "All rights reserved" : lang === "RU" ? "Все права защищены" : "Bütün hüquqlar qorunur"}"}. Yarımada FK.
           </p>
         </div>
       </div>

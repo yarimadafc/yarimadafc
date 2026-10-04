@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import Link from 'next/link';
 
-export default function MatchesTabs({ nextMatch, lastMatch }: { nextMatch: any, lastMatch: any }) {
+export default function MatchesTabs({ nextMatch, lastMatch, lang = 'AZ' }: { nextMatch: any, lastMatch: any, lang?: 'AZ' | 'EN' | 'RU' }) {
   const [activeTab, setActiveTab] = useState<'next' | 'last'>('next');
 
   const match = activeTab === 'next' ? nextMatch : lastMatch;
@@ -22,7 +22,7 @@ export default function MatchesTabs({ nextMatch, lastMatch }: { nextMatch: any, 
           aria-selected={isNext}
           onClick={() => setActiveTab('next')}
         >
-          Növbəti Oyun
+          {lang === 'EN' ? 'Next Match' : lang === 'RU' ? 'Следующий Матч' : '{lang === 'EN' ? 'Next Match' : lang === 'RU' ? 'Следующий Матч' : 'Növbəti Oyun'}'}
         </button>
         <button 
           className={`flex-1 text-center py-2.5 px-4 rounded-full font-bold text-sm transition-colors ${!isNext ? 'bg-[var(--ks-ink)] text-white shadow-sm' : 'text-gray-500 hover:text-[var(--ks-ink)]'}`} 
@@ -30,7 +30,7 @@ export default function MatchesTabs({ nextMatch, lastMatch }: { nextMatch: any, 
           aria-selected={!isNext}
           onClick={() => setActiveTab('last')}
         >
-          Son Nəticə
+          {lang === 'EN' ? 'Last Result' : lang === 'RU' ? 'Последний Результат' : '{lang === 'EN' ? 'Last Result' : lang === 'RU' ? 'Последний Результат' : 'Son Nəticə'}'}
         </button>
       </div>
 
@@ -38,7 +38,7 @@ export default function MatchesTabs({ nextMatch, lastMatch }: { nextMatch: any, 
       <div className={`w-full max-w-2xl bg-white rounded-[2rem] p-5 sm:p-8  transition-all duration-500 ease-out `}>
         <div className="flex justify-between items-center mb-8">
           <p className="font-mono text-xs uppercase tracking-widest text-[var(--ks-kinpaku)] font-bold">
-            {isNext ? 'Qarşıdakı Qarşılaşma' : 'Son Nəticə'}
+            {isNext ? 'Qarşıdakı Qarşılaşma' : '{lang === 'EN' ? 'Last Result' : lang === 'RU' ? 'Последний Результат' : '{lang === 'EN' ? 'Last Result' : lang === 'RU' ? 'Последний Результат' : 'Son Nəticə'}'}'}
           </p>
           {match && <span className="text-xs font-mono bg-gray-50 text-gray-500 px-3 py-1.5 rounded border border-gray-200">{new Date(match.date).toLocaleDateString('az-AZ')}</span>}
         </div>
@@ -89,13 +89,13 @@ export default function MatchesTabs({ nextMatch, lastMatch }: { nextMatch: any, 
                 <p className="text-gray-400 text-xs font-mono uppercase mt-1">{match.tournament}</p>
               </div>
               <Link href={`/oyunlar/${match.id}`} className="ks-button ks-button-secondary !min-h-[36px] !px-5 !text-[11px] !rounded-full !uppercase !tracking-wider">
-                {isNext ? 'Detallar' : 'Hesabat'}
+                {isNext ? lang === 'EN' ? 'Details' : lang === 'RU' ? 'Детали' : 'Detallar' : lang === 'EN' ? 'Report' : lang === 'RU' ? 'Отчет' : 'Hesabat'}
               </Link>
             </div>
           </>
         ) : (
           <div className="py-12 text-center">
-            <h3 className="text-xl font-bold text-gray-400">Məlumat yoxdur</h3>
+            <h3 className="text-xl font-bold text-gray-400">{lang === 'EN' ? 'No information' : lang === 'RU' ? 'Нет информации' : '{lang === 'EN' ? 'No information' : lang === 'RU' ? 'Нет информации' : 'Məlumat yoxdur'}'}</h3>
           </div>
         )}
       </div>

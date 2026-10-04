@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -9,16 +9,8 @@ import { useRouter, usePathname } from 'next/navigation';
 export default function Navbar() {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [lang, setLang] = useState('AZ');
-  const [scrolled, setScrolled] = useState(false);
   const pathname = usePathname();
-
-  useEffect(() => {
-    const handleScroll = () => {
-      setScrolled(window.scrollY > 50);
-    };
-    window.addEventListener('scroll', handleScroll, { passive: true });
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
+  const router = useRouter();
 
   const navLinks = [
     { name: 'Klub', href: '/klub' },
@@ -45,13 +37,13 @@ export default function Navbar() {
         initial={{ y: -100, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }} 
-        className={`fixed left-0 right-0 z-50 flex justify-center px-4 transition-all duration-500 ${scrolled ? 'top-2 md:top-4' : 'top-6'}`}
+        className="fixed top-4 left-0 right-0 z-50 flex justify-center px-4"
       >
-        <div className={`bg-[#0a1628]/95 backdrop-blur-xl border border-white/10 shadow-2xl rounded-[2rem] flex items-center justify-between transition-all duration-500 mx-auto ${scrolled ? 'py-3 px-6 md:px-8 max-w-[1200px]' : 'py-4 px-6 md:px-8 max-w-[1100px]'}`}>
+        <div className="bg-[#0a1628]/95 backdrop-blur-xl border border-white/10 shadow-2xl rounded-[2rem] flex items-center justify-between w-full max-w-[1200px] py-3 px-6 md:px-8">
           
           {/* Logo Section */}
           <Link href="/" onClick={handleLogoClick} className="flex items-center gap-3 shrink-0 group">
-            <div className={`relative rounded-full overflow-hidden border border-white/20 group-hover:border-[var(--ks-kinpaku)] transition-all duration-500 ${scrolled ? 'w-10 h-10 md:w-12 md:h-12' : 'w-12 h-12 md:w-14 md:h-14'}`}>
+            <div className="relative w-10 h-10 md:w-12 md:h-12 rounded-full overflow-hidden border border-white/20 group-hover:border-[var(--ks-kinpaku)] transition-all duration-500">
               <Image src="/Logo.JPG.jpeg" alt="Yarımada FK Logo" fill className="object-cover" />
             </div>
             <span className="text-white font-black font-condensed uppercase tracking-wider text-xl md:text-2xl mt-1 hidden lg:block group-hover:text-[var(--ks-kinpaku)] transition-colors">
@@ -60,12 +52,12 @@ export default function Navbar() {
           </Link>
 
           {/* Links */}
-          <nav className="hidden xl:flex items-center gap-5 ml-8 mr-4">
+          <nav className="hidden xl:flex items-center justify-center gap-5 flex-1 mx-4">
             {navLinks.map((link) => (
               <Link 
                 key={link.name} 
                 href={link.href}
-                className={`uppercase font-bold tracking-wider transition-all duration-300 ${pathname === link.href ? 'text-[var(--ks-kinpaku)]' : 'text-white/70 hover:text-white'} ${scrolled ? 'text-[11px]' : 'text-[12px]'}`}
+                className={`uppercase font-bold tracking-wider transition-all duration-300 text-[12px] whitespace-nowrap ${pathname === link.href ? 'text-[var(--ks-kinpaku)]' : 'text-white/70 hover:text-white'}`}
               >
                 {link.name}
               </Link>
@@ -89,9 +81,9 @@ export default function Navbar() {
 
             <Link 
               href="/qeydiyyat" 
-              className={`ks-button !bg-[var(--ks-kinpaku)] !text-[#0a1628] !border-none hover:!bg-white !rounded-full !font-black uppercase tracking-widest shadow-sm transition-all duration-300 hidden sm:flex ${scrolled ? '!min-h-[40px] !px-5 !text-[11px]' : '!min-h-[48px] !px-7 !text-[12px]'}`}
+              className="ks-button !bg-[var(--ks-kinpaku)] !text-white !border-none hover:!bg-[#b39542] !rounded-full !font-black uppercase tracking-widest shadow-sm transition-all duration-300 hidden sm:flex !min-h-[40px] !px-6 !text-[12px]"
             >
-              Qeydiyyat
+              QEYDİYYAT
             </Link>
 
             {/* Mobile / Tablet Menu Button */}
@@ -111,9 +103,9 @@ export default function Navbar() {
       <AnimatePresence>
         {mobileOpen && (
           <motion.div
-            initial={{ opacity: 0, y: -20, scale: 0.98 }}
-            animate={{ opacity: 1, y: 0, scale: 1 }}
-            exit={{ opacity: 0, y: -20, scale: 0.98 }}
+            initial={{ opacity: 0, y: -20, scale: 0.98, filter: 'blur(10px)' }}
+            animate={{ opacity: 1, y: 0, scale: 1, filter: 'blur(0px)' }}
+            exit={{ opacity: 0, y: -20, scale: 0.98, filter: 'blur(10px)' }}
             transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
             className="fixed inset-0 z-[60] bg-[#0a1628]/95 backdrop-blur-2xl p-6 flex flex-col overflow-y-auto"
           >
@@ -161,9 +153,9 @@ export default function Navbar() {
               <Link 
                 href="/qeydiyyat" 
                 onClick={() => setMobileOpen(false)}
-                className="mt-10 ks-button !w-full max-w-sm !rounded-full !py-5 !bg-[var(--ks-kinpaku)] !text-[#0a1628] !font-black !text-xl uppercase tracking-widest"
+                className="mt-10 ks-button !w-full max-w-sm !rounded-full !py-5 !bg-[var(--ks-kinpaku)] !text-white !font-black !text-xl uppercase tracking-widest"
               >
-                Qeydiyyat
+                QEYDİYYAT
               </Link>
             </nav>
           </motion.div>

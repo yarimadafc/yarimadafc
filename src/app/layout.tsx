@@ -24,9 +24,13 @@ const jetbrains = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
-  title: 'Yarımada FC | Rəsmi Veb Səhifə',
+  title: 'Yarmada FC',
   description: 'Yarımada Futbol Klubunun rəsmi veb səhifəsi. Oyunlar, komandalar, xəbərlər və daha çoxu.',
   keywords: ['Yarımada FK', 'Yarımada Football Club', 'futbol akademiyası Bakı', 'uşaq futbolu Bakı', 'AFFA U-12'],
+  icons: {
+    icon: '/Logo.JPG.jpeg',
+    apple: '/Logo.JPG.jpeg',
+  }
 };
 
 export default function RootLayout({

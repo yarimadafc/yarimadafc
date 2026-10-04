@@ -66,18 +66,23 @@ export default function ContactPage() {
               
               <h2 className="text-3xl font-black font-condensed uppercase mb-8 text-[var(--ks-kinpaku)]">Əlaqə Məlumatları</h2>
               
-              <ul className="space-y-8 relative z-10">
+              <ul className="space-y-6 relative z-10">
                 <li>
-                  <p className="text-[var(--ks-kinpaku)] font-mono text-xs uppercase tracking-widest mb-1">Ünvan</p>
-                  <p className="font-bold text-lg leading-tight">Bakı ş., Nərimanov r.,<br/>Əhməd Rəcəbli küç. 15</p>
+                  <p className="text-[var(--ks-kinpaku)] font-mono text-xs uppercase tracking-widest mb-1">Məlumat</p>
+                  <p className="font-bold text-lg leading-tight">⚽️ Rəsmi Yarımada FK Akademiyası</p>
+                  <p className="text-gray-300 text-sm mt-1">🏆 6–14 yaş | Peşəkar futbol hazırlığı</p>
+                </li>
+                <li>
+                  <p className="text-[var(--ks-kinpaku)] font-mono text-xs uppercase tracking-widest mb-1">Ünvanlar</p>
+                  <p className="font-bold text-lg leading-tight">📍 Xırdalan • Masazır • Hökməli • Mehdiabad • Məmmədli</p>
                 </li>
                 <li>
                   <p className="text-[var(--ks-kinpaku)] font-mono text-xs uppercase tracking-widest mb-1">Telefon / WhatsApp</p>
-                  <p className="font-bold text-lg leading-tight">+994 50 123 45 67</p>
+                  <p className="font-bold text-xl leading-tight">+994 55 447 74 67</p>
                 </li>
                 <li>
                   <p className="text-[var(--ks-kinpaku)] font-mono text-xs uppercase tracking-widest mb-1">E-poçt</p>
-                  <p className="font-bold text-lg leading-tight">info@yarimadafc.az</p>
+                  <p className="font-bold text-lg leading-tight">info@yarmadafc.com</p>
                 </li>
               </ul>
 
@@ -88,14 +93,14 @@ export default function ContactPage() {
               </div>
             </div>
 
-            <div className="bg-gray-200 rounded-[2rem] h-64 overflow-hidden border border-gray-300 relative group cursor-pointer">
+            <a href="https://www.google.com/maps/@40.4552142,49.7338299,17z" target="_blank" className="bg-gray-200 rounded-[2rem] h-64 overflow-hidden border border-gray-300 relative group cursor-pointer block">
               <div className="absolute inset-0 bg-[#0a1628]/10 group-hover:bg-transparent transition-colors z-10" />
               <div className="absolute inset-0 flex items-center justify-center">
-                <span className="bg-white/90 backdrop-blur px-6 py-2 rounded-full font-bold shadow-md text-[#0a1628] z-20 group-hover:scale-105 transition-transform">Xəritədə Bax</span>
+                <span className="bg-[var(--ks-kinpaku)] px-6 py-3 rounded-full font-black uppercase tracking-widest shadow-md text-[#0a1628] z-20 group-hover:scale-105 transition-transform">Xəritədə Bax</span>
               </div>
               {/* Google Maps placeholder */}
-              <div className="w-full h-full bg-cover bg-center" style={{ backgroundImage: "url('https://maps.googleapis.com/maps/api/staticmap?center=Baku,Azerbaijan&zoom=13&size=600x300&maptype=roadmap&key=mock')" }}></div>
-            </div>
+              <div className="w-full h-full bg-cover bg-center" style={{ backgroundImage: "url('https://maps.googleapis.com/maps/api/staticmap?center=40.4552142,49.7338299&zoom=15&size=600x300&maptype=roadmap&markers=color:red%7C40.4552142,49.7338299')" }}></div>
+            </a>
           </div>
 
         </div>

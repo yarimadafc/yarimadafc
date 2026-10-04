@@ -1,4 +1,0 @@
-#!/bin/bash
-sed -i '' 's/min-h-\[30vh\]/min-h-[15vh]/g' src/app/komandalar/page.tsx src/app/klub/page.tsx src/app/oyunlar/page.tsx src/app/xeberler/page.tsx src/app/media/page.tsx src/app/mesqciler/page.tsx src/app/turnir-cedveli/page.tsx src/app/elaqe/page.tsx src/app/qeydiyyat/page.tsx
-sed -i '' 's/pt-40 pb-16/pt-32 pb-8/g' src/app/komandalar/page.tsx src/app/klub/page.tsx src/app/oyunlar/page.tsx src/app/xeberler/page.tsx src/app/media/page.tsx src/app/mesqciler/page.tsx src/app/turnir-cedveli/page.tsx src/app/elaqe/page.tsx src/app/qeydiyyat/page.tsx
-sed -i '' 's/p-8 md:p-12/p-6 md:p-8/g' src/app/komandalar/page.tsx src/app/klub/page.tsx src/app/oyunlar/page.tsx src/app/xeberler/page.tsx src/app/media/page.tsx src/app/mesqciler/page.tsx src/app/turnir-cedveli/page.tsx src/app/elaqe/page.tsx src/app/qeydiyyat/page.tsx

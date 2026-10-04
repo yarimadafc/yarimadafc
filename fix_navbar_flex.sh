@@ -1,3 +1,0 @@
-#!/bin/bash
-sed -i '' 's/className="flex items-center justify-center gap-3 shrink min-w-0 group absolute left-1\/2 -translate-x-1\/2 xl:static xl:translate-x-0"/className="flex items-center justify-center gap-3 shrink min-w-0 group xl:w-auto xl:justify-start flex-1 xl:flex-none"/g' src/components/Navbar.tsx
-sed -i '' 's/className="bg-\[#0a1628\]\/95 backdrop-blur-xl border border-white\/10 shadow-2xl rounded-\[3rem\] flex items-center relative justify-between w-full max-w-\[1350px\] py-3 px-4 md:py-4 md:px-8"/className="bg-\[#0a1628\]\/95 backdrop-blur-xl border border-white\/10 shadow-2xl rounded-\[3rem\] flex items-center justify-between w-full max-w-\[1350px\] py-3 px-4 md:py-4 md:px-8"/g' src/components/Navbar.tsx

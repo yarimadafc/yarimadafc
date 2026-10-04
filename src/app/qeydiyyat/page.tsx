@@ -7,12 +7,12 @@ export default function RegistrationPage() {
     <main className="flex-grow bg-[var(--ks-paper)] text-[var(--ks-ink)] pt-32 pb-8 px-4 sm:px-6 lg:px-8 max-w-[1400px] mx-auto">
       
       {/* HERO SECTION */}
-      <div className="relative rounded-[2rem] overflow-hidden min-h-[40vh] flex flex-col justify-end p-6 md:p-8 bg-[#0a1628] mb-12 text-center md:text-left">
+      <div className="relative rounded-[2rem] overflow-hidden min-h-[20vh] flex flex-col justify-end p-6 md:p-8 bg-[#0a1628] mb-12 text-center md:text-left">
         <div className="absolute inset-0 bg-gradient-to-t from-[#0a1628] to-transparent z-0" />
         <div className="relative z-10 max-w-4xl">
           <FadeIn>
             <p className="font-mono text-sm uppercase tracking-[0.2em] text-[var(--ks-kinpaku)] mb-4 font-bold">AKADEMİYA</p>
-            <h1 className="text-4xl sm:text-5xl md:text-8xl font-black font-condensed uppercase tracking-normal text-white leading-[0.85] drop-shadow-xl mb-6">
+            <h1 className="text-4xl sm:text-3xl md:text-5xl font-black font-condensed uppercase tracking-normal text-white leading-[0.85] drop-shadow-xl mb-6">
               BİZƏ QOŞUL
             </h1>
             <p className="text-xl text-gray-300 max-w-2xl font-medium">Övladınızın futbol xəyallarını gerçəkləşdirmək üçün ilk addımı atın. Yarımada FK ailəsinə xoş gəldiniz!</p>

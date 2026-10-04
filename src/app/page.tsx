@@ -51,7 +51,7 @@ export default async function Home() {
           <div className="relative z-10 max-w-4xl">
             <FadeIn>
               <p className="font-mono text-sm uppercase tracking-[0.2em] text-[var(--ks-kinpaku)] mb-4 font-bold">{t('hero_label', lang)}</p>
-              <h1 className="text-4xl sm:text-5xl md:text-8xl lg:text-9xl font-black font-condensed uppercase tracking-normal text-white mb-6 leading-[1] md:leading-[0.85] drop-shadow-xl">
+              <h1 className="text-4xl sm:text-3xl md:text-5xl lg:text-9xl font-black font-condensed uppercase tracking-normal text-white mb-6 leading-[1] md:leading-[0.85] drop-shadow-xl">
                 {heroBanner?.title || t('hero_title', lang)} 
               </h1>
               <p className="text-base sm:text-lg md:text-2xl text-gray-200 mb-10 max-w-2xl leading-relaxed">
@@ -72,7 +72,7 @@ export default async function Home() {
           <div className="flex flex-col md:flex-row justify-between items-center md:items-end mb-10 gap-4 md:gap-0">
             <div className="text-center md:text-left w-full md:w-auto">
               <p className="font-mono text-sm uppercase tracking-[0.2em] text-[#0a1628]/60 mb-4 font-bold">{t('matches_label', lang)}</p>
-              <h2 className="text-6xl md:text-7xl font-black font-condensed uppercase text-[var(--ks-ink)] leading-[0.9]">{t("matches_title", lang)}</h2>
+              <h2 className="text-4xl md:text-5xl font-black font-condensed uppercase text-[var(--ks-ink)] leading-[0.9]">{t("matches_title", lang)}</h2>
             </div>
             <Link href="/oyunlar" className="ks-button ks-button-secondary !border-[var(--ks-ink)]/20 text-[var(--ks-ink)] hover:!bg-[var(--ks-ink)] hover:!text-white hidden md:inline-flex">{lang === "EN" ? "All matches" : lang === "RU" ? "Все матчи" : "Bütün oyunlar"}</Link>
           </div>
@@ -90,7 +90,7 @@ export default async function Home() {
           <div className="flex flex-col md:flex-row justify-between items-center md:items-end mb-8 gap-4 md:gap-0">
             <div className="text-center md:text-left w-full md:w-auto">
               <p className="font-mono text-sm uppercase tracking-[0.2em] text-[#0a1628]/60 mb-2 font-bold">{t('standings_label', lang)}</p>
-              <h2 className="text-4xl md:text-6xl font-black font-condensed uppercase text-[var(--ks-ink)] leading-[0.9]">{t("standings_title", lang)}</h2>
+              <h2 className="text-3xl md:text-5xl font-black font-condensed uppercase text-[var(--ks-ink)] leading-[0.9]">{t("standings_title", lang)}</h2>
             </div>
             <Link href="/turnir-cedveli" className="ks-button ks-button-secondary !border-[var(--ks-ink)]/20 text-[var(--ks-ink)] hover:!bg-[var(--ks-ink)] hover:!text-white hidden md:inline-flex">
               Tam cədvəl
@@ -158,7 +158,7 @@ export default async function Home() {
             <div className="flex flex-col lg:flex-row justify-between gap-12 mb-16">
               <div className="max-w-2xl">
                 <p className="font-mono text-sm uppercase tracking-[0.2em] text-[#0a1628]/60 mb-4 font-bold">{t('about_label', lang)}</p>
-                <h2 className="text-6xl md:text-7xl font-black font-condensed uppercase text-[var(--ks-ink)] mb-8 leading-[0.9]">
+                <h2 className="text-4xl md:text-5xl font-black font-condensed uppercase text-[var(--ks-ink)] mb-8 leading-[0.9]">
                   YARIMADA FK HAQQINDA.
                 </h2>
                 <p className="text-xl text-[var(--ks-ink)]/70 mb-8">
@@ -179,7 +179,7 @@ export default async function Home() {
             {/* Komandalar */}
             <p className="font-mono text-sm uppercase tracking-[0.2em] text-[#0a1628]/60 mb-4 font-bold">AKADEMİYA</p>
             <div className="flex flex-col md:flex-row md:justify-between items-start md:items-end gap-4 mb-8">
-              <h2 className="text-4xl md:text-6xl font-black font-condensed uppercase text-[var(--ks-ink)] leading-[0.9]">
+              <h2 className="text-3xl md:text-5xl font-black font-condensed uppercase text-[var(--ks-ink)] leading-[0.9]">
                 KOMANDALAR
               </h2>
               <Link href="/komandalar" className="text-sm font-bold uppercase tracking-wider text-[var(--ks-kinpaku-rich)] hover:text-[var(--ks-ink)] transition-colors inline-block pb-1 border-b border-[var(--ks-kinpaku-rich)] md:border-none">
@@ -207,7 +207,7 @@ export default async function Home() {
           <div className="flex flex-col md:flex-row justify-between items-center md:items-end mb-10 gap-4 md:gap-0">
             <div className="text-center md:text-left w-full md:w-auto">
               <p className="font-mono text-sm uppercase tracking-[0.2em] text-[#0a1628]/60 mb-4 font-bold">{t('news_label', lang)}</p>
-              <h2 className="text-6xl md:text-7xl font-black font-condensed uppercase text-[var(--ks-ink)] leading-[0.9]">{t("news_title", lang)}</h2>
+              <h2 className="text-4xl md:text-5xl font-black font-condensed uppercase text-[var(--ks-ink)] leading-[0.9]">{t("news_title", lang)}</h2>
             </div>
           </div>
 
@@ -277,7 +277,7 @@ export default async function Home() {
             <div className="flex-1 bg-[#0a1628] rounded-[2rem] p-8 md:p-12 text-white">
               <p className="font-mono text-sm uppercase tracking-[0.2em] text-[var(--ks-kinpaku)] mb-4 font-bold">MEDİA</p>
               <div className="flex justify-between items-end mb-8">
-                <h2 className="text-4xl md:text-6xl font-black font-condensed uppercase leading-[0.9]">{t("media_videos", lang)}</h2>
+                <h2 className="text-3xl md:text-5xl font-black font-condensed uppercase leading-[0.9]">{t("media_videos", lang)}</h2>
                 <Link href="/media?tab=videos" className="text-sm font-bold text-white/70 hover:text-white transition-colors">Hamısı &rarr;</Link>
               </div>
               
@@ -296,7 +296,7 @@ export default async function Home() {
             <div className="flex-1 bg-white rounded-[2rem] p-8 md:p-12 shadow-sm">
               <p className="font-mono text-sm uppercase tracking-[0.2em] text-[#0a1628]/60 mb-4 font-bold">MEDİA</p>
               <div className="flex justify-between items-end mb-8">
-                <h2 className="text-4xl md:text-6xl font-black font-condensed uppercase text-[var(--ks-ink)] leading-[0.9]">{t("media_photos", lang)}</h2>
+                <h2 className="text-3xl md:text-5xl font-black font-condensed uppercase text-[var(--ks-ink)] leading-[0.9]">{t("media_photos", lang)}</h2>
                 <Link href="/media?tab=photos" className="text-sm font-bold text-[var(--ks-ink)]/70 hover:text-[var(--ks-ink)] transition-colors">Hamısı &rarr;</Link>
               </div>
               

@@ -40,12 +40,12 @@ export default async function MediaPage(props: { searchParams: Promise<{ tab?: s
       
       {/* HERO SECTION */}
       <section className="pt-40 pb-8 px-4 sm:px-6 lg:px-8 max-w-[1400px] mx-auto">
-        <div className="relative rounded-[2rem] overflow-hidden min-h-[40vh] flex flex-col justify-end p-8 md:p-16 bg-[#0a1628]">
+        <div className="relative rounded-[2rem] overflow-hidden min-h-[20vh] flex flex-col justify-end p-8 md:p-16 bg-[#0a1628]">
           <div className="absolute inset-0 bg-gradient-to-t from-[#0a1628] to-transparent z-0" />
           <div className="relative z-10 max-w-4xl">
             <FadeIn>
               <p className="font-mono text-sm uppercase tracking-[0.2em] text-[var(--ks-kinpaku)] mb-4 font-bold">QALEREYA</p>
-              <h1 className="text-7xl md:text-9xl font-black font-condensed uppercase tracking-normal text-white mb-6 leading-[0.85] drop-shadow-xl">
+              <h1 className="text-5xl md:text-7xl font-black font-condensed uppercase tracking-normal text-white mb-6 leading-[0.85] drop-shadow-xl">
                 MEDİA
               </h1>
             </FadeIn>

@@ -37,7 +37,7 @@ export default async function TeamDetailPage(props: { params: Promise<{ id: stri
       
       {/* 1. HERO SECTION */}
       <section className="pt-32 pb-8 px-4 sm:px-6 lg:px-8 max-w-[1400px] mx-auto">
-        <div className="relative rounded-[2rem] overflow-hidden min-h-[50vh] flex flex-col justify-end p-8 md:p-16 bg-[#0a1628]">
+        <div className="relative rounded-[2rem] overflow-hidden min-h-[25vh] flex flex-col justify-end p-8 md:p-16 bg-[#0a1628]">
           <Link href="/komandalar" className="absolute top-8 left-8 text-white/50 hover:text-white font-bold flex items-center gap-2 transition-colors z-20">
             &larr; Bütün komandalar
           </Link>

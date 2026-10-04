@@ -74,9 +74,9 @@ export default async function MatchDetailPage(props: { params: Promise<{ id: str
 
             {match.status === 'completed' ? (
               <div className="shrink-0 flex items-center justify-center gap-6">
-                <span className="text-7xl md:text-9xl font-black font-condensed text-[var(--ks-kinpaku)] leading-none">{match.home_score}</span>
+                <span className="text-5xl md:text-7xl font-black font-condensed text-[var(--ks-kinpaku)] leading-none">{match.home_score}</span>
                 <span className="text-4xl text-gray-600 font-black">-</span>
-                <span className="text-7xl md:text-9xl font-black font-condensed text-[var(--ks-kinpaku)] leading-none">{match.away_score}</span>
+                <span className="text-5xl md:text-7xl font-black font-condensed text-[var(--ks-kinpaku)] leading-none">{match.away_score}</span>
               </div>
             ) : (
               <div className="shrink-0 bg-white/10 backdrop-blur-md px-8 py-4 rounded-3xl border border-white/20">

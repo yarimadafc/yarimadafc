@@ -45,7 +45,7 @@ export default async function StandingsPage(props: { searchParams: Promise<{ tou
     <main className="flex-grow bg-[var(--ks-paper)] text-[var(--ks-ink)] pt-28 pb-16 px-4 sm:px-6 lg:px-8 max-w-[1400px] mx-auto">
 
       {/* HERO */}
-      <div className="relative rounded-[2rem] overflow-hidden min-h-[15vh] flex flex-col justify-end p-6 md:p-10 bg-[#0a1628] mb-10">
+      <div className="relative rounded-[2rem] overflow-hidden min-h-[10vh] flex flex-col justify-end p-6 md:p-10 bg-[#0a1628] mb-10">
         <div className="absolute inset-0 bg-gradient-to-tr from-[#0a1628] via-[#0d2040] to-[#1a3a6b] z-0" />
         <div className="absolute inset-0 opacity-10" style={{backgroundImage:'radial-gradient(circle at 70% 50%, #c9a84c 0%, transparent 60%)'}} />
         <div className="relative z-10">

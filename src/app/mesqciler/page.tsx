@@ -14,15 +14,7 @@ export default async function CoachesPage() {
     console.error('Error fetching coaches:', error);
   }
 
-  // Fallback data
-  if (coaches.length === 0) {
-    coaches = [
-      { id: '1', name: 'Əhməd Məmmədov', role: 'Baş məşqçi', license: 'UEFA B', team_name: 'Yarımada U-12' },
-      { id: '2', name: 'Emin Quliyev', role: 'Baş məşqçi', license: 'UEFA C', team_name: 'Yarımada U-11' },
-      { id: '3', name: 'Rəşad Əliyev', role: 'Baş məşqçi', license: 'UEFA C', team_name: 'Yarımada U-10' },
-      { id: '4', name: 'Vüsal Həsənov', role: 'Məşqçi', license: 'AFFA C', team_name: 'Yarımada U-9' },
-    ];
-  } else {
+  if (true) {
     coaches = coaches.map(c => ({...c, team_name: c.teams?.name}));
   }
 
@@ -31,11 +23,11 @@ export default async function CoachesPage() {
       
       {/* 1. HERO SECTION */}
       <section className="pt-40 pb-8 px-4 sm:px-6 lg:px-8 max-w-[1400px] mx-auto">
-        <div className="relative rounded-[2rem] overflow-hidden min-h-[40vh] flex flex-col justify-end p-8 md:p-16 bg-[#0a1628]">
+        <div className="relative rounded-[2rem] overflow-hidden min-h-[20vh] flex flex-col justify-end p-8 md:p-16 bg-[#0a1628]">
           <div className="relative z-10 max-w-4xl">
             <FadeIn>
               <p className="font-mono text-sm uppercase tracking-[0.2em] text-[var(--ks-kinpaku)] mb-4 font-bold">AKADEMİYA</p>
-              <h1 className="text-7xl md:text-9xl font-black font-condensed uppercase tracking-normal text-white mb-6 leading-[0.85] drop-shadow-xl">
+              <h1 className="text-5xl md:text-7xl font-black font-condensed uppercase tracking-normal text-white mb-6 leading-[0.85] drop-shadow-xl">
                 MƏŞQÇİLƏRİMİZ
               </h1>
             </FadeIn>

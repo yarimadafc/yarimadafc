@@ -41,7 +41,7 @@ export default async function ClubPage() {
           <div className="relative z-10 max-w-4xl">
             <FadeIn>
               <p className="font-mono text-sm uppercase tracking-[0.2em] text-[var(--ks-kinpaku)] mb-4 font-bold">Klub</p>
-              <h1 className="text-7xl md:text-9xl font-black font-condensed uppercase tracking-normal text-white mb-6 leading-[0.85] drop-shadow-xl">
+              <h1 className="text-5xl md:text-7xl font-black font-condensed uppercase tracking-normal text-white mb-6 leading-[0.85] drop-shadow-xl">
                 BİZ KİMİK?
               </h1>
               <p className="text-xl md:text-2xl text-gray-200 mb-4 max-w-2xl leading-relaxed">
@@ -96,7 +96,7 @@ export default async function ClubPage() {
         <FadeIn>
           <div className="mb-10">
             <p className="font-mono text-sm uppercase tracking-[0.2em] text-[#0a1628]/60 mb-4 font-bold">RƏHBƏRLİK</p>
-            <h2 className="text-6xl md:text-7xl font-black font-condensed uppercase text-[var(--ks-ink)] leading-[0.9]">
+            <h2 className="text-4xl md:text-5xl font-black font-condensed uppercase text-[var(--ks-ink)] leading-[0.9]">
               KLUB NÜMAYƏNDƏLƏRİ
             </h2>
           </div>

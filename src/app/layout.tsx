@@ -1,17 +1,17 @@
 import type { Metadata } from 'next';
-import { Albert_Sans, JetBrains_Mono, Alumni_Sans } from 'next/font/google';
+import { Montserrat, JetBrains_Mono, Oswald } from 'next/font/google';
 import './globals.css';
 import ClientLayout from '@/components/ClientLayout';
 
-const albert = Albert_Sans({ 
+const albert = Montserrat({ 
   subsets: ['latin'], 
   weight: ['400', '500', '600', '700', '800', '900'],
   variable: '--font-albert'
 });
 
-const alumni = Alumni_Sans({ 
+const alumni = Oswald({ 
   subsets: ['latin'], 
-  weight: ['700', '800', '900'],
+  weight: ['400', '500', '600', '700'],
   variable: '--font-alumni'
 });
 

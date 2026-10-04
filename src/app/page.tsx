@@ -108,33 +108,49 @@ export default async function Home() {
           </div>
           
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-            <div className="lg:col-span-2 bg-white rounded-[2rem] p-6 md:p-10 shadow-xl shadow-[var(--ks-ink)]/5 overflow-x-auto flex flex-col justify-between">
-              <table className="w-full text-left border-collapse min-w-full">
-                <thead>
-                  <tr className="border-b border-gray-200">
-                    <th className="py-4 px-4 font-mono text-xs text-gray-400 uppercase tracking-widest font-bold">#</th>
-                    <th className="py-4 px-4 font-mono text-xs text-gray-400 uppercase tracking-widest font-bold">Komanda</th>
-                    <th className="hidden sm:table-cell py-4 px-2 text-center font-mono text-xs text-gray-400 uppercase tracking-widest font-bold">O</th>
-                    <th className="hidden md:table-cell py-4 px-2 text-center font-mono text-xs text-gray-400 uppercase tracking-widest font-bold">Q</th>
-                    <th className="hidden md:table-cell py-4 px-2 text-center font-mono text-xs text-gray-400 uppercase tracking-widest font-bold">H</th>
-                    <th className="hidden md:table-cell py-4 px-2 text-center font-mono text-xs text-gray-400 uppercase tracking-widest font-bold">M</th>
-                    <th className="py-4 px-4 text-right font-mono text-xs text-[var(--ks-kinpaku-rich)] uppercase tracking-widest font-black">XAL</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr className="border-b border-gray-50 hover:bg-gray-50 transition-colors">
-                    <td className="py-4 px-4 text-sm font-bold text-gray-400">1</td>
-                    <td className="py-4 px-4 font-bold text-[var(--ks-ink)] uppercase">Məlumat yüklənir...</td>
-                    <td className="hidden md:table-cell py-4 px-2 text-center text-sm font-mono text-gray-500">-</td>
-                    <td className="hidden md:table-cell py-4 px-2 text-center text-sm font-mono text-gray-500">-</td>
-                    <td className="hidden md:table-cell py-4 px-2 text-center text-sm font-mono text-gray-500">-</td>
-                    <td className="hidden md:table-cell py-4 px-2 text-center text-sm font-mono text-gray-500">-</td>
-                    <td className="py-4 px-4 text-right font-black text-xl text-[var(--ks-kinpaku)]">-</td>
-                  </tr>
-                </tbody>
-              </table>
-              <div className="mt-6 flex justify-center lg:hidden">
-                <Link href="/turnir-cedveli" className="text-sm font-bold uppercase tracking-wider text-[var(--ks-kinpaku-rich)]">{t('full_table', lang)}</Link>
+            {/* TABLE */}
+            <div className="lg:col-span-2 bg-white rounded-[2rem] overflow-hidden shadow-xl shadow-[var(--ks-ink)]/5 flex flex-col">
+              {/* Table header */}
+              <div className="bg-[#0a1628] grid text-[var(--ks-kinpaku)] text-[10px] uppercase tracking-widest font-black"
+                style={{gridTemplateColumns:'2.5rem 1fr 2rem 2rem 2rem 2rem 3rem'}}>
+                <div className="py-3 text-center">#</div>
+                <div className="py-3 pl-3">Komanda</div>
+                <div className="py-3 text-center" title="Oyunlar">O</div>
+                <div className="py-3 text-center hidden sm:block" title="Qələbə">Q</div>
+                <div className="py-3 text-center hidden sm:block" title="Məğlubiyyət">M</div>
+                <div className="py-3 text-center hidden sm:block" title="Qol Fərqi">+/-</div>
+                <div className="py-3 text-center text-white">X</div>
+              </div>
+
+              {/* Placeholder rows */}
+              {[
+                {name:'Məlumat yüklənir', played:'-', won:'-', lost:'-', diff:'-', pts:'-', yarimada:false},
+              ].map((row, idx) => (
+                <div key={idx}
+                  className={`grid items-center border-b border-gray-50 transition-colors ${row.yarimada ? 'bg-[var(--ks-kinpaku)]/10 border-l-4 border-l-[var(--ks-kinpaku)]' : 'hover:bg-gray-50'}`}
+                  style={{gridTemplateColumns:'2.5rem 1fr 2rem 2rem 2rem 2rem 3rem'}}>
+                  <div className="py-3 text-center text-xs font-black text-gray-300">{idx+1}</div>
+                  <div className="py-3 pl-3 flex items-center gap-2 min-w-0">
+                    <div className={`w-6 h-6 rounded-full text-[9px] font-black flex items-center justify-center shrink-0 ${row.yarimada ? 'bg-[var(--ks-kinpaku)] text-[#0a1628]' : 'bg-gray-100 text-gray-400'}`}>
+                      {(row.name as string).charAt(0)}
+                    </div>
+                    <span className="font-bold text-xs text-gray-700 truncate">{row.name}</span>
+                  </div>
+                  <div className="py-3 text-center text-xs font-mono text-gray-400">{row.played}</div>
+                  <div className="py-3 text-center text-xs font-mono text-green-500 hidden sm:block">{row.won}</div>
+                  <div className="py-3 text-center text-xs font-mono text-red-400 hidden sm:block">{row.lost}</div>
+                  <div className="py-3 text-center text-xs font-mono text-gray-400 hidden sm:block">{row.diff}</div>
+                  <div className="py-3 flex justify-center">
+                    <span className={`w-7 h-7 rounded-full flex items-center justify-center text-xs font-black ${row.yarimada ? 'bg-[var(--ks-kinpaku)] text-[#0a1628]' : 'bg-gray-100 text-gray-600'}`}>{row.pts}</span>
+                  </div>
+                </div>
+              ))}
+
+              <div className="mt-auto px-6 py-4 border-t border-gray-50 flex justify-between items-center">
+                <span className="text-[10px] text-gray-400 font-mono uppercase tracking-wider">O=Oyun · Q=Qələbə · M=Məğlubiyyət · X=Xal</span>
+                <Link href="/turnir-cedveli" className="text-xs font-black uppercase tracking-wider text-[var(--ks-kinpaku)] hover:underline">
+                  {t('full_table', lang)}
+                </Link>
               </div>
             </div>
 

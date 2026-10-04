@@ -10,7 +10,7 @@ import PushNotificationManager from '@/components/PushNotificationManager';
 
 export default function ClientLayout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
-  const isAdmin = pathname?.startsWith('/adminpanel');
+  const isAdmin = pathname?.includes('/adminpanel');
 
   if (isAdmin) {
     return <>{children}</>;

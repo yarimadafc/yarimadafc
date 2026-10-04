@@ -5,18 +5,20 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { motion, AnimatePresence } from 'framer-motion';
 import LangSwitcher from "./LangSwitcher";
-import { useRouter, usePathname } from 'next/navigation';
+import { useRouter, usePathname } from "next/navigation";
+import { useTranslations, useLocale } from "next-intl";
 
 export default function Navbar() {
+  const t = useTranslations();
+  const locale = useLocale();
   const [mobileOpen, setMobileOpen] = useState(false);
-  const [lang, setLang] = useState('AZ');
   const pathname = usePathname();
   const router = useRouter();
 
   useEffect(() => {
     const match = document.cookie.match(/(?:^|;\s*)NEXT_LOCALE=([^;]+)/);
     if (match && match[1]) {
-      setLang(match[1]);
+      
     }
   }, []);
 
@@ -32,7 +34,15 @@ export default function Navbar() {
     { name: l === 'EN' ? 'Coaches' : l === 'RU' ? 'Тренеры' : 'Məşqçilər', href: '/mesqciler' },
     { name: l === 'EN' ? 'Contact' : l === 'RU' ? 'Контакты' : 'Əlaqə', href: '/elaqe' },
   ];
-  const navLinks = getNavLinks(lang);
+  const navLinks = [
+    { name: t('home'), href: '/' },
+    { name: t('club'), href: '/klub' },
+    { name: t('teams'), href: '/komandalar' },
+    { name: t('matches'), href: '/oyunlar' },
+    { name: t('coaches'), href: '/mesqciler' },
+    { name: t('media'), href: '/media' },
+    { name: t('contact'), href: '/elaqe' },
+  ];
 
   const handleLogoClick = (e: React.MouseEvent) => {
     if (pathname === '/') {
@@ -85,7 +95,7 @@ export default function Navbar() {
             
 
             {/* Lang Switcher */}
-            <LangSwitcher lang={lang} setLang={setLang} />
+            <LangSwitcher />
 
             <div className="hidden lg:block">
               <a 
@@ -121,7 +131,7 @@ export default function Navbar() {
             className="absolute top-[80px] right-4 w-[240px] z-[60] bg-[var(--ks-instrument-deep)] backdrop-blur-3xl p-6 flex flex-col shadow-2xl rounded-2xl border border-white/10"
           >
             <nav className="flex flex-col gap-4 items-start pb-2">
-              <Link href="/" onClick={() => setMobileOpen(false)} className="text-white text-base font-black font-condensed uppercase tracking-widest hover:text-[var(--ks-kinpaku)] transition-colors w-full text-left">{lang === "EN" ? "Home" : lang === "RU" ? "Главная" : "Ana Səhifə"}</Link>
+              <Link href="/" onClick={() => setMobileOpen(false)} className="text-white text-base font-black font-condensed uppercase tracking-widest hover:text-[var(--ks-kinpaku)] transition-colors w-full text-left">{t('home')}</Link>
               {navLinks.map((link) => (
                 <Link 
                   key={link.name}

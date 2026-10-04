@@ -1,12 +1,14 @@
 'use client';
 import { useState, useRef, useEffect } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import { useRouter } from 'next/navigation';
+import { useLocale } from 'next-intl';
+import { useRouter, usePathname } from '@/i18n/routing';
 
-export default function LangSwitcher({ lang, setLang }: { lang: string, setLang: (l: string) => void }) {
+export default function LangSwitcher() {
+  const locale = useLocale();
+  const router = useRouter();
+  const pathname = usePathname();
   const [open, setOpen] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
-  const router = useRouter();
 
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
@@ -16,55 +18,43 @@ export default function LangSwitcher({ lang, setLang }: { lang: string, setLang:
     }
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
-  }, []);
+  }, [ref]);
 
-  const langs = [
-    { code: 'AZ', label: 'Azərbaycanca' },
-    { code: 'EN', label: 'English' },
-    { code: 'RU', label: 'Русский' }
-  ];
+  const changeLang = (newLocale: string) => {
+    router.replace(pathname, { locale: newLocale });
+    setOpen(false);
+  };
+
+  const currentLang = locale.toUpperCase();
 
   return (
-    <div className="relative" ref={ref}>
+    <div className="relative z-50" ref={ref}>
       <button 
         onClick={() => setOpen(!open)}
-        className="flex items-center justify-center w-10 h-10 md:w-11 md:h-11 rounded-full bg-white/5 border border-white/10 hover:bg-white/10 hover:border-[var(--ks-kinpaku)] transition-all group"
+        className="flex items-center gap-1.5 md:gap-2 text-white/90 hover:text-white font-bold text-[13px] md:text-sm tracking-widest px-2 md:px-3 py-1.5 md:py-2 rounded-full border border-white/20 bg-white/5 backdrop-blur-md transition-all"
       >
-        <svg className="w-5 h-5 text-white/70 group-hover:text-[var(--ks-kinpaku)] transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9" />
+        <svg className="w-4 h-4 text-[var(--ks-kinpaku)]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+        </svg>
+        {currentLang}
+        <svg className={`w-3 h-3 md:w-4 md:h-4 transition-transform duration-200 ${open ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
         </svg>
       </button>
 
-      <AnimatePresence>
-        {open && (
-          <motion.div 
-            initial={{ opacity: 0, y: 10, scale: 0.95 }}
-            animate={{ opacity: 1, y: 0, scale: 1 }}
-            exit={{ opacity: 0, y: 10, scale: 0.95 }}
-            transition={{ duration: 0.2 }}
-            className="absolute top-full right-0 mt-2 w-36 bg-[#0a1628]/95 backdrop-blur-xl border border-white/10 rounded-2xl shadow-2xl overflow-hidden z-50 flex flex-col"
-          >
-            {langs.map((l) => (
-              <button
-                key={l.code}
-                onClick={() => {
-                  setLang(l.code);
-                  setOpen(false);
-                  // Quick hack to force re-render across the app if needed, usually we'd use Context
-                  document.cookie = `NEXT_LOCALE=${l.code}; path=/`;
-                  window.location.reload();
-                }}
-                className={`flex items-center justify-between px-4 py-3 text-sm font-bold transition-colors ${lang === l.code ? 'bg-[var(--ks-kinpaku)]/10 text-[var(--ks-kinpaku)]' : 'text-white/70 hover:bg-white/5 hover:text-white'}`}
-              >
-                {l.label}
-                {lang === l.code && (
-                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" /></svg>
-                )}
-              </button>
-            ))}
-          </motion.div>
-        )}
-      </AnimatePresence>
+      {open && (
+        <div className="absolute top-full right-0 mt-2 w-16 md:w-20 bg-white rounded-xl shadow-xl overflow-hidden py-1 border border-black/5 flex flex-col">
+          {['az', 'en', 'ru'].map((l) => (
+            <button
+              key={l}
+              onClick={() => changeLang(l)}
+              className={`text-center py-2 md:py-2.5 text-[13px] md:text-sm font-bold tracking-wider transition-colors ${locale === l ? 'bg-[#0a1628] text-[var(--ks-kinpaku)]' : 'text-[#0a1628] hover:bg-gray-100'}`}
+            >
+              {l.toUpperCase()}
+            </button>
+          ))}
+        </div>
+      )}
     </div>
   );
 }

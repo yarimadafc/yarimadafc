@@ -1,21 +1,24 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import Link from 'next/link';
+import Link from "next/link";
+import { useTranslations, useLocale } from "next-intl";
 import { supabase } from '@/lib/supabase';
 import Image from 'next/image';
 
 export default function Footer() {
-  const [lang, setLang] = useState('AZ');
+  const t = useTranslations();
+  const lang = useLocale().toUpperCase();
+  
 
   useEffect(() => {
     const match = document.cookie.match(/(?:^|;\s*)NEXT_LOCALE=([^;]+)/);
     if (match && match[1]) {
-      setLang(match[1]);
+      
     }
     
     // Listen for custom lang change event
-    const handleLangChange = (e: any) => setLang(e.detail);
+    const handleLangChange = (e: any) => 
     window.addEventListener('langChange', handleLangChange);
     return () => window.removeEventListener('langChange', handleLangChange);
   }, []);

@@ -1,6 +1,7 @@
 export const dynamic = 'force-dynamic';
 
 import Link from 'next/link';
+import { getLocalizedData } from '@/lib/getLocalizedData';
 import { supabase } from '@/lib/supabase';
 import FadeIn from '@/components/FadeIn';
 

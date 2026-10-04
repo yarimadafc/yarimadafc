@@ -1,10 +1,13 @@
 export const dynamic = 'force-dynamic';
 
 import Link from 'next/link';
+import { getLocalizedData } from '@/lib/getLocalizedData';
 import { supabase } from '@/lib/supabase';
 import FadeIn from '@/components/FadeIn';
 
-export default async function NewsPage({ searchParams }: { searchParams: Promise<{ category?: string }> }) {
+export default async function NewsPage({ searchParams, params }: { searchParams: Promise<{ category?: string }>, params: Promise<{ locale: string }> }) {
+  const resolvedParams = await params;
+  const locale = resolvedParams.locale;
   const resolvedSearchParams = await searchParams;
   const activeCategory = resolvedSearchParams.category || 'all';
 
@@ -75,7 +78,7 @@ export default async function NewsPage({ searchParams }: { searchParams: Promise
                 <Link key={idx} href={`/xeberler/${item.slug || item.id}`} className="group flex flex-col bg-[var(--ks-paper-deep)] rounded-[2rem] overflow-hidden border border-gray-100 shadow-sm hover:shadow-lg transition-all">
                   <div className="aspect-[16/9] bg-gray-200 overflow-hidden relative">
                     {item.image_url ? (
-                      <img src={item.image_url} alt={item.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
+                      <img src={item.image_url} alt={getLocalizedData(item, 'title', locale)} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
                     ) : (
                       <div className="absolute inset-0 flex items-center justify-center bg-[#0a1628]/5 group-hover:bg-[#0a1628]/10 transition-colors">
                         <span className="font-black font-condensed text-3xl text-gray-300 uppercase tracking-widest">YARIMADA FK</span>
@@ -88,10 +91,10 @@ export default async function NewsPage({ searchParams }: { searchParams: Promise
                   <div className="p-8 flex-1 flex flex-col">
                     <p className="font-mono text-xs text-gray-400 mb-3">{new Date(item.published_at || Date.now()).toLocaleDateString('az-AZ', { day: 'numeric', month: 'long', year: 'numeric' })}</p>
                     <h2 className="text-2xl font-black font-condensed uppercase leading-tight mb-4 group-hover:text-[var(--ks-kinpaku-rich)] transition-colors line-clamp-2">
-                      {item.title}
+                      {getLocalizedData(item, 'title', locale)}
                     </h2>
                     <p className="text-gray-500 mb-6 line-clamp-3 text-sm flex-1">
-                      {item.excerpt}
+                      {getLocalizedData(item, 'excerpt', locale)}
                     </p>
                     <div className="mt-auto">
                       <span className="text-[var(--ks-ink)] font-bold text-sm uppercase tracking-widest border-b-2 border-transparent group-hover:border-[var(--ks-kinpaku-rich)] pb-1 transition-colors">

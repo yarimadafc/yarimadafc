@@ -2,8 +2,11 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
+import { useTranslations, useLocale } from 'next-intl';
 
-export default function MatchesTabs({ nextMatch, lastMatch, lang = 'AZ' }: { nextMatch: any, lastMatch: any, lang?: 'AZ' | 'EN' | 'RU' }) {
+export default function MatchesTabs({ nextMatch, lastMatch }: { nextMatch: any, lastMatch: any }) {
+  const t = useTranslations();
+  const lang = useLocale().toUpperCase();
   const [activeTab, setActiveTab] = useState<'next' | 'last'>('next');
 
   const match = activeTab === 'next' ? nextMatch : lastMatch;

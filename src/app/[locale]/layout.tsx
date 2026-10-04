@@ -1,7 +1,9 @@
 import type { Metadata } from 'next';
 import { Montserrat, JetBrains_Mono, Oswald } from 'next/font/google';
-import './globals.css';
+import '../globals.css';
 import ClientLayout from '@/components/ClientLayout';
+import {NextIntlClientProvider} from 'next-intl';
+import {getMessages, setRequestLocale} from 'next-intl/server';
 
 const albert = Montserrat({ 
   subsets: ['latin'], 
@@ -31,20 +33,31 @@ export const metadata: Metadata = {
   }
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
+  params
 }: {
   children: React.ReactNode;
+  params: Promise<{locale: string}>;
 }) {
+  const { locale } = await params;
+  setRequestLocale(locale);
+  const messages = await getMessages();
   return (
-    <html lang="az" className={`${albert.variable} ${alumni.variable} ${jetbrains.variable}`}>
+    <html lang={locale} className={`${albert.variable} ${alumni.variable} ${jetbrains.variable}`}>
       <head>
         <link rel="icon" type="image/jpeg" href="/Logo.JPG.jpeg" />
         <link rel="apple-touch-icon" href="/Logo.JPG.jpeg" />
       </head>
       <body className="min-h-screen flex flex-col antialiased">
-        <ClientLayout>{children}</ClientLayout>
+        <NextIntlClientProvider messages={messages} locale={locale}>
+          <ClientLayout>{children}</ClientLayout>
+        </NextIntlClientProvider>
       </body>
     </html>
   );
+}
+
+export function generateStaticParams() {
+  return [{locale: 'az'}, {locale: 'en'}, {locale: 'ru'}];
 }

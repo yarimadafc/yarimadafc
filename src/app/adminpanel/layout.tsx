@@ -20,7 +20,6 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
   }
 
   const menuItems = [
-    { name: 'İdarə paneli', path: '/adminpanel' },
     { name: 'Xəbərlər', path: '/adminpanel/xeberler' },
     { name: 'Komandalar', path: '/adminpanel/komandalar' },
     { name: 'Futbolçular', path: '/adminpanel/futbolcular' },

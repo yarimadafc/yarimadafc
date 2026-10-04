@@ -2,6 +2,7 @@
 import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { supabase } from '@/lib/supabase';
+import { autoTranslateFields } from '@/lib/autoTranslate';
 
 import { use } from 'react';
 
@@ -55,10 +56,16 @@ export default function AdminNewsEdit({ params }: { params: Promise<{ id: string
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
-    const slug = generateSlug(formData.title_az);
+    
+    // Auto translate missing fields
+    const { updatedData } = await autoTranslateFields(formData, ['title', 'content', 'excerpt']);
+    const slug = generateSlug(updatedData.title_az);
+    
+    // Replace formData reference with updatedData for the insert/update
+    const dataToSave = { ...updatedData, slug };
     
     try {
-      const { error } = await supabase.from('news').update({ ...formData, slug }).eq('id', resolvedParams.id);
+      const { error } = await supabase.from('news').update(dataToSave).eq('id', resolvedParams.id);
       if (error) throw error;
       router.push('/adminpanel/xeberler');
     } catch (error: any) {

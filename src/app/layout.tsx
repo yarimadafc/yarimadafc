@@ -1,12 +1,19 @@
-import type { Metadata } from "next";
-import { Inter } from "next/font/google";
-import "./globals.css";
-import Navbar from "@/components/Navbar";
-import Footer from "@/components/Footer";
+import type { Metadata } from 'next';
+import { Albert_Sans, JetBrains_Mono } from 'next/font/google';
+import './globals.css';
+import Navbar from '@/components/Navbar';
+import Footer from '@/components/Footer';
+import InstrumentStripInit from '@/components/InstrumentStripInit';
 
-const inter = Inter({
-  subsets: ["latin"],
+const albert = Albert_Sans({ 
+  subsets: ['latin'], 
   weight: ['400', '500', '600', '700', '800', '900'],
+  variable: '--font-albert'
+});
+
+const jetbrains = JetBrains_Mono({ 
+  subsets: ['latin'],
+  variable: '--font-jetbrains'
 });
 
 export const metadata: Metadata = {
@@ -17,16 +24,15 @@ export const metadata: Metadata = {
 
 export default function RootLayout({
   children,
-}: Readonly<{
+}: {
   children: React.ReactNode;
-}>) {
+}) {
   return (
-    <html lang="az">
-      <body className={`${inter.className} min-h-screen flex flex-col bg-white text-gray-900`}>
+    <html lang="az" className={`${albert.variable} ${jetbrains.variable}`}>
+      <body className="min-h-screen flex flex-col antialiased">
+        <InstrumentStripInit />
         <Navbar />
-        <main className="flex-grow">
-          {children}
-        </main>
+        {children}
         <Footer />
       </body>
     </html>

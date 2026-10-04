@@ -4,6 +4,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { supabase } from '@/lib/supabase';
 import FadeIn from '@/components/FadeIn';
+import MatchesTabs from '@/components/MatchesTabs';
 
 export default async function Home() {
   let matches: any[] = [];
@@ -76,63 +77,11 @@ export default async function Home() {
       </section>
 
       {/* 2. MATCH DASHBOARD */}
-      <section className="py-20 bg-white">
+      <section className="py-24 bg-[#f8fafc]">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            
-            <FadeIn className="bg-gray-50 rounded-[2rem] p-8 border border-gray-100 flex flex-col justify-between">
-              <div>
-                <div className="flex justify-between items-center mb-6">
-                  <p className="font-mono text-xs uppercase tracking-widest text-[#c9a84c] font-bold">Növbəti Oyun</p>
-                  {nextMatch && <span className="text-xs font-mono bg-white px-2 py-1 rounded border border-gray-200">{new Date(nextMatch.date).toLocaleDateString('az-AZ')}</span>}
-                </div>
-                {nextMatch ? (
-                  <>
-                    <h3 className="text-3xl font-black uppercase tracking-tight mb-2">
-                      {nextMatch.home_team} <span className="text-gray-300">vs</span> {nextMatch.away_team}
-                    </h3>
-                    <p className="text-gray-500 text-sm">{nextMatch.time || '18:00'} • {nextMatch.stadium}</p>
-                  </>
-                ) : (
-                  <h3 className="text-xl font-bold text-gray-400">Yaxınlaşan oyun yoxdur</h3>
-                )}
-              </div>
-              <div className="mt-8">
-                <Link href={nextMatch ? `/oyunlar/${nextMatch.id}` : "/oyunlar"} className="text-[#0a1628] font-bold text-sm uppercase tracking-wider hover:text-[#c9a84c] transition-colors">
-                  Detallar &rarr;
-                </Link>
-              </div>
-            </FadeIn>
-
-            <FadeIn delay={0.1} className="bg-[#0a1628] text-white rounded-[2rem] p-8 border border-[#0a1628] flex flex-col justify-between shadow-xl">
-              <div>
-                <div className="flex justify-between items-center mb-6">
-                  <p className="font-mono text-xs uppercase tracking-widest text-[#c9a84c] font-bold">Son Nəticə</p>
-                  {lastMatch && <span className="text-xs font-mono bg-white/10 px-2 py-1 rounded">{new Date(lastMatch.date).toLocaleDateString('az-AZ')}</span>}
-                </div>
-                {lastMatch ? (
-                  <>
-                    <div className="flex justify-between items-center mb-2">
-                      <span className="text-2xl font-black uppercase tracking-tight">{lastMatch.home_team}</span>
-                      <span className="text-3xl font-black text-[#c9a84c]">{lastMatch.home_score}</span>
-                    </div>
-                    <div className="flex justify-between items-center">
-                      <span className="text-2xl font-black uppercase tracking-tight">{lastMatch.away_team}</span>
-                      <span className="text-3xl font-black text-[#c9a84c]">{lastMatch.away_score}</span>
-                    </div>
-                  </>
-                ) : (
-                  <h3 className="text-xl font-bold text-gray-500">Nəticə yoxdur</h3>
-                )}
-              </div>
-              <div className="mt-8">
-                <Link href={lastMatch ? `/oyunlar/${lastMatch.id}` : "/oyunlar"} className="text-white font-bold text-sm uppercase tracking-wider hover:text-[#c9a84c] transition-colors">
-                  Hesabat &rarr;
-                </Link>
-              </div>
-            </FadeIn>
-
-          </div>
+          <FadeIn>
+             <MatchesTabs nextMatch={nextMatch} lastMatch={lastMatch} />
+          </FadeIn>
         </div>
       </section>
 

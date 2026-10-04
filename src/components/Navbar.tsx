@@ -11,6 +11,7 @@ export default function Navbar() {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [lang, setLang] = useState('AZ');
   const pathname = usePathname();
+  const router = useRouter();
 
   const navLinks = [
     { name: 'Klub', href: '/klub' },
@@ -162,7 +163,7 @@ export default function Navbar() {
                 {['AZ', 'RU', 'EN'].map(l => (
                   <button 
                     key={l}
-                    onClick={() => setLang(l)}
+                    onClick={() => { setLang(l); document.cookie = `NEXT_LOCALE=${l}; path=/`; router.refresh(); }}
                     className={`hover:text-white transition-colors ${lang === l ? 'text-[var(--ks-kinpaku)]' : ''}`}
                   >
                     {l}

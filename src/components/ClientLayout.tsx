@@ -9,8 +9,10 @@ import InstrumentStripInit from '@/components/InstrumentStripInit';
 import PushNotificationManager from '@/components/PushNotificationManager';
 
 export default function ClientLayout({ children }: { children: React.ReactNode }) {
-  const pathname = usePathname();
-  const isAdmin = pathname?.includes('/adminpanel');
+  
+  const pathname = usePathname() || '';
+  const isAdmin = pathname.includes('/adminpanel') || (typeof window !== 'undefined' && window.location.pathname.includes('/adminpanel'));
+
 
   if (isAdmin) {
     return <>{children}</>;

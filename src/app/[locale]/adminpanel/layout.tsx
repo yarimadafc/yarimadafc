@@ -1,7 +1,7 @@
 'use client';
 import React, { useEffect } from 'react';
-import Link from 'next/link';
-import { usePathname, useRouter } from 'next/navigation';
+
+import { usePathname, useRouter, Link } from '@/i18n/routing';
 
 import { motion } from 'framer-motion';
 
@@ -10,12 +10,12 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
   const router = useRouter();
 
   useEffect(() => {
-    if (!document.cookie.includes('admin_session=true') && pathname !== '/adminpanel/login') {
+    if (!document.cookie.includes('admin_session=true') && !pathname.includes('/adminpanel/login')) {
       router.push('/adminpanel/login');
     }
   }, [pathname, router]);
 
-  if (pathname === '/adminpanel/login') {
+  if (pathname.includes('/adminpanel/login')) {
     return <>{children}</>;
   }
 

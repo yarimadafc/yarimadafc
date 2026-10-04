@@ -38,14 +38,14 @@ export default function Navbar() {
         transition={{ duration: 0.4, ease: [0.25, 1, 0.5, 1] }} 
         className="fixed top-4 left-0 right-0 z-50 flex justify-center px-4"
       >
-        <div className="bg-[#0a1628]/95 backdrop-blur-xl border border-white/10 shadow-2xl rounded-[3rem] flex items-center justify-between w-full max-w-[1350px] py-4 px-4 md:px-8">
+        <div className="bg-[#0a1628]/95 backdrop-blur-xl border border-white/10 shadow-2xl rounded-[3rem] flex items-center justify-between w-full max-w-[1350px] py-3 px-4 md:py-4 md:px-8">
           
           {/* Logo Section */}
-          <Link href="/" onClick={handleLogoClick} className="flex items-center gap-2 md:gap-3 shrink min-w-0 group">
+          <Link href="/" onClick={handleLogoClick} className="flex items-center gap-2 md:gap-3 shrink min-w-0 group" style={{ maxWidth: 'calc(100% - 80px)' }}>
             <div className="relative w-12 h-12 md:w-16 md:h-16 shrink-0 rounded-full overflow-hidden border-2 border-white/20 group-hover:border-[var(--ks-kinpaku)] transition-all duration-300">
               <Image src="/Logo.JPG.jpeg" alt="Yarımada FK Logo" fill className="object-cover" />
             </div>
-            <span className="text-white font-black font-condensed uppercase tracking-wider text-xl sm:text-2xl md:text-3xl mt-1 truncate group-hover:text-[var(--ks-kinpaku)] transition-colors">
+            <span className="text-white font-black font-condensed uppercase tracking-wider text-lg sm:text-2xl md:text-3xl mt-1 truncate group-hover:text-[var(--ks-kinpaku)] transition-colors">
               Yarımada FK
             </span>
           </Link>
@@ -64,7 +64,7 @@ export default function Navbar() {
           </nav>
 
           {/* Right Action */}
-          <div className="flex items-center gap-5 shrink-0">
+          <div className="flex items-center gap-2 md:gap-5 shrink-0">
             {/* Social Icons (Navbar) */}
             <div className="hidden md:flex items-center gap-3">
               <a href="#" className="text-white/50 hover:text-[var(--ks-kinpaku)] transition-colors">
@@ -152,12 +152,12 @@ export default function Navbar() {
                 </Link>
               ))}
               
-              {/* Qeydiyyat */}
+              {/* Qeydiyyat Text Link in Mobile Menu */}
               <a 
                 href="https://wa.me/994554477467?text=Salam,%20Akademiyaya%20qeydiyyatdan%20keçmək%20istəyirəm." 
                 target="_blank"
                 onClick={() => setMobileOpen(false)}
-                className="mt-6 w-full max-w-sm text-center py-4 rounded-2xl bg-[var(--ks-kinpaku)] text-white font-black text-xl uppercase tracking-widest shadow-lg"
+                className="text-[var(--ks-kinpaku)] text-3xl font-black font-condensed uppercase tracking-widest hover:text-white transition-colors mt-2"
               >
                 QEYDİYYAT
               </a>

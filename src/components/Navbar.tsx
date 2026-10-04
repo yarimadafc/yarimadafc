@@ -46,7 +46,7 @@ export default function Navbar() {
               <Image src="/Logo.JPG.jpeg" alt="Yarımada FK Logo" fill className="object-cover" />
             </div>
             <span className="text-white font-black font-condensed uppercase tracking-wider text-lg sm:text-xl md:text-3xl mt-1 group-hover:text-[var(--ks-kinpaku)] transition-colors">
-              Yarımada FC
+              Yarımada FK
             </span>
           </Link>
 
@@ -95,7 +95,7 @@ export default function Navbar() {
             <a 
               href="https://wa.me/994554477467?text=Salam,%20Akademiyaya%20qeydiyyatdan%20keçmək%20istəyirəm." 
               target="_blank"
-              className="ks-button !bg-[var(--ks-kinpaku)] !text-white !border-none hover:!bg-[#b39542] !rounded-full !font-black uppercase tracking-widest shadow-sm transition-all duration-200 hidden sm:flex !min-h-[44px] !px-8 !text-[13px]"
+              className="ks-button !bg-[var(--ks-kinpaku)] !text-white !border-none hover:!bg-[#d7bf7b] !rounded-full !font-black uppercase tracking-widest shadow-sm transition-all duration-200 hidden sm:flex !min-h-[44px] !px-8 !text-[13px]"
             >
               QEYDİYYAT
             </a>
@@ -129,7 +129,7 @@ export default function Navbar() {
                   <Image src="/Logo.JPG.jpeg" alt="Yarımada FK Logo" fill className="object-cover" />
                 </div>
                 <span className="text-white font-black font-condensed text-2xl uppercase tracking-wider mt-1">
-                  Yarımada FC
+                  Yarımada FK
                 </span>
               </Link>
               <button onClick={() => setMobileOpen(false)} className="p-3 bg-white/10 rounded-full border border-white/20 text-white">

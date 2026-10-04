@@ -20,15 +20,8 @@ export default async function NewsPage({ searchParams }: { searchParams: Promise
     console.error('Error fetching news:', error);
   }
 
-  // Mock data if empty
-  if (news.length === 0) {
-    news = [
-      { id: '1', slug: 'yeni-transfer', title: 'Yarımada FK yeni transferini rəsmən elan etdi', excerpt: 'U-12 komandamıza yeni hücumçu cəlb olundu. Gənc istedadın transferi ilə hücum xəttimiz daha da gücləndi.', category: 'Klub xəbərləri', published_at: '2026-10-04T12:00:00Z', image_url: '' },
-      { id: '2', slug: 'qelebe', title: 'Akademiyamızın U-11 komandası böyük hesablı qələbə qazandı', excerpt: 'Səfərdə keçirilən gərgin oyunda komandamız rəqibini 4-0 hesabı ilə məğlub etdi.', category: 'Akademiya', published_at: '2026-10-02T15:30:00Z', image_url: '' },
-      { id: '3', slug: 'mesq', title: 'Yaz mövsümü üçün məşq qrafiki yeniləndi', excerpt: 'Bütün komandalar üçün yeni məşq saatları və proqramı təsdiq olundu. Detallar xəbərin içərisində.', category: 'Məşqlər', published_at: '2026-10-01T09:15:00Z', image_url: '' },
-      { id: '4', slug: 'turnir', title: 'Beynəlxalq turnirdə iştirakımız təsdiqləndi', excerpt: 'Yarımada FK rəhbərliyi gələn ay Gürcüstanda keçiriləcək beynəlxalq uşaq turnirinə dəvəti qəbul etdi.', category: 'Turnirlər', published_at: '2026-09-28T18:00:00Z', image_url: '' },
-    ];
-  }
+  // Mock data removed
+
 
   const categories = [
     { id: 'all', name: 'Bütün Xəbərlər' },

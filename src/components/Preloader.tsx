@@ -48,7 +48,7 @@ export default function Preloader() {
             transition={{ duration: 0.6, delay: 0.3, ease: 'easeOut' }}
             className="text-4xl md:text-6xl font-black font-condensed uppercase tracking-widest text-white mb-2 text-center"
           >
-            YARIMADA <span className="text-[var(--ks-kinpaku)]">FC</span>
+            YARIMADA <span className="text-[var(--ks-kinpaku)]">FK</span>
           </motion.h1>
         </div>
 

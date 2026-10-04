@@ -28,7 +28,7 @@ export default function AdminTeamsList() {
     <div>
       <div className="flex justify-between items-center mb-6">
         <h2 className="text-2xl font-bold text-gray-800">Komandalar</h2>
-        <Link href="/adminpanel/komandalar/yeni" className="bg-[#c9a84c] text-[#0a1628] px-4 py-2 rounded font-bold hover:bg-[#00c98b] transition">Yeni Komanda</Link>
+        <Link href="/adminpanel/komandalar/yeni" className="bg-[#d7bf7b] text-[#0a1628] px-4 py-2 rounded font-bold hover:bg-[#00c98b] transition">Yeni Komanda</Link>
       </div>
 
       <div className="bg-white rounded-lg shadow overflow-hidden">

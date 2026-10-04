@@ -47,7 +47,7 @@ export default function AdminLogin() {
               type="email" 
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              className="w-full bg-[#0a1628] border border-gray-700 text-white rounded p-3 focus:border-[#c9a84c] outline-none" 
+              className="w-full bg-[#0a1628] border border-gray-700 text-white rounded p-3 focus:border-[#d7bf7b] outline-none" 
               placeholder="nagialiyevbusiness@gmail.com"
               required
             />
@@ -58,7 +58,7 @@ export default function AdminLogin() {
               type="password" 
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              className="w-full bg-[#0a1628] border border-gray-700 text-white rounded p-3 focus:border-[#c9a84c] outline-none" 
+              className="w-full bg-[#0a1628] border border-gray-700 text-white rounded p-3 focus:border-[#d7bf7b] outline-none" 
               required
             />
           </div>

@@ -22,27 +22,8 @@ export default async function PlayerProfilePage(props: { params: Promise<{ id: s
     console.error('Error fetching player details:', error);
   }
 
-  // Mock data if not found
-  if (!player) {
-    player = {
-      id: params.id,
-      name: 'Vaqif Əliyev',
-      birth_date: '2014-05-12',
-      position: 'Hücumçu',
-      jersey_number: 9,
-      height: '145 sm',
-      started_date: '2023',
-      stats: {
-        games_played: 24,
-        games_started: 20,
-        goals: 18,
-        assists: 7,
-        yellow_cards: 2,
-        red_cards: 0
-      }
-    };
-    team = { id: '1', name: 'Yarımada U-12' };
-  }
+  // Mock data removed
+
 
   const calculateAge = (dob: string) => {
     if (!dob) return '-';

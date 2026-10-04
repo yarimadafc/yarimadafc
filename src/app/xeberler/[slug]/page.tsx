@@ -15,17 +15,8 @@ export default async function NewsDetailPage(props: { params: Promise<{ slug: st
     console.error('Error fetching article:', error);
   }
 
-  // Mock data if not found
-  if (!article) {
-    article = {
-      title: 'Yarımada FK yeni transferini rəsmən elan etdi',
-      content: 'U-12 komandamıza yeni hücumçu cəlb olundu. Gənc istedadın transferi ilə hücum xəttimiz daha da gücləndi. Klub rəhbərliyi bu barədə mətbuata açıqlama verdi və gənc oyunçunun gələcək inkişafı üçün hər cür şərait yaradılacağını bildirdi. \n\nOyunçu artıq bu həftədən etibarən komanda ilə birgə məşqlərə qatılacaq və ilk rəsmi oyununa çıxmağa hazırlaşacaq.',
-      author: 'Klubun Mətbuat Xidməti',
-      category: 'Klub xəbərləri',
-      published_at: '2026-10-04T12:00:00Z',
-      image_url: ''
-    };
-  }
+  // Mock data removed
+
 
   return (
     <main className="flex-grow bg-[var(--ks-paper)] text-[var(--ks-ink)] pt-32 pb-16 px-4 sm:px-6 lg:px-8 max-w-4xl mx-auto">

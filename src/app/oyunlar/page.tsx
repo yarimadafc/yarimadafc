@@ -23,13 +23,8 @@ export default async function MatchesPage(props: { searchParams: Promise<{ tab?:
     console.error('Error fetching matches:', error);
   }
 
-  // Mock data if empty
-  if (upcomingMatches.length === 0) {
-    upcomingMatches = [
-      { id: '1', home_team: 'Yarımada U-12', away_team: 'Qarabağ U-12', date: '2026-10-12', time: '14:00', stadium: 'ASK Arena', tournament: 'AFFA U-12 Liqası', status: 'upcoming' },
-      { id: '2', home_team: 'Sabah U-11', away_team: 'Yarımada U-11', date: '2026-10-14', time: '16:30', stadium: 'Bank Respublika Arena', tournament: 'AFFA U-11 Liqası', status: 'upcoming' }
-    ];
-  }
+  // Mock data removed
+
 
   if (completedMatches.length === 0) {
     completedMatches = [

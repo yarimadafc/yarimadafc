@@ -23,15 +23,8 @@ export default async function MediaPage(props: { searchParams: Promise<{ tab?: s
     console.error('Error fetching media:', error);
   }
 
-  // Mock data if empty
-  if (photos.length === 0) {
-    photos = Array(8).fill({
-      title: 'U-12 Məşq Prosesi',
-      url: '',
-      category: 'Məşqlər',
-      created_at: '2026-10-01'
-    });
-  }
+  // Mock data removed
+
 
   if (videos.length === 0) {
     videos = Array(4).fill({

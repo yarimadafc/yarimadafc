@@ -88,6 +88,53 @@ export default async function Home() {
         </FadeIn>
       </section>
 
+      {/* TURNİR CƏDVƏLİ WIDGET */}
+      <section className="py-8 px-4 sm:px-6 lg:px-8 max-w-[1400px] mx-auto">
+        <FadeIn>
+          <div className="flex flex-col md:flex-row justify-between items-end mb-8">
+            <div>
+              <p className="font-mono text-sm uppercase tracking-[0.2em] text-[#0a1628]/60 mb-2 font-bold">STATİSTİKA</p>
+              <h2 className="text-5xl md:text-6xl font-black font-condensed uppercase text-[var(--ks-ink)] leading-[0.9]">
+                TURNİR CƏDVƏLİ
+              </h2>
+            </div>
+            <Link href="/turnir-cedveli" className="ks-button ks-button-secondary !border-[var(--ks-ink)]/20 text-[var(--ks-ink)] hover:!bg-[var(--ks-ink)] hover:!text-white hidden md:inline-flex">
+              Tam cədvəl
+            </Link>
+          </div>
+          
+          <div className="bg-white rounded-[2rem] p-6 md:p-10 border border-gray-100 shadow-xl shadow-[var(--ks-ink)]/5 overflow-x-auto">
+            <table className="w-full text-left border-collapse min-w-[600px]">
+              <thead>
+                <tr className="border-b border-gray-200">
+                  <th className="py-4 px-4 font-mono text-xs text-gray-400 uppercase tracking-widest font-bold">#</th>
+                  <th className="py-4 px-4 font-mono text-xs text-gray-400 uppercase tracking-widest font-bold">Komanda</th>
+                  <th className="py-4 px-2 text-center font-mono text-xs text-gray-400 uppercase tracking-widest font-bold">O</th>
+                  <th className="py-4 px-2 text-center font-mono text-xs text-gray-400 uppercase tracking-widest font-bold">Q</th>
+                  <th className="py-4 px-2 text-center font-mono text-xs text-gray-400 uppercase tracking-widest font-bold">H</th>
+                  <th className="py-4 px-2 text-center font-mono text-xs text-gray-400 uppercase tracking-widest font-bold">M</th>
+                  <th className="py-4 px-4 text-right font-mono text-xs text-[var(--ks-kinpaku-rich)] uppercase tracking-widest font-black">XAL</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr className="border-b border-gray-50 hover:bg-gray-50 transition-colors">
+                  <td className="py-4 px-4 text-sm font-bold text-gray-400">1</td>
+                  <td className="py-4 px-4 font-bold text-[var(--ks-ink)] uppercase">Məlumat yüklənir...</td>
+                  <td className="py-4 px-2 text-center text-sm font-mono text-gray-500">-</td>
+                  <td className="py-4 px-2 text-center text-sm font-mono text-gray-500">-</td>
+                  <td className="py-4 px-2 text-center text-sm font-mono text-gray-500">-</td>
+                  <td className="py-4 px-2 text-center text-sm font-mono text-gray-500">-</td>
+                  <td className="py-4 px-4 text-right font-black text-xl text-[var(--ks-kinpaku)]">-</td>
+                </tr>
+              </tbody>
+            </table>
+            <div className="mt-6 flex justify-center md:hidden">
+              <Link href="/turnir-cedveli" className="text-sm font-bold uppercase tracking-wider text-[var(--ks-kinpaku-rich)]">Tam cədvələ bax →</Link>
+            </div>
+          </div>
+        </FadeIn>
+      </section>
+
       {/* KLUB HAQQINDA & KOMANDALAR */}
       <section className="py-8 px-4 sm:px-6 lg:px-8 max-w-[1400px] mx-auto">
         <div className="bg-[var(--ks-paper-deep)] rounded-[2rem] p-8 md:p-16">
@@ -115,11 +162,11 @@ export default async function Home() {
 
             {/* Komandalar */}
             <p className="font-mono text-sm uppercase tracking-[0.2em] text-[#0a1628]/60 mb-4 font-bold">AKADEMİYA</p>
-            <div className="flex justify-between items-end mb-8">
+            <div className="flex flex-col md:flex-row md:justify-between items-start md:items-end gap-4 mb-8">
               <h2 className="text-5xl md:text-6xl font-black font-condensed uppercase text-[var(--ks-ink)] leading-[0.9]">
                 KOMANDALAR
               </h2>
-              <Link href="/komandalar" className="text-sm font-bold uppercase tracking-wider text-[var(--ks-kinpaku-rich)] hover:text-[var(--ks-ink)] transition-colors">
+              <Link href="/komandalar" className="text-sm font-bold uppercase tracking-wider text-[var(--ks-kinpaku-rich)] hover:text-[var(--ks-ink)] transition-colors inline-block pb-1 border-b border-[var(--ks-kinpaku-rich)] md:border-none">
                 Bütün yaş qrupları →
               </Link>
             </div>

@@ -15,18 +15,8 @@ export default async function CoachProfilePage(props: { params: Promise<{ id: st
     console.error('Error fetching coach details:', error);
   }
 
-  // Mock data if not found
-  if (!coach) {
-    coach = {
-      id: params.id,
-      name: 'Əhməd Məmmədov',
-      role: 'Baş məşqçi',
-      experience: '8 il',
-      license: 'UEFA B',
-      bio: 'Əhməd Məmmədov uzun illər peşəkar futbolda çıxış etdikdən sonra məşqçilik karyerasına başlamışdır. Uşaq futbolunda böyük təcrübəyə malikdir və akademiyamızın əsas fəlsəfəsini formalaşdıran mütəxəssislərdəndir.',
-      teams: { name: 'Yarımada U-12' }
-    };
-  }
+  // Mock data removed
+
 
   return (
     <main className="flex-grow bg-[var(--ks-paper)] text-[var(--ks-ink)] pt-32 pb-16 px-4 sm:px-6 lg:px-8 max-w-[1400px] mx-auto">

@@ -25,13 +25,8 @@ export default async function StandingsPage(props: { searchParams: Promise<{ tou
     console.error('Error fetching standings:', error);
   }
 
-  // Mock data if empty
-  if (tournaments.length === 0) {
-    tournaments = [
-      { id: '1', name: 'AFFA U-12 Liqası' },
-      { id: '2', name: 'AFFA U-11 Liqası' }
-    ];
-  }
+  // Mock data removed
+
 
   if (standings.length === 0) {
     standings = [

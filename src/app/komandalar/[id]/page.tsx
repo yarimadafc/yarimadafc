@@ -29,17 +29,8 @@ export default async function TeamDetailPage(props: { params: Promise<{ id: stri
     console.error('Error fetching team details:', error);
   }
 
-  // Mock data if no team found
-  if (!team) {
-    team = { id: params.id, name: 'Yarımada U-12', age_group: 'U-12', description: 'Gələcəyin ulduzları' };
-    coaches = [{ id: '1', name: 'Əhməd Məmmədov', role: 'Baş məşqçi' }];
-    players = [
-      { id: '1', name: 'Vaqif Əliyev', position: 'Hücumçu', jersey_number: 9 },
-      { id: '2', name: 'Nadir Quliyev', position: 'Yarımmüdafiəçi', jersey_number: 10 },
-      { id: '3', name: 'Səməd Həsənov', position: 'Müdafiəçi', jersey_number: 4 },
-      { id: '4', name: 'Emil Kərimov', position: 'Qapıçı', jersey_number: 1 },
-    ];
-  }
+  // Mock data removed
+
 
   return (
     <main className="flex-grow bg-[var(--ks-paper)] text-[var(--ks-ink)]">

@@ -16,15 +16,7 @@ export default async function TeamsPage(props: { searchParams: Promise<{ age?: s
     console.error('Error fetching teams:', error);
   }
 
-  // Mock data if empty
-  if (teams.length === 0) {
-    teams = [
-      { id: '1', name: 'Yarımada U-12', age_group: 'U-12', coach: 'Əhməd Məmmədov', players_count: 22 },
-      { id: '2', name: 'Yarımada U-11', age_group: 'U-11', coach: 'Vüsal Həsənov', players_count: 18 },
-      { id: '3', name: 'Yarımada U-10', age_group: 'U-10', coach: 'Elnur Rəhimov', players_count: 20 },
-      { id: '4', name: 'Yarımada U-9', age_group: 'U-9', coach: 'Samir Əliyev', players_count: 25 },
-    ];
-  }
+  // Mock data removed as per user request
 
   if (activeAge !== 'all') {
     teams = teams.filter(t => t.age_group === activeAge);

@@ -1,99 +1,83 @@
-'use client';
-import React, { useState } from 'react';
-import { supabase } from '@/lib/supabase';
+import Link from 'next/link';
 
-export default function RegistrationPage() {
-  const [formData, setFormData] = useState({
-    child_name: '',
-    child_surname: '',
-    birth_date: '',
-    parent_name: '',
-    phone: '',
-    whatsapp: '',
-    age_group: 'U-9',
-    branch: '',
-    note: ''
-  });
-  const [status, setStatus] = useState({ loading: false, success: false, error: '' });
-
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
-  };
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setStatus({ loading: true, success: false, error: '' });
-    try {
-      const { error } = await supabase.from('registrations').insert([formData]);
-      if (error) throw error;
-      setStatus({ loading: false, success: true, error: '' });
-      setFormData({
-        child_name: '', child_surname: '', birth_date: '', parent_name: '',
-        phone: '', whatsapp: '', age_group: 'U-9', branch: '', note: ''
-      });
-    } catch (error: any) {
-      setStatus({ loading: false, success: false, error: error.message || 'Xəta baş verdi' });
-    }
-  };
-
+export default function QeydiyyatPage() {
   return (
-    <div className="min-h-screen bg-[#0a1628] text-white pt-24 pb-12 px-4 md:px-8">
-      <div className="max-w-4xl mx-auto bg-[#112240] p-8 md:p-12 rounded-xl shadow-lg">
-        <h1 className="text-3xl md:text-5xl font-bold uppercase tracking-wider text-center mb-4">Akademiyaya Qoşul</h1>
-        <p className="text-gray-400 text-center mb-10">Övladınızı Yarımada FK akademiyasına qeydiyyatdan keçirin.</p>
+    <main className="flex-grow pt-24 pb-20 bg-[#f8fafc]">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         
-        {status.success && <div className="bg-green-500/20 text-green-400 p-4 rounded mb-6">Qeydiyyat uğurla tamamlandı! Sizinlə tezliklə əlaqə saxlayacağıq.</div>}
-        {status.error && <div className="bg-red-500/20 text-red-400 p-4 rounded mb-6">{status.error}</div>}
-        
-        <form onSubmit={handleSubmit} className="space-y-6">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div>
-              <label className="block text-sm text-gray-400 mb-2">Uşağın Adı</label>
-              <input required type="text" name="child_name" value={formData.child_name} onChange={handleChange} className="w-full bg-[#0a1628] border border-gray-700 rounded p-3 focus:border-[#00e5a0] outline-none" />
+        {/* Breadcrumb */}
+        <div className="mb-8">
+          <p className="text-gray-500 font-mono text-sm">
+            <Link href="/" className="hover:text-black transition-colors">Ana səhifə</Link> / <span className="text-black">Akademiyaya Qoşul</span>
+          </p>
+        </div>
+
+        {/* Header */}
+        <div className="mb-16 max-w-2xl">
+          <h1 className="text-5xl md:text-7xl font-black text-[#0a1628] uppercase tracking-tight mb-6">
+            Akademiyaya Qoşul
+          </h1>
+          <p className="text-gray-600 text-lg md:text-xl leading-relaxed">
+            Yarımada FK akademiyasına qeydiyyatdan keçərək gələcəyin peşəkar futbolçusu olmaq üçün ilk addımını at. Fərqli yaş qrupları və filiallar üçün uyğun paketlərimizlə tanış ol.
+          </p>
+        </div>
+
+        {/* Pricing Cards */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          
+          {/* Card 1 */}
+          <div className="bg-white p-10 rounded-[2rem] shadow-sm flex flex-col h-full border border-gray-100">
+            <div className="mb-8">
+              <h3 className="text-[#00e5a0] font-mono text-sm uppercase tracking-widest mb-4">Aylıq Ödəniş</h3>
+              <h2 className="text-4xl font-black text-[#0a1628] uppercase tracking-tight mb-4">U-9 / U-10</h2>
+              <p className="text-gray-600">
+                8-10 yaşlı uşaqlar üçün təməl futbol təlimləri. Həftədə 3 dəfə məşq və daxili turnirlərdə iştirak. Təlimlər peşəkar lisenziyalı məşqçilər tərəfindən keçirilir.
+              </p>
             </div>
-            <div>
-              <label className="block text-sm text-gray-400 mb-2">Uşağın Soyadı</label>
-              <input required type="text" name="child_surname" value={formData.child_surname} onChange={handleChange} className="w-full bg-[#0a1628] border border-gray-700 rounded p-3 focus:border-[#00e5a0] outline-none" />
-            </div>
-            <div>
-              <label className="block text-sm text-gray-400 mb-2">Təvəllüd</label>
-              <input required type="date" name="birth_date" value={formData.birth_date} onChange={handleChange} className="w-full bg-[#0a1628] border border-gray-700 rounded p-3 focus:border-[#00e5a0] outline-none text-white [color-scheme:dark]" />
-            </div>
-            <div>
-              <label className="block text-sm text-gray-400 mb-2">Valideynin Adı və Soyadı</label>
-              <input required type="text" name="parent_name" value={formData.parent_name} onChange={handleChange} className="w-full bg-[#0a1628] border border-gray-700 rounded p-3 focus:border-[#00e5a0] outline-none" />
-            </div>
-            <div>
-              <label className="block text-sm text-gray-400 mb-2">Telefon</label>
-              <input required type="tel" name="phone" value={formData.phone} onChange={handleChange} className="w-full bg-[#0a1628] border border-gray-700 rounded p-3 focus:border-[#00e5a0] outline-none" />
-            </div>
-            <div>
-              <label className="block text-sm text-gray-400 mb-2">WhatsApp</label>
-              <input required type="tel" name="whatsapp" value={formData.whatsapp} onChange={handleChange} className="w-full bg-[#0a1628] border border-gray-700 rounded p-3 focus:border-[#00e5a0] outline-none" />
-            </div>
-            <div>
-              <label className="block text-sm text-gray-400 mb-2">Yaş Qrupu</label>
-              <select required name="age_group" value={formData.age_group} onChange={handleChange} className="w-full bg-[#0a1628] border border-gray-700 rounded p-3 focus:border-[#00e5a0] outline-none">
-                <option value="U-9">U-9</option>
-                <option value="U-10">U-10</option>
-                <option value="U-11">U-11</option>
-                <option value="U-12">U-12</option>
-              </select>
-            </div>
-            <div>
-              <label className="block text-sm text-gray-400 mb-2">Filial</label>
-              <input required type="text" name="branch" value={formData.branch} onChange={handleChange} placeholder="Məs: Mərkəz filialı" className="w-full bg-[#0a1628] border border-gray-700 rounded p-3 focus:border-[#00e5a0] outline-none" />
+            <div className="mt-auto pt-8">
+              <Link href="/qeydiyyat/forma?paket=kicik" className="block w-full text-center bg-[#f0f2f5] hover:bg-[#e2e8f0] text-[#0a1628] font-bold py-4 rounded-full transition-colors uppercase tracking-wider text-sm">
+                Qeydiyyatdan Keç
+              </Link>
             </div>
           </div>
-          <div>
-            <label className="block text-sm text-gray-400 mb-2">Əlavə Qeyd</label>
-            <textarea name="note" value={formData.note} onChange={handleChange} rows={4} className="w-full bg-[#0a1628] border border-gray-700 rounded p-3 focus:border-[#00e5a0] outline-none"></textarea>
+
+          {/* Card 2 */}
+          <div className="bg-[#0a1628] p-10 rounded-[2rem] shadow-xl flex flex-col h-full text-white relative transform md:-translate-y-4">
+            <div className="absolute top-0 right-10 transform -translate-y-1/2 bg-[#00e5a0] text-[#0a1628] text-xs font-bold uppercase tracking-widest py-1 px-3 rounded-full">
+              Ən Çox Seçilən
+            </div>
+            <div className="mb-8">
+              <h3 className="text-[#00e5a0] font-mono text-sm uppercase tracking-widest mb-4">Aylıq Ödəniş</h3>
+              <h2 className="text-4xl font-black text-white uppercase tracking-tight mb-4">U-11 / U-12</h2>
+              <p className="text-gray-300">
+                11-12 yaş qrupu üçün inkişaf proqramı. Həftədə 4 məşq, rəsmi AFFA liqasında iştirak hüququ, fərdi inkişaf analizi və tam təchizatlı məşq forması daxildir.
+              </p>
+            </div>
+            <div className="mt-auto pt-8">
+              <Link href="/qeydiyyat/forma?paket=orta" className="block w-full text-center bg-[#00e5a0] hover:bg-[#00c98c] text-[#0a1628] font-bold py-4 rounded-full transition-colors uppercase tracking-wider text-sm">
+                Qeydiyyatdan Keç
+              </Link>
+            </div>
           </div>
-          <button disabled={status.loading} type="submit" className="w-full bg-[#00e5a0] hover:bg-[#00c98b] text-[#0a1628] font-bold py-4 rounded text-lg transition-colors disabled:opacity-50 mt-4">
-            {status.loading ? 'Göndərilir...' : 'Qeydiyyatdan Keç'}
-          </button>
-        </form>
+
+          {/* Card 3 */}
+          <div className="bg-white p-10 rounded-[2rem] shadow-sm flex flex-col h-full border border-gray-100">
+            <div className="mb-8">
+              <h3 className="text-[#00e5a0] font-mono text-sm uppercase tracking-widest mb-4">Aylıq Ödəniş</h3>
+              <h2 className="text-4xl font-black text-[#0a1628] uppercase tracking-tight mb-4">Fərdi Məşq</h2>
+              <p className="text-gray-600">
+                Xüsusi diqqət tələb edən oyunçular üçün. Baş məşqçi ilə birəbir məşqlər, fiziki və taktiki göstəricilərin xüsusi inkişaf proqramı. İstənilən yaş qrupu üçün keçərlidir.
+              </p>
+            </div>
+            <div className="mt-auto pt-8">
+              <Link href="/qeydiyyat/forma?paket=ferdi" className="block w-full text-center bg-[#f0f2f5] hover:bg-[#e2e8f0] text-[#0a1628] font-bold py-4 rounded-full transition-colors uppercase tracking-wider text-sm">
+                Ətraflı Məlumat
+              </Link>
+            </div>
+          </div>
+
+        </div>
       </div>
-    </div>
+    </main>
   );
 }

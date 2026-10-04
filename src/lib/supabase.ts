@@ -8,34 +8,45 @@ function createSafeClient(): SupabaseClient {
   const isBuild = process.env.NODE_ENV === 'production' && !supabaseUrl.startsWith('http');
   
   if (isBuild || !supabaseUrl || !supabaseUrl.startsWith('http')) {
-    // Return a dummy proxy that instantly resolves promises with empty data
-    const handler: ProxyHandler<any> = {
-      get(_target, prop) {
-        if (prop === 'from') {
-          return () => new Proxy({}, {
-            get(_t, p) {
-              if (['select', 'insert', 'update', 'delete', 'upsert', 'order', 'eq', 'single', 'limit'].includes(p as string)) {
-                return (..._args: any[]) => new Proxy({}, {
-                  get(_t2, p2) {
-                    if (p2 === 'then') {
-                      return (resolve: any) => resolve({ data: null, error: { message: 'Supabase mock' } });
-                    }
-                    if (['select', 'insert', 'update', 'delete', 'upsert', 'order', 'eq', 'single', 'limit'].includes(p2 as string)) {
-                        return (..._args2: any[]) => new Proxy({}, handler);
-                    }
-                    return (..._a: any[]) => Promise.resolve({ data: null, error: null });
-                  }
-                });
-              }
-              return (..._args: any[]) => new Proxy({}, handler);
-            }
-          });
-        }
-        return () => new Proxy({}, handler);
-      }
+    // Return a highly simplified mock that immediately resolves promises
+    const mockBuilder = {
+      select: () => mockBuilder,
+      insert: () => mockBuilder,
+      update: () => mockBuilder,
+      delete: () => mockBuilder,
+      eq: () => mockBuilder,
+      neq: () => mockBuilder,
+      gt: () => mockBuilder,
+      lt: () => mockBuilder,
+      in: () => mockBuilder,
+      order: () => mockBuilder,
+      limit: () => mockBuilder,
+      single: () => mockBuilder,
+      maybeSingle: () => mockBuilder,
+      // The most critical part: immediately resolve when awaited
+      then: (resolve: any) => resolve({ data: null, error: null }),
+      catch: (reject: any) => reject(new Error('Supabase mock')),
+      finally: (cb: any) => { cb(); return mockBuilder; }
     };
-    return new Proxy({} as SupabaseClient, handler);
+
+    return {
+      from: () => mockBuilder,
+      rpc: () => mockBuilder,
+      auth: {
+        getUser: async () => ({ data: { user: null }, error: null }),
+        getSession: async () => ({ data: { session: null }, error: null }),
+        signInWithPassword: async () => ({ data: {}, error: null }),
+        signOut: async () => ({ error: null })
+      },
+      storage: {
+        from: () => ({
+          upload: async () => ({ data: null, error: null }),
+          getPublicUrl: () => ({ data: { publicUrl: '' } })
+        })
+      }
+    } as unknown as SupabaseClient;
   }
+  
   return createClient(supabaseUrl, supabaseAnonKey);
 }
 

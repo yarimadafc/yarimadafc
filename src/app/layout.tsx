@@ -1,5 +1,5 @@
 import type { Metadata } from 'next';
-import { Albert_Sans, JetBrains_Mono } from 'next/font/google';
+import { Albert_Sans, JetBrains_Mono, Alumni_Sans } from 'next/font/google';
 import './globals.css';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
@@ -9,6 +9,12 @@ const albert = Albert_Sans({
   subsets: ['latin'], 
   weight: ['400', '500', '600', '700', '800', '900'],
   variable: '--font-albert'
+});
+
+const alumni = Alumni_Sans({ 
+  subsets: ['latin'], 
+  weight: ['700', '800', '900'],
+  variable: '--font-alumni'
 });
 
 const jetbrains = JetBrains_Mono({ 
@@ -28,7 +34,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="az" className={`${albert.variable} ${jetbrains.variable}`}>
+    <html lang="az" className={`${albert.variable} ${alumni.variable} ${jetbrains.variable}`}>
       <body className="min-h-screen flex flex-col antialiased">
         <InstrumentStripInit />
         <Navbar />

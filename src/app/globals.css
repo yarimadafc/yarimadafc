@@ -20,6 +20,7 @@
   
   /* Impeccable Fonts */
   --ks-font: var(--font-albert), system-ui, sans-serif;
+  --ks-font-condensed: var(--font-alumni), system-ui, sans-serif;
   --ks-font-mono: var(--font-jetbrains), monospace;
 }
 
@@ -36,6 +37,11 @@ body {
 /* Typography Overrides */
 h1, h2, h3, h4, h5, h6 {
   font-family: var(--ks-font);
+}
+
+.font-condensed {
+  font-family: var(--ks-font-condensed);
+  letter-spacing: 0.02em;
 }
 
 .font-mono {
@@ -55,4 +61,9 @@ h1, h2, h3, h4, h5, h6 {
 }
 ::-webkit-scrollbar-thumb:hover {
   background: rgba(10, 22, 40, 0.4);
+}
+
+@keyframes marquee {
+  0% { transform: translateX(0%); }
+  100% { transform: translateX(-50%); }
 }

@@ -24,25 +24,25 @@ export default function Navbar() {
         transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }} 
         className="fixed top-6 left-0 right-0 z-50 flex justify-center px-4"
       >
-        <div className="bg-white/95 backdrop-blur-xl border border-gray-200 shadow-xl rounded-full px-4 py-2 flex items-center gap-6 md:gap-10 w-full max-w-4xl justify-between">
+        <div className="bg-[#0a1628]/95 backdrop-blur-xl border border-white/10 shadow-2xl rounded-[1.5rem] px-5 py-3 flex items-center gap-6 md:gap-10 w-full max-w-[1400px] justify-between">
           
           {/* Logo Section */}
           <Link href="/" className="flex items-center gap-3 shrink-0 group">
-            <div className="relative w-8 h-8 rounded-full overflow-hidden border border-gray-200 group-hover:border-[var(--ks-kinpaku)] transition-colors">
+            <div className="relative w-8 h-8 rounded-full overflow-hidden border border-white/20 group-hover:border-[var(--ks-kinpaku)] transition-colors">
               <Image src="/Logo.JPG.jpeg" alt="Yarımada FK Logo" fill className="object-cover" />
             </div>
-            <span className="text-[var(--ks-ink)] font-black text-[13px] uppercase tracking-widest hidden sm:block">
+            <span className="text-white font-black text-sm uppercase tracking-widest hidden sm:block">
               Yarımada FC
             </span>
           </Link>
 
           {/* Links */}
-          <nav className="hidden lg:flex items-center gap-6">
+          <nav className="hidden lg:flex items-center gap-8">
             {navLinks.map((link) => (
               <Link 
                 key={link.name} 
                 href={link.href}
-                className="text-[var(--ks-ink)] opacity-70 hover:opacity-100 hover:text-[var(--ks-kinpaku)] font-medium text-[11px] uppercase tracking-[0.1em] transition-all"
+                className="text-white/80 hover:text-white hover:text-[var(--ks-kinpaku)] font-medium text-[13px] transition-all"
               >
                 {link.name}
               </Link>
@@ -50,24 +50,22 @@ export default function Navbar() {
           </nav>
 
           {/* Action */}
-          <div className="hidden lg:flex items-center shrink-0">
+          <div className="flex items-center shrink-0">
             <Link 
               href="/qeydiyyat" 
-              className="ks-button ks-button-primary !min-h-[36px] !px-5 !text-[11px] !rounded-full !uppercase !tracking-wider shadow-sm"
+              className="ks-button !bg-white !text-[#0a1628] !border-none hover:!bg-[var(--ks-kinpaku)] !min-h-[40px] !px-6 !text-[13px] !rounded-full !font-bold shadow-sm"
             >
               Akademiyaya Qoşul
             </Link>
+            <button 
+              className="ml-4 lg:hidden text-white shrink-0 p-1"
+              onClick={() => setMobileOpen(true)}
+            >
+              <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+              </svg>
+            </button>
           </div>
-
-          {/* Mobile Toggle */}
-          <button 
-            className="lg:hidden text-[var(--ks-ink)] shrink-0 p-1"
-            onClick={() => setMobileOpen(true)}
-          >
-            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
-            </svg>
-          </button>
         </div>
       </motion.header>
 
@@ -79,18 +77,18 @@ export default function Navbar() {
             animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0, scale: 0.95 }}
             transition={{ duration: 0.2, ease: "easeOut" }}
-            className="fixed inset-0 z-[60] bg-white p-4 flex flex-col"
+            className="fixed inset-0 z-[60] bg-[#0a1628] p-4 flex flex-col"
           >
             <div className="flex justify-between items-center mb-12">
               <div className="flex items-center gap-3">
                 <div className="relative w-10 h-10 rounded-full overflow-hidden border border-[var(--ks-kinpaku)]">
                   <Image src="/Logo.JPG.jpeg" alt="Yarımada FK Logo" fill className="object-cover" />
                 </div>
-                <span className="text-[var(--ks-ink)] font-black text-lg uppercase tracking-widest">
+                <span className="text-white font-black text-lg uppercase tracking-widest">
                   Yarımada FC
                 </span>
               </div>
-              <button onClick={() => setMobileOpen(false)} className="p-2 text-[var(--ks-ink)]">
+              <button onClick={() => setMobileOpen(false)} className="p-2 text-white">
                 <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
                 </svg>
@@ -98,13 +96,13 @@ export default function Navbar() {
             </div>
 
             <nav className="flex flex-col gap-6">
-              <Link href="/" onClick={() => setMobileOpen(false)} className="text-[var(--ks-ink)] text-2xl font-black uppercase tracking-widest hover:text-[var(--ks-kinpaku)] transition-colors">Ana Səhifə</Link>
+              <Link href="/" onClick={() => setMobileOpen(false)} className="text-white text-2xl font-black uppercase tracking-widest hover:text-[var(--ks-kinpaku)] transition-colors">Ana Səhifə</Link>
               {navLinks.map((link) => (
                 <Link 
                   key={link.name}
                   href={link.href}
                   onClick={() => setMobileOpen(false)}
-                  className="text-[var(--ks-ink)] text-2xl font-black uppercase tracking-widest hover:text-[var(--ks-kinpaku)] transition-colors"
+                  className="text-white text-2xl font-black uppercase tracking-widest hover:text-[var(--ks-kinpaku)] transition-colors"
                 >
                   {link.name}
                 </Link>
@@ -112,7 +110,7 @@ export default function Navbar() {
               <Link 
                 href="/qeydiyyat" 
                 onClick={() => setMobileOpen(false)}
-                className="mt-8 ks-button ks-button-primary w-full !rounded-xl !py-4"
+                className="mt-8 ks-button ks-button-primary w-full !rounded-xl !py-4 !bg-[var(--ks-kinpaku)] !text-[#0a1628]"
               >
                 Akademiyaya Qoşul
               </Link>

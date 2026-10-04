@@ -28,7 +28,7 @@ export default function AdminNewsList() {
     <div>
       <div className="flex justify-between items-center mb-6">
         <h2 className="text-2xl font-bold text-gray-800">Xəbərlər</h2>
-        <Link href="/admin/xeberler/yeni" className="bg-[#c9a84c] text-[#0a1628] px-4 py-2 rounded font-bold hover:bg-[#00c98b] transition">Yeni Xəbər</Link>
+        <Link href="/adminpanel/xeberler/yeni" className="bg-[#c9a84c] text-[#0a1628] px-4 py-2 rounded font-bold hover:bg-[#00c98b] transition">Yeni Xəbər</Link>
       </div>
 
       <div className="bg-white rounded-lg shadow overflow-hidden">
@@ -57,7 +57,7 @@ export default function AdminNewsList() {
                     </span>
                   </td>
                   <td className="p-4 text-right space-x-2">
-                    <Link href={`/admin/xeberler/${item.id}`} className="text-blue-500 hover:text-blue-700">Redaktə et</Link>
+                    <Link href={`/adminpanel/xeberler/${item.id}`} className="text-blue-500 hover:text-blue-700">Redaktə et</Link>
                     <button onClick={() => handleDelete(item.id)} className="text-red-500 hover:text-red-700">Sil</button>
                   </td>
                 </tr>

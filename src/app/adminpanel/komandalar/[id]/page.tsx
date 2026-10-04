@@ -49,7 +49,7 @@ export default function AdminTeamEdit({ params }: { params: { id: string } }) {
     try {
       const { error } = await supabase.from('teams').update(formData).eq('id', params.id);
       if (error) throw error;
-      router.push('/admin/komandalar');
+      router.push('/adminpanel/komandalar');
     } catch (error: any) {
       alert(error.message);
       setLoading(false);

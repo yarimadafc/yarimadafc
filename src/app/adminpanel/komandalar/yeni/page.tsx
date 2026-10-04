@@ -39,7 +39,7 @@ export default function AdminTeamCreate() {
     try {
       const { error } = await supabase.from('teams').insert([formData]);
       if (error) throw error;
-      router.push('/admin/komandalar');
+      router.push('/adminpanel/komandalar');
     } catch (error: any) {
       alert(error.message);
       setLoading(false);

@@ -67,7 +67,7 @@ export default function AdminDashboard() {
         <div className="bg-white rounded-lg shadow">
           <div className="px-6 py-4 border-b border-gray-100 flex justify-between items-center">
             <h3 className="font-bold text-gray-800">Son Qeydiyyatlar</h3>
-            <Link href="/admin/qeydiyyatlar" className="text-sm text-blue-600 hover:underline">Hamısına bax</Link>
+            <Link href="/adminpanel/qeydiyyatlar" className="text-sm text-blue-600 hover:underline">Hamısına bax</Link>
           </div>
           <div className="p-6 text-gray-500 text-center">
             Məlumat yüklənir və ya hələ qeydiyyat yoxdur.
@@ -77,7 +77,7 @@ export default function AdminDashboard() {
         <div className="bg-white rounded-lg shadow">
           <div className="px-6 py-4 border-b border-gray-100 flex justify-between items-center">
             <h3 className="font-bold text-gray-800">Son Mesajlar</h3>
-            <Link href="/admin/elaqe" className="text-sm text-blue-600 hover:underline">Hamısına bax</Link>
+            <Link href="/adminpanel/elaqe" className="text-sm text-blue-600 hover:underline">Hamısına bax</Link>
           </div>
           <div className="p-6 text-gray-500 text-center">
             Məlumat yüklənir və ya hələ mesaj yoxdur.

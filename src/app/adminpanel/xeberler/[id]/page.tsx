@@ -57,7 +57,7 @@ export default function AdminNewsEdit({ params }: { params: { id: string } }) {
     try {
       const { error } = await supabase.from('news').update({ ...formData, slug }).eq('id', params.id);
       if (error) throw error;
-      router.push('/admin/xeberler');
+      router.push('/adminpanel/xeberler');
     } catch (error: any) {
       alert(error.message);
       setLoading(false);

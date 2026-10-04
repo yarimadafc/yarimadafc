@@ -74,7 +74,7 @@ export default function ContactPage() {
                 </li>
                 <li>
                   <p className="text-[var(--ks-kinpaku)] font-mono text-xs uppercase tracking-widest mb-1">Ünvanlar</p>
-                  <p className="font-bold text-lg leading-tight">📍 Xırdalan • Masazır • Hökməli • Mehdiabad • Məmmədli</p>
+                  <p className="font-bold text-lg leading-tight">📍 Kristal Abşeron 1 Xırdalan şəhəri Meydança <br/> (Həmçinin: Masazır, Hökməli, Mehdiabad, Məmmədli)</p>
                 </li>
                 <li>
                   <p className="text-[var(--ks-kinpaku)] font-mono text-xs uppercase tracking-widest mb-1">Telefon / WhatsApp</p>

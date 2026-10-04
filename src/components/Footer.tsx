@@ -21,9 +21,9 @@ export default function Footer() {
               </h2>
             </div>
           </div>
-          <Link href="/qeydiyyat" className="ks-button !bg-[var(--ks-kinpaku)] !text-[#0a1628] hover:!bg-white !rounded-full !px-10 !py-5 font-black uppercase tracking-widest text-lg md:text-xl shadow-lg transition-colors">
+          <a href="https://wa.me/994554477467?text=Salam,%20Akademiyaya%20qeydiyyatdan%20keçmək%20istəyirəm." target="_blank" className="ks-button !bg-[var(--ks-kinpaku)] !text-[#0a1628] hover:!bg-white !rounded-full !px-10 !py-5 font-black uppercase tracking-widest text-lg md:text-xl shadow-lg transition-colors">
             Qeydiyyatdan Keç
-          </Link>
+          </a>
         </div>
 
         {/* MIDDLE SECTION: Grid of ALL links, widened to edges */}

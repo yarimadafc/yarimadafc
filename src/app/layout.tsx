@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import { Albert_Sans, JetBrains_Mono, Alumni_Sans } from 'next/font/google';
 import './globals.css';
+import Preloader from "@/components/Preloader";
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import InstrumentStripInit from '@/components/InstrumentStripInit';
@@ -40,7 +41,12 @@ export default function RootLayout({
 }) {
   return (
     <html lang="az" className={`${albert.variable} ${alumni.variable} ${jetbrains.variable}`}>
+      <head>
+        <link rel="icon" type="image/jpeg" href="/Logo.JPG.jpeg" />
+        <link rel="apple-touch-icon" href="/Logo.JPG.jpeg" />
+      </head>
       <body className="min-h-screen flex flex-col antialiased">
+        <Preloader />
         <PushNotificationManager />
         <InstrumentStripInit />
         <Navbar />

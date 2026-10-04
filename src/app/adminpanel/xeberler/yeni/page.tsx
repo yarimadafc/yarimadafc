@@ -47,7 +47,7 @@ export default function AdminNewsCreate() {
     try {
       const { error } = await supabase.from('news').insert([{ ...formData, slug }]);
       if (error) throw error;
-      router.push('/admin/xeberler');
+      router.push('/adminpanel/xeberler');
     } catch (error: any) {
       alert(error.message);
       setLoading(false);

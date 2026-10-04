@@ -33,7 +33,7 @@ export default function AdminPlayerCreate() {
         number: formData.number ? parseInt(formData.number) : null
       }]);
       if (error) throw error;
-      router.push('/admin/futbolcular');
+      router.push('/adminpanel/futbolcular');
     } catch (error: any) {
       alert(error.message);
       setLoading(false);

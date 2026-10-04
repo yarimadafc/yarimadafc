@@ -38,25 +38,25 @@ export default function Navbar() {
         transition={{ duration: 0.4, ease: [0.25, 1, 0.5, 1] }} 
         className="fixed top-4 left-0 right-0 z-50 flex justify-center px-4"
       >
-        <div className="bg-[#0a1628]/95 backdrop-blur-xl border border-white/10 shadow-2xl rounded-[3rem] flex items-center justify-between w-full max-w-[1400px] py-5 px-6 md:px-12">
+        <div className="bg-[#0a1628]/95 backdrop-blur-xl border border-white/10 shadow-2xl rounded-[3rem] flex items-center justify-between w-full max-w-[1350px] py-4 px-4 md:px-8">
           
           {/* Logo Section */}
-          <Link href="/" onClick={handleLogoClick} className="flex items-center gap-4 shrink-0 group">
-            <div className="relative w-14 h-14 md:w-16 md:h-16 rounded-full overflow-hidden border-2 border-white/20 group-hover:border-[var(--ks-kinpaku)] transition-all duration-300">
+          <Link href="/" onClick={handleLogoClick} className="flex items-center gap-3 shrink-0 group">
+            <div className="relative w-12 h-12 md:w-14 md:h-14 rounded-full overflow-hidden border-2 border-white/20 group-hover:border-[var(--ks-kinpaku)] transition-all duration-300">
               <Image src="/Logo.JPG.jpeg" alt="Yarımada FK Logo" fill className="object-cover" />
             </div>
-            <span className="text-white font-black font-condensed uppercase tracking-wider text-2xl md:text-4xl mt-1 hidden lg:block group-hover:text-[var(--ks-kinpaku)] transition-colors">
+            <span className="text-white font-black font-condensed uppercase tracking-wider text-xl md:text-3xl mt-1 hidden lg:block group-hover:text-[var(--ks-kinpaku)] transition-colors">
               Yarımada FC
             </span>
           </Link>
 
           {/* Links */}
-          <nav className="hidden xl:flex items-center justify-center gap-8 flex-1 mx-8">
+          <nav className="hidden xl:flex items-center justify-center gap-5 flex-1 mx-4">
             {navLinks.map((link) => (
               <Link 
                 key={link.name} 
                 href={link.href}
-                className={`uppercase font-black font-condensed tracking-widest transition-all duration-200 text-lg md:text-xl whitespace-nowrap ${pathname === link.href ? 'text-[var(--ks-kinpaku)]' : 'text-white/80 hover:text-white'}`}
+                className={`uppercase font-black font-condensed tracking-widest transition-all duration-200 text-base md:text-lg whitespace-nowrap ${pathname === link.href ? 'text-[var(--ks-kinpaku)]' : 'text-white/80 hover:text-white'}`}
               >
                 {link.name}
               </Link>
@@ -92,12 +92,13 @@ export default function Navbar() {
               ))}
             </div>
 
-            <Link 
-              href="/qeydiyyat" 
+            <a 
+              href="https://wa.me/994554477467?text=Salam,%20Akademiyaya%20qeydiyyatdan%20keçmək%20istəyirəm." 
+              target="_blank"
               className="ks-button !bg-[var(--ks-kinpaku)] !text-white !border-none hover:!bg-[#b39542] !rounded-full !font-black uppercase tracking-widest shadow-sm transition-all duration-200 hidden sm:flex !min-h-[44px] !px-8 !text-[13px]"
             >
               QEYDİYYAT
-            </Link>
+            </a>
 
             {/* Mobile / Tablet Menu Button */}
             <button 
@@ -176,13 +177,14 @@ export default function Navbar() {
                 </a>
               </div>
 
-              <Link 
-                href="/qeydiyyat" 
+              <a 
+                href="https://wa.me/994554477467?text=Salam,%20Akademiyaya%20qeydiyyatdan%20keçmək%20istəyirəm." 
+                target="_blank"
                 onClick={() => setMobileOpen(false)}
                 className="mt-6 ks-button !w-full max-w-sm !rounded-full !py-4 !bg-[var(--ks-kinpaku)] !text-white !font-black !text-xl uppercase tracking-widest"
               >
                 QEYDİYYAT
-              </Link>
+              </a>
             </nav>
           </motion.div>
         )}

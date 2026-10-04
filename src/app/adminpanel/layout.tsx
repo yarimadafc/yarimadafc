@@ -9,34 +9,34 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
 
   // Simple client-side auth check
   useEffect(() => {
-    if (!document.cookie.includes('admin_session=true') && pathname !== '/admin/login') {
-      router.push('/admin/login');
+    if (!document.cookie.includes('admin_session=true') && pathname !== '/adminpanel/login') {
+      router.push('/adminpanel/login');
     }
   }, [pathname, router]);
 
-  if (pathname === '/admin/login') {
+  if (pathname === '/adminpanel/login') {
     return <>{children}</>;
   }
 
   const menuItems = [
     { name: 'İdarə paneli', path: '/admin' },
-    { name: 'Xəbərlər', path: '/admin/xeberler' },
-    { name: 'Komandalar', path: '/admin/komandalar' },
-    { name: 'Futbolçular', path: '/admin/futbolcular' },
-    { name: 'Məşqçilər', path: '/admin/mesqciler' },
-    { name: 'Oyunlar', path: '/admin/oyunlar' },
-    { name: 'Turnirlər', path: '/admin/turnir' },
-    { name: 'Media', path: '/admin/media' },
-    { name: 'Sponsorlar', path: '/admin/sponsorlar' },
-    { name: 'Əlaqə mesajları', path: '/admin/elaqe' },
-    { name: 'Qeydiyyatlar', path: '/admin/qeydiyyatlar' },
-    { name: 'Bannerlər', path: '/admin/bannerler' },
-    { name: 'Parametrlər', path: '/admin/parametrler' },
+    { name: 'Xəbərlər', path: '/adminpanel/xeberler' },
+    { name: 'Komandalar', path: '/adminpanel/komandalar' },
+    { name: 'Futbolçular', path: '/adminpanel/futbolcular' },
+    { name: 'Məşqçilər', path: '/adminpanel/mesqciler' },
+    { name: 'Oyunlar', path: '/adminpanel/oyunlar' },
+    { name: 'Turnirlər', path: '/adminpanel/turnir' },
+    { name: 'Media', path: '/adminpanel/media' },
+    { name: 'Sponsorlar', path: '/adminpanel/sponsorlar' },
+    { name: 'Əlaqə mesajları', path: '/adminpanel/elaqe' },
+    { name: 'Qeydiyyatlar', path: '/adminpanel/qeydiyyatlar' },
+    { name: 'Bannerlər', path: '/adminpanel/bannerler' },
+    { name: 'Parametrlər', path: '/adminpanel/parametrler' },
   ];
 
   const handleLogout = async () => {
-    await fetch('/api/admin/logout', { method: 'POST' });
-    router.push('/admin/login');
+    await fetch('/api/adminpanel/logout', { method: 'POST' });
+    router.push('/adminpanel/login');
     router.refresh();
   };
 

@@ -229,15 +229,21 @@ export default async function Home() {
       </section>
 
       {/* MARQUEE SPONSORLAR / TƏRƏFDAŞLAR */}
-      <section className="py-24 border-t border-[var(--ks-ink)]/10 overflow-hidden bg-[var(--ks-kinpaku)]">
+      <section className="py-12 border-t border-[var(--ks-ink)]/10 overflow-hidden bg-[var(--ks-kinpaku)]">
         <div className="w-full flex space-x-12 items-center text-[#0a1628] whitespace-nowrap overflow-hidden relative">
-          <div className="flex space-x-12 px-6" style={{ animation: 'marquee 30s linear infinite' }}>
+          <div className="flex space-x-12 px-6" style={{ animation: 'marquee 20s linear infinite' }}>
             {['SPONSOR - NIKE', 'TƏRƏFDAŞ - BAKCELL', 'SPONSOR - KAPITAL BANK', 'TƏRƏFDAŞ - AFFA', 'SPONSOR - SOCAR', 'TƏRƏFDAŞ - ASAN'].map((sponsor, i) => (
-               <span key={i} className="text-5xl md:text-7xl font-black font-condensed tracking-widest uppercase">{sponsor}</span>
+               <span key={i} className="text-3xl md:text-4xl font-black font-condensed tracking-widest uppercase flex items-center gap-4">
+                 <svg className="w-6 h-6 opacity-50" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2L2 22h20L12 2zm0 4.5l6.5 13.5h-13L12 6.5z"/></svg>
+                 {sponsor}
+               </span>
             ))}
             {/* Duplicate for infinite effect */}
             {['SPONSOR - NIKE', 'TƏRƏFDAŞ - BAKCELL', 'SPONSOR - KAPITAL BANK', 'TƏRƏFDAŞ - AFFA', 'SPONSOR - SOCAR', 'TƏRƏFDAŞ - ASAN'].map((sponsor, i) => (
-               <span key={`dup-${i}`} className="text-5xl md:text-7xl font-black font-condensed tracking-widest uppercase">{sponsor}</span>
+               <span key={`dup-${i}`} className="text-3xl md:text-4xl font-black font-condensed tracking-widest uppercase flex items-center gap-4">
+                 <svg className="w-6 h-6 opacity-50" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2L2 22h20L12 2zm0 4.5l6.5 13.5h-13L12 6.5z"/></svg>
+                 {sponsor}
+               </span>
             ))}
           </div>
         </div>

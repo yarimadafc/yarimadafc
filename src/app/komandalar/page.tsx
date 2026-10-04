@@ -6,101 +6,99 @@ import FadeIn from '@/components/FadeIn';
 
 export default async function TeamsPage(props: { searchParams: Promise<{ age?: string }> }) {
   const searchParams = await props.searchParams;
-  const ageFilter = searchParams.age;
-  
+  const activeAge = searchParams.age || 'all';
+
   let teams: any[] = [];
   try {
-    let query = supabase.from('teams').select('*').order('created_at', { ascending: true });
-    if (ageFilter) {
-      query = query.eq('age_group', ageFilter);
-    }
-    const res = await query;
+    const res = await supabase.from('teams').select('*').order('age_group', { ascending: false });
     if (res.data) teams = res.data;
   } catch (error) {
     console.error('Error fetching teams:', error);
   }
 
-  // Fallback data for the UI if database is empty
-  const mockTeams = [
-    { id: '1', name: 'Yarımada U-12', age_group: 'U-12', coach: 'Əhməd Məmmədov', players: 18 },
-    { id: '2', name: 'Yarımada U-11', age_group: 'U-11', coach: 'Emin Quliyev', players: 16 },
-    { id: '3', name: 'Yarımada U-10', age_group: 'U-10', coach: 'Rəşad Əliyev', players: 20 },
-    { id: '4', name: 'Yarımada U-9', age_group: 'U-9', coach: 'Vüsal Həsənov', players: 22 },
-  ];
+  // Mock data if empty
+  if (teams.length === 0) {
+    teams = [
+      { id: '1', name: 'Yarımada U-12', age_group: 'U-12', coach: 'Əhməd Məmmədov', players_count: 22 },
+      { id: '2', name: 'Yarımada U-11', age_group: 'U-11', coach: 'Vüsal Həsənov', players_count: 18 },
+      { id: '3', name: 'Yarımada U-10', age_group: 'U-10', coach: 'Elnur Rəhimov', players_count: 20 },
+      { id: '4', name: 'Yarımada U-9', age_group: 'U-9', coach: 'Samir Əliyev', players_count: 25 },
+    ];
+  }
 
-  const displayTeams = teams.length > 0 ? teams : (ageFilter ? mockTeams.filter(t => t.age_group === ageFilter) : mockTeams);
+  if (activeAge !== 'all') {
+    teams = teams.filter(t => t.age_group === activeAge);
+  }
+
+  const filters = ['all', 'U-12', 'U-11', 'U-10', 'U-9'];
 
   return (
-    <main className="flex-grow bg-[var(--ks-paper)] text-[var(--ks-ink)]">
+    <main className="flex-grow bg-[var(--ks-paper)] text-[var(--ks-ink)] pt-32 pb-16 px-4 sm:px-6 lg:px-8 max-w-[1400px] mx-auto">
       
-      {/* 1. HERO SECTION */}
-      <section className="pt-32 pb-8 px-4 sm:px-6 lg:px-8 max-w-[1400px] mx-auto">
-        <div className="relative rounded-[2rem] overflow-hidden min-h-[40vh] flex flex-col justify-end p-8 md:p-16 bg-[#0a1628]">
-          <div className="relative z-10 max-w-4xl">
-            <FadeIn>
-              <p className="font-mono text-sm uppercase tracking-[0.2em] text-[var(--ks-kinpaku)] mb-4 font-bold">AKADEMİYA</p>
-              <h1 className="text-7xl md:text-9xl font-black font-condensed uppercase tracking-normal text-white mb-6 leading-[0.85] drop-shadow-xl">
-                KOMANDALAR
-              </h1>
-            </FadeIn>
-          </div>
+      {/* HERO SECTION */}
+      <div className="relative rounded-[2rem] overflow-hidden min-h-[30vh] flex flex-col justify-end p-8 md:p-12 bg-[#0a1628] mb-12">
+        <div className="absolute inset-0 bg-gradient-to-t from-[#0a1628] to-transparent z-0" />
+        <div className="relative z-10 max-w-4xl">
+          <FadeIn>
+            <p className="font-mono text-sm uppercase tracking-[0.2em] text-[var(--ks-kinpaku)] mb-4 font-bold">AKADEMİYA</p>
+            <h1 className="text-6xl md:text-8xl font-black font-condensed uppercase tracking-normal text-white leading-[0.85] drop-shadow-xl">
+              KOMANDALARIMIZ
+            </h1>
+          </FadeIn>
         </div>
-      </section>
+      </div>
 
-      {/* 2. FILTER & LIST */}
-      <section className="py-16 px-4 sm:px-6 lg:px-8 max-w-[1400px] mx-auto">
-        <FadeIn>
-          {/* Filters */}
-          <div className="flex flex-wrap gap-4 mb-12">
+      {/* FILTERS */}
+      <FadeIn delay={0.1}>
+        <div className="flex flex-wrap gap-4 mb-12 border-b border-gray-200 pb-6">
+          {filters.map(f => (
             <Link 
-              href="/komandalar" 
-              className={`ks-button !rounded-full !px-6 !py-3 font-bold ${!ageFilter ? '!bg-[var(--ks-ink)] !text-white' : '!bg-white !text-[var(--ks-ink)] !border-gray-200 hover:!border-[var(--ks-ink)]'}`}
+              key={f}
+              href={`/komandalar${f === 'all' ? '' : `?age=${f}`}`}
+              className={`font-black font-condensed text-2xl md:text-3xl uppercase tracking-widest transition-colors ${activeAge === f ? 'text-[var(--ks-ink)] border-b-4 border-[var(--ks-kinpaku)] pb-2' : 'text-gray-400 hover:text-[var(--ks-ink)]'}`}
             >
-              Bütün komandalar
+              {f === 'all' ? 'Bütün Komandalar' : f}
             </Link>
-            {['U-12', 'U-11', 'U-10', 'U-9'].map(age => (
-              <Link 
-                key={age}
-                href={`/komandalar?age=${age}`} 
-                className={`ks-button !rounded-full !px-6 !py-3 font-bold ${ageFilter === age ? '!bg-[var(--ks-ink)] !text-white' : '!bg-white !text-[var(--ks-ink)] !border-gray-200 hover:!border-[var(--ks-ink)]'}`}
-              >
-                {age}
-              </Link>
-            ))}
-          </div>
+          ))}
+        </div>
+      </FadeIn>
 
-          {/* Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            {displayTeams.map((team, idx) => (
-              <Link key={team.id || idx} href={`/komandalar/${team.id}`} className="group block bg-[var(--ks-paper-deep)] rounded-[2rem] p-8 hover:bg-[#0a1628] hover:text-white transition-colors duration-500">
-                <div className="flex justify-between items-start mb-12">
-                  <div className="w-20 h-20 bg-white rounded-full flex items-center justify-center border-4 border-[var(--ks-paper-deep)] group-hover:border-[#0a1628] transition-colors shadow-sm">
-                    <span className="text-2xl font-black text-[var(--ks-ink)]">{team.age_group}</span>
-                  </div>
-                  <div className="w-12 h-12 rounded-full border border-gray-300 group-hover:border-white/20 flex items-center justify-center group-hover:bg-white/10 transition-colors">
-                    <svg className="w-5 h-5 text-[var(--ks-ink)] group-hover:text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" /></svg>
-                  </div>
+      {/* GRID */}
+      <FadeIn delay={0.2}>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          {teams.map((team, idx) => (
+            <Link key={idx} href={`/komandalar/${team.id}`} className="group relative bg-[#0a1628] rounded-[2rem] overflow-hidden border border-gray-100 shadow-md hover:shadow-2xl transition-all duration-500 min-h-[300px] flex flex-col justify-end p-8">
+              <div className="absolute inset-0 opacity-50 group-hover:opacity-100 transition-opacity duration-700 bg-cover bg-center" style={{ backgroundImage: "url('/IMG_7966.JPG.jpeg')" }}>
+                <div className="absolute inset-0 bg-gradient-to-t from-[#0a1628] via-[#0a1628]/80 to-[#0a1628]/20" />
+              </div>
+              <div className="relative z-10">
+                <div className="bg-[var(--ks-kinpaku)] text-[#0a1628] text-xs font-bold font-mono px-3 py-1 rounded-md uppercase tracking-widest inline-flex items-center gap-2 mb-4 shadow-sm">
+                  {/* Symbol instead of Emoji */}
+                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M12 4v1m6 11h2m-6 0h-8m0 0V5a2 2 0 012-2h4a2 2 0 012 2v11m0 0h2a2 2 0 012 2v3m-10-5V5m0 0H6a2 2 0 00-2 2v11m0 0h2" /></svg>
+                  {team.age_group}
                 </div>
-                
-                <h3 className="text-4xl md:text-5xl font-black font-condensed uppercase tracking-wide mb-2 group-hover:text-[var(--ks-kinpaku)] transition-colors">
+                <h2 className="text-4xl font-black font-condensed uppercase tracking-wide text-white group-hover:text-[var(--ks-kinpaku)] transition-colors mb-2">
                   {team.name}
-                </h3>
-                
-                <div className="flex flex-wrap gap-6 mt-6">
-                  <div>
-                    <p className="text-xs font-mono uppercase text-gray-500 group-hover:text-white/50 mb-1">Baş Məşqçi</p>
-                    <p className="font-bold">{team.coach || 'Təyin edilməyib'}</p>
+                </h2>
+                <div className="flex justify-between items-end mt-4">
+                  <div className="text-gray-400 font-mono text-sm uppercase">
+                    <p>Baş Məşqçi: <span className="text-white font-bold">{team.coach}</span></p>
+                    <p className="mt-1">Heyət: <span className="text-white font-bold">{team.players_count} nəfər</span></p>
                   </div>
-                  <div>
-                    <p className="text-xs font-mono uppercase text-gray-500 group-hover:text-white/50 mb-1">Heyət</p>
-                    <p className="font-bold">{team.players || 0} Futbolçu</p>
+                  <div className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center text-white group-hover:bg-[var(--ks-kinpaku)] group-hover:text-[#0a1628] transition-colors">
+                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M14 5l7 7m0 0l-7 7m7-7H3" /></svg>
                   </div>
                 </div>
-              </Link>
-            ))}
+              </div>
+            </Link>
+          ))}
+        </div>
+        {teams.length === 0 && (
+          <div className="text-center py-20 text-gray-400 font-bold text-2xl uppercase font-condensed tracking-widest">
+            Komanda tapılmadı.
           </div>
-        </FadeIn>
-      </section>
+        )}
+      </FadeIn>
 
     </main>
   );

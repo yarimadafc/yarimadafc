@@ -118,7 +118,10 @@ export default async function MatchDetailPage(props: { params: Promise<{ id: str
                         <div className="bg-[var(--ks-paper-deep)] p-6 rounded-2xl shadow-sm border border-gray-100">
                           {ev.type === 'goal' && (
                             <>
-                              <p className="font-bold text-xl text-[var(--ks-ink)]">{(ev as any).player} ⚽</p>
+                              <p className="font-bold text-xl text-[var(--ks-ink)] flex items-center gap-2">
+                                {(ev as any).player} 
+                                <svg className="w-5 h-5 text-[var(--ks-kinpaku)]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M12 2a10 10 0 100 20 10 10 0 000-20zM12 6a4 4 0 100 8 4 4 0 000-8zM12 10l-3 4m3-4l3 4m-3-4V6" /></svg>
+                              </p>
                               {(ev as any).assist && <p className="text-sm font-mono text-gray-500 uppercase mt-2">Assist: {(ev as any).assist}</p>}
                             </>
                           )}

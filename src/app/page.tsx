@@ -51,16 +51,16 @@ export default async function Home() {
             <FadeIn>
               <p className="font-mono text-sm uppercase tracking-[0.2em] text-[var(--ks-kinpaku)] mb-4 font-bold">Yarımada FK • Rəsmi Sayt</p>
               <h1 className="text-4xl sm:text-5xl md:text-8xl lg:text-9xl font-black font-condensed uppercase tracking-normal text-white mb-6 leading-[1] md:leading-[0.85] drop-shadow-xl">
-                {heroBanner?.title || 'BU YARIMADA FK.'} 
+                {heroBanner?.title || 'MEYDANDA GÜC, QƏLBDƏ FUTBOL!'} 
               </h1>
               <p className="text-base sm:text-lg md:text-2xl text-gray-200 mb-10 max-w-2xl leading-relaxed">
-                {heroBanner?.subtitle || 'Bakının ən gənc və dinamik futbol akademiyası. Hər oyunu, hər komandanı və hər anı yaxından izlə.'}
+                {heroBanner?.subtitle || 'Futbol sadəcə oyun deyil, bir həyat tərzidir. Əsl futbol ruhunu hiss et, zəfərlərə bizimlə addımla və gələcəyin çempionu ol!'}
               </p>
-              <div className="flex flex-wrap gap-4">
-                <Link href="/komandalar" className="ks-button ks-button-primary !bg-[var(--ks-kinpaku)] !text-[var(--ks-ink)] !border-none hover:!bg-[var(--ks-kinpaku-vivid)] !px-8 !py-4 text-lg font-bold">
+              <div className="flex flex-col sm:flex-row w-full gap-4">
+                <Link href="/komandalar" className="ks-button ks-button-primary !bg-[var(--ks-kinpaku)] !text-[var(--ks-ink)] !border-none hover:!bg-[var(--ks-kinpaku-vivid)] !px-8 !py-4 text-lg font-bold !rounded-full w-full sm:w-auto text-center flex justify-center">
                   Komandalarımıza bax
                 </Link>
-                <Link href="#oyunlar" className="ks-button ks-button-secondary !bg-white/10 !text-white !border-white/20 hover:!bg-white hover:!text-[var(--ks-ink)] backdrop-blur-sm !px-8 !py-4 text-lg font-bold">
+                <Link href="#oyunlar" className="ks-button ks-button-secondary !bg-white/10 !text-white !border-white/20 hover:!bg-white hover:!text-[var(--ks-ink)] backdrop-blur-sm !px-8 !py-4 text-lg font-bold !rounded-full w-full sm:w-auto text-center flex justify-center">
                   Son oyunlar
                 </Link>
               </div>

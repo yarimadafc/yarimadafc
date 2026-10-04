@@ -51,7 +51,7 @@ export default async function RootLayout({
       </head>
       <body className="min-h-screen flex flex-col antialiased">
         <NextIntlClientProvider messages={messages} locale={locale}>
-          <ClientLayout>{children}</ClientLayout>
+          <ClientLayout key={locale}>{children}</ClientLayout>
         </NextIntlClientProvider>
       </body>
     </html>

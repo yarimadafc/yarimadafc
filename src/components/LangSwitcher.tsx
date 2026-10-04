@@ -48,7 +48,7 @@ export default function LangSwitcher() {
             // @ts-ignore
             <Link
               key={l}
-              href={pathname}
+              href={pathname || '/'}
               locale={l}
               onClick={() => setOpen(false)}
               className={`block text-center py-2 md:py-2.5 text-[13px] md:text-sm font-bold tracking-wider transition-colors ${locale === l ? 'bg-[#0a1628] text-[var(--ks-kinpaku)]' : 'text-[#0a1628] hover:bg-gray-100'}`}

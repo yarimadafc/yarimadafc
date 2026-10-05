@@ -1,26 +1,8 @@
-'use client';
+const fs = require('fs');
+let file = 'src/components/ClientLayout.tsx';
+let content = fs.readFileSync(file, 'utf8');
 
-import { usePathname } from 'next/navigation';
-import Navbar from '@/components/Navbar';
-import Footer from '@/components/Footer';
-import Preloader from '@/components/Preloader';
-import { ReactLenis } from 'lenis/react';
-import InstrumentStripInit from '@/components/InstrumentStripInit';
-import PushNotificationManager from '@/components/PushNotificationManager';
-
-export default function ClientLayout({ children }: { children: React.ReactNode }) {
-  
-  const pathname = usePathname() || '';
-  const isAdmin = pathname.includes('/adminpanel') || (typeof window !== 'undefined' && window.location.pathname.includes('/adminpanel'));
-
-
-  if (isAdmin) {
-    return <>{children}</>;
-  }
-
-  return (
-    <>
-      
+const lockScreen = `
       <div className="fixed inset-0 z-[99999] flex flex-col items-center justify-center bg-black/40 backdrop-blur-xl">
         <div className="bg-[#0a1628] p-8 rounded-3xl shadow-2xl border border-white/10 flex flex-col items-center text-center max-w-sm mx-4 transform scale-100 animate-in fade-in zoom-in duration-500">
           <div className="w-24 h-24 bg-white/5 rounded-full flex items-center justify-center mb-6 border border-white/10 shadow-[0_0_30px_rgba(215,191,123,0.15)]">
@@ -38,7 +20,8 @@ export default function ClientLayout({ children }: { children: React.ReactNode }
         {children}
         <Footer />
       </div>
+`;
 
-    </>
-  );
-}
+content = content.replace(/<ReactLenis root options=\{\{ lerp: 0\.05, duration: 1\.5, smoothWheel: true \}\}>[\s\S]*?<\/ReactLenis>/, lockScreen);
+
+fs.writeFileSync(file, content, 'utf8');

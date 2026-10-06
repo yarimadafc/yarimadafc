@@ -119,7 +119,7 @@ export default function Navbar() {
             </div>
 
             {/* Desktop Menu */}
-            <nav className="hidden xl:flex items-center space-x-4 2xl:space-x-6">
+            <nav className="hidden xl:flex items-center space-x-5 2xl:space-x-7">
               {menuItems.map((item, i) => (
                 <motion.div 
                   key={item.name}
@@ -131,7 +131,7 @@ export default function Navbar() {
                     <a
                       href={item.href}
                       onClick={item.onClick}
-                      className="font-bold text-[10px] 2xl:text-[11px] tracking-[0.15em] text-white hover:text-[#d7bf7b] transition-colors relative group cursor-pointer"
+                      className="font-bold text-[12px] 2xl:text-[13px] tracking-widest text-white hover:text-[#d7bf7b] transition-colors relative group cursor-pointer"
                     >
                       {item.name}
                       <span className="absolute -bottom-2 left-0 w-0 h-[2px] bg-[#d7bf7b] transition-all duration-300 group-hover:w-full"></span>
@@ -139,7 +139,7 @@ export default function Navbar() {
                   ) : (
                     <Link
                       href={item.href}
-                      className="font-bold text-[10px] 2xl:text-[11px] tracking-[0.15em] text-white hover:text-[#d7bf7b] transition-colors relative group"
+                      className="font-bold text-[12px] 2xl:text-[13px] tracking-widest text-white hover:text-[#d7bf7b] transition-colors relative group"
                     >
                       {item.name}
                       <span className="absolute -bottom-2 left-0 w-0 h-[2px] bg-[#d7bf7b] transition-all duration-300 group-hover:w-full"></span>
@@ -244,14 +244,14 @@ export default function Navbar() {
                       <a
                         href={item.href}
                         onClick={(e) => { item.onClick(e); setIsOpen(false); }}
-                        className="block py-2.5 font-bold text-[11px] md:text-xs tracking-widest text-white hover:text-[#d7bf7b] border-b border-gray-800/50 transition-colors"
+                        className="block py-3.5 font-bold text-sm tracking-widest text-white hover:text-[#d7bf7b] border-b border-gray-800/50 transition-colors"
                       >
                         {item.name}
                       </a>
                     ) : (
                       <Link
                         href={item.href}
-                        className="block py-2.5 font-bold text-[11px] md:text-xs tracking-widest text-white hover:text-[#d7bf7b] border-b border-gray-800/50 transition-colors"
+                        className="block py-3.5 font-bold text-sm tracking-widest text-white hover:text-[#d7bf7b] border-b border-gray-800/50 transition-colors"
                         onClick={() => setIsOpen(false)}
                       >
                         {item.name}
@@ -260,8 +260,8 @@ export default function Navbar() {
                   </motion.div>
                 ))}
                 
-                <div className="pt-4 pb-2 flex">
-                  <Link href="/register" onClick={() => setIsOpen(false)} className="bg-[#d7bf7b] text-[#152741] w-full text-center hover:bg-white transition-colors font-black text-[11px] tracking-widest px-6 py-3 rounded-full uppercase">
+                <div className="pt-6 pb-4 flex">
+                  <Link href="/register" onClick={() => setIsOpen(false)} className="bg-[#d7bf7b] text-[#152741] w-full text-center hover:bg-white transition-colors font-black text-sm tracking-widest px-6 py-4 rounded-xl uppercase">
                     BİZƏ QOŞUL
                   </Link>
                 </div>

@@ -114,12 +114,12 @@ export default function Navbar() {
           <div className="hidden lg:flex items-center space-x-6">
             
             {/* LED Glow Clock on Desktop */}
-            <div className="relative p-[4px] rounded-none overflow-hidden group">
+            <div className="relative p-[2px] rounded-full overflow-hidden group">
                {/* Spinning LED Border */}
                <div className="absolute inset-0 bg-[conic-gradient(from_0deg,transparent_0_340deg,#d7bf7b_360deg)] animate-[spin_2s_linear_infinite]"></div>
                {/* Clock Content */}
-               <div className="relative flex items-center justify-center bg-[#0d1a2d] px-8 py-3 rounded-none h-full w-full">
-                 <span className="text-[#d7bf7b] font-mono font-bold tracking-widest text-sm drop-shadow-[0_0_8px_rgba(215,191,123,1)]">{time || '00:00:00'}</span>
+               <div className="relative flex items-center justify-center bg-[#0d1a2d] px-8 py-2 rounded-full h-full w-full">
+                 <span className="text-[#d7bf7b] font-mono font-bold tracking-widest text-lg drop-shadow-[0_0_8px_rgba(215,191,123,1)]">{time || '00:00:00'}</span>
                </div>
             </div>
 
@@ -189,12 +189,11 @@ export default function Navbar() {
             className="lg:hidden bg-[#0d1a2d] border-t border-gray-800 absolute w-full overflow-hidden shadow-2xl"
           >
             <div className="px-6 py-4 space-y-1">
-              
               {/* LED Glow Clock on Mobile */}
-              <div className="relative p-[4px] rounded-none overflow-hidden mb-6 flex w-full">
+              <div className="relative p-[2px] rounded-full overflow-hidden mb-6 flex w-full">
                  <div className="absolute inset-0 bg-[conic-gradient(from_0deg,transparent_0_340deg,#d7bf7b_360deg)] animate-[spin_2s_linear_infinite]"></div>
-                 <div className="relative flex items-center justify-center bg-[#152741] w-full px-4 py-3 rounded-none">
-                   <span className="text-[#d7bf7b] font-mono font-bold tracking-widest text-sm drop-shadow-[0_0_8px_rgba(215,191,123,1)]">{time || '00:00:00'}</span>
+                 <div className="relative flex items-center justify-center bg-[#152741] w-full px-4 py-2 rounded-full">
+                   <span className="text-[#d7bf7b] font-mono font-bold tracking-widest text-lg drop-shadow-[0_0_8px_rgba(215,191,123,1)]">{time || '00:00:00'}</span>
                  </div>
               </div>
 

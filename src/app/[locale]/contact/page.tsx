@@ -44,8 +44,8 @@ export default function ContactPage() {
               </div>
               <div className="flex flex-col">
                 <span className="text-gray-500 font-bold text-xs uppercase tracking-widest mb-1">E-poçt</span>
-                <a href="mailto:info@yarimadafc.az" className="text-white font-bold text-xl hover:text-[#d7bf7b] transition-colors">
-                  info@yarimadafc.az
+                <a href="mailto:info@yarimadafc.com" className="text-white font-bold text-xl hover:text-[#d7bf7b] transition-colors">
+                  info@yarimadafc.com
                 </a>
               </div>
             </div>
@@ -75,7 +75,7 @@ export default function ContactPage() {
           className="bg-[#152741] p-4 md:p-6 rounded-3xl border border-gray-800 shadow-2xl w-full h-[400px] lg:h-auto overflow-hidden relative"
         >
           <iframe 
-            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d12154.542478415286!2d49.970591!3d40.394747!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x40306462cbb4d287%3A0xcf958bb74e2b02bb!2zUWFyYcOndXh1ciwgQmFrw7w!5e0!3m2!1str!2saz!4v1714578192305!5m2!1str!2saz" 
+            src="https://maps.google.com/maps?q=40.4552142,49.7338299&hl=az&z=17&output=embed" 
             className="absolute inset-0 w-full h-full rounded-2xl border-0" 
             allowFullScreen={false} 
             loading="lazy" 

@@ -40,6 +40,25 @@ export default function StandingsMatches() {
           </Link>
         </motion.div>
 
+        {/* Növbəti Oyun (Mini Format) */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, delay: 0.2 }}
+          viewport={{ once: true }}
+          className="max-w-2xl mx-auto mb-12 bg-gradient-to-r from-[#112240] to-[#152741] p-4 rounded-xl border border-gray-800 shadow-xl flex flex-col sm:flex-row items-center justify-between"
+        >
+          <div className="flex flex-col items-center sm:items-start mb-4 sm:mb-0">
+             <span className="text-[#d7bf7b] font-bold tracking-widest text-[10px] uppercase mb-1">Növbəti Oyun</span>
+             <span className="text-gray-400 text-xs">15 Oktyabr 2026, 20:00 • Premyer Liqa</span>
+          </div>
+          <div className="flex items-center space-x-4">
+             <span className="font-bold text-white uppercase text-sm">YARIMADA</span>
+             <div className="w-8 h-8 rounded-full bg-gray-800 flex items-center justify-center text-xs font-bold text-gray-500">VS</div>
+             <span className="font-bold text-white uppercase text-sm">NEFTÇİ</span>
+          </div>
+        </motion.div>
+
         {/* Tabs */}
         <motion.div 
           initial={{ opacity: 0 }}

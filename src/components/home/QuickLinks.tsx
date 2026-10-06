@@ -6,7 +6,6 @@ import { motion, Variants } from 'framer-motion';
 
 export default function QuickLinks() {
   const links = [
-    { title: 'Biletlər', href: '/tickets', imgBg: 'bg-gray-800' },
     { title: 'Onlayn mağaza', href: '/shop', imgBg: 'bg-gray-800' },
     { title: '"Yarımada" Futbol Məktəbi', href: '/school', imgBg: 'bg-gray-800' },
     { title: 'Akademiya', href: '/academy', imgBg: 'bg-gray-800' },
@@ -37,7 +36,7 @@ export default function QuickLinks() {
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, margin: "-100px" }}
-          className="grid grid-cols-1 md:grid-cols-2 gap-6"
+          className="grid grid-cols-1 md:grid-cols-3 gap-6"
         >
           {links.map((link, i) => (
             <motion.div key={i} variants={itemVariants}>

@@ -24,7 +24,7 @@ export default function VideoSection() {
           className="flex flex-col items-start mb-12"
         >
           <div className="w-8 h-[2px] bg-[#d7bf7b] mb-4"></div>
-          <h2 className="text-4xl font-black text-white tracking-tighter uppercase">Yarımada TV</h2>
+          <h2 className="text-4xl font-black text-white tracking-tighter uppercase">VİDEOLAR</h2>
         </motion.div>
 
         <div className="flex flex-col xl:flex-row gap-6">

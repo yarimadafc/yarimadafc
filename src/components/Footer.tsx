@@ -26,7 +26,7 @@ export default function Footer() {
         <div className="container mx-auto px-4 lg:px-8 mb-4">
           <h3 className="text-gray-500 font-bold tracking-widest text-xs uppercase flex items-center">
             <span className="w-8 h-[1px] bg-[#d7bf7b] mr-3"></span>
-            Tərəfdaşlarımız
+            SPONSORLAR
           </h3>
         </div>
         <div className="relative w-full flex whitespace-nowrap opacity-50 grayscale hover:grayscale-0 hover:opacity-100 transition-all duration-500 overflow-hidden">
@@ -77,8 +77,6 @@ export default function Footer() {
             <Link href="/club" className="text-white font-bold text-xs md:text-sm hover:text-[#d7bf7b] transition-colors">Klub</Link>
             <Link href="/matches" className="text-white font-bold text-xs md:text-sm hover:text-[#d7bf7b] transition-colors">Oyunlar</Link>
             <Link href="/social" className="text-white font-bold text-xs md:text-sm hover:text-[#d7bf7b] transition-colors">Sosial media</Link>
-            <Link href="/tickets" className="text-white font-bold text-xs md:text-sm hover:text-[#d7bf7b] transition-colors">Biletlər</Link>
-            <Link href="/media" className="text-white font-bold text-xs md:text-sm hover:text-[#d7bf7b] transition-colors">Media (TV)</Link>
           </div>
 
           {/* Links Col 2 */}
@@ -92,55 +90,43 @@ export default function Footer() {
 
           {/* Contact & Address */}
           <div className="col-span-2 lg:col-span-2 grid grid-cols-1 sm:grid-cols-2 gap-8">
-            <div className="flex flex-col space-y-2">
-              <span className="text-white font-bold text-xs md:text-sm">Əlaqə</span>
-              <a href="tel:+994551234567" className="text-white font-bold text-sm md:text-base hover:text-[#d7bf7b] transition-colors">
+            <div className="flex flex-col space-y-3">
+              <span className="text-[#d7bf7b] font-bold text-xs md:text-sm tracking-widest uppercase">Əlaqə</span>
+              <a href="tel:+994551234567" className="text-white font-medium text-sm hover:text-[#d7bf7b] transition-colors">
                 (+994) 55 123 45 67
               </a>
-            </div>
-            <div className="flex flex-col space-y-2">
-              <span className="text-white font-bold text-xs md:text-sm">Ünvan</span>
-              <p className="text-gray-400 font-medium text-xs md:text-sm leading-relaxed">
+              <a href="mailto:info@yarimadafc.com" className="text-white font-medium text-sm hover:text-[#d7bf7b] transition-colors">
+                info@yarimadafc.com
+              </a>
+              <p className="text-gray-400 font-medium text-xs leading-relaxed mt-2">
                 Bakı şəhəri, Suraxanı rayonu,<br />
                 Qaraçuxur qəsəbəsi,<br />
                 Neftçilər parkının yanı
               </p>
+            </div>
+            <div className="flex flex-col space-y-3">
+              <span className="text-[#d7bf7b] font-bold text-xs md:text-sm tracking-widest uppercase">Sosial Media</span>
+              <div className="flex flex-col space-y-2">
+                <a href="#" className="text-white font-medium text-sm hover:text-[#d7bf7b] transition-colors flex items-center space-x-2">
+                   <InstagramIcon /> <span>Instagram</span>
+                </a>
+                <a href="#" className="text-white font-medium text-sm hover:text-[#d7bf7b] transition-colors flex items-center space-x-2">
+                   <YoutubeIcon /> <span>YouTube</span>
+                </a>
+                <a href="#" className="text-white font-medium text-sm hover:text-[#d7bf7b] transition-colors flex items-center space-x-2">
+                   <FacebookIcon /> <span>Facebook</span>
+                </a>
+              </div>
             </div>
           </div>
 
         </div>
 
         {/* Bottom Section: Socials */}
-        <div className="mt-12 flex flex-col md:flex-row items-center justify-between space-y-6 md:space-y-0 pt-8 border-t border-gray-800/50">
-          
-          <div className="text-center md:text-left text-gray-600 font-semibold text-[10px] md:text-xs">
+        <div className="mt-12 flex flex-col items-center justify-center pt-8 border-t border-gray-800/50">
+          <div className="text-gray-600 font-semibold text-[10px] md:text-xs">
             © {new Date().getFullYear()} Yarımada FK. Bütün hüquqlar qorunur.
           </div>
-
-          <div className="flex items-center space-x-3 md:space-x-4">
-            <a href="#" className="w-8 h-8 md:w-10 md:h-10 rounded-full bg-gray-900 flex items-center justify-center text-white hover:bg-[#d7bf7b] hover:text-[#152741] transition-colors">
-              <YoutubeIcon />
-            </a>
-            <a href="#" className="w-8 h-8 md:w-10 md:h-10 rounded-full bg-gray-900 flex items-center justify-center text-white hover:bg-[#d7bf7b] hover:text-[#152741] transition-colors">
-              <InstagramIcon />
-            </a>
-            <a href="#" className="w-8 h-8 md:w-10 md:h-10 rounded-full bg-gray-900 flex items-center justify-center text-white hover:bg-[#d7bf7b] hover:text-[#152741] transition-colors">
-              <FacebookIcon />
-            </a>
-            <a href="#" className="w-8 h-8 md:w-10 md:h-10 rounded-full bg-gray-900 flex items-center justify-center text-white hover:bg-[#d7bf7b] hover:text-[#152741] transition-colors">
-              <TwitterIcon />
-            </a>
-            <a href="#" className="w-8 h-8 md:w-10 md:h-10 rounded-full bg-gray-900 flex items-center justify-center text-white hover:bg-[#d7bf7b] hover:text-[#152741] transition-colors">
-              <Send className="w-4 h-4 md:w-5 md:h-5" />
-            </a>
-            <a href="#" className="w-8 h-8 md:w-10 md:h-10 rounded-full bg-gray-900 flex items-center justify-center text-white hover:bg-[#d7bf7b] hover:text-[#152741] transition-colors">
-              <Music2 className="w-4 h-4 md:w-5 md:h-5" />
-            </a>
-            <a href="#" className="w-8 h-8 md:w-10 md:h-10 rounded-full bg-gray-900 flex items-center justify-center text-white hover:bg-[#d7bf7b] hover:text-[#152741] transition-colors">
-              <MessageCircle className="w-4 h-4 md:w-5 md:h-5" />
-            </a>
-          </div>
-
         </div>
       </div>
     </footer>

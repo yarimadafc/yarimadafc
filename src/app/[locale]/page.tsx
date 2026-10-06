@@ -65,11 +65,11 @@ export default function HomePage() {
         {/* 2. Sürətli Keçidlər (4-lü Grid) */}
         <QuickLinks />
 
-        {/* 3. Xəbərlər (News) */}
-        <NewsSection />
-
-        {/* 4. Turnir cədvəli & Növbəti oyunlar */}
+        {/* 3. Turnir cədvəli & Növbəti oyunlar */}
         <StandingsMatches />
+
+        {/* 4. Xəbərlər (News) */}
+        <NewsSection />
 
         {/* 5. Yarımada TV */}
         <VideoSection />

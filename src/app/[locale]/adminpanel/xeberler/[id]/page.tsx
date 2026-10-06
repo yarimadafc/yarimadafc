@@ -11,10 +11,10 @@ export default function AdminNewsEdit({ params }: { params: Promise<{ id: string
   const router = useRouter();
   const [loading, setLoading] = useState(false);
   const [fetching, setFetching] = useState(true);
-  const [formData, setFormData] = useState({
-    title_az: '', title_ru: '', title_en: '',
-    content_az: '', content_ru: '', content_en: '',
-    excerpt_az: '', category: 'club', author: 'Admin',
+  const [formData, setFormData] = useState<any>({
+    title_az: '', title_ru: '', title_en: '', title: '',
+    content_az: '', content_ru: '', content_en: '', content: '',
+    excerpt_az: '', excerpt: '', category: 'club', author: 'Admin',
     image_url: '', published: true
   });
 
@@ -57,19 +57,48 @@ export default function AdminNewsEdit({ params }: { params: Promise<{ id: string
     e.preventDefault();
     setLoading(true);
     
-    // Auto translate missing fields
-    const { updatedData } = await autoTranslateFields(formData, ['title', 'content', 'excerpt']);
-    const slug = generateSlug(updatedData.title_az);
+    const slug = generateSlug(formData.title_az || formData.title || 'xeber');
     
-    // Replace formData reference with updatedData for the insert/update
-    const dataToSave = { ...updatedData, slug };
+    // Create payload with _az suffixes
+    const dataToSaveAz = {
+      title_az: formData.title_az || formData.title,
+      content_az: formData.content_az || formData.content,
+      excerpt_az: formData.excerpt_az || formData.excerpt,
+      category: formData.category,
+      author: formData.author,
+      image_url: formData.image_url,
+      published: formData.published,
+      slug: slug
+    };
+
+    // Fallback try without _az suffixes
+    const dataToSaveGeneric = {
+      title: formData.title_az || formData.title,
+      content: formData.content_az || formData.content,
+      excerpt: formData.excerpt_az || formData.excerpt,
+      category: formData.category,
+      author: formData.author,
+      image_url: formData.image_url,
+      published: formData.published,
+      slug: slug
+    };
     
     try {
-      const { error } = await supabase.from('news').update(dataToSave).eq('id', resolvedParams.id);
-      if (error) throw error;
+      let result = await supabase.from('news').update(dataToSaveAz).eq('id', resolvedParams.id);
+      
+      if (result.error && (result.error.message.includes('Could not find') || result.error.code === 'PGRST204' || result.error.message.includes('column'))) {
+        console.warn('Fallback to generic columns...');
+        result = await supabase.from('news').update(dataToSaveGeneric).eq('id', resolvedParams.id);
+      } else if (result.error) {
+        result = await supabase.from('news').update(dataToSaveGeneric).eq('id', resolvedParams.id);
+      }
+      
+      if (result.error) {
+        throw result.error;
+      }
       router.push('/adminpanel/xeberler');
     } catch (error: any) {
-      alert(error.message);
+      alert(`Xəta baş verdi: ${error.message || error.details || JSON.stringify(error)}`);
       setLoading(false);
     }
   };

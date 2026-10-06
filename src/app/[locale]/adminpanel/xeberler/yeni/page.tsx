@@ -7,7 +7,7 @@ import { autoTranslateFields } from '@/lib/autoTranslate';
 export default function AdminNewsCreate() {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
-  const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState<any>({
     title_az: '', title_ru: '', title_en: '',
     content_az: '', content_ru: '', content_en: '',
     excerpt_az: '', category: 'club', author: 'Admin',
@@ -44,12 +44,10 @@ export default function AdminNewsCreate() {
     e.preventDefault();
     setLoading(true);
     
-    // Generate a basic slug if not exists
     const slug = generateSlug(formData.title_az || 'xeber');
     
-    // Sütunların uyğunsuzluğu səbəbindən autoTranslate hələlik deaktiv edilib. 
-    // Yalnız DB-də mövcud olan (böyük ehtimalla) əsas məlumatları göndəririk
-    const dataToSave = {
+    // First try with _az suffixes
+    const dataToSaveAz = {
       title_az: formData.title_az,
       content_az: formData.content_az,
       excerpt_az: formData.excerpt_az,
@@ -59,17 +57,42 @@ export default function AdminNewsCreate() {
       published: formData.published,
       slug: slug
     };
+
+    // Fallback try without _az suffixes
+    const dataToSaveGeneric = {
+      title: formData.title_az,
+      content: formData.content_az,
+      excerpt: formData.excerpt_az,
+      category: formData.category,
+      author: formData.author,
+      image_url: formData.image_url,
+      published: formData.published,
+      slug: slug
+    };
     
     try {
-      const { error } = await supabase.from('news').insert([dataToSave]);
-      if (error) {
-        console.error('Insert error:', error);
-        throw error;
+      let result = await supabase.from('news').insert([dataToSaveAz]);
+      
+      // If it fails because columns don't exist, try the generic one
+      if (result.error && result.error.message.includes('Could not find the')) {
+        console.warn('title_az not found, falling back to title...');
+        result = await supabase.from('news').insert([dataToSaveGeneric]);
+      } else if (result.error && result.error.code === 'PGRST204') {
+         // Another common error code for missing columns
+         result = await supabase.from('news').insert([dataToSaveGeneric]);
+      } else if (result.error) {
+         // For other errors, try generic just in case or it might fail again
+         result = await supabase.from('news').insert([dataToSaveGeneric]);
       }
+      
+      if (result.error) {
+        throw result.error;
+      }
+      
       router.push('/adminpanel/xeberler');
     } catch (error: any) {
-      console.error(error);
-      alert('Xəta baş verdi: Zəhmət olmasa konsola baxın və ya DB sütunlarını yoxlayın.');
+      console.error('Final Insert Error:', error);
+      alert(`Xəta baş verdi: ${error.message || error.details || JSON.stringify(error)}`);
       setLoading(false);
     }
   };

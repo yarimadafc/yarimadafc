@@ -1,5 +1,7 @@
 'use client';
+
 import Link from 'next/link';
+import { motion } from 'framer-motion';
 
 export default function StandingsMatches() {
   const standings = [
@@ -20,32 +22,50 @@ export default function StandingsMatches() {
   ];
 
   return (
-    <section className="bg-[#06101e] py-20 border-b border-gray-800/50">
+    <section className="bg-[#06101e] py-20 border-b border-gray-800/50 overflow-hidden">
       <div className="container mx-auto px-4 lg:px-8">
         
         {/* Header */}
-        <div className="flex flex-col items-center mb-12">
+        <motion.div 
+          initial={{ opacity: 0, y: 50 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, ease: "easeOut" }}
+          viewport={{ once: true }}
+          className="flex flex-col items-center mb-12"
+        >
           <div className="w-8 h-[2px] bg-[#d7bf7b] mb-6"></div>
           <h2 className="text-4xl font-black text-white tracking-tighter uppercase mb-4">Turnir cədvəli</h2>
-          <Link href="/preview/standings" className="text-white font-bold text-[13px] tracking-widest border-b-2 border-[#d7bf7b] pb-1 hover:text-[#d7bf7b] transition-colors uppercase">
+          <Link href="/standings" className="text-white font-bold text-[13px] tracking-widest border-b-2 border-[#d7bf7b] pb-1 hover:text-[#d7bf7b] transition-colors uppercase">
             Bütün nəticələr
           </Link>
-        </div>
+        </motion.div>
 
         {/* Tabs */}
-        <div className="flex justify-center space-x-6 lg:space-x-12 mb-10 overflow-x-auto pb-4">
+        <motion.div 
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          transition={{ duration: 1, delay: 0.3 }}
+          viewport={{ once: true }}
+          className="flex justify-center space-x-6 lg:space-x-12 mb-10 overflow-x-auto pb-4"
+        >
           <button className="text-[#d7bf7b] font-bold text-sm tracking-widest uppercase whitespace-nowrap">Əsas Komanda</button>
           <button className="text-gray-400 hover:text-white transition-colors font-bold text-sm tracking-widest uppercase whitespace-nowrap">Yarımada-2</button>
           <button className="text-gray-400 hover:text-white transition-colors font-bold text-sm tracking-widest uppercase whitespace-nowrap">U-19</button>
           <button className="text-gray-400 hover:text-white transition-colors font-bold text-sm tracking-widest uppercase whitespace-nowrap">U-17</button>
           <button className="text-gray-400 hover:text-white transition-colors font-bold text-sm tracking-widest uppercase whitespace-nowrap">U-15</button>
-        </div>
+        </motion.div>
 
         {/* Grid: Standings & Matches */}
         <div className="grid grid-cols-1 xl:grid-cols-2 gap-8">
           
           {/* Table */}
-          <div className="bg-[#0a1628] rounded-2xl overflow-hidden border border-gray-800">
+          <motion.div 
+            initial={{ opacity: 0, x: -100 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.8, ease: "easeOut" }}
+            viewport={{ once: true, margin: "-100px" }}
+            className="bg-[#0a1628] rounded-2xl overflow-hidden border border-gray-800 shadow-2xl"
+          >
             <div className="overflow-x-auto">
               <table className="w-full text-sm text-left">
                 <thead className="text-gray-400 font-bold border-b border-gray-800 bg-[#06101e]">
@@ -78,10 +98,16 @@ export default function StandingsMatches() {
                 </tbody>
               </table>
             </div>
-          </div>
+          </motion.div>
 
           {/* Matches List */}
-          <div className="bg-[#0a1628] rounded-2xl overflow-hidden border border-gray-800">
+          <motion.div 
+            initial={{ opacity: 0, x: 100 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.8, ease: "easeOut", delay: 0.2 }}
+            viewport={{ once: true, margin: "-100px" }}
+            className="bg-[#0a1628] rounded-2xl overflow-hidden border border-gray-800 shadow-2xl"
+          >
             <div className="overflow-x-auto">
               <table className="w-full text-sm text-left">
                 <thead className="text-gray-400 font-bold border-b border-gray-800 bg-[#06101e]">
@@ -114,7 +140,7 @@ export default function StandingsMatches() {
                 </tbody>
               </table>
             </div>
-          </div>
+          </motion.div>
 
         </div>
       </div>

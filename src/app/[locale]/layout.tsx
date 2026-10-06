@@ -22,14 +22,16 @@ const jetbrains = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
-  title: 'Yarmada FK - Admin Panel',
-  description: 'Yarımada Futbol Klubunun idarəetmə paneli.',
+  title: 'Yarımada FK | Rəsmi Vebsayt',
+  description: 'Yarımada Futbol Klubunun rəsmi vebsaytı.',
   icons: {
     icon: '/Logo.JPG.jpeg',
     shortcut: '/Logo.JPG.jpeg',
     apple: '/Logo.JPG.jpeg',
   }
 };
+
+import ClientLayout from '@/components/ClientLayout';
 
 export default async function RootLayout({
   children,
@@ -43,9 +45,11 @@ export default async function RootLayout({
   const messages = await getMessages();
   return (
     <html lang={locale} className={`${albert.variable} ${alumni.variable} ${jetbrains.variable}`}>
-      <body className="min-h-screen flex flex-col antialiased">
+      <body className="min-h-screen flex flex-col antialiased bg-[#06101e]">
         <NextIntlClientProvider messages={messages} locale={locale}>
-          {children}
+          <ClientLayout>
+            {children}
+          </ClientLayout>
         </NextIntlClientProvider>
       </body>
     </html>

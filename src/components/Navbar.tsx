@@ -17,19 +17,19 @@ const InstagramIcon = () => (
 const FacebookIcon = () => (
   <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path></svg>
 );
+const TiktokIcon = () => (
+  <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M9 12a4 4 0 1 0 4 4V4a5 5 0 0 0 5 5"></path></svg>
+);
+
+const TelegramIcon = () => (
+  <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
+);
+
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
-  const [time, setTime] = useState<string>('');
-
-  useEffect(() => {
-    setTime(new Date().toLocaleTimeString('az-AZ', { hour12: false }));
-    const timer = setInterval(() => {
-      setTime(new Date().toLocaleTimeString('az-AZ', { hour12: false }));
-    }, 1000);
-    return () => clearInterval(timer);
-  }, []);
+  // Time state is moved to Hero section now, no longer needed in Navbar top bar
 
   const handleHomeClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
     if (window.location.pathname === '/' || window.location.pathname === '/az') {
@@ -68,14 +68,9 @@ export default function Navbar() {
       {/* Top Bar */}
       <div className="bg-[#0a1423] border-b border-gray-800/80 hidden lg:block">
         <div className="container mx-auto px-4 lg:px-8 h-10 flex items-center justify-between">
-          {/* Left: Clock */}
-          <div className="flex items-center space-x-2">
-            <div className="relative p-[1px] rounded-full overflow-hidden group flex">
-               <div className="absolute inset-0 bg-[conic-gradient(from_0deg,transparent_0_340deg,#d7bf7b_360deg)] animate-[spin_2s_linear_infinite]"></div>
-               <div className="relative flex items-center justify-center bg-[#0d1a2d] px-4 py-1 rounded-full h-full w-full">
-                 <span className="text-[#d7bf7b] font-mono font-bold tracking-widest text-[11px] drop-shadow-[0_0_5px_rgba(215,191,123,0.8)]">{time || '00:00:00'}</span>
-               </div>
-            </div>
+          {/* Left: Empty or additional info */}
+          <div className="flex items-center space-x-2 text-gray-500 text-xs font-bold tracking-widest uppercase">
+            Rəsmi Veb Səhifə
           </div>
           
           {/* Right: Social, Language */}
@@ -84,6 +79,8 @@ export default function Navbar() {
               <a href="#" className="hover:text-[#d7bf7b] transition-colors"><InstagramIcon /></a>
               <a href="#" className="hover:text-[#d7bf7b] transition-colors"><FacebookIcon /></a>
               <a href="#" className="hover:text-[#d7bf7b] transition-colors"><YoutubeIcon /></a>
+              <a href="#" className="hover:text-[#d7bf7b] transition-colors"><TiktokIcon /></a>
+              <a href="#" className="hover:text-[#d7bf7b] transition-colors"><TelegramIcon /></a>
             </div>
             <div className="w-[1px] h-4 bg-gray-700"></div>
             <div className="flex items-center space-x-3 text-[11px] font-bold text-gray-400 tracking-widest">
@@ -157,7 +154,7 @@ export default function Navbar() {
               >
                 {isSearchOpen ? <X className="w-5 h-5" /> : <Search className="w-5 h-5" />}
               </button>
-              <Link href="/register" className="bg-[#d7bf7b] text-[#152741] hover:bg-white transition-colors font-black text-[11px] tracking-widest px-6 py-2.5 rounded-full uppercase">
+              <Link href="/contact" className="bg-[#d7bf7b] text-[#152741] hover:bg-white transition-colors font-black text-[11px] tracking-widest px-6 py-2.5 rounded-full uppercase">
                 BİZƏ QOŞUL
               </Link>
             </div>
@@ -219,19 +216,13 @@ export default function Navbar() {
               className="xl:hidden bg-[#0d1a2d] border-t border-gray-800 absolute w-full overflow-hidden shadow-2xl max-h-[85vh] overflow-y-auto"
             >
               <div className="px-6 py-4 space-y-1">
-                {/* Mobile Clock */}
-                <div className="relative p-[1px] rounded-full overflow-hidden mb-4 flex w-full">
-                   <div className="absolute inset-0 bg-[conic-gradient(from_0deg,transparent_0_340deg,#d7bf7b_360deg)] animate-[spin_2s_linear_infinite]"></div>
-                   <div className="relative flex items-center justify-center bg-[#152741] w-full px-4 py-1.5 rounded-full">
-                     <span className="text-[#d7bf7b] font-mono font-bold tracking-widest text-sm drop-shadow-[0_0_5px_rgba(215,191,123,0.8)]">{time || '00:00:00'}</span>
-                   </div>
-                </div>
-
                 <div className="flex items-center justify-between mb-4 px-2">
                   <div className="flex space-x-4 text-gray-400">
                     <a href="#"><InstagramIcon /></a>
                     <a href="#"><FacebookIcon /></a>
                     <a href="#"><YoutubeIcon /></a>
+                    <a href="#"><TiktokIcon /></a>
+                    <a href="#"><TelegramIcon /></a>
                   </div>
                   <div className="flex space-x-2 text-[10px] font-bold text-gray-400 tracking-widest">
                     <span className="text-[#d7bf7b]">AZ</span> / <span>EN</span> / <span>RU</span>
@@ -261,7 +252,7 @@ export default function Navbar() {
                 ))}
                 
                 <div className="pt-6 pb-4 flex">
-                  <Link href="/register" onClick={() => setIsOpen(false)} className="bg-[#d7bf7b] text-[#152741] w-full text-center hover:bg-white transition-colors font-black text-sm tracking-widest px-6 py-4 rounded-xl uppercase">
+                  <Link href="/contact" onClick={() => setIsOpen(false)} className="bg-[#d7bf7b] text-[#152741] w-full text-center hover:bg-white transition-colors font-black text-sm tracking-widest px-6 py-4 rounded-xl uppercase">
                     BİZƏ QOŞUL
                   </Link>
                 </div>

@@ -14,6 +14,14 @@ const FacebookIcon = () => (
   <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path></svg>
 );
 
+const TiktokIcon = () => (
+  <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M9 12a4 4 0 1 0 4 4V4a5 5 0 0 0 5 5"></path></svg>
+);
+
+const TelegramIcon = () => (
+  <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
+);
+
 const TwitterIcon = () => (
   <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M22 4s-.7 2.1-2 3.4c1.6 10-9.4 17.3-18 11.6 2.2.1 4.4-.6 6-2C3 15.5.5 9.6 3 5c2.2 2.6 5.6 4.1 9 4-.9-4.2 4-6.6 7-3.8 1.1 0 3-1.2 3-1.2z"></path></svg>
 );
@@ -29,7 +37,7 @@ export default function Footer() {
             SPONSORLAR
           </h3>
         </div>
-        <div className="relative w-full flex whitespace-nowrap opacity-50 grayscale hover:grayscale-0 hover:opacity-100 transition-all duration-500 overflow-hidden">
+        <div className="relative w-full flex whitespace-nowrap transition-all duration-500 overflow-hidden">
           {/* We duplicate the content to make an infinite marquee loop */}
           <div className="flex animate-[marquee_25s_linear_infinite] items-center space-x-16 px-8 min-w-max">
             <div className="text-white text-lg font-black uppercase tracking-widest">SOCAR</div>
@@ -114,6 +122,12 @@ export default function Footer() {
                 </a>
                 <a href="#" className="text-white font-medium text-sm hover:text-[#d7bf7b] transition-colors flex items-center space-x-2">
                    <FacebookIcon /> <span>Facebook</span>
+                </a>
+                <a href="#" className="text-white font-medium text-sm hover:text-[#d7bf7b] transition-colors flex items-center space-x-2">
+                   <TiktokIcon /> <span>TikTok</span>
+                </a>
+                <a href="#" className="text-white font-medium text-sm hover:text-[#d7bf7b] transition-colors flex items-center space-x-2">
+                   <TelegramIcon /> <span>Telegram</span>
                 </a>
               </div>
             </div>

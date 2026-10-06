@@ -1,8 +1,6 @@
 'use client';
 import React, { useEffect } from 'react';
-
 import { usePathname, useRouter, Link } from '@/i18n/routing';
-
 import { motion } from 'framer-motion';
 
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
@@ -19,23 +17,9 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
     return <>{children}</>;
   }
 
+  // Yenidən qurulacağı üçün menyu hələlik boşdur
   const menuItems = [
-    { name: 'Xəbərlər', path: '/adminpanel/xeberler' },
-    { name: 'Komandalar', path: '/adminpanel/komandalar' },
-    { name: 'Futbolçular', path: '/adminpanel/futbolcular' },
-    { name: 'Məşqçilər', path: '/adminpanel/mesqciler' },
-    { name: 'Oyunlar', path: '/adminpanel/oyunlar' },
-    { name: 'Turnirlər', path: '/adminpanel/turnir' },
-    { name: 'Biletlər (Yeni)', path: '/adminpanel/biletler' },
-    { name: 'Mağaza (Yeni)', path: '/adminpanel/magaza' },
-    { name: 'Tarix (Yeni)', path: '/adminpanel/tarix' },
-    { name: 'Akademiya / Məktəb', path: '/adminpanel/akademiya' },
-    { name: 'Media', path: '/adminpanel/media' },
-    { name: 'Sponsorlar', path: '/adminpanel/sponsorlar' },
-    { name: 'Əlaqə mesajları', path: '/adminpanel/elaqe' },
-    { name: 'Qeydiyyatlar', path: '/adminpanel/qeydiyyatlar' },
-    { name: 'Bannerlər', path: '/adminpanel/bannerler' },
-    { name: 'Parametrlər', path: '/adminpanel/parametrler' },
+    { name: 'Əsas Panel', path: '/adminpanel' },
   ];
 
   const handleLogout = async () => {
@@ -55,7 +39,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
       >
         <div className="p-6">
           <h2 className="text-2xl font-bold text-[#d7bf7b] tracking-wider">YARIMADA FK</h2>
-          <p className="text-gray-400 text-sm mt-1">Admin Panel</p>
+          <p className="text-gray-400 text-sm mt-1">Admin Panel (Yenilənir)</p>
         </div>
         <nav className="flex-1 overflow-y-auto px-4 py-2 space-y-1 custom-scrollbar">
           {menuItems.map((item, index) => (
@@ -67,7 +51,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
             >
               <Link 
                 href={item.path}
-                className={`block px-4 py-3 rounded transition-colors ${pathname === item.path || (item.path !== '/adminpanel' && pathname.startsWith(item.path)) ? 'bg-[#112240] text-[#d7bf7b] font-medium border-l-4 border-[#d7bf7b]' : 'text-gray-300 hover:bg-[#112240] hover:text-white'}`}
+                className={`block px-4 py-3 rounded transition-colors ${pathname === item.path ? 'bg-[#112240] text-[#d7bf7b] font-medium border-l-4 border-[#d7bf7b]' : 'text-gray-300 hover:bg-[#112240] hover:text-white'}`}
               >
                 {item.name}
               </Link>

@@ -46,16 +46,19 @@ export default function HomePage() {
                   <span className="text-[#d7bf7b]">YENİ HƏDƏFLƏR</span>
                 </h1>
                 <p className="text-gray-300 font-bold text-lg md:text-xl tracking-wide max-w-xl mb-10 drop-shadow-md">
-                  Komandamız yeni mövsüm hazırlıqlarını başa çatdırdı və ilk oyuna tam hazırdır. 
+                  Gələcəyin çempionları burada yetişir. Böyük hədəflərə doğru birlikdə addımlayırıq!
                 </p>
                 <motion.div 
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.8, delay: 1.2 }}
-                  className="flex space-x-6"
+                  className="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-6"
                 >
-                   <Link href="/academy" className="bg-[#d7bf7b] text-[#152741] hover:bg-white hover:text-black font-bold uppercase tracking-widest text-sm px-8 py-4 rounded-md transition-colors text-center inline-block">
-                     Akademiyaya Qoşul
+                   <Link href="/teams" className="bg-[#d7bf7b] text-[#152741] hover:bg-white hover:text-black font-bold uppercase tracking-widest text-xs px-8 py-4 rounded-md transition-colors text-center inline-block">
+                     Komandalarımıza bax
+                   </Link>
+                   <Link href="/matches" className="bg-transparent border border-white text-white hover:bg-white hover:text-[#152741] font-bold uppercase tracking-widest text-xs px-8 py-4 rounded-md transition-colors text-center inline-block">
+                     Növbəti Oyun
                    </Link>
                 </motion.div>
              </motion.div>

@@ -58,9 +58,8 @@ export default function ContactPage() {
               <div className="flex flex-col">
                 <span className="text-gray-500 font-bold text-xs uppercase tracking-widest mb-1">Ünvan</span>
                 <p className="text-white font-medium text-lg leading-relaxed">
-                  Bakı şəhəri, Suraxanı rayonu,<br />
-                  Qaraçuxur qəsəbəsi,<br />
-                  Neftçilər parkının yanı
+                  Kristal Abşeron 1,<br />
+                  Xırdalan şəhəri
                 </p>
               </div>
             </div>
@@ -75,7 +74,7 @@ export default function ContactPage() {
           className="bg-[#152741] p-4 md:p-6 rounded-3xl border border-gray-800 shadow-2xl w-full h-[400px] lg:h-auto overflow-hidden relative"
         >
           <iframe 
-            src="https://maps.google.com/maps?q=40.4552142,49.7338299&hl=az&z=17&output=embed" 
+            src="https://maps.google.com/maps?q=Kristal+Abşeron+1,Xırdalan&hl=az&z=15&output=embed" 
             className="absolute inset-0 w-full h-full rounded-2xl border-0" 
             allowFullScreen={false} 
             loading="lazy" 

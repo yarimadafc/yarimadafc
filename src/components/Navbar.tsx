@@ -1,55 +1,61 @@
 'use client';
 
+import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { useState, useEffect } from 'react';
-import { usePathname, useRouter } from 'next/navigation';
-import { Search, Menu, X, ShoppingBag } from 'lucide-react';
+import { Menu, X, Search } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 
+const YoutubeIcon = () => (
+  <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M22.54 6.42a2.78 2.78 0 0 0-1.94-2C18.88 4 12 4 12 4s-6.88 0-8.6.46a2.78 2.78 0 0 0-1.94 2A29 29 0 0 0 1 11.75a29 29 0 0 0 .46 5.33 2.78 2.78 0 0 0 1.94 2c1.72.46 8.6.46 8.6.46s6.88 0 8.6-.46a2.78 2.78 0 0 0 1.94-2 29 29 0 0 0 .46-5.33 29 29 0 0 0-.46-5.33z"></path><polygon points="9.75 15.02 15.5 11.75 9.75 8.48 9.75 15.02"></polygon></svg>
+);
+
+const InstagramIcon = () => (
+  <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg>
+);
+
+const FacebookIcon = () => (
+  <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path></svg>
+);
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
   const [time, setTime] = useState<string>('');
-  const pathname = usePathname();
-  const router = useRouter();
 
   useEffect(() => {
-    const interval = setInterval(() => {
-      const now = new Date();
-      setTime(now.toLocaleTimeString('az-AZ', { hour12: false }));
+    setTime(new Date().toLocaleTimeString('az-AZ', { hour12: false }));
+    const timer = setInterval(() => {
+      setTime(new Date().toLocaleTimeString('az-AZ', { hour12: false }));
     }, 1000);
-    return () => clearInterval(interval);
+    return () => clearInterval(timer);
   }, []);
 
-  const handleHomeClick = (e: React.MouseEvent) => {
-    e.preventDefault();
-    if (pathname === '/' || pathname === '/az' || pathname === '/en' || pathname === '/ru') {
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    } else {
-      router.push('/');
+  const handleHomeClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
+    if (window.location.pathname === '/' || window.location.pathname === '/az') {
+      e.preventDefault();
+      window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
     }
   };
 
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
     if (searchQuery.trim()) {
-      alert(`"${searchQuery}" üçün axtarış funksiyası tezliklə aktiv olacaq.`);
+      window.location.href = `/news?search=${encodeURIComponent(searchQuery)}`;
       setIsSearchOpen(false);
-      setSearchQuery('');
     }
   };
 
   const menuItems = [
     { name: 'ANA SƏHİFƏ', href: '/', onClick: handleHomeClick },
-    { name: 'XƏBƏRLƏR', href: '/news' },
+    { name: 'KLUB', href: '/club' },
     { name: 'KOMANDALAR', href: '/teams' },
     { name: 'OYUNLAR', href: '/matches' },
-    { name: 'KLUB', href: '/club' },
-    { name: 'AKADEMİYA', href: '/academy' },
-    { name: 'MEDIA', href: '/media' },
-    { name: 'ƏLAQƏ', href: '/contact' },
+    { name: 'TURNİR CƏDVƏLİ', href: '/standings' },
+    { name: 'XƏBƏRLƏR', href: '/news' },
+    { name: 'MEDİA', href: '/media' },
+    { name: 'MƏŞQÇİLƏR', href: '/coaches' },
+    { name: 'ƏLAQƏ', href: '/contact' }
   ];
 
   return (
@@ -57,182 +63,213 @@ export default function Navbar() {
       initial={{ y: -100 }}
       animate={{ y: 0 }}
       transition={{ duration: 0.8, ease: "easeOut" }}
-      className="w-full bg-[#152741]/95 backdrop-blur-md border-b border-gray-800/50 sticky top-0 z-50 transition-all duration-300"
+      className="fixed w-full top-0 z-50 flex flex-col"
     >
-      <div className="container mx-auto px-4 lg:px-8">
-        <div className="flex items-center justify-between h-24">
-          {/* Logo & Text */}
-          <div className="flex items-center space-x-4">
-            <a href="/" onClick={handleHomeClick} className="flex-shrink-0 flex items-center group cursor-pointer space-x-3">
-              <motion.div 
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                className="relative w-14 h-14 md:w-16 md:h-16 rounded-full overflow-hidden border-2 border-[#d7bf7b]"
-              >
-                <Image src="/Logo.JPG.jpeg" alt="Yarımada FK" fill className="object-cover" />
-              </motion.div>
-              <div className="flex flex-col">
-                 <span className="text-white font-black text-xl md:text-2xl tracking-tighter uppercase group-hover:text-[#d7bf7b] transition-colors">
-                   Yarımada FK
-                 </span>
-              </div>
-            </a>
-          </div>
-
-          {/* Desktop Menu */}
-          <nav className="hidden lg:flex items-center space-x-5 xl:space-x-7">
-            {menuItems.map((item, i) => (
-              <motion.div 
-                key={item.name}
-                initial={{ opacity: 0, y: -20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: i * 0.1 }}
-              >
-                {item.onClick ? (
-                  <a
-                    href={item.href}
-                    onClick={item.onClick}
-                    className="font-bold text-[11px] xl:text-[12px] tracking-widest text-white hover:text-[#d7bf7b] transition-colors relative group cursor-pointer"
-                  >
-                    {item.name}
-                    <span className="absolute -bottom-2 left-0 w-0 h-[2px] bg-[#d7bf7b] transition-all duration-300 group-hover:w-full"></span>
-                  </a>
-                ) : (
-                  <Link
-                    href={item.href}
-                    className="font-bold text-[11px] xl:text-[12px] tracking-widest text-white hover:text-[#d7bf7b] transition-colors relative group"
-                  >
-                    {item.name}
-                    <span className="absolute -bottom-2 left-0 w-0 h-[2px] bg-[#d7bf7b] transition-all duration-300 group-hover:w-full"></span>
-                  </Link>
-                )}
-              </motion.div>
-            ))}
-          </nav>
-
-          {/* Right Actions */}
-          <div className="hidden lg:flex items-center space-x-6">
-            
-            {/* LED Glow Clock on Desktop */}
-            <div className="relative p-[2px] rounded-full overflow-hidden group">
-               {/* Spinning LED Border */}
+      {/* Top Bar */}
+      <div className="bg-[#0a1423] border-b border-gray-800/80 hidden lg:block">
+        <div className="container mx-auto px-4 lg:px-8 h-10 flex items-center justify-between">
+          {/* Left: Clock */}
+          <div className="flex items-center space-x-2">
+            <div className="relative p-[1px] rounded-full overflow-hidden group flex">
                <div className="absolute inset-0 bg-[conic-gradient(from_0deg,transparent_0_340deg,#d7bf7b_360deg)] animate-[spin_2s_linear_infinite]"></div>
-               {/* Clock Content */}
-               <div className="relative flex items-center justify-center bg-[#0d1a2d] px-8 py-2 rounded-full h-full w-full">
-                 <span className="text-[#d7bf7b] font-mono font-bold tracking-widest text-lg drop-shadow-[0_0_8px_rgba(215,191,123,1)]">{time || '00:00:00'}</span>
+               <div className="relative flex items-center justify-center bg-[#0d1a2d] px-4 py-1 rounded-full h-full w-full">
+                 <span className="text-[#d7bf7b] font-mono font-bold tracking-widest text-[11px] drop-shadow-[0_0_5px_rgba(215,191,123,0.8)]">{time || '00:00:00'}</span>
                </div>
             </div>
-
-            {/* Search Button */}
-            <button 
-              onClick={() => setIsSearchOpen(!isSearchOpen)}
-              className="text-white hover:text-[#d7bf7b] transition-colors p-2"
-            >
-              {isSearchOpen ? <X className="w-5 h-5" /> : <Search className="w-5 h-5" />}
-            </button>
           </div>
-
-          {/* Mobile Menu Button */}
-          <div className="lg:hidden flex items-center space-x-4">
-            <button 
-              onClick={() => setIsSearchOpen(!isSearchOpen)}
-              className="text-white hover:text-[#d7bf7b] focus:outline-none"
-            >
-              <Search className="w-6 h-6" />
-            </button>
-            <button
-              onClick={() => setIsOpen(!isOpen)}
-              className="text-white hover:text-[#d7bf7b] focus:outline-none p-2"
-            >
-              {isOpen ? <X className="w-8 h-8" /> : <Menu className="w-8 h-8" />}
-            </button>
+          
+          {/* Right: Social, Language */}
+          <div className="flex items-center space-x-6">
+            <div className="flex items-center space-x-4 text-gray-400">
+              <a href="#" className="hover:text-[#d7bf7b] transition-colors"><InstagramIcon /></a>
+              <a href="#" className="hover:text-[#d7bf7b] transition-colors"><FacebookIcon /></a>
+              <a href="#" className="hover:text-[#d7bf7b] transition-colors"><YoutubeIcon /></a>
+            </div>
+            <div className="w-[1px] h-4 bg-gray-700"></div>
+            <div className="flex items-center space-x-3 text-[11px] font-bold text-gray-400 tracking-widest">
+              <button className="text-[#d7bf7b] transition-colors">AZ</button>
+              <button className="hover:text-white transition-colors">EN</button>
+              <button className="hover:text-white transition-colors">RU</button>
+            </div>
           </div>
         </div>
       </div>
 
-      {/* Search Input Dropdown */}
-      <AnimatePresence>
-        {isSearchOpen && (
-          <motion.div 
-            initial={{ height: 0, opacity: 0 }}
-            animate={{ height: 'auto', opacity: 1 }}
-            exit={{ height: 0, opacity: 0 }}
-            className="w-full bg-[#152741] border-t border-gray-800 overflow-hidden"
-          >
-            <form onSubmit={handleSearch} className="container mx-auto px-4 lg:px-8 py-4">
-              <div className="relative">
-                <input 
-                  type="text" 
-                  autoFocus
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                  placeholder="Saytda axtarış..." 
-                  className="w-full bg-[#0d1a2d] text-white border border-gray-700 rounded-lg py-3 px-4 pl-12 focus:outline-none focus:border-[#d7bf7b] transition-colors"
-                />
-                <Search className="absolute left-4 top-3.5 w-5 h-5 text-gray-400" />
-                <button type="submit" className="absolute right-2 top-2 bg-[#d7bf7b] text-[#152741] px-4 py-1.5 rounded-md font-bold text-sm hover:bg-white transition-colors">
-                  Axtar
-                </button>
-              </div>
-            </form>
-          </motion.div>
-        )}
-      </AnimatePresence>
+      {/* Main Navbar */}
+      <div className="bg-[#0d1a2d]/95 backdrop-blur-md border-b border-gray-800 shadow-xl">
+        <div className="container mx-auto px-4 lg:px-8">
+          <div className="flex items-center justify-between h-20 md:h-24">
+            
+            {/* Logo */}
+            <div className="flex-shrink-0">
+              <a href="/" onClick={handleHomeClick} className="flex items-center group cursor-pointer space-x-3">
+                <motion.div 
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                  className="relative w-12 h-12 md:w-16 md:h-16 rounded-full overflow-hidden border-2 border-[#d7bf7b]"
+                >
+                  <Image src="/Logo.JPG.jpeg" alt="Yarımada FK" fill className="object-cover" />
+                </motion.div>
+                <div className="flex flex-col hidden sm:flex">
+                   <span className="text-white font-black text-lg md:text-xl tracking-tighter uppercase group-hover:text-[#d7bf7b] transition-colors">
+                     Yarımada FK
+                   </span>
+                </div>
+              </a>
+            </div>
 
-      {/* Mobile Menu Dropdown */}
-      <AnimatePresence>
-        {isOpen && (
-          <motion.div 
-            initial={{ height: 0, opacity: 0 }}
-            animate={{ height: 'auto', opacity: 1 }}
-            exit={{ height: 0, opacity: 0 }}
-            className="lg:hidden bg-[#0d1a2d] border-t border-gray-800 absolute w-full overflow-hidden shadow-2xl"
-          >
-            <div className="px-6 py-4 space-y-1">
-              {/* LED Glow Clock on Mobile */}
-              <div className="relative p-[2px] rounded-full overflow-hidden mb-6 flex w-full">
-                 <div className="absolute inset-0 bg-[conic-gradient(from_0deg,transparent_0_340deg,#d7bf7b_360deg)] animate-[spin_2s_linear_infinite]"></div>
-                 <div className="relative flex items-center justify-center bg-[#152741] w-full px-4 py-2 rounded-full">
-                   <span className="text-[#d7bf7b] font-mono font-bold tracking-widest text-lg drop-shadow-[0_0_8px_rgba(215,191,123,1)]">{time || '00:00:00'}</span>
-                 </div>
-              </div>
-
+            {/* Desktop Menu */}
+            <nav className="hidden xl:flex items-center space-x-4 2xl:space-x-6">
               {menuItems.map((item, i) => (
-                <motion.div
+                <motion.div 
                   key={item.name}
-                  initial={{ x: -20, opacity: 0 }}
-                  animate={{ x: 0, opacity: 1 }}
-                  transition={{ delay: i * 0.05 }}
+                  initial={{ opacity: 0, y: -10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.3, delay: i * 0.05 }}
                 >
                   {item.onClick ? (
                     <a
                       href={item.href}
-                      onClick={(e) => { item.onClick(e); setIsOpen(false); }}
-                      className="block py-3 font-bold text-sm tracking-widest text-white hover:text-[#d7bf7b] border-b border-gray-800/50 transition-colors"
+                      onClick={item.onClick}
+                      className="font-bold text-[10px] 2xl:text-[11px] tracking-[0.15em] text-white hover:text-[#d7bf7b] transition-colors relative group cursor-pointer"
                     >
                       {item.name}
+                      <span className="absolute -bottom-2 left-0 w-0 h-[2px] bg-[#d7bf7b] transition-all duration-300 group-hover:w-full"></span>
                     </a>
                   ) : (
                     <Link
                       href={item.href}
-                      className="block py-3 font-bold text-sm tracking-widest text-white hover:text-[#d7bf7b] border-b border-gray-800/50 transition-colors"
-                      onClick={() => setIsOpen(false)}
+                      className="font-bold text-[10px] 2xl:text-[11px] tracking-[0.15em] text-white hover:text-[#d7bf7b] transition-colors relative group"
                     >
                       {item.name}
+                      <span className="absolute -bottom-2 left-0 w-0 h-[2px] bg-[#d7bf7b] transition-all duration-300 group-hover:w-full"></span>
                     </Link>
                   )}
                 </motion.div>
               ))}
-              <div className="pt-4 flex flex-col space-y-4">
-                <Link href="/shop" className="flex items-center space-x-2 text-white font-bold text-sm tracking-widest">
-                  <ShoppingBag className="w-5 h-5" />
-                  <span>MAĞAZA</span>
-                </Link>
-              </div>
+            </nav>
+
+            {/* Right Actions */}
+            <div className="hidden lg:flex items-center space-x-4">
+              <button 
+                onClick={() => setIsSearchOpen(!isSearchOpen)}
+                className="text-white hover:text-[#d7bf7b] transition-colors p-2"
+              >
+                {isSearchOpen ? <X className="w-5 h-5" /> : <Search className="w-5 h-5" />}
+              </button>
+              <Link href="/register" className="bg-[#d7bf7b] text-[#152741] hover:bg-white transition-colors font-black text-[11px] tracking-widest px-6 py-2.5 rounded-full uppercase">
+                BİZƏ QOŞUL
+              </Link>
             </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
+
+            {/* Mobile Menu Button */}
+            <div className="xl:hidden flex items-center space-x-3">
+              <button 
+                onClick={() => setIsSearchOpen(!isSearchOpen)}
+                className="text-white hover:text-[#d7bf7b] focus:outline-none p-1"
+              >
+                <Search className="w-5 h-5 md:w-6 md:h-6" />
+              </button>
+              <button
+                onClick={() => setIsOpen(!isOpen)}
+                className="text-white hover:text-[#d7bf7b] focus:outline-none p-1"
+              >
+                {isOpen ? <X className="w-7 h-7 md:w-8 md:h-8" /> : <Menu className="w-7 h-7 md:w-8 md:h-8" />}
+              </button>
+            </div>
+          </div>
+        </div>
+
+        {/* Search Input Dropdown */}
+        <AnimatePresence>
+          {isSearchOpen && (
+            <motion.div 
+              initial={{ height: 0, opacity: 0 }}
+              animate={{ height: 'auto', opacity: 1 }}
+              exit={{ height: 0, opacity: 0 }}
+              className="w-full bg-[#152741] border-t border-gray-800 overflow-hidden"
+            >
+              <form onSubmit={handleSearch} className="container mx-auto px-4 lg:px-8 py-4">
+                <div className="relative">
+                  <input 
+                    type="text" 
+                    autoFocus
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                    placeholder="Saytda axtarış..." 
+                    className="w-full bg-[#0d1a2d] text-white border border-gray-700 rounded-lg py-3 px-4 pl-12 focus:outline-none focus:border-[#d7bf7b] transition-colors"
+                  />
+                  <Search className="absolute left-4 top-3.5 w-5 h-5 text-gray-400" />
+                  <button type="submit" className="absolute right-2 top-2 bg-[#d7bf7b] text-[#152741] px-4 py-1.5 rounded-md font-bold text-sm hover:bg-white transition-colors">
+                    Axtar
+                  </button>
+                </div>
+              </form>
+            </motion.div>
+          )}
+        </AnimatePresence>
+
+        {/* Mobile Menu Dropdown */}
+        <AnimatePresence>
+          {isOpen && (
+            <motion.div 
+              initial={{ height: 0, opacity: 0 }}
+              animate={{ height: 'auto', opacity: 1 }}
+              exit={{ height: 0, opacity: 0 }}
+              className="xl:hidden bg-[#0d1a2d] border-t border-gray-800 absolute w-full overflow-hidden shadow-2xl max-h-[85vh] overflow-y-auto"
+            >
+              <div className="px-6 py-4 space-y-1">
+                {/* Mobile Clock */}
+                <div className="relative p-[1px] rounded-full overflow-hidden mb-4 flex w-full">
+                   <div className="absolute inset-0 bg-[conic-gradient(from_0deg,transparent_0_340deg,#d7bf7b_360deg)] animate-[spin_2s_linear_infinite]"></div>
+                   <div className="relative flex items-center justify-center bg-[#152741] w-full px-4 py-1.5 rounded-full">
+                     <span className="text-[#d7bf7b] font-mono font-bold tracking-widest text-sm drop-shadow-[0_0_5px_rgba(215,191,123,0.8)]">{time || '00:00:00'}</span>
+                   </div>
+                </div>
+
+                <div className="flex items-center justify-between mb-4 px-2">
+                  <div className="flex space-x-4 text-gray-400">
+                    <a href="#"><InstagramIcon /></a>
+                    <a href="#"><FacebookIcon /></a>
+                    <a href="#"><YoutubeIcon /></a>
+                  </div>
+                  <div className="flex space-x-2 text-[10px] font-bold text-gray-400 tracking-widest">
+                    <span className="text-[#d7bf7b]">AZ</span> / <span>EN</span> / <span>RU</span>
+                  </div>
+                </div>
+
+                {menuItems.map((item) => (
+                  <motion.div key={item.name}>
+                    {item.onClick ? (
+                      <a
+                        href={item.href}
+                        onClick={(e) => { item.onClick(e); setIsOpen(false); }}
+                        className="block py-2.5 font-bold text-[11px] md:text-xs tracking-widest text-white hover:text-[#d7bf7b] border-b border-gray-800/50 transition-colors"
+                      >
+                        {item.name}
+                      </a>
+                    ) : (
+                      <Link
+                        href={item.href}
+                        className="block py-2.5 font-bold text-[11px] md:text-xs tracking-widest text-white hover:text-[#d7bf7b] border-b border-gray-800/50 transition-colors"
+                        onClick={() => setIsOpen(false)}
+                      >
+                        {item.name}
+                      </Link>
+                    )}
+                  </motion.div>
+                ))}
+                
+                <div className="pt-4 pb-2 flex">
+                  <Link href="/register" onClick={() => setIsOpen(false)} className="bg-[#d7bf7b] text-[#152741] w-full text-center hover:bg-white transition-colors font-black text-[11px] tracking-widest px-6 py-3 rounded-full uppercase">
+                    BİZƏ QOŞUL
+                  </Link>
+                </div>
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
+      </div>
     </motion.header>
   );
 }

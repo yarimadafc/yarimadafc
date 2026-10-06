@@ -99,9 +99,8 @@ export default function Footer() {
                 info@yarimadafc.com
               </a>
               <p className="text-gray-400 font-medium text-xs leading-relaxed mt-2">
-                Bakı şəhəri, Suraxanı rayonu,<br />
-                Qaraçuxur qəsəbəsi,<br />
-                Neftçilər parkının yanı
+                Kristal Abşeron 1,<br />
+                Xırdalan şəhəri
               </p>
             </div>
             <div className="flex flex-col space-y-3">

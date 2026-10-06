@@ -1,7 +1,6 @@
 import type { Metadata } from 'next';
 import { Montserrat, JetBrains_Mono, Oswald } from 'next/font/google';
 import '../globals.css';
-import ClientLayout from '@/components/ClientLayout';
 import {NextIntlClientProvider} from 'next-intl';
 import {getMessages, setRequestLocale} from 'next-intl/server';
 
@@ -23,9 +22,8 @@ const jetbrains = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
-  title: 'Yarmada FK',
-  description: 'Yarımada Futbol Klubunun rəsmi veb səhifəsi. Oyunlar, komandalar, xəbərlər və daha çoxu.',
-  keywords: ['Yarımada FK', 'Yarımada Football Club', 'futbol akademiyası Bakı', 'uşaq futbolu Bakı', 'AFFA U-12'],
+  title: 'Yarmada FK - Admin Panel',
+  description: 'Yarımada Futbol Klubunun idarəetmə paneli.',
   icons: {
     icon: '/Logo.JPG.jpeg',
     shortcut: '/Logo.JPG.jpeg',
@@ -45,13 +43,9 @@ export default async function RootLayout({
   const messages = await getMessages();
   return (
     <html lang={locale} className={`${albert.variable} ${alumni.variable} ${jetbrains.variable}`}>
-      <head>
-        <link rel="icon" type="image/jpeg" href="/Logo.JPG.jpeg" />
-        <link rel="apple-touch-icon" href="/Logo.JPG.jpeg" />
-      </head>
       <body className="min-h-screen flex flex-col antialiased">
         <NextIntlClientProvider messages={messages} locale={locale}>
-          <ClientLayout key={locale}>{children}</ClientLayout>
+          {children}
         </NextIntlClientProvider>
       </body>
     </html>

@@ -22,7 +22,7 @@ export default function StandingsMatches() {
   ];
 
   return (
-    <section className="bg-[#06101e] py-20 border-b border-gray-800/50 overflow-hidden">
+    <section className="bg-[#0d1a2d] py-20 border-b border-gray-800/50 overflow-hidden">
       <div className="container mx-auto px-4 lg:px-8">
         
         {/* Header */}
@@ -64,11 +64,11 @@ export default function StandingsMatches() {
             whileInView={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.8, ease: "easeOut" }}
             viewport={{ once: true, margin: "-100px" }}
-            className="bg-[#0a1628] rounded-2xl overflow-hidden border border-gray-800 shadow-2xl"
+            className="bg-[#152741] rounded-2xl overflow-hidden border border-gray-800 shadow-2xl"
           >
             <div className="overflow-x-auto">
               <table className="w-full text-sm text-left">
-                <thead className="text-gray-400 font-bold border-b border-gray-800 bg-[#06101e]">
+                <thead className="text-gray-400 font-bold border-b border-gray-800 bg-[#0d1a2d]">
                   <tr>
                     <th className="px-6 py-4">№</th>
                     <th className="px-6 py-4">Komanda</th>
@@ -106,11 +106,11 @@ export default function StandingsMatches() {
             whileInView={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.8, ease: "easeOut", delay: 0.2 }}
             viewport={{ once: true, margin: "-100px" }}
-            className="bg-[#0a1628] rounded-2xl overflow-hidden border border-gray-800 shadow-2xl"
+            className="bg-[#152741] rounded-2xl overflow-hidden border border-gray-800 shadow-2xl"
           >
             <div className="overflow-x-auto">
               <table className="w-full text-sm text-left">
-                <thead className="text-gray-400 font-bold border-b border-gray-800 bg-[#06101e]">
+                <thead className="text-gray-400 font-bold border-b border-gray-800 bg-[#0d1a2d]">
                   <tr>
                     <th className="px-6 py-4">Tarix</th>
                     <th className="px-4 py-4">Saat</th>

@@ -45,7 +45,7 @@ export default async function RootLayout({
   const messages = await getMessages();
   return (
     <html lang={locale} className={`${albert.variable} ${alumni.variable} ${jetbrains.variable}`}>
-      <body className="min-h-screen flex flex-col antialiased bg-[#06101e]">
+      <body className="min-h-screen flex flex-col antialiased bg-[#0d1a2d]">
         <NextIntlClientProvider messages={messages} locale={locale}>
           <ClientLayout>
             {children}

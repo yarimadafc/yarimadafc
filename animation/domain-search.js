@@ -1,0 +1,362 @@
+/* =========================================================================
+   SAYTLAB — domain-search.js
+   "Domen axtar" bölməsi (#domain): istifadəçi domen adı + uzantı seçir,
+   sistem domenin SƏRBƏST olub-olmadığını göstərir və WhatsApp-a yönləndirir.
+
+   VACİB — NƏ EDİR, NƏ ETMİR:
+   • Bu vasitə YALNIZ MÖVCUDLUĞU (tutulub / tutulmayıb) göstərir.
+   • QİYMƏT GÖSTƏRMİR və qiymətə istinad etmir — qiymət WhatsApp-da danışılır.
+   • Backend/server YOXDUR: sorğu birbaşa brauzerdən (client-side) gedir.
+
+   PROVAYDER HAQQINDA (gələcəkdə dəyişdirmək lazım olarsa oxu):
+   • İstifadə olunan servis — domainee.dev (pulsuz, API açarı tələb etmir,
+     CORS açıqdır). Bu RƏSMİ və ya ZƏMANƏTLİ bir provayder DEYİL:
+     "best-effort" ictimai servisdir, uptime zəmanəti yoxdur və limiti var
+     (təxminən IP başına 30 sorğu/dəqiqə, 500/gün).
+   • Buna görə FALLBACK MÜTLƏQDİR: servis cavab verməsə, limit dolsa və ya
+     nəticə qeyri-müəyyən olsa, istifadəçiyə xəta göstərilmir — birbaşa
+     WhatsApp-a yönləndirilir.
+   • Provayderi əvəz etmək üçün yalnız aşağıdakı PROVIDER obyektini dəyişmək
+     kifayətdir (URL + parse məntiqi bir yerdədir, kodun içinə səpilməyib).
+   ========================================================================= */
+
+(() => {
+  'use strict';
+
+  /* ---------- 1. Provayder (tək dəyişdirmə nöqtəsi) ----------
+     MƏXFİLİK QEYDİ: sorğu istifadəçinin brauzerindən BİRBAŞA bu üçüncü tərəf
+     servisə gedir — yəni istifadəçinin yazdığı domen adı və IP ünvanı bizim
+     nəzarətimizdə olmayan servisə görünür. Bu, privacy.html-də "Domen axtarışı"
+     bölməsində açıq şəkildə istifadəçiyə bildirilir. Provayder dəyişdirilərsə
+     həmin mətn də yenilənməlidir. */
+  const PROVIDER = {
+    /* GET https://api.domainee.dev/v1/tools/domain-availability-checker?name=<ad>&tlds=<uzanti>
+       Cavab: { ok: true, data: { name, results: [ { tld, fqdn, available, method, registrarHint } ] } }
+       `available`: true = sərbəst, false = tutulub, null = müəyyən edilə bilmədi. */
+    endpoint: 'https://api.domainee.dev/v1/tools/domain-availability-checker',
+
+    buildUrl(label, tld) {
+      const q = new URLSearchParams({ name: label, tlds: tld });
+      return `${this.endpoint}?${q.toString()}`;
+    },
+
+    /* Cavabı bizim üç vəziyyətə çevirir: true / false / null (bilinmir). */
+    parse(json, fqdn) {
+      if (!json || json.ok !== true || !json.data || !Array.isArray(json.data.results)) return null;
+      const row = json.data.results.find(r => String(r.fqdn).toLowerCase() === fqdn) || json.data.results[0];
+      if (!row) return null;
+      return typeof row.available === 'boolean' ? row.available : null;
+    },
+  };
+
+  /* ===================================================================
+     TIMEOUT — TLD-YƏ GÖRƏ FƏRQLƏNDİRMƏ İMKANI
+
+     AXTARIŞ BAZASI (index.html-dəki .domain-tlds düymələrindən oxunur):
+       .com .shop .store .site .space .fun .sbs
+     Hamısı gTLD-dir (.com — Verisign; .shop — GMO; .store/.site/.space/.fun
+     — Radix; .sbs — ShortDot) və hamısı vasitəçidə RDAP metodu ilə yoxlanır.
+     Aralarında sənədləşdirilmiş sürət fərqi bilmirik, ona görə HAMISI eyni
+     standart TIMEOUT_MS ilə işləyir və SLOW_TLDS boşdur.
+
+     SLOW_TLDS strukturu qəsdən saxlanılıb: gələcəkdə bazaya nəzərəçarpacaq
+     dərəcədə yavaş bir uzantı (məsələn ccTLD) əlavə olunarsa, onu sadəcə bu
+     massivə yazmaq kifayətdir — qalan məntiq özü uyğunlaşır. Əsassız yerə
+     doldurma: yalnız ölçülmüş/sənədləşdirilmiş yavaşlıq varsa əlavə et.
+
+     ⚠ ÖLÇÜLMÜŞ REALLIQ (2026-09, bu rəqəmləri dəyişməzdən əvvəl OXU):
+     Biz registriyə BİRBAŞA getmirik — arada domainee.dev vasitəçisi var və
+     onun ÖZ daxili limiti təxminən 8.3–8.5 san-dır. Yəni:
+       • Uğurlu cavab adətən ~0.5–1.2 san gəlir.
+       • Uğursuz halda vasitəçi ~8.4 san-də HTTP 200 + `available: null`
+         qaytarır (bizim timeout işə düşmür, sorğu kəsilmir).
+       • 12 ölçmədə ən uzun cavab 8460 ms olub — yəni PRAKTİKADA aşağıdakı
+         hədlər işə düşmür; onlar yalnız TƏHLÜKƏSİZLİK PAYIDIR.
+     Nəticə: bu rəqəmləri artırmaq mövcud vasitəçi ilə uğursuzluq faizini
+     AZALTMIR — vasitəçi onsuz da bizdən əvvəl əl çəkir. Həqiqi yaxşılaşma
+     üçün ya nəticəsiz cavabda təkrar sorğu, ya da ikinci provayder lazımdır
+     — ikisi də ayrıca qərar tələb edir.
+
+     Qeyd: .az bu bazada YOXDUR — avtomatik yoxlanmır (AZNIC pulsuz/açarsız
+     API vermir). O, index.html-də ayrıca "qeyd + WhatsApp" bloku kimi
+     göstərilir (aşağıdakı .az bölməsinə bax).
+     =================================================================== */
+  const SLOW_TLDS = [];            // hazırda yavaş kimi tanınan uzantı yoxdur
+
+  const TIMEOUT_MS      = 10000;   // bütün baza uzantıları
+  const TIMEOUT_SLOW_MS = 16000;   // yalnız SLOW_TLDS doldurulsa işə düşür
+
+  /* Təkrar cəhd YALNIZ sorğu TEZ uğursuz olanda edilir (şəbəkə kəsintisi,
+     429 limit, CSP blok — bunlar dərhal qayıdır). Əgər sorğu artıq uzun
+     müddət yeyibsə, ikinci cəhd gözləməni ikiqat artırardı — bu, istifadəçi
+     üçün fallback mesajından daha pisdir, ona görə birbaşa fallback göstəririk.
+     (Qeyd: vasitəçinin ~8.4 san-lik cavabı bu həddi keçdiyinə görə tipik
+     uğursuzluqda retry İŞƏ DÜŞMÜR — retry əsasən şəbəkə/limit xətaları
+     üçündür.) */
+  const RETRY_IF_FAILED_WITHIN_MS      = 3000;   // standart
+  const RETRY_IF_FAILED_WITHIN_SLOW_MS = 5000;   // yalnız SLOW_TLDS üçün
+  const RETRY_DELAY_MS = 400;
+
+  const isSlowTld       = (tld) => SLOW_TLDS.includes(tld);
+  const timeoutFor      = (tld) => (isSlowTld(tld) ? TIMEOUT_SLOW_MS : TIMEOUT_MS);
+  const retryWindowFor  = (tld) => (isSlowTld(tld) ? RETRY_IF_FAILED_WITHIN_SLOW_MS : RETRY_IF_FAILED_WITHIN_MS);
+
+  /* ---------- 2. DOM ---------- */
+  const section = document.getElementById('domain');
+  if (!section) return;
+
+  const form       = document.getElementById('domainForm');
+  const input      = document.getElementById('domainInput');
+  const submitBtn  = document.getElementById('domainSubmit');
+  const suffixEl   = document.getElementById('domainSuffix');
+  const resultEl   = document.getElementById('domainResult');
+  const tldButtons = Array.from(section.querySelectorAll('.domain-tld'));
+  if (!form || !input || !resultEl || !tldButtons.length) return;
+
+  let activeTld = tldButtons.find(b => b.classList.contains('is-active'))?.dataset.tld || '.com';
+  let busy = false;
+  /* Sorğu jetonu: uzantı dəyişdirilsə, uçuşda olan köhnə cavab nəticəni
+     üzərinə yazmasın (əks halda ekranda .io yazır, cavab isə .com-undur). */
+  let reqId = 0;
+
+  /* ---------- 3. Köməkçilər ---------- */
+
+  const KNOWN_TLDS = tldButtons.map(b => b.dataset.tld);
+
+  /* İstifadəçi "https://www.menimbrendim.com/haqqinda" kimi də yaza bilər —
+     yalnız domen adını çıxarırıq. Sonda tanıdığımız uzantı varsa, onu seçirik. */
+  function normalize(raw) {
+    let v = String(raw || '').trim().toLowerCase();
+    v = v.replace(/^[a-z]+:\/\//, '');   // protokol
+    v = v.split(/[/?#]/)[0];             // yol / query
+    v = v.replace(/^www\./, '');
+    v = v.replace(/\.+$/, '');
+
+    let tld = null;
+    for (const t of KNOWN_TLDS) {
+      if (v.endsWith(t) && v.length > t.length) { tld = t; v = v.slice(0, -t.length); break; }
+    }
+
+    /* Tanımadığımız uzantı (məs. istifadəçi "brendim.az" yazdı) — bunu ayrıca
+       tuturuq. Əks halda nöqtəli mətn LABEL_RE-dən keçmir və istifadəçiyə
+       "adınız yanlışdır" kimi SƏHV mesaj göstərilirdi; halbuki ad düzgündür,
+       sadəcə uzantı axtarış bazamızda yoxdur. */
+    let unknownTld = null;
+    if (!tld) {
+      const m = v.match(/\.([a-z]{2,})$/);
+      if (m) { unknownTld = '.' + m[1]; v = v.slice(0, -unknownTld.length); }
+    }
+
+    return { label: v, tld, unknownTld };
+  }
+
+  /* Yalnız LDH (hərf-rəqəm-defis) qəbul edilir — beynəlxalq (ə, ö, ğ...) hərflər
+     punycode tələb edir, onu client-side etmirik. */
+  const LABEL_RE = /^[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?$/;
+
+  function setTld(tld) {
+    activeTld = tld;
+    tldButtons.forEach(b => {
+      const on = b.dataset.tld === tld;
+      b.classList.toggle('is-active', on);
+      b.setAttribute('aria-pressed', on ? 'true' : 'false');
+    });
+    if (suffixEl) suffixEl.textContent = tld;
+  }
+
+  function waLink(text) {
+    const num = window.SAYTLAB_WA_NUMBER;
+    const base = num ? `https://wa.me/${num}` : 'https://wa.me/';
+    return `${base}?text=${encodeURIComponent(text)}`;
+  }
+
+  /* Nəticə kartını qurur. Mətn həmişə textContent ilə yazılır (istifadəçi girişi). */
+  function render({ state, title, note, waText, waLabel }) {
+    resultEl.className = `domain-result is-visible is-${state}`;
+    resultEl.replaceChildren();
+
+    const h = document.createElement('p');
+    h.className = 'domain-result-title';
+    h.textContent = title;
+    resultEl.appendChild(h);
+
+    if (note) {
+      const p = document.createElement('p');
+      p.className = 'domain-result-note';
+      p.textContent = note;
+      resultEl.appendChild(p);
+    }
+
+    if (waText) {
+      const a = document.createElement('a');
+      a.className = 'btn btn-solid domain-wa';
+      a.href = waLink(waText);
+      a.target = '_blank';
+      a.rel = 'noopener noreferrer';
+      a.textContent = waLabel || 'WhatsApp-dan yazın';
+      resultEl.appendChild(a);
+    }
+  }
+
+  function renderLoading(fqdn) {
+    resultEl.className = 'domain-result is-visible is-loading';
+    resultEl.replaceChildren();
+    const span = document.createElement('span');
+    span.className = 'domain-spinner';
+    span.setAttribute('aria-hidden', 'true');
+    const p = document.createElement('p');
+    p.className = 'domain-result-title';
+    p.textContent = `${fqdn} yoxlanılır…`;
+    resultEl.append(span, p);
+  }
+
+  function setBusy(on) {
+    busy = on;
+    if (submitBtn) {
+      submitBtn.disabled = on;
+      submitBtn.classList.toggle('is-busy', on);
+    }
+  }
+
+  /* Servis cavab vermədi / limit doldu / nəticə qeyri-müəyyən — istifadəçiyə
+     texniki xəta göstərmirik, sadəcə WhatsApp-a yönləndiririk. */
+  function renderFallback(fqdn) {
+    render({
+      state: 'manual',
+      title: 'Avtomatik yoxlama hazırda mümkün olmadı',
+      note: `${fqdn} domenini biz sizin üçün yoxlayaq — WhatsApp-dan yazın, qısa müddətdə cavab verək.`,
+      waText: `Salam! ${fqdn} domeninin boş olub-olmadığını yoxlaya bilərsinizmi?`,
+      waLabel: 'WhatsApp-dan soruşun',
+    });
+  }
+
+  /* Provayderə bir sorğu. Nəticə: true / false / null (bilinmir). Heç vaxt throw etmir. */
+  async function ask(label, tld, fqdn) {
+    const ctrl = new AbortController();
+    const timer = setTimeout(() => ctrl.abort(), timeoutFor(tld));
+    try {
+      const res = await fetch(PROVIDER.buildUrl(label, tld.slice(1)), { signal: ctrl.signal });
+      return res.ok ? PROVIDER.parse(await res.json(), fqdn) : null;
+    } catch (_) {
+      return null;                    // şəbəkə xətası / timeout / CORS / CSP → fallback
+    } finally {
+      clearTimeout(timer);
+    }
+  }
+
+  /* ---------- 4. Axtarış ---------- */
+  async function search() {
+    if (busy) return;
+
+    const { label, tld, unknownTld } = normalize(input.value);
+    if (tld) setTld(tld);
+
+    /* Bazada olmayan uzantı yazılıb — dəqiq səbəbi de. .az xüsusi haldır:
+       o, qəsdən axtarışa daxil edilməyib, bölmənin altında ayrıca qeyd var. */
+    if (unknownTld) {
+      render({
+        state: 'invalid',
+        title: `${unknownTld} uzantısı avtomatik axtarışa daxil deyil`,
+        note: unknownTld === '.az'
+          ? '.az domenləri əlavə xidmətdir — aşağıdakı qeyddən bizə yazın, mövcudluğunu özümüz yoxlayaq.'
+          : `Hazırda yoxlaya bildiyimiz uzantılar: ${KNOWN_TLDS.join(', ')}. Adı uzantısız yazıb yuxarıdan birini seçin.`,
+      });
+      input.focus();
+      return;
+    }
+
+    if (!label) {
+      render({ state: 'invalid', title: 'Əvvəlcə domen adını yazın', note: 'Məsələn: menimbrendim' });
+      input.focus();
+      return;
+    }
+    if (!LABEL_RE.test(label)) {
+      render({
+        state: 'invalid',
+        title: 'Bu ad domen üçün uyğun deyil',
+        note: 'Yalnız latın hərfləri (a–z), rəqəmlər və defis (-) istifadə edin. Boşluq və xüsusi simvollar olmaz.',
+      });
+      input.focus();
+      return;
+    }
+
+    const fqdn = label + activeTld;
+
+    const myReq = ++reqId;
+    setBusy(true);
+    renderLoading(fqdn);
+
+    const reqTld = activeTld;         // sorğu boyu sabit qalsın
+    const startedAt = Date.now();
+    let available = await ask(label, reqTld, fqdn);
+
+    if (available === null && myReq === reqId && Date.now() - startedAt < retryWindowFor(reqTld)) {
+      await new Promise(r => setTimeout(r, RETRY_DELAY_MS));
+      available = await ask(label, reqTld, fqdn);
+    }
+    setBusy(false);
+
+    if (myReq !== reqId) return;   // istifadəçi bu arada uzantını dəyişib
+
+    if (available === true) {
+      render({
+        state: 'free',
+        title: `${fqdn} sərbəstdir`,
+        note: 'Bu domeni sizin adınıza qeydiyyatdan keçirə və üzərində sayt qura bilərik. Detalları WhatsApp-da danışaq.',
+        waText: `Salam! ${fqdn} domeni sərbəst görünür. Bu domeni almaq və sayt qurdurmaq istəyirəm.`,
+        waLabel: 'Bu domeni istəyirəm',
+      });
+    } else if (available === false) {
+      /* Tutulmuş domen üçün WhatsApp düyməsi göstərmirik — məntiqli deyil. */
+      render({
+        state: 'taken',
+        title: `${fqdn} artıq tutulub`,
+        note: 'Başqa bir ad və ya uzantı sınayın — çox vaxt yaxın variantlardan biri boş olur.',
+      });
+    } else {
+      renderFallback(fqdn);
+    }
+  }
+
+  /* ---------- 5. Hadisələr ---------- */
+  form.addEventListener('submit', (e) => { e.preventDefault(); search(); });
+
+  /* Enter ilə axtarış — implicit form submit-ə güvənmirik (bəzi brauzer/
+     mühitlərdə tək input olan formada işə düşmür). */
+  input.addEventListener('keydown', (e) => {
+    if (e.key !== 'Enter') return;
+    e.preventDefault();
+    search();
+  });
+
+  tldButtons.forEach(btn => {
+    btn.addEventListener('click', () => {
+      setTld(btn.dataset.tld);
+      /* Uzantı dəyişəndə köhnə nəticə (və uçuşdakı sorğu) yanlış təsəvvür yaratmasın. */
+      reqId++;
+      resultEl.className = 'domain-result';
+      resultEl.replaceChildren();
+      input.focus();
+    });
+  });
+
+  /* Yazı dəyişəndə köhnə nəticəni təmizlə. */
+  input.addEventListener('input', () => {
+    if (!resultEl.classList.contains('is-visible')) return;
+    resultEl.className = 'domain-result';
+    resultEl.replaceChildren();
+  });
+
+  /* ---------- 6. .az qeydi ----------
+     .az avtomatik yoxlanmır (AZNIC pulsuz/açarsız API vermir), ona görə
+     axtarış bazasında yoxdur. Bölmənin altındakı qeyd blokundakı WhatsApp
+     linkini burada əvvəlcədən doldurulmuş mesajla təchiz edirik — nömrə
+     yenə tək mənbədən (window.SAYTLAB_WA_NUMBER) gəlir.
+     HTML-dəki href yalnız fallback-dır (JS işləməzsə). */
+  const azLink = document.querySelector('#domain [data-az-wa]');
+  if (azLink) {
+    azLink.href = waLink('Salam! .az domeni ilə maraqlanıram — mövcudluğunu və şərtləri öyrənmək istəyirəm.');
+  }
+
+  setTld(activeTld);
+})();

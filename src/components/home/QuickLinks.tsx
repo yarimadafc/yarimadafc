@@ -30,7 +30,7 @@ export default function QuickLinks() {
   };
 
   return (
-    <section className="bg-[#06101e] py-16 border-b border-gray-800/50 overflow-hidden">
+    <section className="bg-[#0d1a2d] py-16 border-b border-gray-800/50 overflow-hidden">
       <div className="container mx-auto px-4 lg:px-8">
         <motion.div 
           variants={containerVariants}
@@ -43,7 +43,7 @@ export default function QuickLinks() {
             <motion.div key={i} variants={itemVariants}>
               <Link 
                 href={link.href}
-                className="group flex flex-col sm:flex-row bg-[#0a1628] rounded-2xl overflow-hidden hover:transform hover:-translate-y-1 transition-all duration-300 border border-transparent hover:border-[#d7bf7b]/30 h-full"
+                className="group flex flex-col sm:flex-row bg-[#152741] rounded-2xl overflow-hidden hover:transform hover:-translate-y-1 transition-all duration-300 border border-transparent hover:border-[#d7bf7b]/30 h-full"
               >
                 {/* Text Area */}
                 <div className="w-full sm:w-1/2 p-8 flex flex-col justify-between">

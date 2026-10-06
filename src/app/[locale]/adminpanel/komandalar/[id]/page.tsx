@@ -80,7 +80,7 @@ export default function AdminEdit({ params }: { params: Promise<{ id: string }> 
           {formData.photo_url && <img src={formData.photo_url} alt="Preview" className="h-24 mt-2 rounded object-cover" />}
         </div>
       
-        <button disabled={loading} type="submit" className="mt-6 bg-[#0a1628] text-white px-8 py-3 rounded font-medium hover:bg-[#112240] transition disabled:opacity-50">
+        <button disabled={loading} type="submit" className="mt-6 bg-[#152741] text-white px-8 py-3 rounded font-medium hover:bg-[#112240] transition disabled:opacity-50">
           {loading ? 'Yadda saxlanılır (Tərcümə edilir)...' : 'Dəyişiklikləri Yadda Saxla'}
         </button>
       </form>

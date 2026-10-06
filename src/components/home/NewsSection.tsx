@@ -66,7 +66,7 @@ export default function NewsSection() {
   if (loading) return null;
 
   return (
-    <section className="container mx-auto px-4 lg:px-8 py-20 bg-[#06101e] overflow-hidden">
+    <section className="container mx-auto px-4 lg:px-8 py-20 bg-[#0d1a2d] overflow-hidden">
       {/* Header */}
       <motion.div 
         initial={{ opacity: 0, x: -50 }}
@@ -97,7 +97,7 @@ export default function NewsSection() {
             transition={{ duration: 0.8, delay: i * 0.15, ease: "easeOut" }}
             viewport={{ once: true, margin: "-50px" }}
           >
-            <Link href={`/news/${item.id}`} className="group flex flex-col h-full bg-[#0a1628] rounded-2xl overflow-hidden hover:transform hover:-translate-y-2 transition-all duration-300 shadow-xl shadow-black/20">
+            <Link href={`/news/${item.id}`} className="group flex flex-col h-full bg-[#152741] rounded-2xl overflow-hidden hover:transform hover:-translate-y-2 transition-all duration-300 shadow-xl shadow-black/20">
               {/* Image Box */}
               <div className="relative w-full aspect-[4/3] bg-gray-800 overflow-hidden">
                  {item.image_url && item.image_url !== '/placeholder-news-1.jpg' ? (

@@ -12,7 +12,7 @@ export default function VideoSection() {
   ];
 
   return (
-    <section className="bg-[#06101e] py-20 border-b border-gray-800/50 overflow-hidden">
+    <section className="bg-[#0d1a2d] py-20 border-b border-gray-800/50 overflow-hidden">
       <div className="container mx-auto px-4 lg:px-8">
         
         {/* Header */}
@@ -46,7 +46,7 @@ export default function VideoSection() {
                  {/* Play Button Overlay */}
                  <div className="absolute bottom-6 lg:bottom-12 left-6 lg:left-12 flex flex-col items-start z-10">
                    <div className="w-14 h-14 lg:w-16 lg:h-16 bg-[#d7bf7b] rounded-xl flex items-center justify-center mb-6 shadow-lg shadow-black/50 group-hover:bg-white transition-colors">
-                     <Play className="w-6 h-6 lg:w-8 lg:h-8 text-[#0a1628] fill-current ml-1" />
+                     <Play className="w-6 h-6 lg:w-8 lg:h-8 text-[#152741] fill-current ml-1" />
                    </div>
                    <h3 className="text-white font-black text-2xl lg:text-4xl uppercase tracking-tight leading-tight max-w-2xl group-hover:text-[#d7bf7b] transition-colors drop-shadow-md">
                      BİR GÜNÜ: CHALLENGE, MÜSAHİBƏ, MİLLİ KOMANDA
@@ -76,7 +76,7 @@ export default function VideoSection() {
                     <div className="w-40 sm:w-48 aspect-video bg-gray-800 rounded-xl relative overflow-hidden flex-shrink-0">
                       <div className="absolute inset-0 group-hover:scale-105 transition-transform duration-500"></div>
                       <div className="absolute bottom-2 left-2 w-8 h-8 bg-[#d7bf7b] rounded-lg flex items-center justify-center shadow-md group-hover:bg-white transition-colors z-10">
-                        <Play className="w-4 h-4 text-[#0a1628] fill-current ml-0.5" />
+                        <Play className="w-4 h-4 text-[#152741] fill-current ml-0.5" />
                       </div>
                     </div>
                     

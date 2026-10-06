@@ -47,7 +47,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
         initial={{ x: -250, opacity: 0 }}
         animate={{ x: 0, opacity: 1 }}
         transition={{ duration: 0.5, ease: 'easeOut' }}
-        className="w-64 bg-[#0a1628] text-white hidden md:flex flex-col fixed h-full z-10 shadow-2xl"
+        className="w-64 bg-[#152741] text-white hidden md:flex flex-col fixed h-full z-10 shadow-2xl"
       >
         <div className="p-6">
           <h2 className="text-2xl font-bold text-[#d7bf7b] tracking-wider">YARIMADA FK</h2>

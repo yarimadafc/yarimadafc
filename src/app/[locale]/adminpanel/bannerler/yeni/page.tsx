@@ -87,7 +87,7 @@ export default function AdminCreate() {
           <label className="text-sm font-bold text-gray-700">Aktivdir?</label>
         </div>
       
-        <button disabled={loading} type="submit" className="mt-6 bg-[#0a1628] text-white px-8 py-3 rounded font-medium hover:bg-[#112240] transition disabled:opacity-50">
+        <button disabled={loading} type="submit" className="mt-6 bg-[#152741] text-white px-8 py-3 rounded font-medium hover:bg-[#112240] transition disabled:opacity-50">
           {loading ? 'Yadda saxlanılır (Tərcümə edilir)...' : 'Yadda Saxla'}
         </button>
       </form>

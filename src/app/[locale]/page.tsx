@@ -17,14 +17,14 @@ export default function HomePage() {
         transition={{ duration: 1 }}
       >
         {/* 1. Hero / Main Slider placeholder */}
-        <section className="relative w-full h-[600px] lg:h-[800px] bg-[#0a1628] flex items-center justify-center border-b border-gray-800 overflow-hidden">
+        <section className="relative w-full h-[600px] lg:h-[800px] bg-[#152741] flex items-center justify-center border-b border-gray-800 overflow-hidden">
           <motion.div 
             initial={{ scale: 1.2 }}
             animate={{ scale: 1 }}
             transition={{ duration: 1.5, ease: "easeOut" }}
             className="absolute inset-0 bg-[url('/placeholder-hero.jpg')] bg-cover bg-center"
           ></motion.div>
-          <div className="absolute inset-0 bg-gradient-to-r from-[#06101e]/90 via-[#06101e]/60 to-transparent"></div>
+          <div className="absolute inset-0 bg-gradient-to-r from-[#0d1a2d]/90 via-[#0d1a2d]/60 to-transparent"></div>
           
           <div className="container mx-auto px-4 lg:px-8 relative z-10">
              <motion.div 
@@ -52,10 +52,10 @@ export default function HomePage() {
                   transition={{ duration: 0.8, delay: 1.2 }}
                   className="flex space-x-6"
                 >
-                   <button className="bg-[#d7bf7b] text-[#0a1628] hover:bg-white hover:text-black font-bold uppercase tracking-widest text-sm px-8 py-4 rounded-md transition-colors">
+                   <button className="bg-[#d7bf7b] text-[#152741] hover:bg-white hover:text-black font-bold uppercase tracking-widest text-sm px-8 py-4 rounded-md transition-colors">
                      Ətraflı oxu
                    </button>
-                   <button className="border-2 border-[#d7bf7b] text-[#d7bf7b] hover:bg-[#d7bf7b] hover:text-[#0a1628] font-bold uppercase tracking-widest text-sm px-8 py-4 rounded-md transition-colors">
+                   <button className="border-2 border-[#d7bf7b] text-[#d7bf7b] hover:bg-[#d7bf7b] hover:text-[#152741] font-bold uppercase tracking-widest text-sm px-8 py-4 rounded-md transition-colors">
                      Bilet al
                    </button>
                 </motion.div>

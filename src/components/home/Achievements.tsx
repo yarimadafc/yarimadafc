@@ -11,7 +11,7 @@ export default function Achievements() {
   ];
 
   return (
-    <section className="bg-[#0a1628] py-24 border-b border-gray-800/50 overflow-hidden">
+    <section className="bg-[#152741] py-24 border-b border-gray-800/50 overflow-hidden">
       <div className="container mx-auto px-4 lg:px-8">
         
         {/* Header */}

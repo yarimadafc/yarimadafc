@@ -20,7 +20,7 @@ const TwitterIcon = () => (
 
 export default function Footer() {
   return (
-    <footer className="w-full bg-[#06101e] border-t border-gray-800 pt-16 pb-8">
+    <footer className="w-full bg-[#0d1a2d] border-t border-gray-800 pt-16 pb-8">
       {/* Sponsors Section */}
       <div className="container mx-auto px-4 lg:px-8 mb-16">
         <div className="flex flex-col items-center space-y-10">
@@ -106,25 +106,25 @@ export default function Footer() {
           </div>
 
           <div className="flex items-center space-x-3 md:space-x-4">
-            <a href="#" className="w-8 h-8 md:w-10 md:h-10 rounded-full bg-gray-900 flex items-center justify-center text-white hover:bg-[#d7bf7b] hover:text-[#0a1628] transition-colors">
+            <a href="#" className="w-8 h-8 md:w-10 md:h-10 rounded-full bg-gray-900 flex items-center justify-center text-white hover:bg-[#d7bf7b] hover:text-[#152741] transition-colors">
               <YoutubeIcon />
             </a>
-            <a href="#" className="w-8 h-8 md:w-10 md:h-10 rounded-full bg-gray-900 flex items-center justify-center text-white hover:bg-[#d7bf7b] hover:text-[#0a1628] transition-colors">
+            <a href="#" className="w-8 h-8 md:w-10 md:h-10 rounded-full bg-gray-900 flex items-center justify-center text-white hover:bg-[#d7bf7b] hover:text-[#152741] transition-colors">
               <InstagramIcon />
             </a>
-            <a href="#" className="w-8 h-8 md:w-10 md:h-10 rounded-full bg-gray-900 flex items-center justify-center text-white hover:bg-[#d7bf7b] hover:text-[#0a1628] transition-colors">
+            <a href="#" className="w-8 h-8 md:w-10 md:h-10 rounded-full bg-gray-900 flex items-center justify-center text-white hover:bg-[#d7bf7b] hover:text-[#152741] transition-colors">
               <FacebookIcon />
             </a>
-            <a href="#" className="w-8 h-8 md:w-10 md:h-10 rounded-full bg-gray-900 flex items-center justify-center text-white hover:bg-[#d7bf7b] hover:text-[#0a1628] transition-colors">
+            <a href="#" className="w-8 h-8 md:w-10 md:h-10 rounded-full bg-gray-900 flex items-center justify-center text-white hover:bg-[#d7bf7b] hover:text-[#152741] transition-colors">
               <TwitterIcon />
             </a>
-            <a href="#" className="w-8 h-8 md:w-10 md:h-10 rounded-full bg-gray-900 flex items-center justify-center text-white hover:bg-[#d7bf7b] hover:text-[#0a1628] transition-colors">
+            <a href="#" className="w-8 h-8 md:w-10 md:h-10 rounded-full bg-gray-900 flex items-center justify-center text-white hover:bg-[#d7bf7b] hover:text-[#152741] transition-colors">
               <Send className="w-4 h-4 md:w-5 md:h-5" />
             </a>
-            <a href="#" className="w-8 h-8 md:w-10 md:h-10 rounded-full bg-gray-900 flex items-center justify-center text-white hover:bg-[#d7bf7b] hover:text-[#0a1628] transition-colors">
+            <a href="#" className="w-8 h-8 md:w-10 md:h-10 rounded-full bg-gray-900 flex items-center justify-center text-white hover:bg-[#d7bf7b] hover:text-[#152741] transition-colors">
               <Music2 className="w-4 h-4 md:w-5 md:h-5" />
             </a>
-            <a href="#" className="w-8 h-8 md:w-10 md:h-10 rounded-full bg-gray-900 flex items-center justify-center text-white hover:bg-[#d7bf7b] hover:text-[#0a1628] transition-colors">
+            <a href="#" className="w-8 h-8 md:w-10 md:h-10 rounded-full bg-gray-900 flex items-center justify-center text-white hover:bg-[#d7bf7b] hover:text-[#152741] transition-colors">
               <MessageCircle className="w-4 h-4 md:w-5 md:h-5" />
             </a>
           </div>

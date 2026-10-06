@@ -114,7 +114,7 @@ export default function AdminNewsEdit({ params }: { params: Promise<{ id: string
           <label htmlFor="published" className="text-sm font-medium text-gray-700">Dərc edilsin?</label>
         </div>
 
-        <button disabled={loading} type="submit" className="bg-[#0a1628] text-white px-6 py-2 rounded font-medium hover:bg-[#112240] transition disabled:opacity-50">
+        <button disabled={loading} type="submit" className="bg-[#152741] text-white px-6 py-2 rounded font-medium hover:bg-[#112240] transition disabled:opacity-50">
           {loading ? 'Yadda saxlanılır...' : 'Yadda Saxla'}
         </button>
       </form>

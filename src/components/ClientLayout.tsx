@@ -12,13 +12,15 @@ export default function ClientLayout({ children }: { children: React.ReactNode }
     window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
   }, [pathname]);
 
+  const isAdminPath = pathname.startsWith('/admin');
+
   return (
     <div className="min-h-screen bg-[#0d1a2d] text-white font-sans selection:bg-[#d7bf7b] selection:text-[#0d1a2d] flex flex-col">
-      <Navbar />
+      {!isAdminPath && <Navbar />}
       <main className="flex-grow">
         {children}
       </main>
-      <Footer />
+      {!isAdminPath && <Footer />}
     </div>
   );
 }

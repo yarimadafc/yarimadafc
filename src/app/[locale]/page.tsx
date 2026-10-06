@@ -1,4 +1,6 @@
 'use client';
+import Link from "next/link";
+
 
 import NewsSection from '@/components/home/NewsSection';
 import StandingsMatches from '@/components/home/StandingsMatches';
@@ -52,12 +54,9 @@ export default function HomePage() {
                   transition={{ duration: 0.8, delay: 1.2 }}
                   className="flex space-x-6"
                 >
-                   <button className="bg-[#d7bf7b] text-[#152741] hover:bg-white hover:text-black font-bold uppercase tracking-widest text-sm px-8 py-4 rounded-md transition-colors">
-                     Ətraflı oxu
-                   </button>
-                   <button className="border-2 border-[#d7bf7b] text-[#d7bf7b] hover:bg-[#d7bf7b] hover:text-[#152741] font-bold uppercase tracking-widest text-sm px-8 py-4 rounded-md transition-colors">
-                     Bilet al
-                   </button>
+                   <Link href="/academy" className="bg-[#d7bf7b] text-[#152741] hover:bg-white hover:text-black font-bold uppercase tracking-widest text-sm px-8 py-4 rounded-md transition-colors text-center inline-block">
+                     Akademiyaya Qoşul
+                   </Link>
                 </motion.div>
              </motion.div>
           </div>

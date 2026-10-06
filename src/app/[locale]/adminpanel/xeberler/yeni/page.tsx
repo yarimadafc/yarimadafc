@@ -44,19 +44,32 @@ export default function AdminNewsCreate() {
     e.preventDefault();
     setLoading(true);
     
-    // Auto translate missing fields
-    const { updatedData } = await autoTranslateFields(formData, ['title', 'content', 'excerpt']);
-    const slug = generateSlug(updatedData.title_az);
+    // Generate a basic slug if not exists
+    const slug = generateSlug(formData.title_az || 'xeber');
     
-    // Replace formData reference with updatedData for the insert/update
-    const dataToSave = { ...updatedData, slug };
+    // Sütunların uyğunsuzluğu səbəbindən autoTranslate hələlik deaktiv edilib. 
+    // Yalnız DB-də mövcud olan (böyük ehtimalla) əsas məlumatları göndəririk
+    const dataToSave = {
+      title_az: formData.title_az,
+      content_az: formData.content_az,
+      excerpt_az: formData.excerpt_az,
+      category: formData.category,
+      author: formData.author,
+      image_url: formData.image_url,
+      published: formData.published,
+      slug: slug
+    };
     
     try {
       const { error } = await supabase.from('news').insert([dataToSave]);
-      if (error) throw error;
+      if (error) {
+        console.error('Insert error:', error);
+        throw error;
+      }
       router.push('/adminpanel/xeberler');
     } catch (error: any) {
-      alert(error.message);
+      console.error(error);
+      alert('Xəta baş verdi: Zəhmət olmasa konsola baxın və ya DB sütunlarını yoxlayın.');
       setLoading(false);
     }
   };

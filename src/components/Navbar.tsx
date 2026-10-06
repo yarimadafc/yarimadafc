@@ -49,7 +49,6 @@ export default function Navbar() {
     { name: 'KLUB', href: '/club' },
     { name: 'AKADEMİYA', href: '/academy' },
     { name: 'MEDIA', href: '/media' },
-    { name: 'BİLETLƏR', href: '/tickets', highlight: true },
     { name: 'ƏLAQƏ', href: '/contact' },
   ];
 
@@ -93,18 +92,18 @@ export default function Navbar() {
                   <a
                     href={item.href}
                     onClick={item.onClick}
-                    className={`font-bold text-[11px] xl:text-[12px] tracking-widest transition-colors relative group cursor-pointer ${item.highlight ? 'text-[#d7bf7b] hover:text-white' : 'text-white hover:text-[#d7bf7b]'}`}
+                    className="font-bold text-[11px] xl:text-[12px] tracking-widest text-white hover:text-[#d7bf7b] transition-colors relative group cursor-pointer"
                   >
                     {item.name}
-                    <span className={`absolute -bottom-2 left-0 w-0 h-[2px] ${item.highlight ? 'bg-white' : 'bg-[#d7bf7b]'} transition-all duration-300 group-hover:w-full`}></span>
+                    <span className="absolute -bottom-2 left-0 w-0 h-[2px] bg-[#d7bf7b] transition-all duration-300 group-hover:w-full"></span>
                   </a>
                 ) : (
                   <Link
                     href={item.href}
-                    className={`font-bold text-[11px] xl:text-[12px] tracking-widest transition-colors relative group ${item.highlight ? 'text-[#d7bf7b] hover:text-white' : 'text-white hover:text-[#d7bf7b]'}`}
+                    className="font-bold text-[11px] xl:text-[12px] tracking-widest text-white hover:text-[#d7bf7b] transition-colors relative group"
                   >
                     {item.name}
-                    <span className={`absolute -bottom-2 left-0 w-0 h-[2px] ${item.highlight ? 'bg-white' : 'bg-[#d7bf7b]'} transition-all duration-300 group-hover:w-full`}></span>
+                    <span className="absolute -bottom-2 left-0 w-0 h-[2px] bg-[#d7bf7b] transition-all duration-300 group-hover:w-full"></span>
                   </Link>
                 )}
               </motion.div>
@@ -115,12 +114,12 @@ export default function Navbar() {
           <div className="hidden lg:flex items-center space-x-6">
             
             {/* LED Glow Clock on Desktop */}
-            <div className="relative p-[2px] rounded-lg overflow-hidden group">
+            <div className="relative p-[4px] rounded-none overflow-hidden group">
                {/* Spinning LED Border */}
                <div className="absolute inset-0 bg-[conic-gradient(from_0deg,transparent_0_340deg,#d7bf7b_360deg)] animate-[spin_2s_linear_infinite]"></div>
                {/* Clock Content */}
-               <div className="relative flex items-center justify-center bg-[#0d1a2d] px-4 py-2 rounded-md h-full w-full">
-                 <span className="text-[#d7bf7b] font-mono font-bold tracking-widest text-sm drop-shadow-[0_0_5px_rgba(215,191,123,0.8)]">{time || '00:00:00'}</span>
+               <div className="relative flex items-center justify-center bg-[#0d1a2d] px-8 py-3 rounded-none h-full w-full">
+                 <span className="text-[#d7bf7b] font-mono font-bold tracking-widest text-sm drop-shadow-[0_0_8px_rgba(215,191,123,1)]">{time || '00:00:00'}</span>
                </div>
             </div>
 
@@ -192,10 +191,10 @@ export default function Navbar() {
             <div className="px-6 py-4 space-y-1">
               
               {/* LED Glow Clock on Mobile */}
-              <div className="relative p-[2px] rounded-lg overflow-hidden mb-6 flex w-full">
+              <div className="relative p-[4px] rounded-none overflow-hidden mb-6 flex w-full">
                  <div className="absolute inset-0 bg-[conic-gradient(from_0deg,transparent_0_340deg,#d7bf7b_360deg)] animate-[spin_2s_linear_infinite]"></div>
-                 <div className="relative flex items-center justify-center bg-[#152741] w-full px-4 py-3 rounded-md">
-                   <span className="text-[#d7bf7b] font-mono font-bold tracking-widest text-sm drop-shadow-[0_0_5px_rgba(215,191,123,0.8)]">{time || '00:00:00'}</span>
+                 <div className="relative flex items-center justify-center bg-[#152741] w-full px-4 py-3 rounded-none">
+                   <span className="text-[#d7bf7b] font-mono font-bold tracking-widest text-sm drop-shadow-[0_0_8px_rgba(215,191,123,1)]">{time || '00:00:00'}</span>
                  </div>
               </div>
 
@@ -210,14 +209,14 @@ export default function Navbar() {
                     <a
                       href={item.href}
                       onClick={(e) => { item.onClick(e); setIsOpen(false); }}
-                      className={`block py-3 font-bold text-sm tracking-widest border-b border-gray-800/50 transition-colors ${item.highlight ? 'text-[#d7bf7b] hover:text-white' : 'text-white hover:text-[#d7bf7b]'}`}
+                      className="block py-3 font-bold text-sm tracking-widest text-white hover:text-[#d7bf7b] border-b border-gray-800/50 transition-colors"
                     >
                       {item.name}
                     </a>
                   ) : (
                     <Link
                       href={item.href}
-                      className={`block py-3 font-bold text-sm tracking-widest border-b border-gray-800/50 transition-colors ${item.highlight ? 'text-[#d7bf7b] hover:text-white' : 'text-white hover:text-[#d7bf7b]'}`}
+                      className="block py-3 font-bold text-sm tracking-widest text-white hover:text-[#d7bf7b] border-b border-gray-800/50 transition-colors"
                       onClick={() => setIsOpen(false)}
                     >
                       {item.name}
@@ -225,6 +224,12 @@ export default function Navbar() {
                   )}
                 </motion.div>
               ))}
+              <div className="pt-4 flex flex-col space-y-4">
+                <Link href="/shop" className="flex items-center space-x-2 text-white font-bold text-sm tracking-widest">
+                  <ShoppingBag className="w-5 h-5" />
+                  <span>MAĞAZA</span>
+                </Link>
+              </div>
             </div>
           </motion.div>
         )}

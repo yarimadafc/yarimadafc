@@ -3,12 +3,8 @@
 import { motion } from 'framer-motion';
 
 export default function Achievements() {
-  const achievements = [
-    { num: 9, text: 'Azərbaycan\nçempionatının qalibi', icon: '🏆' },
-    { num: 6, text: 'Azərbaycan\nKubokunun qalibi', icon: '🏆' },
-    { num: 2, text: 'Azərbaycan\nSuperkubokunun qalibi', icon: '🏆' },
-    { num: 1, text: 'Birlik Kubokunun\nqalibi', icon: '🏆' },
-  ];
+  // Gələcəkdə admin paneldən əlavə olunan şəkillər (Nailiyyətlər) burada siyahılanacaq
+  const achievementImages: string[] = [];
 
   return (
     <section className="bg-[#152741] py-24 border-b border-gray-800/50 overflow-hidden">
@@ -20,39 +16,34 @@ export default function Achievements() {
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
           viewport={{ once: true }}
-          className="flex justify-center mb-20"
+          className="flex justify-center mb-16"
         >
           <h2 className="text-4xl md:text-5xl font-black text-white tracking-tighter uppercase">Nailiyyətlər</h2>
         </motion.div>
 
-        {/* Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 lg:gap-8 divide-y md:divide-y-0 md:divide-x divide-gray-800/50">
-          {achievements.map((item, i) => (
-            <motion.div 
-              key={i}
-              initial={{ opacity: 0, scale: 0.8 }}
-              whileInView={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.6, delay: i * 0.2, type: "spring", stiffness: 100 }}
-              viewport={{ once: true, margin: "-50px" }}
-              className="flex flex-col items-center pt-8 md:pt-0"
-            >
-              {/* Trophy icon placeholder */}
+        {/* Grid for Achievement Images */}
+        {achievementImages.length > 0 ? (
+          <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-6">
+            {achievementImages.map((imgUrl, i) => (
               <motion.div 
-                whileHover={{ rotate: 10, scale: 1.1 }}
-                className="w-24 h-32 flex justify-center items-end text-6xl mb-6 grayscale brightness-150"
+                key={i}
+                initial={{ opacity: 0, scale: 0.8 }}
+                whileInView={{ opacity: 1, scale: 1 }}
+                transition={{ duration: 0.5, delay: i * 0.1 }}
+                viewport={{ once: true }}
+                className="aspect-square bg-[#0d1a2d] rounded-2xl overflow-hidden border border-gray-800 shadow-xl"
               >
-                 {item.icon}
+                <img src={imgUrl} alt="Nailiyyət" className="w-full h-full object-cover hover:scale-110 transition-transform duration-500" />
               </motion.div>
-              
-              <div className="flex items-start space-x-4">
-                <span className="text-5xl md:text-6xl font-black text-white">{item.num}</span>
-                <p className="text-gray-300 font-bold text-sm tracking-wide leading-snug whitespace-pre-line mt-2">
-                  {item.text}
-                </p>
-              </div>
-            </motion.div>
-          ))}
-        </div>
+            ))}
+          </div>
+        ) : (
+          <div className="flex justify-center items-center h-32 border-2 border-dashed border-gray-800 rounded-2xl">
+            <p className="text-gray-500 font-bold uppercase tracking-widest text-sm text-center">
+              Tezliklə yeni nailiyyət şəkilləri əlavə olunacaq...
+            </p>
+          </div>
+        )}
 
       </div>
     </section>

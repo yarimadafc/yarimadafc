@@ -1,8 +1,7 @@
 import type { Metadata } from 'next';
 import { Montserrat, JetBrains_Mono, Oswald } from 'next/font/google';
-import '../globals.css';
-import {NextIntlClientProvider} from 'next-intl';
-import {getMessages, setRequestLocale} from 'next-intl/server';
+import './globals.css';
+import ClientLayout from '@/components/ClientLayout';
 
 const albert = Montserrat({ 
   subsets: ['latin'], 
@@ -31,31 +30,18 @@ export const metadata: Metadata = {
   }
 };
 
-import ClientLayout from '@/components/ClientLayout';
-
-export default async function RootLayout({
+export default function RootLayout({
   children,
-  params
 }: {
   children: React.ReactNode;
-  params: Promise<{locale: string}>;
 }) {
-  const { locale } = await params;
-  setRequestLocale(locale);
-  const messages = await getMessages();
   return (
-    <html lang={locale} className={`${albert.variable} ${alumni.variable} ${jetbrains.variable}`}>
+    <html lang="az" className={`${albert.variable} ${alumni.variable} ${jetbrains.variable}`}>
       <body className="min-h-screen flex flex-col antialiased bg-[#0d1a2d]">
-        <NextIntlClientProvider messages={messages} locale={locale}>
-          <ClientLayout>
-            {children}
-          </ClientLayout>
-        </NextIntlClientProvider>
+        <ClientLayout>
+          {children}
+        </ClientLayout>
       </body>
     </html>
   );
-}
-
-export function generateStaticParams() {
-  return [{locale: 'az'}, {locale: 'en'}, {locale: 'ru'}];
 }

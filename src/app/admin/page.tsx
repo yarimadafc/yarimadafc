@@ -7,7 +7,7 @@ export default async function AdminPage() {
   const token = cookieStore.get('admin_token');
 
   if (!token) {
-    redirect('/az/admin/login');
+    redirect('/admin/login');
   }
 
   return <AdminDashboard />;

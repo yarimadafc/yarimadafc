@@ -6,23 +6,23 @@ import Image from 'next/image';
 import { Menu, X, Search } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 
-const YoutubeIcon = () => (
-  <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M22.54 6.42a2.78 2.78 0 0 0-1.94-2C18.88 4 12 4 12 4s-6.88 0-8.6.46a2.78 2.78 0 0 0-1.94 2A29 29 0 0 0 1 11.75a29 29 0 0 0 .46 5.33 2.78 2.78 0 0 0 1.94 2c1.72.46 8.6.46 8.6.46s6.88 0 8.6-.46a2.78 2.78 0 0 0 1.94-2 29 29 0 0 0 .46-5.33 29 29 0 0 0-.46-5.33z"></path><polygon points="9.75 15.02 15.5 11.75 9.75 8.48 9.75 15.02"></polygon></svg>
+const YoutubeIcon = ({ className }: { className?: string }) => (
+  <svg className={className} xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M22.54 6.42a2.78 2.78 0 0 0-1.94-2C18.88 4 12 4 12 4s-6.88 0-8.6.46a2.78 2.78 0 0 0-1.94 2A29 29 0 0 0 1 11.75a29 29 0 0 0 .46 5.33 2.78 2.78 0 0 0 1.94 2c1.72.46 8.6.46 8.6.46s6.88 0 8.6-.46a2.78 2.78 0 0 0 1.94-2 29 29 0 0 0 .46-5.33 29 29 0 0 0-.46-5.33z"></path><polygon points="9.75 15.02 15.5 11.75 9.75 8.48 9.75 15.02"></polygon></svg>
 );
 
-const InstagramIcon = () => (
-  <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg>
+const InstagramIcon = ({ className }: { className?: string }) => (
+  <svg className={className} xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg>
 );
 
-const FacebookIcon = () => (
-  <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path></svg>
+const FacebookIcon = ({ className }: { className?: string }) => (
+  <svg className={className} xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path></svg>
 );
-const TiktokIcon = () => (
-  <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M9 12a4 4 0 1 0 4 4V4a5 5 0 0 0 5 5"></path></svg>
+const TiktokIcon = ({ className }: { className?: string }) => (
+  <svg className={className} xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M9 12a4 4 0 1 0 4 4V4a5 5 0 0 0 5 5"></path></svg>
 );
 
-const TelegramIcon = () => (
-  <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
+const TelegramIcon = ({ className }: { className?: string }) => (
+  <svg className={className} xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
 );
 
 export default function Navbar() {
@@ -32,7 +32,7 @@ export default function Navbar() {
   // Time state is moved to Hero section now, no longer needed in Navbar top bar
 
   const handleHomeClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
-    if (window.location.pathname === '/' || window.location.pathname === '/az') {
+    if (window.location.pathname === '/' || window.location.pathname) {
       e.preventDefault();
       window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
     }
@@ -81,12 +81,6 @@ export default function Navbar() {
               <a href="#" className="hover:text-[#d7bf7b] transition-colors"><YoutubeIcon /></a>
               <a href="#" className="hover:text-[#d7bf7b] transition-colors"><TiktokIcon /></a>
               <a href="#" className="hover:text-[#d7bf7b] transition-colors"><TelegramIcon /></a>
-            </div>
-            <div className="w-[1px] h-4 bg-gray-700"></div>
-            <div className="flex items-center space-x-3 text-[11px] font-bold text-gray-400 tracking-widest">
-              <button className="text-[#d7bf7b] transition-colors">AZ</button>
-              <button className="hover:text-white transition-colors">EN</button>
-              <button className="hover:text-white transition-colors">RU</button>
             </div>
           </div>
         </div>
@@ -216,16 +210,13 @@ export default function Navbar() {
               className="xl:hidden bg-[#0d1a2d] border-t border-gray-800 absolute w-full overflow-hidden shadow-2xl max-h-[85vh] overflow-y-auto"
             >
               <div className="px-6 py-4 space-y-1">
-                <div className="flex items-center justify-between mb-4 px-2">
-                  <div className="flex space-x-4 text-gray-400">
-                    <a href="#"><InstagramIcon /></a>
-                    <a href="#"><FacebookIcon /></a>
-                    <a href="#"><YoutubeIcon /></a>
-                    <a href="#"><TiktokIcon /></a>
-                    <a href="#"><TelegramIcon /></a>
-                  </div>
-                  <div className="flex space-x-2 text-[10px] font-bold text-gray-400 tracking-widest">
-                    <span className="text-[#d7bf7b]">AZ</span> / <span>EN</span> / <span>RU</span>
+                <div className="flex items-center justify-center mb-6 px-2">
+                  <div className="flex space-x-6 text-gray-400">
+                    <a href="#"><InstagramIcon className="w-6 h-6" /></a>
+                    <a href="#"><FacebookIcon className="w-6 h-6" /></a>
+                    <a href="#"><YoutubeIcon className="w-6 h-6" /></a>
+                    <a href="#"><TiktokIcon className="w-6 h-6" /></a>
+                    <a href="#"><TelegramIcon className="w-6 h-6" /></a>
                   </div>
                 </div>
 

@@ -24,7 +24,7 @@ export default function AdminLogin() {
       const data = await res.json();
 
       if (res.ok && data.success) {
-        router.push('/az/admin');
+        router.push('/admin');
         router.refresh();
       } else {
         setError(data.message || 'Giriş uğursuz oldu.');

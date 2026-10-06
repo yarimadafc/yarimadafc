@@ -20,23 +20,38 @@ export default function AdminNewsCreate() {
     const file = e.target.files?.[0];
     if (!file) return;
     
-    // Convert to base64
     const reader = new FileReader();
     reader.readAsDataURL(file);
-    reader.onload = async () => {
-      const base64 = (reader.result as string).split(',')[1];
-      try {
-        const res = await fetch('/api/upload', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ image: base64 })
-        });
-        const data = await res.json();
-        if (data.url) setFormData({ ...formData, image_url: data.url });
-      } catch (err) {
-        console.error('Upload error', err);
-        alert('Şəkil yüklənərkən xəta baş verdi');
-      }
+    reader.onload = (event) => {
+      const img = new Image();
+      img.src = event.target?.result as string;
+      img.onload = async () => {
+        // Avtomatik şəkli kiçiltmək (Maksimum genişlik 1024px)
+        const canvas = document.createElement('canvas');
+        const MAX_WIDTH = 1024;
+        const scaleSize = MAX_WIDTH / img.width;
+        canvas.width = MAX_WIDTH;
+        canvas.height = img.height * scaleSize;
+        
+        const ctx = canvas.getContext('2d');
+        ctx?.drawImage(img, 0, 0, canvas.width, canvas.height);
+        
+        // 0.8 keyfiyyətində sıxışdırıb base64-ə çeviririk ki 413 Payload Too Large xətası verməsin
+        const compressedBase64 = canvas.toDataURL('image/jpeg', 0.8).split(',')[1];
+        
+        try {
+          const res = await fetch('/api/upload', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ image: compressedBase64 })
+          });
+          const data = await res.json();
+          if (data.url) setFormData({ ...formData, image_url: data.url });
+        } catch (err) {
+          console.error('Upload error', err);
+          alert('Şəkil yüklənərkən xəta baş verdi. Şəkil formatı düzgün deyil və ya server doludur.');
+        }
+      };
     };
   };
 

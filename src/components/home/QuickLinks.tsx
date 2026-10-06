@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { ArrowRight } from 'lucide-react';
-import { motion } from 'framer-motion';
+import { motion, Variants } from 'framer-motion';
 
 export default function QuickLinks() {
   const links = [
@@ -12,7 +12,7 @@ export default function QuickLinks() {
     { title: 'Akademiya', href: '/academy', imgBg: 'bg-gray-800' },
   ];
 
-  const containerVariants = {
+  const containerVariants: Variants = {
     hidden: { opacity: 0 },
     visible: {
       opacity: 1,
@@ -20,7 +20,7 @@ export default function QuickLinks() {
     }
   };
 
-  const itemVariants = {
+  const itemVariants: Variants = {
     hidden: { opacity: 0, y: 50 },
     visible: { 
       opacity: 1, 

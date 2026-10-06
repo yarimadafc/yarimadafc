@@ -46,23 +46,15 @@ export default function AdminNewsCreate() {
     
     const slug = generateSlug(formData.title_az || 'xeber');
     
-    // First try with _az suffixes
-    const dataToSaveAz = {
+    // Yalnız ən geniş payload-ı qururuq. 
+    // Loop daxilində "tapılmayan" sütunlar avtomatik silinərək təkrar yoxlanılacaq.
+    let payload: any = {
       title_az: formData.title_az,
       content_az: formData.content_az,
       excerpt_az: formData.excerpt_az,
-      category: formData.category,
-      author: formData.author,
-      image_url: formData.image_url,
-      published: formData.published,
-      slug: slug
-    };
-
-    // Fallback try without _az suffixes
-    const dataToSaveGeneric = {
-      title: formData.title_az,
-      content: formData.content_az,
-      excerpt: formData.excerpt_az,
+      title: formData.title_az,        // Fallback
+      content: formData.content_az,    // Fallback
+      excerpt: formData.excerpt_az,    // Fallback
       category: formData.category,
       author: formData.author,
       image_url: formData.image_url,
@@ -71,22 +63,35 @@ export default function AdminNewsCreate() {
     };
     
     try {
-      let result = await supabase.from('news').insert([dataToSaveAz]);
-      
-      // If it fails because columns don't exist, try the generic one
-      if (result.error && result.error.message.includes('Could not find the')) {
-        console.warn('title_az not found, falling back to title...');
-        result = await supabase.from('news').insert([dataToSaveGeneric]);
-      } else if (result.error && result.error.code === 'PGRST204') {
-         // Another common error code for missing columns
-         result = await supabase.from('news').insert([dataToSaveGeneric]);
-      } else if (result.error) {
-         // For other errors, try generic just in case or it might fail again
-         result = await supabase.from('news').insert([dataToSaveGeneric]);
+      let success = false;
+      let finalError: any = null;
+
+      // Özünü-sağaldan (self-healing) dövr. 
+      // Tapılmayan sütunları payload-dan silib yenidən göndərir. (Maksimum 10 cəhd)
+      for (let attempt = 0; attempt < 10; attempt++) {
+        const { error } = await supabase.from('news').insert([payload]);
+        
+        if (!error) {
+          success = true;
+          break;
+        }
+
+        // Əgər sütun yoxdursa
+        const match = error.message && error.message.match(/Could not find the '(.*?)' column/);
+        if (match && match[1]) {
+           const missingCol = match[1];
+           console.warn(`Sütun tapılmadı: ${missingCol}. Payload-dan silinir və yenidən yoxlanılır...`);
+           delete payload[missingCol];
+           continue;
+        }
+        
+        // Başqa xəta varsa, dövrü qır və göstər
+        finalError = error;
+        break;
       }
       
-      if (result.error) {
-        throw result.error;
+      if (!success && finalError) {
+        throw finalError;
       }
       
       router.push('/adminpanel/xeberler');

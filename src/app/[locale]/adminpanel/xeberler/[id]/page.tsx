@@ -59,20 +59,10 @@ export default function AdminNewsEdit({ params }: { params: Promise<{ id: string
     
     const slug = generateSlug(formData.title_az || formData.title || 'xeber');
     
-    // Create payload with _az suffixes
-    const dataToSaveAz = {
+    let payload: any = {
       title_az: formData.title_az || formData.title,
       content_az: formData.content_az || formData.content,
       excerpt_az: formData.excerpt_az || formData.excerpt,
-      category: formData.category,
-      author: formData.author,
-      image_url: formData.image_url,
-      published: formData.published,
-      slug: slug
-    };
-
-    // Fallback try without _az suffixes
-    const dataToSaveGeneric = {
       title: formData.title_az || formData.title,
       content: formData.content_az || formData.content,
       excerpt: formData.excerpt_az || formData.excerpt,
@@ -84,17 +74,31 @@ export default function AdminNewsEdit({ params }: { params: Promise<{ id: string
     };
     
     try {
-      let result = await supabase.from('news').update(dataToSaveAz).eq('id', resolvedParams.id);
-      
-      if (result.error && (result.error.message.includes('Could not find') || result.error.code === 'PGRST204' || result.error.message.includes('column'))) {
-        console.warn('Fallback to generic columns...');
-        result = await supabase.from('news').update(dataToSaveGeneric).eq('id', resolvedParams.id);
-      } else if (result.error) {
-        result = await supabase.from('news').update(dataToSaveGeneric).eq('id', resolvedParams.id);
+      let success = false;
+      let finalError: any = null;
+
+      for (let attempt = 0; attempt < 10; attempt++) {
+        const { error } = await supabase.from('news').update(payload).eq('id', resolvedParams.id);
+        
+        if (!error) {
+          success = true;
+          break;
+        }
+
+        const match = error.message && error.message.match(/Could not find the '(.*?)' column/);
+        if (match && match[1]) {
+           const missingCol = match[1];
+           console.warn(`Sütun tapılmadı: ${missingCol}. Silinib yenidən cəhd edilir...`);
+           delete payload[missingCol];
+           continue;
+        }
+        
+        finalError = error;
+        break;
       }
       
-      if (result.error) {
-        throw result.error;
+      if (!success && finalError) {
+        throw finalError;
       }
       router.push('/adminpanel/xeberler');
     } catch (error: any) {

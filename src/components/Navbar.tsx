@@ -4,7 +4,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { useState, useEffect } from 'react';
 import { usePathname, useRouter } from 'next/navigation';
-import { Search, Menu, X, Ticket, ShoppingBag, Clock } from 'lucide-react';
+import { Search, Menu, X } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 
 export default function Navbar() {
@@ -49,6 +49,7 @@ export default function Navbar() {
     { name: 'KLUB', href: '/club' },
     { name: 'AKADEMİYA', href: '/academy' },
     { name: 'MEDIA', href: '/media' },
+    { name: 'BİLETLƏR', href: '/tickets', highlight: true },
     { name: 'ƏLAQƏ', href: '/contact' },
   ];
 
@@ -61,27 +62,26 @@ export default function Navbar() {
     >
       <div className="container mx-auto px-4 lg:px-8">
         <div className="flex items-center justify-between h-24">
-          {/* Logo & Clock */}
-          <div className="flex items-center space-x-6">
-            <a href="/" onClick={handleHomeClick} className="flex-shrink-0 flex items-center group cursor-pointer">
+          {/* Logo & Text */}
+          <div className="flex items-center space-x-4">
+            <a href="/" onClick={handleHomeClick} className="flex-shrink-0 flex items-center group cursor-pointer space-x-3">
               <motion.div 
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
-                className="relative w-16 h-16 md:w-20 md:h-20 rounded-full overflow-hidden border-2 border-[#d7bf7b]"
+                className="relative w-14 h-14 md:w-16 md:h-16 rounded-full overflow-hidden border-2 border-[#d7bf7b]"
               >
                 <Image src="/Logo.JPG.jpeg" alt="Yarımada FK" fill className="object-cover" />
               </motion.div>
+              <div className="flex flex-col">
+                 <span className="text-white font-black text-xl md:text-2xl tracking-tighter uppercase group-hover:text-[#d7bf7b] transition-colors">
+                   Yarımada FK
+                 </span>
+              </div>
             </a>
-
-            {/* Live Clock */}
-            <div className="hidden md:flex items-center space-x-2 text-[#d7bf7b] bg-gray-900/50 px-4 py-2 rounded-lg border border-gray-800">
-              <Clock className="w-4 h-4" />
-              <span className="font-mono font-bold tracking-widest text-sm">{time || '00:00:00'}</span>
-            </div>
           </div>
 
           {/* Desktop Menu */}
-          <nav className="hidden lg:flex items-center space-x-6 xl:space-x-8">
+          <nav className="hidden lg:flex items-center space-x-5 xl:space-x-7">
             {menuItems.map((item, i) => (
               <motion.div 
                 key={item.name}
@@ -93,18 +93,18 @@ export default function Navbar() {
                   <a
                     href={item.href}
                     onClick={item.onClick}
-                    className="text-white hover:text-[#d7bf7b] font-bold text-[12px] xl:text-[13px] tracking-widest transition-colors relative group cursor-pointer"
+                    className={`font-bold text-[11px] xl:text-[12px] tracking-widest transition-colors relative group cursor-pointer ${item.highlight ? 'text-[#d7bf7b] hover:text-white' : 'text-white hover:text-[#d7bf7b]'}`}
                   >
                     {item.name}
-                    <span className="absolute -bottom-2 left-0 w-0 h-[2px] bg-[#d7bf7b] transition-all duration-300 group-hover:w-full"></span>
+                    <span className={`absolute -bottom-2 left-0 w-0 h-[2px] ${item.highlight ? 'bg-white' : 'bg-[#d7bf7b]'} transition-all duration-300 group-hover:w-full`}></span>
                   </a>
                 ) : (
                   <Link
                     href={item.href}
-                    className="text-white hover:text-[#d7bf7b] font-bold text-[12px] xl:text-[13px] tracking-widest transition-colors relative group"
+                    className={`font-bold text-[11px] xl:text-[12px] tracking-widest transition-colors relative group ${item.highlight ? 'text-[#d7bf7b] hover:text-white' : 'text-white hover:text-[#d7bf7b]'}`}
                   >
                     {item.name}
-                    <span className="absolute -bottom-2 left-0 w-0 h-[2px] bg-[#d7bf7b] transition-all duration-300 group-hover:w-full"></span>
+                    <span className={`absolute -bottom-2 left-0 w-0 h-[2px] ${item.highlight ? 'bg-white' : 'bg-[#d7bf7b]'} transition-all duration-300 group-hover:w-full`}></span>
                   </Link>
                 )}
               </motion.div>
@@ -113,11 +113,17 @@ export default function Navbar() {
 
           {/* Right Actions */}
           <div className="hidden lg:flex items-center space-x-6">
-            <Link href="/tickets" className="text-[#d7bf7b] flex items-center space-x-2 hover:text-white transition-colors group">
-              <Ticket className="w-5 h-5 group-hover:scale-110 transition-transform" />
-              <span className="font-bold text-[12px] xl:text-[13px] tracking-widest">BİLETLƏR</span>
-            </Link>
             
+            {/* LED Glow Clock on Desktop */}
+            <div className="relative p-[2px] rounded-lg overflow-hidden group">
+               {/* Spinning LED Border */}
+               <div className="absolute inset-0 bg-[conic-gradient(from_0deg,transparent_0_340deg,#d7bf7b_360deg)] animate-[spin_2s_linear_infinite]"></div>
+               {/* Clock Content */}
+               <div className="relative flex items-center justify-center bg-[#0d1a2d] px-4 py-2 rounded-md h-full w-full">
+                 <span className="text-[#d7bf7b] font-mono font-bold tracking-widest text-sm drop-shadow-[0_0_5px_rgba(215,191,123,0.8)]">{time || '00:00:00'}</span>
+               </div>
+            </div>
+
             {/* Search Button */}
             <button 
               onClick={() => setIsSearchOpen(!isSearchOpen)}
@@ -125,15 +131,6 @@ export default function Navbar() {
             >
               {isSearchOpen ? <X className="w-5 h-5" /> : <Search className="w-5 h-5" />}
             </button>
-            
-            {/* Language Switcher HIDDEN for now */}
-            {/* 
-            <div className="flex items-center space-x-3 text-[13px] font-bold text-gray-400 border-l border-gray-700 pl-6">
-              <button className="text-[#d7bf7b]">AZ</button>
-              <button className="hover:text-white transition-colors">EN</button>
-              <button className="hover:text-white transition-colors">RU</button>
-            </div>
-            */}
           </div>
 
           {/* Mobile Menu Button */}
@@ -193,10 +190,13 @@ export default function Navbar() {
             className="lg:hidden bg-[#0d1a2d] border-t border-gray-800 absolute w-full overflow-hidden shadow-2xl"
           >
             <div className="px-6 py-4 space-y-1">
-              {/* Mobile Clock */}
-              <div className="flex items-center justify-center space-x-2 text-[#d7bf7b] bg-gray-900/50 px-4 py-3 rounded-lg border border-gray-800 mb-4">
-                <Clock className="w-4 h-4" />
-                <span className="font-mono font-bold tracking-widest text-sm">{time || '00:00:00'}</span>
+              
+              {/* LED Glow Clock on Mobile */}
+              <div className="relative p-[2px] rounded-lg overflow-hidden mb-6 flex w-full">
+                 <div className="absolute inset-0 bg-[conic-gradient(from_0deg,transparent_0_340deg,#d7bf7b_360deg)] animate-[spin_2s_linear_infinite]"></div>
+                 <div className="relative flex items-center justify-center bg-[#152741] w-full px-4 py-3 rounded-md">
+                   <span className="text-[#d7bf7b] font-mono font-bold tracking-widest text-sm drop-shadow-[0_0_5px_rgba(215,191,123,0.8)]">{time || '00:00:00'}</span>
+                 </div>
               </div>
 
               {menuItems.map((item, i) => (
@@ -210,14 +210,14 @@ export default function Navbar() {
                     <a
                       href={item.href}
                       onClick={(e) => { item.onClick(e); setIsOpen(false); }}
-                      className="block py-3 text-white font-bold text-sm tracking-widest border-b border-gray-800/50 hover:text-[#d7bf7b]"
+                      className={`block py-3 font-bold text-sm tracking-widest border-b border-gray-800/50 transition-colors ${item.highlight ? 'text-[#d7bf7b] hover:text-white' : 'text-white hover:text-[#d7bf7b]'}`}
                     >
                       {item.name}
                     </a>
                   ) : (
                     <Link
                       href={item.href}
-                      className="block py-3 text-white font-bold text-sm tracking-widest border-b border-gray-800/50 hover:text-[#d7bf7b]"
+                      className={`block py-3 font-bold text-sm tracking-widest border-b border-gray-800/50 transition-colors ${item.highlight ? 'text-[#d7bf7b] hover:text-white' : 'text-white hover:text-[#d7bf7b]'}`}
                       onClick={() => setIsOpen(false)}
                     >
                       {item.name}
@@ -225,16 +225,6 @@ export default function Navbar() {
                   )}
                 </motion.div>
               ))}
-              <div className="pt-4 flex flex-col space-y-4">
-                <Link href="/tickets" className="flex items-center space-x-2 text-[#d7bf7b] font-bold text-sm tracking-widest">
-                  <Ticket className="w-5 h-5" />
-                  <span>BİLETLƏR</span>
-                </Link>
-                <Link href="/shop" className="flex items-center space-x-2 text-white font-bold text-sm tracking-widest">
-                  <ShoppingBag className="w-5 h-5" />
-                  <span>MAĞAZA</span>
-                </Link>
-              </div>
             </div>
           </motion.div>
         )}

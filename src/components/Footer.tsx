@@ -20,18 +20,30 @@ const TwitterIcon = () => (
 
 export default function Footer() {
   return (
-    <footer className="w-full bg-[#0d1a2d] border-t border-gray-800 pt-16 pb-8">
-      {/* Sponsors Section */}
-      <div className="container mx-auto px-4 lg:px-8 mb-16">
-        <div className="flex flex-col items-center space-y-10">
-          <div className="w-full flex justify-center">
-            <h3 className="text-gray-500 font-bold tracking-widest text-xs md:text-sm uppercase">Tərəfdaşlarımız</h3>
-          </div>
-          <div className="flex flex-wrap justify-center gap-6 md:gap-16 items-center opacity-50 grayscale hover:grayscale-0 transition-all duration-500">
-            {/* Placeholder for Sponsor Logos */}
-            <div className="text-white text-xl md:text-2xl font-black">SOCAR</div>
-            <div className="text-white text-lg md:text-xl font-bold">PALMS SPORTS</div>
-            <div className="text-white text-lg md:text-xl font-bold">KAPPA</div>
+    <footer className="w-full bg-[#0d1a2d] border-t border-gray-800 pt-8 pb-8 overflow-hidden">
+      {/* Sponsors Section - Marquee */}
+      <div className="w-full border-b border-gray-800/50 pb-6 mb-10 overflow-hidden">
+        <div className="container mx-auto px-4 lg:px-8 mb-4">
+          <h3 className="text-gray-500 font-bold tracking-widest text-xs uppercase flex items-center">
+            <span className="w-8 h-[1px] bg-[#d7bf7b] mr-3"></span>
+            Tərəfdaşlarımız
+          </h3>
+        </div>
+        <div className="relative w-full flex whitespace-nowrap opacity-50 grayscale hover:grayscale-0 hover:opacity-100 transition-all duration-500 overflow-hidden">
+          {/* We duplicate the content to make an infinite marquee loop */}
+          <div className="flex animate-[marquee_25s_linear_infinite] items-center space-x-16 px-8 min-w-max">
+            <div className="text-white text-lg font-black uppercase tracking-widest">SOCAR</div>
+            <div className="text-white text-base font-bold uppercase tracking-widest">PALMS SPORTS</div>
+            <div className="text-white text-base font-bold uppercase tracking-widest">KAPPA</div>
+            <div className="text-white text-base font-bold uppercase tracking-widest">ADQ</div>
+            <div className="text-white text-base font-bold uppercase tracking-widest">SEA BREEZE</div>
+            
+            {/* Duplicates for seamless loop */}
+            <div className="text-white text-lg font-black uppercase tracking-widest">SOCAR</div>
+            <div className="text-white text-base font-bold uppercase tracking-widest">PALMS SPORTS</div>
+            <div className="text-white text-base font-bold uppercase tracking-widest">KAPPA</div>
+            <div className="text-white text-base font-bold uppercase tracking-widest">ADQ</div>
+            <div className="text-white text-base font-bold uppercase tracking-widest">SEA BREEZE</div>
           </div>
         </div>
       </div>

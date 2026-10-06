@@ -67,48 +67,20 @@ export default function ContactPage() {
           </div>
         </motion.div>
 
-        {/* Contact Form */}
+        {/* Contact Map */}
         <motion.div 
           initial={{ opacity: 0, x: 50 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.8, delay: 0.4 }}
-          className="bg-[#152741] p-8 md:p-12 rounded-3xl border border-gray-800 shadow-2xl"
+          className="bg-[#152741] p-4 md:p-6 rounded-3xl border border-gray-800 shadow-2xl w-full h-[400px] lg:h-auto overflow-hidden relative"
         >
-          <form className="flex flex-col space-y-6" onSubmit={(e) => e.preventDefault()}>
-            <div className="flex flex-col space-y-2">
-              <label className="text-gray-400 font-bold text-xs uppercase tracking-widest">Ad və Soyad</label>
-              <input 
-                type="text" 
-                placeholder="Adınızı daxil edin" 
-                className="w-full bg-[#0d1a2d] text-white border border-gray-700 rounded-xl py-4 px-5 focus:outline-none focus:border-[#d7bf7b] transition-colors"
-              />
-            </div>
-            
-            <div className="flex flex-col space-y-2">
-              <label className="text-gray-400 font-bold text-xs uppercase tracking-widest">Telefon nömrəsi</label>
-              <input 
-                type="tel" 
-                placeholder="(+994) -- --- -- --" 
-                className="w-full bg-[#0d1a2d] text-white border border-gray-700 rounded-xl py-4 px-5 focus:outline-none focus:border-[#d7bf7b] transition-colors"
-              />
-            </div>
-
-            <div className="flex flex-col space-y-2">
-              <label className="text-gray-400 font-bold text-xs uppercase tracking-widest">Mesajınız</label>
-              <textarea 
-                rows={4}
-                placeholder="Müraciətinizi bura yazın..." 
-                className="w-full bg-[#0d1a2d] text-white border border-gray-700 rounded-xl py-4 px-5 focus:outline-none focus:border-[#d7bf7b] transition-colors resize-none"
-              ></textarea>
-            </div>
-
-            <button 
-              type="submit" 
-              className="mt-4 w-full bg-[#d7bf7b] text-[#152741] font-black uppercase tracking-widest text-sm py-5 rounded-xl hover:bg-white transition-colors"
-            >
-              Göndər
-            </button>
-          </form>
+          <iframe 
+            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d12154.542478415286!2d49.970591!3d40.394747!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x40306462cbb4d287%3A0xcf958bb74e2b02bb!2zUWFyYcOndXh1ciwgQmFrw7w!5e0!3m2!1str!2saz!4v1714578192305!5m2!1str!2saz" 
+            className="absolute inset-0 w-full h-full rounded-2xl border-0" 
+            allowFullScreen={false} 
+            loading="lazy" 
+            referrerPolicy="no-referrer-when-downgrade"
+          ></iframe>
         </motion.div>
 
       </div>

@@ -12,7 +12,7 @@ export default async function AchievementDetail({ params }: { params: { id: stri
   }
 
   return (
-    <div className="bg-bg-deep min-h-screen pt-[140px] pb-24 font-sans text-gray-200">
+    <div className="bg-bg-deep min-h-screen pt-[180px] pb-24 font-sans text-gray-200">
       <div className="container mx-auto px-4 lg:px-8">
         <Link href="/" className="inline-flex items-center text-accent font-bold text-xs uppercase tracking-widest hover:text-text-main transition-colors mb-8">
           &larr; Ana Səhifəyə Qayıt

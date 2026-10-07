@@ -106,7 +106,7 @@ function SearchResults() {
 export default function SearchPage() {
   return (
     <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
-      <div className="min-h-screen bg-bg-deep pt-[140px] pb-20">
+      <div className="min-h-screen bg-bg-deep pt-[180px] pb-20">
         <div className="container mx-auto px-4 lg:px-8 max-w-4xl">
           <Suspense fallback={<div className="text-text-main">Yüklənir...</div>}>
             <SearchResults />

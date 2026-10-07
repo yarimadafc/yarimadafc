@@ -17,7 +17,7 @@ export default function AcademyPage() {
   }, []);
 
   return (
-    <div className="pt-[140px] min-h-screen bg-bg-deep pb-20">
+    <div className="pt-[180px] min-h-screen bg-bg-deep pb-20">
       
       {/* Header */}
       <div className="w-full bg-bg-sec py-12 md:py-16 border-b border-bg-border relative overflow-hidden">

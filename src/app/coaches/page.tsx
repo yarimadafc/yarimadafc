@@ -18,7 +18,7 @@ export default function CoachesPage() {
   }, []);
 
   return (
-    <div className="pt-[140px] min-h-screen bg-[var(--bg-main)] pb-20 transition-colors duration-500">
+    <div className="pt-[180px] min-h-screen bg-[var(--bg-main)] pb-20 transition-colors duration-500">
       
       {/* Header */}
       <div className="w-full bg-[var(--bg-sec)] py-12 md:py-16 border-b border-[var(--border)] relative overflow-hidden transition-colors duration-500">

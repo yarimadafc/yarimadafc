@@ -23,7 +23,7 @@ export default function ProductDetail({ params }: { params: Promise<{ id: string
 
   if (loading) {
     return (
-      <main className="min-h-screen bg-bg-deep pt-[140px] text-text-main flex items-center justify-center">
+      <main className="min-h-screen bg-bg-deep pt-[180px] text-text-main flex items-center justify-center">
         <div className="w-10 h-10 border-4 border-accent border-t-transparent rounded-full animate-spin"></div>
       </main>
     );
@@ -31,7 +31,7 @@ export default function ProductDetail({ params }: { params: Promise<{ id: string
 
   if (!product) {
     return (
-      <main className="min-h-screen bg-bg-deep pt-[140px] text-text-main flex flex-col items-center justify-center">
+      <main className="min-h-screen bg-bg-deep pt-[180px] text-text-main flex flex-col items-center justify-center">
         <h1 className="text-4xl font-black mb-4">Məhsul Tapılmadı</h1>
         <Link href="/shop" className="text-accent hover:underline">Mağazaya Qayıt</Link>
       </main>

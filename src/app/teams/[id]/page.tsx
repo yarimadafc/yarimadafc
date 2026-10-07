@@ -39,12 +39,12 @@ export default function TeamDetailPage() {
     loadTeam();
   }, [id]);
 
-  if (loading) return <div className="pt-[140px] min-h-screen bg-bg-deep pb-20 flex justify-center"><div className="text-accent font-bold tracking-widest uppercase animate-pulse">Yüklənir...</div></div>;
-  if (!team) return <div className="pt-[140px] min-h-screen bg-bg-deep pb-20 flex justify-center"><div className="text-red-400 font-bold tracking-widest uppercase">Komanda tapılmadı</div></div>;
+  if (loading) return <div className="pt-[180px] min-h-screen bg-bg-deep pb-20 flex justify-center"><div className="text-accent font-bold tracking-widest uppercase animate-pulse">Yüklənir...</div></div>;
+  if (!team) return <div className="pt-[180px] min-h-screen bg-bg-deep pb-20 flex justify-center"><div className="text-red-400 font-bold tracking-widest uppercase">Komanda tapılmadı</div></div>;
   
 
   return (
-    <div className="pt-[140px] min-h-screen bg-bg-deep pb-20">
+    <div className="pt-[180px] min-h-screen bg-bg-deep pb-20">
       
       {/* Header Profile */}
       <div className="w-full bg-bg-sec py-12 md:py-16 border-b border-bg-border relative overflow-hidden">
@@ -99,7 +99,7 @@ export default function TeamDetailPage() {
 
       {/* Heyət (Squad) */}
       <div className="container mx-auto px-4 lg:px-8 mt-20">
-        <div className="flex items-center justify-between mb-10 border-b border-bg-border pb-4">
+        <div className="flex items-center justify-between mb-10 border-b border-bg-border pb-4 text-center flex justify-center">
           <h2 className="text-2xl md:text-3xl font-black text-text-main uppercase tracking-tighter">Komanda Heyəti</h2>
           <span className="text-text-sec text-sm font-bold bg-bg-sec px-4 py-1.5 rounded-full border border-bg-border">Sezon 2026/27</span>
         </div>

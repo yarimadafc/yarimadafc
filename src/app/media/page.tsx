@@ -30,7 +30,7 @@ export default function Page() {
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
     >
-      <div className="min-h-screen bg-bg-deep pt-[140px] pb-20">
+      <div className="min-h-screen bg-bg-deep pt-[180px] pb-20">
       <div className="w-full bg-bg-sec py-12 md:py-16 border-b border-bg-border relative overflow-hidden ">
         <div className="absolute inset-0 bg-gradient-to-t from-bg-deep to-transparent"></div>
         <div className="container mx-auto px-4 lg:px-8 relative z-10 text-center">

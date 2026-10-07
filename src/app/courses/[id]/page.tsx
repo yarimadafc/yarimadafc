@@ -48,7 +48,7 @@ export default function CourseDetailPage() {
   }
 
   return (
-    <div className="pt-[140px] min-h-screen bg-bg-deep pb-20">
+    <div className="pt-[180px] min-h-screen bg-bg-deep pb-20">
       <div className="container mx-auto px-4 lg:px-8 mt-10">
         <div className="bg-bg-sec rounded-3xl border border-bg-border overflow-hidden shadow-2xl flex flex-col max-w-4xl mx-auto p-8 md:p-12 relative">
             <Link href="/" className="text-text-sec hover:text-text-main transition-colors text-[10px] font-bold uppercase tracking-widest mb-6 inline-block flex items-center">

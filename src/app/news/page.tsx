@@ -24,17 +24,17 @@ export default function NewsPage() {
   const filteredNews = activeCategory === 'Bütün' ? news : news.filter(n => n.category === activeCategory);
 
   return (
-    <div className="pt-[140px] min-h-screen bg-bg-main pb-20">
+    <div className="pt-[180px] min-h-screen bg-bg-main pb-20">
       {/* Header */}
       <div className="container mx-auto px-4 lg:px-8 relative z-10">
         <motion.h1 
           initial={{ opacity: 0, x: -20 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.8 }}
-          className="text-3xl font-bold text-text-main tracking-tight mb-8 border-b border-bg-border pb-4"
+          className="text-3xl font-bold text-text-main tracking-tight mb-8 border-b border-bg-border pb-4 text-center flex justify-center"
         >
           <div className="relative inline-block">
-            <div className="absolute -top-4 left-0 w-8 h-[2px] bg-accent"></div>
+            <div className="absolute -top-4 left-1/2 -translate-x-1/2 w-8 h-[2px] bg-accent"></div>
             Xəbərlər
           </div>
         </motion.h1>

@@ -37,16 +37,16 @@ export default function StandingsPage() {
   }, []);
 
   return (
-    <div className="pt-[140px] min-h-screen bg-bg-main pb-20">
+    <div className="pt-[180px] min-h-screen bg-bg-main pb-20">
       <div className="container mx-auto px-4 lg:px-8">
         <motion.h1 
           initial={{ opacity: 0, x: -20 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.8 }}
-          className="text-3xl font-bold text-text-main tracking-tight mt-12 mb-8 border-b border-bg-border pb-4 flex items-center"
+          className="text-3xl font-bold text-text-main tracking-tight mt-12 mb-8 border-b border-bg-border pb-4 flex justify-center items-center text-center"
         >
           <div className="relative">
-            <div className="absolute -top-4 left-0 w-8 h-[2px] bg-accent"></div>
+            <div className="absolute -top-4 left-1/2 -translate-x-1/2 w-8 h-[2px] bg-accent"></div>
             Turnir Cədvəlləri
           </div>
         </motion.h1>

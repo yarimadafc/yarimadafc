@@ -36,7 +36,7 @@ export default function Achievements() {
         {achievements.length > 0 ? (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 divide-y md:divide-y-0 md:divide-x divide-[#1f1f1f]">
             {achievements.map((item, i) => (
-              <Link href={`/achievements/${item.id}`} key={item.id} className="block group px-4 py-8 md:py-0 text-center flex flex-col items-center">
+              <div key={item.id} className="block group px-4 py-8 md:py-0 text-center flex flex-col items-center">
                 <motion.div 
                   initial={{ opacity: 0, scale: 0.9 }}
                   whileInView={{ opacity: 1, scale: 1 }}
@@ -59,7 +59,7 @@ export default function Achievements() {
                     <span className="text-xs md:text-sm text-text-sec font-medium leading-tight max-w-[120px]">{item.title}</span>
                   </div>
                 </motion.div>
-              </Link>
+              </div>
             ))}
           </div>
         ) : (

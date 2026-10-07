@@ -44,12 +44,12 @@ export default function CoachesAdmin() {
   const handleEdit = (c: any) => {
     setName(c.name);
     setRole(c.role || '');
+    setBio(c.bio || '');
     setLicense(c.license || '');
     setImageUrl(c.image_url || '');
     setTeamId(c.team_id || '');
     setEditingId(c.id);
     setIsAdding(true);
-    
   };
 
   const handleSave = async (e: React.FormEvent) => {
@@ -57,6 +57,7 @@ export default function CoachesAdmin() {
     const payload = {
       name,
       role,
+      bio,
       license,
       image_url: imageUrl,
       team_id: teamId || null
@@ -137,6 +138,10 @@ export default function CoachesAdmin() {
               <option value="">Heç biri / Ümumi</option>
               {teams.map(t => <option key={t.id} value={t.id}>{t.name}</option>)}
             </select>
+          </div>
+          <div className="md:col-span-2">
+            <label className="block text-gray-400 text-xs font-bold uppercase mb-2">Haqqında (Bio)</label>
+            <textarea value={bio} onChange={e => setBio(e.target.value)} placeholder="Məşqçi haqqında məlumat..." className="w-full bg-[#0d1a2d] border border-gray-700 rounded-lg p-3 text-white h-24 custom-scrollbar" />
           </div>
           <div className="md:col-span-2">
             <label className="block text-gray-400 text-xs font-bold uppercase mb-2">Məşqçinin Şəkli (3:4 formatı tövsiyə olunur)</label>

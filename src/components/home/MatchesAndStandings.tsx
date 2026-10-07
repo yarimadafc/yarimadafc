@@ -5,6 +5,7 @@ import { supabase } from '@/lib/supabase';
 
 export default function MatchesAndStandings() {
   const [standings, setStandings] = useState<any[]>([]);
+  const [activeLeague, setActiveLeague] = useState('U-12');
   const [nextMatch, setNextMatch] = useState<any>(null);
 
   useEffect(() => {
@@ -99,10 +100,21 @@ export default function MatchesAndStandings() {
             viewport={{ once: true }}
             className="lg:col-span-7 flex flex-col h-full mt-12 lg:mt-0"
           >
-            <div className="flex justify-between items-center mb-8">
+            <div className="flex flex-col md:flex-row md:justify-between md:items-end mb-8 gap-4">
               <div className="flex items-center space-x-4">
                 <span className="w-8 h-1 bg-[#d7bf7b]"></span>
                 <h2 className="text-3xl font-black text-white uppercase tracking-tight">Turnir Cədvəli</h2>
+              </div>
+              <div className="flex space-x-2 overflow-x-auto pb-2 md:pb-0 scrollbar-hide">
+                {['U-12', 'U-11', 'U-10', 'U-9'].map(league => (
+                  <button 
+                    key={league}
+                    onClick={() => setActiveLeague(league)}
+                    className={`px-4 py-2 rounded-full text-xs font-bold uppercase tracking-widest whitespace-nowrap transition-colors ${activeLeague === league ? 'bg-[#d7bf7b] text-[#152741]' : 'bg-[#152741] text-gray-400 border border-gray-800 hover:text-white'}`}
+                  >
+                    {league}
+                  </button>
+                ))}
               </div>
             </div>
 
@@ -120,7 +132,7 @@ export default function MatchesAndStandings() {
                     </tr>
                   </thead>
                   <tbody>
-                    {standings.map((team, idx) => (
+                    {standings.filter(s => (s.tournament_name || 'U-12') === activeLeague).map((team, idx) => (
                       <tr 
                         key={team.id} 
                         className={`border-t border-gray-800 transition-colors ${team.team_name.includes('Yarımada') ? 'bg-[#d7bf7b]/10' : 'hover:bg-[#1a2e4c]'}`}
@@ -138,7 +150,7 @@ export default function MatchesAndStandings() {
                         <td className="py-4 px-6 text-center text-[#d7bf7b] font-black text-base">{team.points}</td>
                       </tr>
                     ))}
-                    {standings.length === 0 && (
+                    {standings.filter(s => (s.tournament_name || 'U-12') === activeLeague).length === 0 && (
                       <tr>
                         <td colSpan={6} className="text-center py-10 text-gray-500 font-medium">Cədvəl məlumatı yoxdur.</td>
                       </tr>

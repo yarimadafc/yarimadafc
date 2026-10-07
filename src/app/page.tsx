@@ -4,7 +4,7 @@ import Link from "next/link";
 
 import NewsSection from '@/components/home/NewsSection';
 import MatchesSection from '@/components/home/MatchesSection';
-import StandingsMatches from '@/components/home/StandingsMatches';
+import MatchesAndStandings from '@/components/home/MatchesAndStandings';
 import QuickLinks from '@/components/home/QuickLinks';
 import VideoSection from '@/components/home/VideoSection';
 import Achievements from '@/components/home/Achievements';
@@ -196,7 +196,7 @@ export default function HomePage() {
         <QuickLinks />
 
         {/* 3. Turnir cədvəli & Növbəti oyunlar */}
-        <StandingsMatches />
+        <MatchesAndStandings />
 
         {/* 4. Xəbərlər (News) */}
         <NewsSection />

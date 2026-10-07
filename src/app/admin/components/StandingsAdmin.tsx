@@ -9,6 +9,7 @@ export default function StandingsAdmin() {
   const [isAdding, setIsAdding] = useState(false);
   const [editingId, setEditingId] = useState<string | null>(null);
 
+  const [tournamentName, setTournamentName] = useState('U-12');
   const [teamName, setTeamName] = useState('');
   const [played, setPlayed] = useState<number>(0);
   const [won, setWon] = useState<number>(0);
@@ -22,12 +23,13 @@ export default function StandingsAdmin() {
 
   const fetchStandings = async () => {
     setLoading(true);
-    const { data } = await supabase.from('standings').select('*').order('points', { ascending: false });
+    const { data } = await supabase.from('standings').select('*').order('tournament_name', { ascending: false }).order('points', { ascending: false });
     if (data) setStandings(data);
     setLoading(false);
   };
 
   const handleEdit = (s: any) => {
+    setTournamentName(s.tournament_name || 'U-12');
     setTeamName(s.team_name);
     setPlayed(s.played);
     setWon(s.won);
@@ -43,7 +45,7 @@ export default function StandingsAdmin() {
     const payload = {
       team_name: teamName,
       played, won, drawn, lost, points,
-      tournament_name: 'Gənclər Liqası'
+      tournament_name: tournamentName
     };
 
     if (editingId) {
@@ -85,9 +87,20 @@ export default function StandingsAdmin() {
 
       {isAdding && (
         <form onSubmit={handleSave} className="bg-[#152741] p-6 rounded-2xl border border-gray-800 mb-8 grid grid-cols-2 md:grid-cols-3 gap-4">
-          <div className="col-span-2 md:col-span-3">
-            <label className="block text-gray-400 text-xs font-bold uppercase mb-2">Komanda Adı</label>
-            <input type="text" value={teamName} onChange={e => setTeamName(e.target.value)} className="w-full bg-[#0d1a2d] border border-gray-700 rounded-lg p-3 text-white" required />
+          <div className="col-span-2 md:col-span-3 grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div>
+              <label className="block text-gray-400 text-xs font-bold uppercase mb-2">Liqa / Kateqoriya</label>
+              <select value={tournamentName} onChange={e => setTournamentName(e.target.value)} className="w-full bg-[#0d1a2d] border border-gray-700 rounded-lg p-3 text-white">
+                <option value="U-12">U-12</option>
+                <option value="U-11">U-11</option>
+                <option value="U-10">U-10</option>
+                <option value="U-9">U-9</option>
+              </select>
+            </div>
+            <div>
+              <label className="block text-gray-400 text-xs font-bold uppercase mb-2">Komanda Adı</label>
+              <input type="text" value={teamName} onChange={e => setTeamName(e.target.value)} className="w-full bg-[#0d1a2d] border border-gray-700 rounded-lg p-3 text-white" required />
+            </div>
           </div>
           <div><label className="block text-gray-400 text-xs font-bold uppercase mb-2">Oyun</label><input type="number" value={played} onChange={e => setPlayed(Number(e.target.value))} className="w-full bg-[#0d1a2d] border border-gray-700 rounded-lg p-3 text-white" /></div>
           <div><label className="block text-gray-400 text-xs font-bold uppercase mb-2">Qələbə</label><input type="number" value={won} onChange={e => setWon(Number(e.target.value))} className="w-full bg-[#0d1a2d] border border-gray-700 rounded-lg p-3 text-white" /></div>
@@ -104,7 +117,7 @@ export default function StandingsAdmin() {
         <table className="w-full text-left text-sm text-gray-300">
           <thead className="bg-[#0d1a2d] text-gray-400 uppercase text-[10px] font-bold tracking-widest">
             <tr>
-              <th className="p-4">Komanda</th>
+              <th className="p-4">Liqa</th><th className="p-4">Komanda</th>
               <th className="p-4 text-center">O</th>
               <th className="p-4 text-center">Q</th>
               <th className="p-4 text-center">H</th>
@@ -116,6 +129,7 @@ export default function StandingsAdmin() {
           <tbody>
             {standings.map((s, i) => (
               <tr key={s.id} className="border-t border-gray-800 hover:bg-[#1a2e4c]">
+                <td className="p-4 text-gray-400 text-xs uppercase font-bold tracking-widest">{s.tournament_name || 'U-12'}</td>
                 <td className="p-4 font-bold flex items-center space-x-3">
                   <span className="text-gray-500 w-4">{i + 1}</span>
                   <span className={s.team_name.includes('Yarımada') ? 'text-[#d7bf7b]' : 'text-white'}>{s.team_name}</span>

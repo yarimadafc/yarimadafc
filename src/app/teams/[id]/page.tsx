@@ -2,7 +2,7 @@
 import { motion } from 'framer-motion';
 import Link from 'next/link';
 import { useParams } from 'next/navigation';
-import StandingsMatches from '@/components/home/StandingsMatches';
+import MatchesAndStandings from '@/components/home/MatchesAndStandings';
 
 import { useState, useEffect } from 'react';
 import { supabase } from '@/lib/supabase';
@@ -123,7 +123,7 @@ export default function TeamDetailPage() {
 
       {/* Standings & Matches reusing the home module */}
       <div className="mt-24">
-         <StandingsMatches />
+         <MatchesAndStandings />
       </div>
 
     </div>

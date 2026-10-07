@@ -168,11 +168,7 @@ export default function HomePage() {
                  transition={{ duration: 0.8, delay: 0.2 }}
                  className="w-full max-w-sm relative flex flex-col items-center"
                >
-                 {/* ZAMAN EKRANI EKVATORI */}
-                 <div className="text-center mb-6">
-                   <div className="text-[#d7bf7b] text-xs font-bold uppercase tracking-widest mb-1">{date}</div>
-                   <div className="text-4xl md:text-5xl font-black text-white tracking-tighter drop-shadow-[0_0_15px_rgba(255,255,255,0.3)] tabular-nums">{time}</div>
-                 </div>
+
 
                  <div className="w-full relative group cursor-pointer rounded-2xl overflow-hidden p-[2px]">
                    {/* LED Dövr edən işıq */}

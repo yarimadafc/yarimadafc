@@ -41,7 +41,7 @@ export default function Navbar() {
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
     if (searchQuery.trim()) {
-      window.location.href = `/news?search=${encodeURIComponent(searchQuery)}`;
+      window.location.href = `/search?q=${encodeURIComponent(searchQuery)}`;
       setIsSearchOpen(false);
     }
   };

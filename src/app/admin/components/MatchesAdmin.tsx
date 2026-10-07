@@ -21,6 +21,8 @@ export default function MatchesAdmin() {
   const [awayTeam, setAwayTeam] = useState('');
   const [homeLogo, setHomeLogo] = useState('');
   const [awayLogo, setAwayLogo] = useState('');
+  const [homeScore, setHomeScore] = useState<number | ''>('');
+  const [awayScore, setAwayScore] = useState<number | ''>('');
   const [uploadingHomeLogo, setUploadingHomeLogo] = useState(false);
   const [uploadingAwayLogo, setUploadingAwayLogo] = useState(false);
   const [matchDate, setMatchDate] = useState('');
@@ -90,6 +92,8 @@ export default function MatchesAdmin() {
     setVenue(m.stadium || '');
     setHomeLogo(m.home_logo || '');
     setAwayLogo(m.away_logo || '');
+    setHomeScore(m.home_score ?? '');
+    setAwayScore(m.away_score ?? '');
     setEditingId(m.id);
     setIsAdding(true);
   };
@@ -104,7 +108,9 @@ export default function MatchesAdmin() {
       stadium: venue,
       tournament,
       home_logo: homeLogo,
-      away_logo: awayLogo
+      away_logo: awayLogo,
+      home_score: homeScore === '' ? null : homeScore,
+      away_score: awayScore === '' ? null : awayScore
     };
 
     if (editingId) {
@@ -129,7 +135,7 @@ export default function MatchesAdmin() {
   };
 
   const resetForm = () => {
-    setHomeTeam(''); setAwayTeam(''); setHomeLogo(''); setAwayLogo(''); setMatchDate(''); setMatchTime(''); setVenue('');
+    setHomeTeam(''); setAwayTeam(''); setHomeLogo(''); setAwayLogo(''); setMatchDate(''); setMatchTime(''); setVenue(''); setHomeScore(''); setAwayScore('');
   };
 
   return (
@@ -267,6 +273,8 @@ export default function MatchesAdmin() {
           <div><label className="block text-gray-400 text-xs font-bold uppercase mb-2">Tarix</label><input type="date" value={matchDate} onChange={e => setMatchDate(e.target.value)} className="w-full bg-[#0d1a2d] border border-gray-700 rounded-lg p-3 text-white" /></div>
           <div><label className="block text-gray-400 text-xs font-bold uppercase mb-2">Saat</label><input type="time" value={matchTime} onChange={e => setMatchTime(e.target.value)} className="w-full bg-[#0d1a2d] border border-gray-700 rounded-lg p-3 text-white" /></div>
           <div className="col-span-2"><label className="block text-gray-400 text-xs font-bold uppercase mb-2">Stadion</label><input type="text" value={venue} onChange={e => setVenue(e.target.value)} className="w-full bg-[#0d1a2d] border border-gray-700 rounded-lg p-3 text-white" placeholder="Məs: Sumqayıt Arena" /></div>
+          <div className="col-span-2 md:col-span-1"><label className="block text-gray-400 text-xs font-bold uppercase mb-2">Ev Sahibi Hesab (Bitibsə)</label><input type="number" value={homeScore} onChange={e => setHomeScore(e.target.value ? Number(e.target.value) : '')} className="w-full bg-[#0d1a2d] border border-gray-700 rounded-lg p-3 text-white" /></div>
+          <div className="col-span-2 md:col-span-1"><label className="block text-gray-400 text-xs font-bold uppercase mb-2">Qonaq Hesab (Bitibsə)</label><input type="number" value={awayScore} onChange={e => setAwayScore(e.target.value ? Number(e.target.value) : '')} className="w-full bg-[#0d1a2d] border border-gray-700 rounded-lg p-3 text-white" /></div>
           <div className="col-span-2 mt-4"><button type="submit" className="w-full bg-[#d7bf7b] text-[#152741] py-3 rounded-lg font-bold text-xs uppercase tracking-widest">Yadda Saxla</button></div>
         </form>
       )}
@@ -275,7 +283,10 @@ export default function MatchesAdmin() {
         {matches.map(m => (
           <div key={m.id} className="bg-[#152741] rounded-xl border border-gray-800 p-4 flex items-center justify-between">
             <div>
-              <div className="text-white font-black text-lg"><span className="text-[#d7bf7b] text-xs mr-2">{m.tournament || 'U-12'}</span> {m.home_team} vs {m.away_team}</div>
+              <div className="text-white font-black text-lg">
+                <span className="text-[#d7bf7b] text-xs mr-2">{m.tournament || 'U-12'}</span> 
+                {m.home_team} {m.home_score !== null ? `(${m.home_score})` : ''} - {m.away_score !== null ? `(${m.away_score})` : ''} {m.away_team}
+              </div>
               <div className="text-gray-400 text-xs font-bold uppercase tracking-widest mt-1">
                  {m.match_date} • {m.match_time} • {m.stadium}
               </div>

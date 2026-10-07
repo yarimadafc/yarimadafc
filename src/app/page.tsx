@@ -3,7 +3,6 @@ import Link from "next/link";
 
 
 import NewsSection from '@/components/home/NewsSection';
-import MatchesSection from '@/components/home/MatchesSection';
 import MatchesAndStandings from '@/components/home/MatchesAndStandings';
 import QuickLinks from '@/components/home/QuickLinks';
 import VideoSection from '@/components/home/VideoSection';
@@ -216,8 +215,7 @@ export default function HomePage() {
         <NewsSection />
 
         {/* 4.5 Oyunlar Təqvimi */}
-        <MatchesSection />
-
+        
         {/* 5. Yarımada TV */}
         <VideoSection />
 

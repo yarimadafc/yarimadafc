@@ -44,14 +44,14 @@ export default function VideoSection() {
                  </div>
                  
                  {/* Play Button Overlay */}
-                 <div className="absolute bottom-6 lg:bottom-12 left-6 lg:left-12 flex flex-col items-start z-10">
-                   <div className="w-14 h-14 lg:w-16 lg:h-16 bg-[#d7bf7b] rounded-xl flex items-center justify-center mb-6 shadow-lg shadow-black/50 group-hover:bg-white transition-colors">
-                     <Play className="w-6 h-6 lg:w-8 lg:h-8 text-[#152741] fill-current ml-1" />
+                 <div className="absolute bottom-4 md:bottom-6 lg:bottom-12 left-4 md:left-6 lg:left-12 right-4 flex flex-col items-start z-10">
+                   <div className="w-10 h-10 md:w-14 md:h-14 lg:w-16 lg:h-16 bg-[#d7bf7b] rounded-xl flex items-center justify-center mb-3 md:mb-6 shadow-lg shadow-black/50 group-hover:bg-white transition-colors">
+                     <Play className="w-5 h-5 md:w-6 md:h-6 lg:w-8 lg:h-8 text-[#152741] fill-current ml-1" />
                    </div>
-                   <h3 className="text-white font-black text-2xl lg:text-4xl uppercase tracking-tight leading-tight max-w-2xl group-hover:text-[#d7bf7b] transition-colors drop-shadow-md">
+                   <h3 className="text-white font-black text-lg sm:text-xl md:text-2xl lg:text-4xl uppercase tracking-tight leading-tight max-w-2xl group-hover:text-[#d7bf7b] transition-colors drop-shadow-md line-clamp-3">
                      BİR GÜNÜ: CHALLENGE, MÜSAHİBƏ, MİLLİ KOMANDA
                    </h3>
-                   <span className="text-gray-300 font-medium text-sm mt-4 drop-shadow-md">5 oktyabr 2026</span>
+                   <span className="text-gray-300 font-medium text-xs sm:text-sm mt-2 md:mt-4 drop-shadow-md">5 oktyabr 2026</span>
                  </div>
                  
                  {/* Gradient for text readability */}

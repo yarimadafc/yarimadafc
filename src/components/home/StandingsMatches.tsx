@@ -70,29 +70,29 @@ export default function StandingsMatches() {
               <table className="w-full text-sm text-left">
                 <thead className="text-gray-400 font-bold border-b border-gray-800 bg-[#0d1a2d]">
                   <tr>
-                    <th className="px-6 py-4">№</th>
-                    <th className="px-6 py-4">Komanda</th>
-                    <th className="px-3 py-4 text-center">O</th>
-                    <th className="px-3 py-4 text-center">Q</th>
-                    <th className="px-3 py-4 text-center">B</th>
-                    <th className="px-3 py-4 text-center">M</th>
-                    <th className="px-3 py-4 text-center">VQ</th>
-                    <th className="px-3 py-4 text-center">BQ</th>
-                    <th className="px-6 py-4 text-center">Xal</th>
+                    <th className="px-3 md:px-6 py-4">№</th>
+                    <th className="px-3 md:px-6 py-4">Komanda</th>
+                    <th className="px-1 md:px-3 py-4 text-center">O</th>
+                    <th className="px-1 md:px-3 py-4 text-center">Q</th>
+                    <th className="px-1 md:px-3 py-4 text-center">B</th>
+                    <th className="px-1 md:px-3 py-4 text-center">M</th>
+                    <th className="px-1 md:px-3 py-4 text-center">VQ</th>
+                    <th className="px-1 md:px-3 py-4 text-center">BQ</th>
+                    <th className="px-3 md:px-6 py-4 text-center">Xal</th>
                   </tr>
                 </thead>
-                <tbody>
+                <tbody className="text-xs md:text-sm">
                   {standings.map((row) => (
                     <tr key={row.pos} className={`border-b border-gray-800/50 hover:bg-gray-800/30 transition-colors ${row.highlight ? 'bg-gray-800/40 text-white font-bold' : 'text-gray-300'}`}>
-                      <td className="px-6 py-4 font-medium">{row.pos}</td>
-                      <td className="px-6 py-4">{row.team}</td>
-                      <td className="px-3 py-4 text-center">{row.p}</td>
-                      <td className="px-3 py-4 text-center">{row.w}</td>
-                      <td className="px-3 py-4 text-center">{row.d}</td>
-                      <td className="px-3 py-4 text-center">{row.l}</td>
-                      <td className="px-3 py-4 text-center">{row.gf}</td>
-                      <td className="px-3 py-4 text-center">{row.ga}</td>
-                      <td className="px-6 py-4 text-center text-[#d7bf7b] font-bold">{row.pts}</td>
+                      <td className="px-3 md:px-6 py-4 font-medium">{row.pos}</td>
+                      <td className="px-3 md:px-6 py-4 whitespace-nowrap">{row.team}</td>
+                      <td className="px-1 md:px-3 py-4 text-center">{row.p}</td>
+                      <td className="px-1 md:px-3 py-4 text-center">{row.w}</td>
+                      <td className="px-1 md:px-3 py-4 text-center">{row.d}</td>
+                      <td className="px-1 md:px-3 py-4 text-center">{row.l}</td>
+                      <td className="px-1 md:px-3 py-4 text-center">{row.gf}</td>
+                      <td className="px-1 md:px-3 py-4 text-center">{row.ga}</td>
+                      <td className="px-3 md:px-6 py-4 text-center text-[#d7bf7b] font-bold">{row.pts}</td>
                     </tr>
                   ))}
                 </tbody>

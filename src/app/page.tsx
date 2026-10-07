@@ -37,23 +37,23 @@ export default function HomePage() {
         transition={{ duration: 1 }}
       >
         {/* 1. Hero / Main Slider placeholder */}
-        <section className="relative w-full h-[700px] lg:h-[800px] bg-[#152741] flex items-center justify-center border-b border-gray-800 overflow-hidden">
+        <section className="relative w-full min-h-screen lg:h-[850px] bg-[#152741] flex items-center justify-center border-b border-gray-800 overflow-hidden pt-28 lg:pt-0 pb-16 lg:pb-0">
           <motion.div 
             initial={{ scale: 1.2 }}
             animate={{ scale: 1 }}
             transition={{ duration: 1.5, ease: "easeOut" }}
             className="absolute inset-0 bg-[url('/placeholder-hero.jpg')] bg-cover bg-center"
           ></motion.div>
-          <div className="absolute inset-0 bg-gradient-to-r from-[#0d1a2d]/90 via-[#0d1a2d]/60 to-transparent"></div>
+          <div className="absolute inset-0 bg-gradient-to-r from-[#0d1a2d]/95 via-[#0d1a2d]/70 to-transparent lg:via-[#0d1a2d]/60"></div>
           
           <div className="container mx-auto px-4 lg:px-8 relative z-10 w-full h-full flex items-center">
-             <div className="w-full flex flex-col lg:flex-row items-center justify-between gap-12 lg:gap-8 mt-16 lg:mt-0">
+             <div className="w-full flex flex-col lg:flex-row items-center justify-between gap-12 lg:gap-8">
                {/* Left Content */}
                <motion.div 
                  initial={{ opacity: 0, x: -50 }}
                  animate={{ opacity: 1, x: 0 }}
                  transition={{ duration: 1, delay: 0.5, ease: "easeOut" }}
-                 className="max-w-xl w-full lg:w-1/2"
+                 className="max-w-xl w-full lg:w-1/2 pt-10 lg:pt-0"
                >
                   <motion.div 
                     initial={{ width: 0 }}
@@ -88,10 +88,10 @@ export default function HomePage() {
                  className="w-full lg:w-[450px] flex flex-col space-y-6"
                >
                  {/* Clock & Date Widget */}
-                 <div className="bg-[#0a1423]/70 backdrop-blur-md border border-gray-700/50 rounded-2xl p-6 shadow-2xl flex items-center justify-between">
+                 <div className="bg-[#0a1423]/80 backdrop-blur-md border border-gray-700/50 rounded-2xl p-6 shadow-2xl flex items-center justify-between">
                    <div className="flex flex-col">
                      <span className="text-gray-400 text-xs font-bold uppercase tracking-widest mb-1">Təqvim</span>
-                     <span className="text-white font-medium text-lg">{date}</span>
+                     <span className="text-white font-medium text-base md:text-lg">{date}</span>
                    </div>
                    <div className="flex flex-col items-end">
                      <span className="text-gray-400 text-xs font-bold uppercase tracking-widest mb-1">Bakı vaxtı</span>
@@ -99,51 +99,58 @@ export default function HomePage() {
                    </div>
                  </div>
 
-                 {/* Next Match Widget */}
-                 <div className="bg-gradient-to-br from-[#112240]/90 to-[#152741]/90 backdrop-blur-md border border-gray-700/50 rounded-2xl p-6 shadow-2xl relative overflow-hidden group">
-                   <div className="absolute top-0 right-0 w-32 h-32 bg-[#d7bf7b]/5 rounded-bl-full -mr-10 -mt-10 transition-transform duration-500 group-hover:scale-110"></div>
+                 {/* Next Match Widget with LED Border */}
+                 <div className="relative p-[2px] rounded-2xl overflow-hidden group">
+                   {/* LED Rotating Border Background */}
+                   <div className="absolute inset-0 bg-[conic-gradient(from_0deg,transparent_0_280deg,#d7bf7b_360deg)] animate-[spin_3s_linear_infinite]"></div>
+                   <div className="absolute inset-0 bg-[conic-gradient(from_180deg,transparent_0_280deg,#d7bf7b_360deg)] animate-[spin_3s_linear_infinite]"></div>
                    
-                   <div className="flex items-center justify-between mb-6">
-                     <span className="text-[#d7bf7b] font-bold tracking-[0.2em] text-[10px] uppercase">Növbəti Oyun</span>
-                     <span className="text-gray-400 text-[11px] font-medium tracking-wide">U-12 Premyer Liqa</span>
-                   </div>
+                   {/* Inner Card */}
+                   <div className="relative bg-[#112240] backdrop-blur-md rounded-2xl p-6 shadow-2xl overflow-hidden h-full z-10">
+                     <div className="absolute top-0 right-0 w-32 h-32 bg-[#d7bf7b]/5 rounded-bl-full -mr-10 -mt-10 transition-transform duration-500 group-hover:scale-110"></div>
+                     
+                     <div className="flex items-center justify-between mb-6">
+                       <span className="text-[#d7bf7b] font-bold tracking-[0.2em] text-[10px] uppercase">Növbəti Oyun</span>
+                       <span className="text-gray-400 text-[11px] font-medium tracking-wide">U-12 Premyer Liqa</span>
+                     </div>
 
-                   <div className="flex items-center justify-between mb-8 relative">
-                     {/* Team 1 */}
-                     <div className="flex flex-col items-center space-y-3 w-[40%]">
-                       <div className="w-12 h-12 rounded-full border border-gray-700 bg-[#0d1a2d] flex items-center justify-center p-2 shadow-inner">
-                         <div className="w-full h-full relative">
-                           <img src="/Logo.JPG.jpeg" alt="Yarımada" className="w-full h-full object-cover rounded-full" />
+                     <div className="flex items-center justify-between mb-8 relative">
+                       {/* Team 1 */}
+                       <div className="flex flex-col items-center space-y-3 w-[40%]">
+                         <div className="w-12 h-12 rounded-full border border-gray-700 bg-[#0d1a2d] flex items-center justify-center p-2 shadow-inner">
+                           <div className="w-full h-full relative">
+                             <img src="/Logo.JPG.jpeg" alt="Yarımada" className="w-full h-full object-cover rounded-full" />
+                           </div>
+                         </div>
+                         <span className="font-black text-white tracking-widest text-xs uppercase text-center">YARIMADA</span>
+                       </div>
+                       
+                       {/* VS */}
+                       <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 mt-[-10px]">
+                         <div className="w-8 h-8 rounded-full bg-[#0a1423] border border-gray-700 flex items-center justify-center shadow-lg">
+                           <span className="text-[#d7bf7b] text-[10px] font-black italic">VS</span>
                          </div>
                        </div>
-                       <span className="font-black text-white tracking-widest text-xs uppercase text-center">YARIMADA</span>
-                     </div>
-                     
-                     {/* VS */}
-                     <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 mt-[-10px]">
-                       <div className="w-8 h-8 rounded-full bg-[#0a1423] border border-gray-700 flex items-center justify-center shadow-lg">
-                         <span className="text-[#d7bf7b] text-[10px] font-black italic">VS</span>
+
+                       {/* Team 2 */}
+                       <div className="flex flex-col items-center space-y-3 w-[40%]">
+                         <div className="w-12 h-12 rounded-full border border-gray-700 bg-white flex items-center justify-center p-2 shadow-inner">
+                           {/* Placeholder logo for opponent */}
+                           <div className="w-6 h-6 bg-gray-200 rounded-full"></div>
+                         </div>
+                         <span className="font-black text-white tracking-widest text-xs uppercase text-center">NEFTÇİ</span>
                        </div>
                      </div>
 
-                     {/* Team 2 */}
-                     <div className="flex flex-col items-center space-y-3 w-[40%]">
-                       <div className="w-12 h-12 rounded-full border border-gray-700 bg-white flex items-center justify-center p-2 shadow-inner">
-                         {/* Placeholder logo for opponent */}
-                         <div className="w-6 h-6 bg-gray-200 rounded-full"></div>
+                     <div className="w-full bg-[#0a1423] rounded-lg p-3 flex justify-between items-center border border-gray-800">
+                       <div className="flex flex-col">
+                         <span className="text-gray-500 text-[10px] uppercase tracking-widest mb-0.5">Tarix / Saat</span>
+                         <span className="text-white text-xs font-bold">15 Okt • 20:00</span>
                        </div>
-                       <span className="font-black text-white tracking-widest text-xs uppercase text-center">NEFTÇİ</span>
+                       <Link href="/matches" className="text-[#d7bf7b] text-[10px] font-bold uppercase tracking-widest hover:text-white transition-colors flex items-center group-hover:underline underline-offset-4">
+                         Ətraflı &rarr;
+                       </Link>
                      </div>
-                   </div>
-
-                   <div className="w-full bg-[#0a1423] rounded-lg p-3 flex justify-between items-center border border-gray-800">
-                     <div className="flex flex-col">
-                       <span className="text-gray-500 text-[10px] uppercase tracking-widest mb-0.5">Tarix / Saat</span>
-                       <span className="text-white text-xs font-bold">15 Okt • 20:00</span>
-                     </div>
-                     <Link href="/matches" className="text-[#d7bf7b] text-[10px] font-bold uppercase tracking-widest hover:text-white transition-colors flex items-center group-hover:underline underline-offset-4">
-                       Ətraflı &rarr;
-                     </Link>
                    </div>
                  </div>
                </motion.div>

@@ -100,8 +100,8 @@ export default function Footer() {
           <div className="col-span-2 lg:col-span-2 grid grid-cols-1 sm:grid-cols-2 gap-8">
             <div className="flex flex-col space-y-3">
               <span className="text-[#d7bf7b] font-bold text-xs md:text-sm tracking-widest uppercase">Əlaqə</span>
-              <a href="tel:+994551234567" className="text-white font-medium text-sm hover:text-[#d7bf7b] transition-colors">
-                (+994) 55 123 45 67
+              <a href="tel:+994504671321" className="text-white font-medium text-sm hover:text-[#d7bf7b] transition-colors flex items-center space-x-2">
+                <span>050 467 13 21</span> <span className="text-gray-500 text-xs">(WhatsApp)</span>
               </a>
               <a href="mailto:info@yarimadafc.com" className="text-white font-medium text-sm hover:text-[#d7bf7b] transition-colors">
                 info@yarimadafc.com
@@ -114,19 +114,19 @@ export default function Footer() {
             <div className="flex flex-col space-y-3">
               <span className="text-[#d7bf7b] font-bold text-xs md:text-sm tracking-widest uppercase">Sosial Media</span>
               <div className="flex flex-col space-y-2">
-                <a href="#" className="text-white font-medium text-sm hover:text-[#d7bf7b] transition-colors flex items-center space-x-2">
+                <a href="https://www.instagram.com/yarimada_fk/" target="_blank" rel="noopener noreferrer" className="text-white font-medium text-sm hover:text-[#d7bf7b] transition-colors flex items-center space-x-2">
                    <InstagramIcon /> <span>Instagram</span>
                 </a>
-                <a href="#" className="text-white font-medium text-sm hover:text-[#d7bf7b] transition-colors flex items-center space-x-2">
+                <a href="https://www.youtube.com/@yarimada_fk" target="_blank" rel="noopener noreferrer" className="text-white font-medium text-sm hover:text-[#d7bf7b] transition-colors flex items-center space-x-2">
                    <YoutubeIcon /> <span>YouTube</span>
                 </a>
-                <a href="#" className="text-white font-medium text-sm hover:text-[#d7bf7b] transition-colors flex items-center space-x-2">
+                <a href="https://www.facebook.com/profile.php?id=61590640762611" target="_blank" rel="noopener noreferrer" className="text-white font-medium text-sm hover:text-[#d7bf7b] transition-colors flex items-center space-x-2">
                    <FacebookIcon /> <span>Facebook</span>
                 </a>
-                <a href="#" className="text-white font-medium text-sm hover:text-[#d7bf7b] transition-colors flex items-center space-x-2">
+                <a href="https://www.tiktok.com/@yarimadafk" target="_blank" rel="noopener noreferrer" className="text-white font-medium text-sm hover:text-[#d7bf7b] transition-colors flex items-center space-x-2">
                    <TiktokIcon /> <span>TikTok</span>
                 </a>
-                <a href="#" className="text-white font-medium text-sm hover:text-[#d7bf7b] transition-colors flex items-center space-x-2">
+                <a href="https://t.me/yarimadafk?fbclid=PAZXh0bgNhZW0CMTEAcGRvZgRzcnRjBmFwcF9pZAwyNTYyODEwNDA1NTgAAafK0KsTFGaHEdkdFqPvdB_YUJuYByPtPKvdfmdCKantOLunANZ5C8nrnroI0A_aem_3_m_V6XwTbX1OL0eUZhRoA" target="_blank" rel="noopener noreferrer" className="text-white font-medium text-sm hover:text-[#d7bf7b] transition-colors flex items-center space-x-2">
                    <TelegramIcon /> <span>Telegram</span>
                 </a>
               </div>

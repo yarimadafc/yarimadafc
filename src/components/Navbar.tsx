@@ -76,11 +76,11 @@ export default function Navbar() {
           {/* Right: Social, Language */}
           <div className="flex items-center space-x-6">
             <div className="flex items-center space-x-4 text-gray-400">
-              <a href="#" className="hover:text-[#d7bf7b] transition-colors"><InstagramIcon /></a>
-              <a href="#" className="hover:text-[#d7bf7b] transition-colors"><FacebookIcon /></a>
-              <a href="#" className="hover:text-[#d7bf7b] transition-colors"><YoutubeIcon /></a>
-              <a href="#" className="hover:text-[#d7bf7b] transition-colors"><TiktokIcon /></a>
-              <a href="#" className="hover:text-[#d7bf7b] transition-colors"><TelegramIcon /></a>
+              <a href="https://www.instagram.com/yarimada_fk/" target="_blank" rel="noopener noreferrer" className="hover:text-[#d7bf7b] transition-colors"><InstagramIcon /></a>
+              <a href="https://www.facebook.com/profile.php?id=61590640762611" target="_blank" rel="noopener noreferrer" className="hover:text-[#d7bf7b] transition-colors"><FacebookIcon /></a>
+              <a href="https://www.youtube.com/@yarimada_fk" target="_blank" rel="noopener noreferrer" className="hover:text-[#d7bf7b] transition-colors"><YoutubeIcon /></a>
+              <a href="https://www.tiktok.com/@yarimadafk" target="_blank" rel="noopener noreferrer" className="hover:text-[#d7bf7b] transition-colors"><TiktokIcon /></a>
+              <a href="https://t.me/yarimadafk?fbclid=PAZXh0bgNhZW0CMTEAcGRvZgRzcnRjBmFwcF9pZAwyNTYyODEwNDA1NTgAAafK0KsTFGaHEdkdFqPvdB_YUJuYByPtPKvdfmdCKantOLunANZ5C8nrnroI0A_aem_3_m_V6XwTbX1OL0eUZhRoA" target="_blank" rel="noopener noreferrer" className="hover:text-[#d7bf7b] transition-colors"><TelegramIcon /></a>
             </div>
           </div>
         </div>
@@ -210,13 +210,13 @@ export default function Navbar() {
               className="xl:hidden bg-[#0d1a2d] border-t border-gray-800 absolute w-full overflow-hidden shadow-2xl max-h-[85vh] overflow-y-auto"
             >
               <div className="px-6 py-4 space-y-1">
-                <div className="flex items-center justify-center mb-6 px-2">
+                <div className="flex items-center justify-center mb-6 px-2 mt-4">
                   <div className="flex space-x-6 text-gray-400">
-                    <a href="#"><InstagramIcon className="w-6 h-6" /></a>
-                    <a href="#"><FacebookIcon className="w-6 h-6" /></a>
-                    <a href="#"><YoutubeIcon className="w-6 h-6" /></a>
-                    <a href="#"><TiktokIcon className="w-6 h-6" /></a>
-                    <a href="#"><TelegramIcon className="w-6 h-6" /></a>
+                    <a href="https://www.instagram.com/yarimada_fk/" target="_blank" rel="noopener noreferrer"><InstagramIcon className="w-6 h-6 hover:text-[#d7bf7b] transition-colors" /></a>
+                    <a href="https://www.facebook.com/profile.php?id=61590640762611" target="_blank" rel="noopener noreferrer"><FacebookIcon className="w-6 h-6 hover:text-[#d7bf7b] transition-colors" /></a>
+                    <a href="https://www.youtube.com/@yarimada_fk" target="_blank" rel="noopener noreferrer"><YoutubeIcon className="w-6 h-6 hover:text-[#d7bf7b] transition-colors" /></a>
+                    <a href="https://www.tiktok.com/@yarimadafk" target="_blank" rel="noopener noreferrer"><TiktokIcon className="w-6 h-6 hover:text-[#d7bf7b] transition-colors" /></a>
+                    <a href="https://t.me/yarimadafk?fbclid=PAZXh0bgNhZW0CMTEAcGRvZgRzcnRjBmFwcF9pZAwyNTYyODEwNDA1NTgAAafK0KsTFGaHEdkdFqPvdB_YUJuYByPtPKvdfmdCKantOLunANZ5C8nrnroI0A_aem_3_m_V6XwTbX1OL0eUZhRoA" target="_blank" rel="noopener noreferrer"><TelegramIcon className="w-6 h-6 hover:text-[#d7bf7b] transition-colors" /></a>
                   </div>
                 </div>
 

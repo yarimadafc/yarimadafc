@@ -3,13 +3,28 @@
 import Link from 'next/link';
 import { Play } from 'lucide-react';
 import { motion } from 'framer-motion';
+import { useEffect, useState } from 'react';
+import { supabase } from '@/lib/supabase';
 
 export default function VideoSection() {
-  const smallVideos = [
-    { id: 2, title: 'TARİXİ STADİONUMUZUN YUBİLEYİ İLƏ ƏLAQƏDAR YOLDAŞLIQ...', date: '4 oktyabr 2026' },
-    { id: 3, title: 'SABAH 0:3 YARIMADA | GƏNCLƏR LİQASI | İCMAL', date: '3 oktyabr 2026' },
-    { id: 4, title: 'YARIMADA 2:0 QƏBƏLƏ | U-17 LİQASI | İCMAL', date: '3 oktyabr 2026' },
-  ];
+  const [videos, setVideos] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    async function loadVideos() {
+      const { data } = await supabase.from('videos').select('*').order('created_at', { ascending: false }).limit(4);
+      if (data) {
+        setVideos(data);
+      }
+      setLoading(false);
+    }
+    loadVideos();
+  }, []);
+
+  if (loading || videos.length === 0) return null;
+
+  const mainVideo = videos[0];
+  const smallVideos = videos.slice(1, 4);
 
   return (
     <section className="bg-[#0d1a2d] py-20 border-b border-gray-800/50 overflow-hidden">
@@ -37,11 +52,9 @@ export default function VideoSection() {
             viewport={{ once: true, margin: "-100px" }}
             className="flex-grow xl:w-2/3"
           >
-            <Link href="/video/1" className="group relative rounded-2xl overflow-hidden block">
+            <a href={mainVideo.url} target="_blank" rel="noopener noreferrer" className="group relative rounded-2xl overflow-hidden block">
               <div className="w-full aspect-video bg-gray-800 relative">
-                 <div className="absolute inset-0 group-hover:scale-105 transition-transform duration-700 bg-gray-900 flex items-center justify-center text-gray-700 font-bold text-2xl">
-                   Əsas Video Şəkli
-                 </div>
+                 <img src={mainVideo.thumbnail_url} alt={mainVideo.title} className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
                  
                  {/* Play Button Overlay */}
                  <div className="absolute bottom-4 md:bottom-6 lg:bottom-12 left-4 md:left-6 lg:left-12 right-4 flex flex-col items-start z-10">
@@ -49,15 +62,17 @@ export default function VideoSection() {
                      <Play className="w-5 h-5 md:w-6 md:h-6 lg:w-8 lg:h-8 text-[#152741] fill-current ml-1" />
                    </div>
                    <h3 className="text-white font-black text-lg sm:text-xl md:text-2xl lg:text-4xl uppercase tracking-tight leading-tight max-w-2xl group-hover:text-[#d7bf7b] transition-colors drop-shadow-md line-clamp-3">
-                     BİR GÜNÜ: CHALLENGE, MÜSAHİBƏ, MİLLİ KOMANDA
+                     {mainVideo.title}
                    </h3>
-                   <span className="text-gray-300 font-medium text-xs sm:text-sm mt-2 md:mt-4 drop-shadow-md">5 oktyabr 2026</span>
+                   <span className="text-gray-300 font-medium text-xs sm:text-sm mt-2 md:mt-4 drop-shadow-md">
+                     {new Date(mainVideo.published_date || mainVideo.created_at).toLocaleDateString('az-AZ')}
+                   </span>
                  </div>
                  
                  {/* Gradient for text readability */}
                  <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent"></div>
               </div>
-            </Link>
+            </a>
           </motion.div>
 
           {/* Video List & Button */}
@@ -71,10 +86,10 @@ export default function VideoSection() {
                   transition={{ duration: 0.6, delay: i * 0.2, ease: "easeOut" }}
                   viewport={{ once: true, margin: "-50px" }}
                 >
-                  <Link href={`/video/${video.id}`} className="group flex space-x-4 pb-6 border-b border-gray-800/50 hover:bg-gray-800/10 rounded-lg transition-colors">
+                  <a href={video.url} target="_blank" rel="noopener noreferrer" className="group flex space-x-4 pb-6 border-b border-gray-800/50 hover:bg-gray-800/10 rounded-lg transition-colors">
                     {/* Thumb */}
                     <div className="w-40 sm:w-48 aspect-video bg-gray-800 rounded-xl relative overflow-hidden flex-shrink-0">
-                      <div className="absolute inset-0 group-hover:scale-105 transition-transform duration-500"></div>
+                      <img src={video.thumbnail_url} alt={video.title} className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
                       <div className="absolute bottom-2 left-2 w-8 h-8 bg-[#d7bf7b] rounded-lg flex items-center justify-center shadow-md group-hover:bg-white transition-colors z-10">
                         <Play className="w-4 h-4 text-[#152741] fill-current ml-0.5" />
                       </div>
@@ -82,12 +97,14 @@ export default function VideoSection() {
                     
                     {/* Info */}
                     <div className="flex flex-col justify-center">
-                      <h4 className="text-white font-bold text-sm lg:text-base leading-tight mb-2 group-hover:text-[#d7bf7b] transition-colors uppercase">
+                      <h4 className="text-white font-bold text-sm lg:text-base leading-tight mb-2 group-hover:text-[#d7bf7b] transition-colors uppercase line-clamp-3">
                         {video.title}
                       </h4>
-                      <span className="text-gray-500 font-medium text-xs">{video.date}</span>
+                      <span className="text-gray-500 font-medium text-xs">
+                        {new Date(video.published_date || video.created_at).toLocaleDateString('az-AZ')}
+                      </span>
                     </div>
-                  </Link>
+                  </a>
                 </motion.div>
               ))}
             </div>

@@ -22,37 +22,7 @@ export default function NewsSection() {
         if (!error && data && data.length > 0) {
           setNews(data);
         } else {
-          // Fallback dummy data if no data in Supabase
-          setNews([
-            {
-              id: 1,
-              category: 'Klub',
-              date: '1 gün əvvəl',
-              title: 'YARIMADA FK YENİ MÖVSÜMƏ BÖYÜK ÜMİDLƏRLƏ BAŞLAYIR',
-              image_url: '/placeholder-news-1.jpg',
-            },
-            {
-              id: 2,
-              category: 'Akademiya',
-              date: '2 gün əvvəl',
-              title: 'U-19 KOMANDAMIZ MÜHÜM QƏLƏBƏ QAZANDI',
-              image_url: '/placeholder-news-2.jpg',
-            },
-            {
-              id: 3,
-              category: 'Fanat',
-              date: '3 gün əvvəl',
-              title: 'AZARKEŞLƏR ÜÇÜN YENİ ABONEMENTLƏR SATIŞA ÇIXARILDI',
-              image_url: '/placeholder-news-3.jpg',
-            },
-            {
-              id: 4,
-              category: 'Klub',
-              date: '4 gün əvvəl',
-              title: 'BAŞ MƏŞQÇİ İLƏ YENİ MÜQAVİLƏ İMZALANDI',
-              image_url: '/placeholder-news-4.jpg',
-            },
-          ]);
+          setNews([]);
         }
       } catch (err) {
         console.error("Error fetching news:", err);

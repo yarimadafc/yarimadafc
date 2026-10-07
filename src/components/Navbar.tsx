@@ -47,7 +47,7 @@ export default function Navbar() {
   };
 
   const menuItems = [
-    { name: 'ANA SƏHİFƏ', href: '/', onClick: handleHomeClick },
+    { name: 'ANA SƏHİFƏ', href: '/' },
     { name: 'KLUB', href: '/club' },
     { name: 'KOMANDALAR', href: '/teams' },
     { name: 'OYUNLAR', href: '/matches' },
@@ -93,7 +93,7 @@ export default function Navbar() {
             
             {/* Logo */}
             <div className="flex-shrink-0">
-              <a href="/" onClick={handleHomeClick} className="flex items-center group cursor-pointer space-x-3">
+              <Link href="/" className="flex items-center group cursor-pointer space-x-3">
                 <motion.div 
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
@@ -101,12 +101,12 @@ export default function Navbar() {
                 >
                   <Image src="/Logo.JPG.jpeg" alt="Yarımada FK" fill className="object-cover" />
                 </motion.div>
-                <div className="flex flex-col hidden sm:flex">
-                   <span className="text-white font-black text-lg md:text-xl tracking-tighter uppercase group-hover:text-[#d7bf7b] transition-colors">
+                <div className="flex flex-col">
+                   <span className="text-white font-black text-[15px] md:text-xl tracking-tighter uppercase group-hover:text-[#d7bf7b] transition-colors">
                      Yarımada FK
                    </span>
                 </div>
-              </a>
+              </Link>
             </div>
 
             {/* Desktop Menu */}
@@ -118,24 +118,13 @@ export default function Navbar() {
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.3, delay: i * 0.05 }}
                 >
-                  {item.onClick ? (
-                    <a
-                      href={item.href}
-                      onClick={item.onClick}
-                      className="font-bold text-[12px] 2xl:text-[13px] tracking-widest text-white hover:text-[#d7bf7b] transition-colors relative group cursor-pointer"
-                    >
-                      {item.name}
-                      <span className="absolute -bottom-2 left-0 w-0 h-[2px] bg-[#d7bf7b] transition-all duration-300 group-hover:w-full"></span>
-                    </a>
-                  ) : (
-                    <Link
-                      href={item.href}
-                      className="font-bold text-[12px] 2xl:text-[13px] tracking-widest text-white hover:text-[#d7bf7b] transition-colors relative group"
-                    >
-                      {item.name}
-                      <span className="absolute -bottom-2 left-0 w-0 h-[2px] bg-[#d7bf7b] transition-all duration-300 group-hover:w-full"></span>
-                    </Link>
-                  )}
+                  <Link
+                    href={item.href}
+                    className="font-bold text-[12px] 2xl:text-[13px] tracking-widest text-white hover:text-[#d7bf7b] transition-colors relative group"
+                  >
+                    {item.name}
+                    <span className="absolute -bottom-2 left-0 w-0 h-[2px] bg-[#d7bf7b] transition-all duration-300 group-hover:w-full"></span>
+                  </Link>
                 </motion.div>
               ))}
             </nav>

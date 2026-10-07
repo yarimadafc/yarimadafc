@@ -1,4 +1,9 @@
+'use client';
+
 import Link from 'next/link';
+import { useState, useEffect } from "react";
+import { supabase } from "@/lib/supabase";
+
 import Image from 'next/image';
 import { Send, Music2, MessageCircle } from 'lucide-react';
 
@@ -27,6 +32,16 @@ const TwitterIcon = () => (
 );
 
 export default function Footer() {
+  const [sponsors, setSponsors] = useState<any[]>([]);
+
+  useEffect(() => {
+    async function fetchSponsors() {
+      const { data } = await supabase.from('sponsors').select('*').order('created_at', { ascending: true });
+      if (data && data.length > 0) setSponsors(data);
+    }
+    fetchSponsors();
+  }, []);
+
   return (
     <footer className="w-full bg-[#0d1a2d] border-t border-gray-800 pt-8 pb-8 overflow-hidden">
       {/* Sponsors Section - Marquee */}
@@ -40,18 +55,36 @@ export default function Footer() {
         <div className="relative w-full flex whitespace-nowrap transition-all duration-500 overflow-hidden">
           {/* We duplicate the content to make an infinite marquee loop */}
           <div className="flex animate-[marquee_25s_linear_infinite] items-center space-x-16 px-8 min-w-max">
-            <div className="text-white text-lg font-black uppercase tracking-widest">SOCAR</div>
-            <div className="text-white text-base font-bold uppercase tracking-widest">PALMS SPORTS</div>
-            <div className="text-white text-base font-bold uppercase tracking-widest">KAPPA</div>
-            <div className="text-white text-base font-bold uppercase tracking-widest">ADQ</div>
-            <div className="text-white text-base font-bold uppercase tracking-widest">SEA BREEZE</div>
-            
-            {/* Duplicates for seamless loop */}
-            <div className="text-white text-lg font-black uppercase tracking-widest">SOCAR</div>
-            <div className="text-white text-base font-bold uppercase tracking-widest">PALMS SPORTS</div>
-            <div className="text-white text-base font-bold uppercase tracking-widest">KAPPA</div>
-            <div className="text-white text-base font-bold uppercase tracking-widest">ADQ</div>
-            <div className="text-white text-base font-bold uppercase tracking-widest">SEA BREEZE</div>
+            {sponsors.length > 0 ? (
+              <>
+                {sponsors.map(s => (
+                  <div key={`s1-${s.id}`} className="text-white text-lg font-black uppercase tracking-widest flex items-center shrink-0">
+                    <img src={s.logo_url} alt={s.name} className="h-10 md:h-14 object-contain grayscale hover:grayscale-0 transition-all duration-300" />
+                  </div>
+                ))}
+                {/* Duplicates for seamless loop */}
+                {sponsors.map(s => (
+                  <div key={`s2-${s.id}`} className="text-white text-lg font-black uppercase tracking-widest flex items-center shrink-0">
+                    <img src={s.logo_url} alt={s.name} className="h-10 md:h-14 object-contain grayscale hover:grayscale-0 transition-all duration-300" />
+                  </div>
+                ))}
+              </>
+            ) : (
+              <>
+                <div className="text-white text-lg font-black uppercase tracking-widest shrink-0">SOCAR</div>
+                <div className="text-white text-base font-bold uppercase tracking-widest shrink-0">PALMS SPORTS</div>
+                <div className="text-white text-base font-bold uppercase tracking-widest shrink-0">KAPPA</div>
+                <div className="text-white text-base font-bold uppercase tracking-widest shrink-0">ADQ</div>
+                <div className="text-white text-base font-bold uppercase tracking-widest shrink-0">SEA BREEZE</div>
+                
+                {/* Duplicates for seamless loop */}
+                <div className="text-white text-lg font-black uppercase tracking-widest shrink-0">SOCAR</div>
+                <div className="text-white text-base font-bold uppercase tracking-widest shrink-0">PALMS SPORTS</div>
+                <div className="text-white text-base font-bold uppercase tracking-widest shrink-0">KAPPA</div>
+                <div className="text-white text-base font-bold uppercase tracking-widest shrink-0">ADQ</div>
+                <div className="text-white text-base font-bold uppercase tracking-widest shrink-0">SEA BREEZE</div>
+              </>
+            )}
           </div>
         </div>
       </div>

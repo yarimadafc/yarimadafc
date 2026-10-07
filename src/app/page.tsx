@@ -115,10 +115,10 @@ export default function HomePage() {
                  </div>
 
                  {/* Next Match Widget with LED Border */}
-                 <div className="relative p-[2px] rounded-2xl overflow-hidden group">
+                 <div className="relative p-[2px] rounded-2xl overflow-hidden group transform-gpu">
                    {/* LED Rotating Border Background */}
-                   <div className="absolute inset-0 bg-[conic-gradient(from_0deg,transparent_0_280deg,#d7bf7b_360deg)] animate-[spin_3s_linear_infinite]"></div>
-                   <div className="absolute inset-0 bg-[conic-gradient(from_180deg,transparent_0_280deg,#d7bf7b_360deg)] animate-[spin_3s_linear_infinite]"></div>
+                   <div className="absolute inset-[-100%] bg-[conic-gradient(from_0deg,transparent_0_300deg,#d7bf7b_360deg)] animate-[spin_4s_linear_infinite] will-change-transform"></div>
+                   <div className="absolute inset-[-100%] bg-[conic-gradient(from_180deg,transparent_0_300deg,#d7bf7b_360deg)] animate-[spin_4s_linear_infinite] will-change-transform"></div>
                    
                    {/* Inner Card */}
                    <div className="relative bg-[#112240] backdrop-blur-md rounded-2xl p-6 shadow-2xl overflow-hidden h-full z-10">

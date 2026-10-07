@@ -46,7 +46,7 @@ export default function ClubAdmin() {
   const handleSave = async (key: string) => {
     setSaving(true);
     const value = texts[key];
-    const { data } = await supabase.from('site_images').select('id').eq('section_key', key).single();
+    const { data } = await supabase.from('site_images').select('id').eq('section_key', key).maybeSingle();
     if (data) {
       await supabase.from('site_images').update({ image_url: value }).eq('section_key', key);
     } else {
@@ -102,7 +102,7 @@ export default function ClubAdmin() {
                         if (data.url) {
                           handleChange('about_bg', data.url);
                           // Auto save immediately
-                          await supabase.from('site_images').select('id').eq('section_key', 'about_bg').single().then(async ({data: existing}) => {
+                          await supabase.from('site_images').select('id').eq('section_key', 'about_bg').maybeSingle().then(async ({data: existing}) => {
                             if (existing) await supabase.from('site_images').update({ image_url: data.url }).eq('section_key', 'about_bg');
                             else await supabase.from('site_images').insert([{ section_key: 'about_bg', image_url: data.url }]);
                           });

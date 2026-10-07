@@ -82,7 +82,7 @@ export default function MatchesAndStandings() {
                   <div className="text-center relative z-10 bg-[#0a1423]/50 py-4 rounded-xl border border-gray-800/50 mt-auto">
                     <span className="text-gray-400 text-[11px] font-bold uppercase tracking-widest flex items-center justify-center">
                       <span className="w-2 h-2 rounded-full bg-green-500 mr-2 animate-pulse"></span>
-                      Stadion: {nextMatch.venue || 'Məlumat Yoxdur'}
+                      Stadion: {nextMatch.stadium || 'Məlumat Yoxdur'}
                     </span>
                   </div>
                 </>

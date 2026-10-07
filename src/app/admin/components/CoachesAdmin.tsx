@@ -158,7 +158,7 @@ export default function CoachesAdmin() {
         {coaches.map(c => (
           <div key={c.id} className="bg-[#152741] rounded-2xl border border-gray-800 p-6 flex flex-col items-center text-center">
             <div className="w-24 h-24 rounded-full bg-[#0d1a2d] border-2 border-gray-700 mb-4 overflow-hidden">
-               <img src={c.image_url || '/placeholder-coach.jpg'} alt={c.name} className="w-full h-full object-cover" />
+               <img src={c.image_url || '/Logo.JPG.jpeg'} alt={c.name} className="w-full h-full object-cover" />
             </div>
             <h3 className="text-white font-black uppercase tracking-widest text-sm mb-1">{c.name}</h3>
             <p className="text-[#d7bf7b] text-xs font-bold uppercase">{c.role}</p>

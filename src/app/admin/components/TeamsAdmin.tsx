@@ -91,7 +91,7 @@ export default function TeamsAdmin() {
     ];
 
     for (const d of details) {
-      const { data } = await supabase.from('site_images').select('id').eq('section_key', d.key).single();
+      const { data } = await supabase.from('site_images').select('id').eq('section_key', d.key).maybeSingle();
       if (data) {
         await supabase.from('site_images').update({ image_url: d.val }).eq('section_key', d.key);
       } else {

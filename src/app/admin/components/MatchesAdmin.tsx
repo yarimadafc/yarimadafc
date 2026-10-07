@@ -59,7 +59,7 @@ export default function MatchesAdmin() {
     ];
 
     for (const d of details) {
-      const { data } = await supabase.from('site_images').select('id').eq('section_key', d.key).single();
+      const { data } = await supabase.from('site_images').select('id').eq('section_key', d.key).maybeSingle();
       if (data) {
         await supabase.from('site_images').update({ image_url: d.val }).eq('section_key', d.key);
       } else {
@@ -76,7 +76,7 @@ export default function MatchesAdmin() {
     setAwayTeam(m.away_team);
     setMatchDate(m.match_date || '');
     setMatchTime(m.match_time || '');
-    setVenue(m.venue || '');
+    setVenue(m.stadium || '');
     setEditingId(m.id);
     setIsAdding(true);
   };
@@ -86,9 +86,9 @@ export default function MatchesAdmin() {
     const payload = {
       home_team: homeTeam,
       away_team: awayTeam,
-      match_date: matchDate,
-      match_time: matchTime,
-      venue,
+      match_date: matchDate || null,
+      match_time: matchTime || null,
+      stadium: venue,
       tournament
     };
 
@@ -171,7 +171,7 @@ export default function MatchesAdmin() {
             <div>
               <div className="text-white font-black text-lg"><span className="text-[#d7bf7b] text-xs mr-2">{m.tournament || 'U-12'}</span> {m.home_team} vs {m.away_team}</div>
               <div className="text-gray-400 text-xs font-bold uppercase tracking-widest mt-1">
-                 {m.match_date} • {m.match_time} • {m.venue}
+                 {m.match_date} • {m.match_time} • {m.stadium}
               </div>
             </div>
             <div className="space-x-4">

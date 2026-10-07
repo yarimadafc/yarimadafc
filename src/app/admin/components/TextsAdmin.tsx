@@ -36,7 +36,7 @@ export default function TextsAdmin() {
     const value = texts[key];
     
     // Check if exists
-    const { data } = await supabase.from('site_images').select('id').eq('section_key', key).single();
+    const { data } = await supabase.from('site_images').select('id').eq('section_key', key).maybeSingle();
     if (data) {
       await supabase.from('site_images').update({ image_url: value }).eq('section_key', key);
     } else {

@@ -32,6 +32,13 @@ export default function CoachesAdmin() {
     const { data: tData } = await supabase.from('teams').select('id, name');
     if (tData) setTeams(tData);
     
+    const { data: lsData } = await supabase.from('site_images').select('image_url').eq('section_key', 'leadership_coach_ids').maybeSingle();
+    if (lsData && lsData.image_url) {
+      setLeadershipIds(lsData.image_url.split(','));
+    } else {
+      setLeadershipIds([]);
+    }
+    
     setLoading(false);
   };
 
@@ -56,12 +63,33 @@ export default function CoachesAdmin() {
       team_id: teamId || null
     };
 
+    let newId = editingId;
+
     if (editingId) {
       await supabase.from('coaches').update(payload).eq('id', editingId);
       alert('Yeniləndi!');
     } else {
-      await supabase.from('coaches').insert([payload]);
+      const { data: insertedData } = await supabase.from('coaches').insert([payload]).select();
+      if (insertedData && insertedData.length > 0) newId = insertedData[0].id;
       alert('Əlavə edildi!');
+    }
+
+    if (newId) {
+      let updatedIds = [...leadershipIds];
+      if (isLeadership && !updatedIds.includes(newId.toString())) {
+        updatedIds.push(newId.toString());
+      } else if (!isLeadership && updatedIds.includes(newId.toString())) {
+        updatedIds = updatedIds.filter(id => id !== newId.toString());
+      }
+      
+      const newIdsString = updatedIds.join(',');
+      const { data: lsExists } = await supabase.from('site_images').select('id').eq('section_key', 'leadership_coach_ids').maybeSingle();
+      
+      if (lsExists) {
+        await supabase.from('site_images').update({ image_url: newIdsString }).eq('section_key', 'leadership_coach_ids');
+      } else {
+        await supabase.from('site_images').insert([{ section_key: 'leadership_coach_ids', image_url: newIdsString }]);
+      }
     }
 
     setEditingId(null);
@@ -78,7 +106,7 @@ export default function CoachesAdmin() {
   };
 
   const resetForm = () => {
-    setName(''); setRole(''); setLicense(''); setImageUrl(''); setTeamId(''); setIsLeadership(false);
+    setName(''); setRole(''); setLicense(''); setImageUrl(''); setTeamId(''); setIsLeadership(false); setIsLeadership(false);
   };
 
   return (

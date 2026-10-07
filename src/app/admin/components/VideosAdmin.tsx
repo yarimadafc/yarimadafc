@@ -1,9 +1,8 @@
-import { compressImage } from "@/lib/imageCompress";
-
 'use client';
 import { useState, useEffect } from 'react';
 import { supabase } from '@/lib/supabase';
-import { Trash2, Plus, UploadCloud, Youtube } from 'lucide-react';
+import { Trash2, Plus, UploadCloud, PlayCircle } from 'lucide-react';
+import { compressImage } from "@/lib/imageCompress";
 
 export default function VideosAdmin() {
   const [videos, setVideos] = useState<any[]>([]);
@@ -123,7 +122,7 @@ export default function VideosAdmin() {
               <div className="h-32 relative">
                  <img src={v.thumbnail_url} alt={v.title} className="w-full h-full object-cover" />
                  <div className="absolute inset-0 flex items-center justify-center bg-black/30">
-                   <Youtube className="w-10 h-10 text-red-600" />
+                   <PlayCircle className="w-10 h-10 text-white/80" />
                  </div>
               </div>
               <div className="p-4 flex-1 flex flex-col justify-between">

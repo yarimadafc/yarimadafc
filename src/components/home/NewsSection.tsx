@@ -69,7 +69,7 @@ export default function NewsSection() {
           >
             <Link href={`/news/${item.id}`} className="group flex flex-col h-full bg-[#152741] rounded-2xl overflow-hidden hover:transform hover:-translate-y-2 transition-all duration-300 shadow-xl shadow-black/20">
               {/* Image Box */}
-              <div className="relative w-full aspect-[4/3] bg-gray-800 overflow-hidden">
+              <div className="relative w-full aspect-video bg-gray-800 overflow-hidden">
                  {item.image_url && item.image_url !== '/placeholder-news-1.jpg' ? (
                    <img src={item.image_url} alt={item.title_az || item.title} className="absolute inset-0 w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 ease-in-out" />
                  ) : (
@@ -78,7 +78,7 @@ export default function NewsSection() {
               </div>
               
               {/* Content */}
-              <div className="p-6 flex flex-col flex-grow">
+              <div className="p-4 md:p-5 flex flex-col flex-grow">
                 <div className="flex items-center space-x-3 mb-4">
                   <span className="text-[#d7bf7b] font-bold text-[11px] tracking-widest uppercase">
                     {item.category || 'Xəbər'}
@@ -89,7 +89,7 @@ export default function NewsSection() {
                   </span>
                 </div>
                 
-                <h3 className="text-white font-bold text-lg leading-tight mb-6 group-hover:text-[#d7bf7b] transition-colors">
+                <h3 className="text-white font-bold text-sm md:text-base leading-snug line-clamp-2 mb-4 group-hover:text-[#d7bf7b] transition-colors">
                   {item.title_az || item.title}
                 </h3>
                 

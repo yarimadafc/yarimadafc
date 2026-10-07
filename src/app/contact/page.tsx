@@ -31,8 +31,8 @@ export default function ContactPage() {
               </div>
               <div className="flex flex-col">
                 <span className="text-gray-500 font-bold text-xs uppercase tracking-widest mb-1">Telefon</span>
-                <a href="tel:+994551234567" className="text-white font-bold text-xl hover:text-[#d7bf7b] transition-colors">
-                  (+994) 55 123 45 67
+                <a href="tel:0554477467" className="text-white font-bold text-xl hover:text-[#d7bf7b] transition-colors">
+                  055 447 74 67
                 </a>
               </div>
             </div>

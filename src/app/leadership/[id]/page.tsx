@@ -43,9 +43,9 @@ export default function LeadershipDetailPage() {
         <div className="bg-[#152741] rounded-3xl border border-gray-800 overflow-hidden shadow-2xl flex flex-col md:flex-row max-w-5xl mx-auto">
           
           {/* Photo */}
-          <div className="w-full md:w-2/5 xl:w-1/3 h-[400px] md:h-auto relative bg-[#0d1a2d]">
+          <div className="w-full md:w-1/4 xl:w-1/5 h-[300px] md:h-[400px] relative bg-[#0d1a2d] flex-shrink-0 border-r border-gray-800">
             {person.image_url ? (
-              <img src={person.image_url} alt={person.name} className="absolute inset-0 w-full h-full object-cover object-top" />
+              <img src={person.image_url} alt={person.name} className="absolute inset-0 w-full h-full object-contain object-top pt-4 opacity-90" />
             ) : (
               <div className="absolute inset-0 flex items-center justify-center">
                  <svg className="w-24 h-24 text-gray-700" fill="currentColor" viewBox="0 0 20 20"><path fillRule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clipRule="evenodd" /></svg>
@@ -55,13 +55,13 @@ export default function LeadershipDetailPage() {
           </div>
 
           {/* Details */}
-          <div className="w-full md:w-3/5 xl:w-2/3 p-8 md:p-12 relative z-10 -mt-10 md:mt-0">
+          <div className="w-full p-8 md:p-10 relative z-10 -mt-10 md:mt-0">
             <Link href="/club" className="text-gray-500 hover:text-white transition-colors text-[10px] font-bold uppercase tracking-widest mb-6 inline-block flex items-center">
               &larr; Klub Rəhbərliyinə Qayıt
             </Link>
             
-            <h1 className="text-4xl md:text-5xl font-black text-white uppercase tracking-tighter mb-2">{person.name}</h1>
-            <p className="text-[#d7bf7b] font-bold text-lg md:text-xl uppercase tracking-widest mb-8">{person.position}</p>
+            <h1 className="text-3xl md:text-4xl font-black text-white uppercase tracking-tighter mb-2">{person.name}</h1>
+            <p className="text-[#d7bf7b] font-bold text-base md:text-lg uppercase tracking-widest mb-8">{person.position}</p>
 
             <div className="mb-8">
               <h3 className="text-white font-bold uppercase tracking-widest text-sm mb-4">Haqqında</h3>

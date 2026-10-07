@@ -43,9 +43,9 @@ export default function CoachDetailPage() {
         <div className="bg-[#152741] rounded-3xl border border-gray-800 overflow-hidden shadow-2xl flex flex-col md:flex-row">
           
           {/* Coach Photo */}
-          <div className="w-full md:w-1/3 xl:w-1/4 h-[400px] md:h-auto relative bg-[#0d1a2d]">
+          <div className="w-full md:w-1/4 xl:w-1/5 h-[300px] md:h-[400px] relative bg-[#0d1a2d] flex-shrink-0 border-r border-gray-800">
             {coach.image_url ? (
-              <img src={coach.image_url} alt={coach.name} className="absolute inset-0 w-full h-full object-cover" />
+              <img src={coach.image_url} alt={coach.name} className="absolute inset-0 w-full h-full object-contain object-top pt-4 opacity-90" />
             ) : (
               <div className="absolute inset-0 flex items-center justify-center">
                  <svg className="w-24 h-24 text-gray-700" fill="currentColor" viewBox="0 0 20 20"><path fillRule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clipRule="evenodd" /></svg>
@@ -55,18 +55,17 @@ export default function CoachDetailPage() {
           </div>
 
           {/* Coach Details */}
-          <div className="w-full md:w-2/3 xl:w-3/4 p-8 md:p-12 relative z-10 -mt-10 md:mt-0">
+          <div className="w-full p-8 md:p-10 relative z-10 -mt-10 md:mt-0">
             <Link href="/coaches" className="text-gray-500 hover:text-white transition-colors text-[10px] font-bold uppercase tracking-widest mb-6 inline-block flex items-center">
               &larr; Bütün Məşqçilər
             </Link>
             
-            <h1 className="text-4xl md:text-5xl font-black text-white uppercase tracking-tighter mb-2">{coach.name}</h1>
-            <p className="text-[#d7bf7b] font-bold text-lg md:text-xl uppercase tracking-widest mb-8">{coach.role || 'Məşqçi'}</p>
+            <h1 className="text-3xl md:text-4xl font-black text-white uppercase tracking-tighter mb-2">{coach.name}</h1>
+            <p className="text-[#d7bf7b] font-bold text-base md:text-lg uppercase tracking-widest mb-8">{coach.role || 'Məşqçi'}</p>
             
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 mb-8 border-t border-b border-gray-800 py-6">
               <div className="flex flex-col">
-                <span className="text-gray-500 text-[10px] uppercase font-bold tracking-widest mb-1">Lisenziya</span>
-                <span className="text-white font-medium text-lg">{coach.license || 'Məlumat Yoxdur'}</span>
+                
               </div>
               <div className="flex flex-col">
                 <span className="text-gray-500 text-[10px] uppercase font-bold tracking-widest mb-1">Aid Olduğu Komanda</span>

@@ -376,8 +376,13 @@ export default function MatchesAdmin() {
                 </div>
 
                 <div>
-                  <label className="block text-gray-400 text-xs font-bold uppercase mb-2">Komanda Kateqoriyası</label>
-                  <input type="text" value={tournament} onChange={e => setTournament(e.target.value)} placeholder="Məs: U-12" className="w-full bg-[#0d1a2d] border border-gray-700 rounded-lg p-3 text-white" />
+                  <label className="block text-gray-400 text-xs font-bold uppercase mb-2">Komanda Kateqoriyası (Liqa)</label>
+                  <select value={tournament} onChange={e => setTournament(e.target.value)} className="w-full bg-[#0d1a2d] border border-gray-700 rounded-lg p-3 text-white">
+                    <option value="">Seçin...</option>
+                    {teams.map(t => (
+                      <option key={t.id} value={t.name}>{t.name}</option>
+                    ))}
+                  </select>
                 </div>
                 <div>
                   <label className="block text-gray-400 text-xs font-bold uppercase mb-2">Stadion</label>

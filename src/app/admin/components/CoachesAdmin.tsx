@@ -131,7 +131,6 @@ export default function CoachesAdmin() {
         <form onSubmit={handleSave} className="bg-[#152741] p-6 rounded-2xl border border-gray-800 mb-8 grid grid-cols-1 md:grid-cols-2 gap-4">
           <div><label className="block text-gray-400 text-xs font-bold uppercase mb-2">Ad Soyad</label><input type="text" value={name} onChange={e => setName(e.target.value)} className="w-full bg-[#0d1a2d] border border-gray-700 rounded-lg p-3 text-white" required /></div>
           <div><label className="block text-gray-400 text-xs font-bold uppercase mb-2">Vəzifə</label><input type="text" value={role} onChange={e => setRole(e.target.value)} placeholder="Məs: Baş Məşqçi" className="w-full bg-[#0d1a2d] border border-gray-700 rounded-lg p-3 text-white" required /></div>
-          <div><label className="block text-gray-400 text-xs font-bold uppercase mb-2">Lisenziya</label><input type="text" value={license} onChange={e => setLicense(e.target.value)} placeholder="Məs: UEFA B" className="w-full bg-[#0d1a2d] border border-gray-700 rounded-lg p-3 text-white" /></div>
           <div>
             <label className="block text-gray-400 text-xs font-bold uppercase mb-2">Aid Olduğu Komanda</label>
             <select value={teamId} onChange={e => setTeamId(e.target.value)} className="w-full bg-[#0d1a2d] border border-gray-700 rounded-lg p-3 text-white">

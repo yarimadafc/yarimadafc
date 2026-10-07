@@ -57,15 +57,13 @@ export default function Footer() {
           <div className="flex animate-[marquee_25s_linear_infinite] items-center space-x-16 px-8 min-w-max">
             {sponsors.length > 0 ? (
               <>
-                {sponsors.map(s => (
-                  <div key={`s1-${s.id}`} className="text-white text-lg font-black uppercase tracking-widest flex items-center shrink-0">
-                    <img src={s.logo_url} alt={s.name} className="h-10 md:h-14 object-contain grayscale hover:grayscale-0 transition-all duration-300" />
-                  </div>
-                ))}
-                {/* Duplicates for seamless loop */}
-                {sponsors.map(s => (
-                  <div key={`s2-${s.id}`} className="text-white text-lg font-black uppercase tracking-widest flex items-center shrink-0">
-                    <img src={s.logo_url} alt={s.name} className="h-10 md:h-14 object-contain grayscale hover:grayscale-0 transition-all duration-300" />
+                {[...Array(10)].map((_, i) => (
+                  <div key={`s1-group-${i}`} className="flex items-center space-x-16 shrink-0">
+                    {sponsors.map(s => (
+                      <div key={`s1-${i}-${s.id}`} className="text-white text-lg font-black uppercase tracking-widest flex items-center shrink-0">
+                        <img src={s.logo_url} alt={s.name} className="h-10 md:h-14 object-contain grayscale hover:grayscale-0 transition-all duration-300" />
+                      </div>
+                    ))}
                   </div>
                 ))}
               </>

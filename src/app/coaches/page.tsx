@@ -75,10 +75,7 @@ export default function CoachesPage() {
                 </p>
 
                 <div className="flex items-center justify-between pt-4 border-t border-gray-800">
-                  <div className="flex flex-col">
-                    <span className="text-gray-500 text-[10px] font-bold uppercase tracking-widest mb-1">Lisenziya</span>
-                    <span className="text-white text-sm font-bold">{coach.license}</span>
-                  </div>
+                  
                   
                 </div>
               </div>

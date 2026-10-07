@@ -5,6 +5,7 @@ import { Trash2, Plus } from 'lucide-react';
 
 export default function StandingsAdmin() {
   const [standings, setStandings] = useState<any[]>([]);
+  const [teams, setTeams] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [isAdding, setIsAdding] = useState(false);
   const [editingId, setEditingId] = useState<string | null>(null);
@@ -21,7 +22,13 @@ export default function StandingsAdmin() {
 
   useEffect(() => {
     fetchStandings();
+    fetchTeams();
   }, []);
+
+  const fetchTeams = async () => {
+    const { data } = await supabase.from('teams').select('name').order('name', { ascending: true });
+    if (data) setTeams(data);
+  };
 
   const fetchStandings = async () => {
     setLoading(true);
@@ -97,10 +104,16 @@ export default function StandingsAdmin() {
             <div>
               <label className="block text-gray-400 text-xs font-bold uppercase mb-2">Liqa / Kateqoriya</label>
               <select value={tournamentName} onChange={e => setTournamentName(e.target.value)} className="w-full bg-[#0d1a2d] border border-gray-700 rounded-lg p-3 text-white">
-                <option value="U-12">U-12</option>
-                <option value="U-11">U-11</option>
-                <option value="U-10">U-10</option>
-                <option value="U-9">U-9</option>
+                {teams.length > 0 ? teams.map(t => (
+                  <option key={t.name} value={t.name}>{t.name}</option>
+                )) : (
+                  <>
+                    <option value="U-12">U-12</option>
+                    <option value="U-11">U-11</option>
+                    <option value="U-10">U-10</option>
+                    <option value="U-9">U-9</option>
+                  </>
+                )}
               </select>
             </div>
             <div>

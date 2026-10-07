@@ -14,9 +14,16 @@ export default function MatchesAndStandings() {
   const [activeLeague, setActiveLeague] = useState('U-12');
   const [allMatches, setAllMatches] = useState<any[]>([]);
   const [nextMatch, setNextMatch] = useState<any>(null);
+  const [leagues, setLeagues] = useState<string[]>(['U-12', 'U-11', 'U-10', 'U-9']);
 
   useEffect(() => {
     async function fetchData() {
+      const { data: tData } = await supabase.from('teams').select('name').order('name', { ascending: true });
+      if (tData && tData.length > 0) {
+        const names = tData.map(t => t.name);
+        setLeagues(names);
+        setActiveLeague(names[0]);
+      }
       const { data: sData } = await supabase.from('standings').select('*').order('points', { ascending: false });
       if (sData) setStandings(sData);
 
@@ -181,7 +188,7 @@ export default function MatchesAndStandings() {
                 <h2 className="text-3xl font-black text-white uppercase tracking-tight">Turnir Cədvəli</h2>
               </div>
               <div className="flex space-x-2 overflow-x-auto pb-2 md:pb-0 scrollbar-hide">
-                {['U-12', 'U-11', 'U-10', 'U-9'].map(league => (
+                {leagues.map(league => (
                   <button 
                     key={league}
                     onClick={() => {
@@ -213,7 +220,7 @@ export default function MatchesAndStandings() {
                     </tr>
                   </thead>
                   <tbody>
-                    {standings.filter(s => (s.tournament_name || 'U-12') === activeLeague).map((team, idx) => (
+                    {standings.filter(s => (s.tournament_name || leagues[0]) === activeLeague).map((team, idx) => (
                       <tr 
                         key={team.id} 
                         className={`border-t border-gray-800 transition-colors ${team.team_name.includes('Yarımada') ? 'bg-[#d7bf7b]/10' : 'hover:bg-[#1a2e4c]'}`}
@@ -231,7 +238,7 @@ export default function MatchesAndStandings() {
                         <td className="py-4 px-6 text-center text-[#d7bf7b] font-black text-base">{team.points}</td>
                       </tr>
                     ))}
-                    {standings.filter(s => (s.tournament_name || 'U-12') === activeLeague).length === 0 && (
+                    {standings.filter(s => (s.tournament_name || leagues[0]) === activeLeague).length === 0 && (
                       <tr>
                         <td colSpan={6} className="text-center py-10 text-gray-500 font-medium">Cədvəl məlumatı yoxdur.</td>
                       </tr>

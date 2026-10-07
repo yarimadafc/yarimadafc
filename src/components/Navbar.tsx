@@ -100,13 +100,14 @@ export default function Navbar() {
               </div>
             )}
             
-            <span className="text-gray-500 text-[10px] uppercase font-bold tracking-widest border-l border-gray-800 pl-6 hidden xl:block">
-              Gələcəyin Çempionları Burada Yetişir!
-            </span>
+
           </div>
           
           {/* Right: Social, Language */}
-          <div className="flex items-center space-x-6">
+          <div className="hidden lg:flex items-center space-x-6">
+            <span className="text-[#d7bf7b] text-[10px] uppercase font-bold tracking-widest border-r border-gray-800 pr-6">
+              Gələcəyin Çempionları Burada Yetişir!
+            </span>
             <div className="flex items-center space-x-4 text-gray-400">
               <a href="https://www.instagram.com/yarimada_fk/" target="_blank" rel="noopener noreferrer" className="hover:text-[#d7bf7b] transition-colors"><InstagramIcon /></a>
               <a href="https://www.facebook.com/profile.php?id=61590640762611" target="_blank" rel="noopener noreferrer" className="hover:text-[#d7bf7b] transition-colors"><FacebookIcon /></a>

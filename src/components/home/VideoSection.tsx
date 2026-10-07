@@ -1,14 +1,21 @@
 'use client';
 
 import Link from 'next/link';
-import { Play } from 'lucide-react';
-import { motion } from 'framer-motion';
+import { Play, X } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
 import { useEffect, useState } from 'react';
 import { supabase } from '@/lib/supabase';
+
+const getYoutubeId = (url: string) => {
+  const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/;
+  const match = url.match(regExp);
+  return (match && match[2].length === 11) ? match[2] : null;
+};
 
 export default function VideoSection() {
   const [videos, setVideos] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
+  const [activeVideo, setActiveVideo] = useState<any>(null);
 
   useEffect(() => {
     async function loadVideos() {
@@ -27,7 +34,7 @@ export default function VideoSection() {
   const smallVideos = videos.slice(1, 4);
 
   return (
-    <section className="bg-[#0d1a2d] py-20 border-b border-gray-800/50 overflow-hidden">
+    <section className="bg-[#0d1a2d] py-20 border-b border-gray-800/50 overflow-hidden relative">
       <div className="container mx-auto px-4 lg:px-8">
         
         {/* Header */}
@@ -50,9 +57,10 @@ export default function VideoSection() {
             whileInView={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.8, ease: "easeOut" }}
             viewport={{ once: true, margin: "-100px" }}
-            className="flex-grow xl:w-2/3"
+            className="flex-grow xl:w-2/3 cursor-pointer"
+            onClick={() => setActiveVideo(mainVideo)}
           >
-            <a href={mainVideo.url} target="_blank" rel="noopener noreferrer" className="group relative rounded-2xl overflow-hidden block">
+            <div className="group relative rounded-2xl overflow-hidden block">
               <div className="w-full aspect-video bg-gray-800 relative">
                  <img src={mainVideo.thumbnail_url} alt={mainVideo.title} className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
                  
@@ -72,7 +80,7 @@ export default function VideoSection() {
                  {/* Gradient for text readability */}
                  <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent"></div>
               </div>
-            </a>
+            </div>
           </motion.div>
 
           {/* Video List & Button */}
@@ -86,7 +94,7 @@ export default function VideoSection() {
                   transition={{ duration: 0.6, delay: i * 0.2, ease: "easeOut" }}
                   viewport={{ once: true, margin: "-50px" }}
                 >
-                  <a href={video.url} target="_blank" rel="noopener noreferrer" className="group flex space-x-4 pb-6 border-b border-gray-800/50 hover:bg-gray-800/10 rounded-lg transition-colors">
+                  <div onClick={() => setActiveVideo(video)} className="cursor-pointer group flex space-x-4 pb-6 border-b border-gray-800/50 hover:bg-gray-800/10 rounded-lg transition-colors">
                     {/* Thumb */}
                     <div className="w-40 sm:w-48 aspect-video bg-gray-800 rounded-xl relative overflow-hidden flex-shrink-0">
                       <img src={video.thumbnail_url} alt={video.title} className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
@@ -104,7 +112,7 @@ export default function VideoSection() {
                         {new Date(video.published_date || video.created_at).toLocaleDateString('az-AZ')}
                       </span>
                     </div>
-                  </a>
+                  </div>
                 </motion.div>
               ))}
             </div>
@@ -125,6 +133,37 @@ export default function VideoSection() {
 
         </div>
       </div>
+
+      {/* Video Modal Overlay */}
+      <AnimatePresence>
+        {activeVideo && (
+          <motion.div 
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-50 flex items-center justify-center bg-black/95 px-4"
+          >
+            <div className="absolute top-6 right-6">
+              <button 
+                onClick={() => setActiveVideo(null)}
+                className="text-white/70 hover:text-white transition-colors bg-white/10 hover:bg-white/20 p-2 rounded-full"
+              >
+                <X className="w-8 h-8" />
+              </button>
+            </div>
+            <div className="w-full max-w-5xl aspect-video bg-black rounded-2xl overflow-hidden shadow-2xl border border-gray-800">
+              <iframe 
+                src={`https://www.youtube.com/embed/${getYoutubeId(activeVideo.url)}?autoplay=1`} 
+                title={activeVideo.title}
+                className="w-full h-full"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                allowFullScreen
+              ></iframe>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
     </section>
   );
 }

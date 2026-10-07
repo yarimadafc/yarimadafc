@@ -303,9 +303,14 @@ export default function TeamsAdmin() {
                          <span>{p.position || 'Bilinmir'}</span>
                       </div>
                     </div>
-                    <button onClick={() => handleDeletePlayer(p.id)} className="absolute top-2 right-2 text-gray-600 hover:text-red-400">
-                      <Trash2 className="w-4 h-4" />
-                    </button>
+                    <div className="absolute top-2 right-2 flex space-x-2">
+                      <button onClick={() => handleEditPlayer(p)} className="text-gray-600 hover:text-blue-400">
+                        <Edit2 className="w-4 h-4" />
+                      </button>
+                      <button onClick={() => handleDeletePlayer(p.id)} className="text-gray-600 hover:text-red-400">
+                        <Trash2 className="w-4 h-4" />
+                      </button>
+                    </div>
                   </div>
                 ))}
                 {players.length === 0 && !isAddingPlayer && <div className="col-span-full text-center text-gray-500 py-10 bg-[#152741] rounded-2xl border border-gray-800">Bu komandada oyunçu yoxdur.</div>}

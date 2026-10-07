@@ -10,6 +10,8 @@ export default function CoachesAdmin() {
   const [loading, setLoading] = useState(true);
   const [isAdding, setIsAdding] = useState(false);
   const [uploadingImage, setUploadingImage] = useState(false);
+  const [isLeadership, setIsLeadership] = useState(false);
+  const [leadershipIds, setLeadershipIds] = useState<string[]>([]);
   const [editingId, setEditingId] = useState<string | null>(null);
 
   const [name, setName] = useState('');
@@ -41,6 +43,7 @@ export default function CoachesAdmin() {
     setTeamId(c.team_id || '');
     setEditingId(c.id);
     setIsAdding(true);
+    setIsLeadership(leadershipIds.includes(c.id.toString()));
   };
 
   const handleSave = async (e: React.FormEvent) => {
@@ -75,7 +78,7 @@ export default function CoachesAdmin() {
   };
 
   const resetForm = () => {
-    setName(''); setRole(''); setLicense(''); setImageUrl(''); setTeamId('');
+    setName(''); setRole(''); setLicense(''); setImageUrl(''); setTeamId(''); setIsLeadership(false);
   };
 
   return (
@@ -141,7 +144,13 @@ export default function CoachesAdmin() {
               </label>
             )}
           </div>
-          <div className="md:col-span-2 mt-4"><button type="submit" className="w-full bg-[#d7bf7b] text-[#152741] py-3 rounded-lg font-bold text-xs uppercase tracking-widest">Yadda Saxla</button></div>
+          <div className="md:col-span-2 mb-4">
+            <label className="flex items-center space-x-3 cursor-pointer bg-[#0d1a2d] p-4 rounded-lg border border-gray-700 hover:border-[#d7bf7b] transition-colors">
+              <input type="checkbox" checked={isLeadership} onChange={e => setIsLeadership(e.target.checked)} className="w-5 h-5 accent-[#d7bf7b]" />
+              <span className="text-white text-xs font-bold uppercase tracking-widest">Haqqımızda səhifəsində (Rəhbərlik kimi) göstərilsin</span>
+            </label>
+          </div>
+          <div className="md:col-span-2"><button type="submit" className="w-full bg-[#d7bf7b] text-[#152741] py-3 rounded-lg font-bold text-xs uppercase tracking-widest">Yadda Saxla</button></div>
         </form>
       )}
 

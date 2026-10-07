@@ -8,6 +8,7 @@ import { supabase } from '@/lib/supabase';
 export default function ClubPage() {
   const [aboutBg, setAboutBg] = useState<string>('/placeholder-hero.jpg');
   const [clubTexts, setClubTexts] = useState<Record<string, string>>({});
+  const [leadershipCoaches, setLeadershipCoaches] = useState<any[]>([]);
 
   useEffect(() => {
     async function loadAboutImage() {
@@ -15,30 +16,37 @@ export default function ClubPage() {
         const keys = [
           'about_bg', 'club_about_1', 'club_about_2',
           'club_mission', 'club_vision', 'club_values',
-          'leader_1_name', 'leader_1_role', 'leader_1_img',
-          'leader_2_name', 'leader_2_role', 'leader_2_img',
-          'leader_3_name', 'leader_3_role', 'leader_3_img'
+          'leadership_coach_ids'
         ];
         const { data: allData } = await supabase.from('site_images').select('section_key, image_url').in('section_key', keys);
         if (allData) {
           const map: Record<string, string> = {};
-          allData.forEach(item => { map[item.section_key] = item.image_url; });
+          let lsIds: string[] = [];
+          
+          allData.forEach(item => {
+            if (item.section_key === 'leadership_coach_ids') {
+              lsIds = item.image_url.split(',').filter(Boolean);
+            } else {
+              map[item.section_key] = item.image_url;
+            }
+          });
+          
           setClubTexts(map);
           if (map['about_bg']) setAboutBg(map['about_bg']);
+          
+          if (lsIds.length > 0) {
+            const { data: cData } = await supabase.from('coaches').select('*').in('id', lsIds);
+            if (cData) setLeadershipCoaches(cData);
+          }
         }
-        
       } catch (err) {
-        console.error('No about image found');
+        console.error('Failed to load club page data', err);
       }
     }
     loadAboutImage();
   }, []);
 
-  const leadership = [
-    { name: clubTexts['leader_1_name'] || 'Nağı Əliyev', role: clubTexts['leader_1_role'] || 'Klubun Təsisçisi və Rəhbəri', image: clubTexts['leader_1_img'] || '/Logo.JPG.jpeg' },
-    { name: clubTexts['leader_2_name'] || 'Əhməd Məmmədov', role: clubTexts['leader_2_role'] || 'İdman Direktoru', image: clubTexts['leader_2_img'] || '/Logo.JPG.jpeg' },
-    { name: clubTexts['leader_3_name'] || 'Elvin Qasımov', role: clubTexts['leader_3_role'] || 'Baş Koordinator', image: clubTexts['leader_3_img'] || '/Logo.JPG.jpeg' },
-  ];
+  
 
   const values = [
     { title: 'MİSSİYAMIZ', desc: clubTexts['club_mission'] || 'Uşaq və gənclərə sağlam həyat tərzini aşılamaq, onlarda daxili intizam, liderlik və kollektivdə işləmək bacarıqlarını inkişaf etdirmək.' },
@@ -142,21 +150,28 @@ export default function ClubPage() {
         </motion.div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-5xl mx-auto">
-          {leadership.map((person, i) => (
+          {leadershipCoaches.map((person, i) => (
             <motion.div 
-              key={person.name}
+              key={person.id}
               initial={{ opacity: 0, scale: 0.9 }}
               whileInView={{ opacity: 1, scale: 1 }}
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: i * 0.2 }}
-              className="bg-[#152741] rounded-2xl overflow-hidden border border-gray-800 flex flex-col items-center text-center shadow-2xl group"
+              className="bg-[#152741] rounded-2xl overflow-hidden border border-gray-800 flex flex-col items-center text-center shadow-2xl group cursor-pointer"
+              onClick={() => window.location.href = `/coaches/${person.id}`}
             >
               <div className="w-full h-64 bg-[#0a1423] relative overflow-hidden border-b border-gray-800">
-                <Image src={person.image} alt={person.name} fill className="object-cover group-hover:scale-105 transition-transform duration-700 opacity-80" />
+                {person.image_url ? (
+                  <img src={person.image_url} alt={person.name} className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 opacity-80" />
+                ) : (
+                  <div className="absolute inset-0 flex items-center justify-center">
+                    <svg className="w-20 h-20 text-gray-700 relative z-0" fill="currentColor" viewBox="0 0 20 20"><path fillRule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clipRule="evenodd" /></svg>
+                  </div>
+                )}
               </div>
               <div className="p-8 w-full">
                 <h3 className="text-xl font-black text-white uppercase tracking-widest mb-1">{person.name}</h3>
-                <p className="text-[#d7bf7b] font-bold text-xs uppercase tracking-widest">{person.role}</p>
+                <p className="text-[#d7bf7b] font-bold text-xs uppercase tracking-widest">{person.role || 'Məşqçi'}</p>
               </div>
             </motion.div>
           ))}

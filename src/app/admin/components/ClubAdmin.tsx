@@ -1,22 +1,23 @@
 'use client';
 import { useState, useEffect } from 'react';
 import { supabase } from '@/lib/supabase';
+import { UploadCloud } from 'lucide-react';
+import { compressImage } from '@/lib/imageCompress';
 import { Save } from 'lucide-react';
 
 export default function ClubAdmin() {
   const [texts, setTexts] = useState<Record<string, string>>({});
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
+  const [uploadingImage, setUploadingImage] = useState(false);
 
   useEffect(() => {
     async function loadTexts() {
       setLoading(true);
       const keys = [
-        'club_about_1', 'club_about_2',
+        'about_bg', 'club_about_1', 'club_about_2',
         'club_mission', 'club_vision', 'club_values',
-        'leader_1_name', 'leader_1_role', 'leader_1_img',
-        'leader_2_name', 'leader_2_role', 'leader_2_img',
-        'leader_3_name', 'leader_3_role', 'leader_3_img'
+        
       ];
       const { data } = await supabase.from('site_images').select('section_key, image_url').in('section_key', keys);
       
@@ -26,9 +27,7 @@ export default function ClubAdmin() {
         club_mission: 'Uşaq və gənclərə sağlam həyat tərzini aşılamaq, onlarda daxili intizam, liderlik və kollektivdə işləmək bacarıqlarını inkişaf etdirmək.',
         club_vision: 'Azərbaycanın ən böyük və peşəkar uşaq futbol akademiyalarından birinə çevrilərək, milli komandalara və peşəkar klublara davamlı oyunçu yetişdirmək.',
         club_values: 'Hörmət, Dürüstlük, Əzmkarlıq və Sağlam Rəqabət. Biz təkcə yaxşı futbolçu deyil, həm də layiqli vətəndaş yetişdiririk.',
-        leader_1_name: 'Nağı Əliyev', leader_1_role: 'Klubun Təsisçisi və Rəhbəri', leader_1_img: '/Logo.JPG.jpeg',
-        leader_2_name: 'Əhməd Məmmədov', leader_2_role: 'İdman Direktoru', leader_2_img: '/Logo.JPG.jpeg',
-        leader_3_name: 'Elvin Qasımov', leader_3_role: 'Baş Koordinator', leader_3_img: '/Logo.JPG.jpeg',
+        
       };
 
       if (data) {
@@ -71,7 +70,54 @@ export default function ClubAdmin() {
       <div className="space-y-8 max-w-4xl">
         {/* Haqqımızda */}
         <div className="bg-[#152741] p-6 rounded-2xl border border-gray-800 space-y-4">
-          <h3 className="text-[#d7bf7b] font-bold tracking-widest text-sm uppercase mb-4">Haqqımızda Mətnləri</h3>
+          <h3 className="text-[#d7bf7b] font-bold tracking-widest text-sm uppercase mb-4">Haqqımızda Mətnləri və Şəkli</h3>
+          
+          <div className="mb-6">
+            <label className="block text-gray-400 text-xs font-bold uppercase tracking-widest mb-2">Haqqımızda Şəkli (Arxa Plan)</label>
+            {texts['about_bg'] ? (
+              <div className="relative w-full h-40 bg-[#0d1a2d] border border-gray-700 rounded-lg overflow-hidden group mb-2">
+                <img src={texts['about_bg']} alt="Preview" className="w-full h-full object-cover" />
+                <button type="button" onClick={() => { handleChange('about_bg', ''); handleSave('about_bg'); }} className="absolute inset-0 bg-red-500/80 text-white font-bold opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center uppercase tracking-widest">Şəkli Sil</button>
+              </div>
+            ) : (
+              <label className={`w-full flex flex-col items-center justify-center space-y-2 bg-[#0d1a2d] border-2 border-dashed border-gray-700 rounded-lg p-8 cursor-pointer hover:border-[#d7bf7b] transition-colors ${uploadingImage ? 'opacity-50' : ''}`}>
+                <UploadCloud className="w-8 h-8 text-gray-400" />
+                <span className="text-gray-400 text-xs font-bold uppercase tracking-widest">{uploadingImage ? 'YÜKLƏNİR...' : 'CİHAZDAN ŞƏKİL SEÇ'}</span>
+                <input 
+                  type="file" 
+                  accept="image/*" 
+                  className="hidden" 
+                  disabled={uploadingImage}
+                  onChange={async (e) => {
+                    if (e.target.files && e.target.files[0]) {
+                      setUploadingImage(true);
+                      try {
+                        const base64 = await compressImage(e.target.files[0]);
+                        const res = await fetch('/api/upload', {
+                          method: 'POST',
+                          headers: { 'Content-Type': 'application/json' },
+                          body: JSON.stringify({ image: base64 })
+                        });
+                        const data = await res.json();
+                        if (data.url) {
+                          handleChange('about_bg', data.url);
+                          // Auto save immediately
+                          await supabase.from('site_images').select('id').eq('section_key', 'about_bg').single().then(async ({data: existing}) => {
+                            if (existing) await supabase.from('site_images').update({ image_url: data.url }).eq('section_key', 'about_bg');
+                            else await supabase.from('site_images').insert([{ section_key: 'about_bg', image_url: data.url }]);
+                          });
+                          alert('Şəkil uğurla əlavə edildi!');
+                        }
+                      } catch (err) {
+                        alert('Xəta baş verdi');
+                      }
+                      setUploadingImage(false);
+                    }
+                  }} 
+                />
+              </label>
+            )}
+          </div>
           
           <div>
             <label className="block text-gray-400 text-xs font-bold uppercase tracking-widest mb-2">Paraqraf 1</label>
@@ -101,32 +147,6 @@ export default function ClubAdmin() {
                 <textarea value={texts[`club_${key}`]} onChange={e => handleChange(`club_${key}`, e.target.value)} className="flex-1 bg-[#0d1a2d] border border-gray-700 rounded-lg p-3 text-white h-20" />
                 <button onClick={() => handleSave(`club_${key}`)} disabled={saving} className="bg-[#d7bf7b] text-[#152741] px-4 py-3 rounded-lg font-bold uppercase text-xs">Yadda Saxla</button>
               </div>
-            </div>
-          ))}
-        </div>
-
-        {/* Rəhbərlik */}
-        <div className="bg-[#152741] p-6 rounded-2xl border border-gray-800 space-y-8">
-          <h3 className="text-[#d7bf7b] font-bold tracking-widest text-sm uppercase mb-4">Klub Rəhbərliyi</h3>
-          
-          {[1, 2, 3].map((num) => (
-            <div key={num} className="border-b border-gray-800 pb-6 mb-6 last:border-0 last:mb-0 last:pb-0">
-              <h4 className="text-white font-bold mb-4 uppercase text-xs">Rəhbər {num}</h4>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
-                <div>
-                  <label className="block text-gray-400 text-[10px] font-bold uppercase tracking-widest mb-1">Ad Soyad</label>
-                  <input type="text" value={texts[`leader_${num}_name`]} onChange={e => handleChange(`leader_${num}_name`, e.target.value)} className="w-full bg-[#0d1a2d] border border-gray-700 rounded-lg p-3 text-white" />
-                </div>
-                <div>
-                  <label className="block text-gray-400 text-[10px] font-bold uppercase tracking-widest mb-1">Vəzifə</label>
-                  <input type="text" value={texts[`leader_${num}_role`]} onChange={e => handleChange(`leader_${num}_role`, e.target.value)} className="w-full bg-[#0d1a2d] border border-gray-700 rounded-lg p-3 text-white" />
-                </div>
-                <div className="md:col-span-2">
-                  <label className="block text-gray-400 text-[10px] font-bold uppercase tracking-widest mb-1">Şəkil URL</label>
-                  <input type="text" value={texts[`leader_${num}_img`]} onChange={e => handleChange(`leader_${num}_img`, e.target.value)} className="w-full bg-[#0d1a2d] border border-gray-700 rounded-lg p-3 text-white" />
-                </div>
-              </div>
-              <button onClick={() => { handleSave(`leader_${num}_name`); handleSave(`leader_${num}_role`); handleSave(`leader_${num}_img`); }} disabled={saving} className="bg-[#d7bf7b] text-[#152741] px-4 py-2 rounded-lg font-bold uppercase text-[10px]">3-nü Də Yadda Saxla</button>
             </div>
           ))}
         </div>

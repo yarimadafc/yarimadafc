@@ -1,46 +1,8 @@
 const fs = require('fs');
 let content = fs.readFileSync('src/app/club/page.tsx', 'utf-8');
 
-// Add leadershipCoaches state
 content = content.replace(
-  "const [clubTexts, setClubTexts] = useState<Record<string, string>>({});",
-  "const [clubTexts, setClubTexts] = useState<Record<string, string>>({});\n  const [leadershipCoaches, setLeadershipCoaches] = useState<any[]>([]);"
-);
-
-// Fetch leadershipCoaches
-content = content.replace(
-  "const { data: textData } = await supabase.from('site_images').select('section_key, image_url').in('section_key', keys);",
-  `keys.push('leadership_coach_ids');
-      const { data: textData } = await supabase.from('site_images').select('section_key, image_url').in('section_key', keys);
-      
-      let lsIds: string[] = [];`
-);
-
-content = content.replace(
-  "textData.forEach(item => { map[item.section_key] = item.image_url; });",
-  `textData.forEach(item => { 
-          if (item.section_key === 'leadership_coach_ids') {
-            lsIds = item.image_url.split(',').filter(Boolean);
-          } else {
-            map[item.section_key] = item.image_url; 
-          }
-        });
-        
-        if (lsIds.length > 0) {
-          const { data: cData } = await supabase.from('coaches').select('*').in('id', lsIds);
-          if (cData) setLeadershipCoaches(cData);
-        }`
-);
-
-// Remove the `leadership` mapping array calculation inside the render
-content = content.replace(
-  /const leadership = \[\s*\{ name: clubTexts\['leader_1_name'\].*?\s*\];/s,
-  ""
-);
-
-// Replace mapping output
-content = content.replace(
-  /\{leadership\.map\(\(person, i\) => \([\s\S]*?\}\)\}/,
+  /\{leadership\.map\(\(person, i\) => \([\s\S]*?<\/motion\.div>\s*\)\)\}/,
   `{leadershipCoaches.map((person, i) => (
             <motion.div 
               key={person.id}

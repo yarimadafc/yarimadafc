@@ -93,16 +93,16 @@ export default function Navbar() {
             
             {/* Logo */}
             <div className="flex-shrink-0">
-              <Link href="/" onClick={() => { if(window.location.pathname === '/') window.scrollTo({top: 0, behavior: 'smooth'}) }} className="flex items-center group cursor-pointer space-x-2 md:space-x-3 absolute left-1/2 -translate-x-1/2 xl:relative xl:left-auto xl:translate-x-0">
+              <Link href="/" onClick={() => { if(window.location.pathname === '/') window.scrollTo({top: 0, behavior: 'smooth'}) }} className="flex items-center group cursor-pointer space-x-3">
                 <motion.div 
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
-                  className="relative w-12 h-12 md:w-16 md:h-16 rounded-full overflow-hidden border-2 border-[#d7bf7b]"
+                  className="relative w-10 h-10 md:w-16 md:h-16 rounded-full overflow-hidden border-2 border-[#d7bf7b] flex-shrink-0"
                 >
                   <Image src="/Logo.JPG.jpeg" alt="Yarımada FK" fill className="object-cover" />
                 </motion.div>
                 <div className="flex flex-col">
-                   <span className="text-white font-black text-lg md:text-xl tracking-tighter uppercase group-hover:text-[#d7bf7b] transition-colors whitespace-nowrap">Yarımada FK</span>
+                   <span className="text-white font-black text-base md:text-xl tracking-tighter uppercase group-hover:text-[#d7bf7b] transition-colors whitespace-nowrap">Yarımada FK</span>
                 </div>
               </Link>
             </div>

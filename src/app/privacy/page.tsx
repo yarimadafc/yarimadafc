@@ -43,7 +43,7 @@ export default function PrivacyPolicyPage() {
           </p>
           <ul className="list-none space-y-2 text-[#d7bf7b] font-medium">
             <li>E-poçt: info@yarimadafc.com</li>
-            <li>Telefon: 050 467 13 21</li>
+            <li>Telefon: 055 447 74 67</li>
             <li>Ünvan: Kristal Abşeron 1, Xırdalan şəhəri</li>
           </ul>
         </div>

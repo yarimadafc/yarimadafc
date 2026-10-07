@@ -34,10 +34,8 @@ export default function ClubPage() {
           setClubTexts(map);
           if (map['about_bg']) setAboutBg(map['about_bg']);
           
-          if (lsIds.length > 0) {
-            const { data: cData } = await supabase.from('coaches').select('*').in('id', lsIds);
-            if (cData) setLeadershipCoaches(cData);
-          }
+          const { data: lData } = await supabase.from('leadership').select('*').order('order_num', { ascending: true });
+          if (lData) setLeadershipCoaches(lData);
         }
       } catch (err) {
         console.error('Failed to load club page data', err);

@@ -6,6 +6,7 @@ import NewsSection from '@/components/home/NewsSection';
 import MatchesAndStandings from '@/components/home/MatchesAndStandings';
 import QuickLinks from '@/components/home/QuickLinks';
 import VideoSection from '@/components/home/VideoSection';
+import CoachCoursesSection from '@/components/home/CoachCoursesSection';
 import Achievements from '@/components/home/Achievements';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useState, useEffect } from 'react';
@@ -127,9 +128,9 @@ export default function HomePage() {
                    transition={{ duration: 0.8 }}
                    className="text-4xl md:text-5xl lg:text-6xl font-black text-white leading-[1.1] tracking-tight mb-4 drop-shadow-2xl"
                  >
-                   YENİ MÖVSÜM, <br />
+                   {heroTexts.hero_title_1} <br />
                    <span className="text-[#d7bf7b] relative">
-                     YENİ ZƏFƏRLƏR
+                     {heroTexts.hero_title_2}
                      <span className="absolute bottom-1 lg:bottom-2 left-0 w-full h-2 bg-[#d7bf7b]/30 -z-10"></span>
                    </span>
                  </motion.h1>
@@ -139,7 +140,7 @@ export default function HomePage() {
                    transition={{ duration: 0.8, delay: 0.2 }}
                    className="text-base lg:text-lg text-gray-300 mb-8 max-w-xl mx-auto lg:mx-0 font-medium"
                  >
-                   Yarımada Futbol Klubu olaraq gələcəyin çempionlarını yetişdirir, hər bir oyunçumuzun inkişafı üçün peşəkar mühit yaradırıq. Bizimlə birgə zəfərə doğru addımla!
+                   {heroTexts.hero_subtitle}
                  </motion.p>
                  <motion.div 
                    initial={{ opacity: 0, y: 20 }}
@@ -303,7 +304,8 @@ export default function HomePage() {
         {/* 4.5 Oyunlar Təqvimi */}
         
         {/* 5. Yarımada TV */}
-        <VideoSection />
+        <CoachCoursesSection />
+      <VideoSection />
 
         {/* 6. Nailiyyətlər */}
         <Achievements />

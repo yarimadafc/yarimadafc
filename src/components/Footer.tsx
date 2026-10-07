@@ -134,7 +134,7 @@ export default function Footer() {
             <div className="flex flex-col space-y-3">
               <span className="text-[#d7bf7b] font-bold text-xs md:text-sm tracking-widest uppercase">Əlaqə</span>
               <a href="tel:+994504671321" className="text-white font-medium text-sm hover:text-[#d7bf7b] transition-colors flex items-center space-x-2">
-                <span>050 467 13 21</span> <span className="text-gray-500 text-xs">(WhatsApp)</span>
+                <span>055 447 74 67</span> <span className="text-gray-500 text-xs">(WhatsApp)</span>
               </a>
               <a href="mailto:info@yarimadafc.com" className="text-white font-medium text-sm hover:text-[#d7bf7b] transition-colors">
                 info@yarimadafc.com

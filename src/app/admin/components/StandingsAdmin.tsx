@@ -16,6 +16,8 @@ export default function StandingsAdmin() {
   const [drawn, setDrawn] = useState<number>(0);
   const [lost, setLost] = useState<number>(0);
   const [points, setPoints] = useState<number>(0);
+  const [gf, setGf] = useState<number>(0);
+  const [ga, setGa] = useState<number>(0);
 
   useEffect(() => {
     fetchStandings();
@@ -36,6 +38,8 @@ export default function StandingsAdmin() {
     setDrawn(s.drawn);
     setLost(s.lost);
     setPoints(s.points);
+    setGf(s.gf || 0);
+    setGa(s.ga || 0);
     setEditingId(s.id);
     setIsAdding(true);
   };
@@ -44,7 +48,7 @@ export default function StandingsAdmin() {
     e.preventDefault();
     const payload = {
       team_name: teamName,
-      played, won, drawn, lost, points,
+      played, won, drawn, lost, points, gf, ga,
       tournament_name: tournamentName
     };
 
@@ -71,6 +75,8 @@ export default function StandingsAdmin() {
 
   const resetForm = () => {
     setTeamName(''); setPlayed(0); setWon(0); setDrawn(0); setLost(0); setPoints(0);
+    setGf(0);
+    setGa(0);
   };
 
   return (

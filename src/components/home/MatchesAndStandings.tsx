@@ -203,11 +203,13 @@ export default function MatchesAndStandings() {
                   <thead className="bg-[#0d1a2d] text-gray-400 uppercase text-[10px] font-bold tracking-widest">
                     <tr>
                       <th className="py-5 px-6">Komanda</th>
-                      <th className="py-5 px-3 text-center">O</th>
-                      <th className="py-5 px-3 text-center">Q</th>
-                      <th className="py-5 px-3 text-center">H</th>
-                      <th className="py-5 px-3 text-center">M</th>
-                      <th className="py-5 px-6 text-center text-[#d7bf7b]">Xal</th>
+                      <th className="py-5 px-2 text-center" title="Oyun">O</th>
+                      <th className="py-5 px-2 text-center" title="Qələbə">Q</th>
+                      <th className="py-5 px-2 text-center" title="Heç-heçə">H</th>
+                      <th className="py-5 px-2 text-center" title="Məğlubiyyət">M</th>
+                      <th className="py-5 px-2 text-center text-green-400" title="Vurduğu Qol">VQ</th>
+                      <th className="py-5 px-2 text-center text-red-400" title="Buraxdığı Qol">BQ</th>
+                      <th className="py-5 px-4 text-center text-[#d7bf7b]" title="Xal">Xal</th>
                     </tr>
                   </thead>
                   <tbody>

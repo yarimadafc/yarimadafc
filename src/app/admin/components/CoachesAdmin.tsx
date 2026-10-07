@@ -16,6 +16,7 @@ export default function CoachesAdmin() {
 
   const [name, setName] = useState('');
   const [role, setRole] = useState('');
+  const [bio, setBio] = useState('');
   const [license, setLicense] = useState('');
   const [imageUrl, setImageUrl] = useState('');
   const [teamId, setTeamId] = useState('');
@@ -106,7 +107,7 @@ export default function CoachesAdmin() {
   };
 
   const resetForm = () => {
-    setName(''); setRole(''); setLicense(''); setImageUrl(''); setTeamId(''); setIsLeadership(false); setIsLeadership(false);
+    setName(''); setRole(''); setBio(''); setLicense(''); setImageUrl(''); setTeamId(''); setIsLeadership(false); setIsLeadership(false);
   };
 
   return (

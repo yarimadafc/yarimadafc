@@ -1,3 +1,5 @@
+import { compressImage } from "@/lib/imageCompress";
+
 'use client';
 import { useState, useEffect } from 'react';
 import { supabase } from '@/lib/supabase';
@@ -28,21 +30,20 @@ export default function SponsorsAdmin() {
     if (!file) return;
     setIsUploading(true);
     try {
-      const reader = new FileReader();
-      reader.readAsDataURL(file);
-      reader.onload = async () => {
-        const base64 = reader.result as string;
-        const uploadRes = await fetch('/api/upload', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ image: base64 })
-        });
-        const uploadData = await uploadRes.json();
-        if (uploadData.url) setLogoUrl(uploadData.url);
-        setIsUploading(false);
-      };
+      const base64 = await compressImage(file);
+      const uploadRes = await fetch('/api/upload', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ image: base64 })
+      });
+      if (!uploadRes.ok) throw new Error(`Status: ${uploadRes.status}`);
+      const uploadData = await uploadRes.json();
+      if (uploadData.url) setLogoUrl(uploadData.url);
+      else alert('Şəkil yüklənərkən xəta oldu');
+      setIsUploading(false);
     } catch (err) {
       console.error(err);
+      alert('Şəkil yüklənərkən xəta baş verdi');
       setIsUploading(false);
     }
   };

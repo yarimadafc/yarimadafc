@@ -1,3 +1,5 @@
+import { compressImage } from "@/lib/imageCompress";
+
 'use client';
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
@@ -43,39 +45,38 @@ export default function AdminDashboard() {
   const handleUpload = async (sectionId: string, file: File) => {
     setLoadingSection(sectionId);
     try {
-      const reader = new FileReader();
-      reader.readAsDataURL(file);
-      reader.onload = async () => {
-        const base64 = reader.result as string;
+      const base64 = await compressImage(file);
+      const uploadRes = await fetch('/api/upload', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ image: base64 })
+      });
+      
+      if (!uploadRes.ok) {
+        throw new Error(`Upload failed with status ${uploadRes.status}`);
+      }
+      
+      const uploadData = await uploadRes.json();
+      
+      if (uploadData.url) {
+        const { error } = await supabase.from('site_images').upsert({
+          section_key: sectionId,
+          image_url: uploadData.url
+        }, { onConflict: 'section_key' });
 
-        const uploadRes = await fetch('/api/upload', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ image: base64 })
-        });
-        
-        const uploadData = await uploadRes.json();
-        
-        if (uploadData.url) {
-          const { error } = await supabase.from('site_images').upsert({
-            section_key: sectionId,
-            image_url: uploadData.url
-          }, { onConflict: 'section_key' });
-
-          if (!error) {
-            setImages(prev => ({ ...prev, [sectionId]: uploadData.url }));
-            alert('Şəkil uğurla əlavə edildi!');
-          } else {
-            alert('Supabase bazasına yazılarkən xəta: ' + error.message);
-          }
+        if (!error) {
+          setImages(prev => ({ ...prev, [sectionId]: uploadData.url }));
+          alert('Şəkil uğurla əlavə edildi!');
         } else {
-          alert('ImgBB-yə yüklənərkən xəta oldu.');
+          alert('Supabase bazasına yazılarkən xəta: ' + error.message);
         }
-        setLoadingSection(null);
-      };
-    } catch (err) {
+      } else {
+        alert('ImgBB-yə yüklənərkən xəta oldu.');
+      }
+      setLoadingSection(null);
+    } catch (err: any) {
       console.error(err);
-      alert('Gözlənilməz xəta baş verdi.');
+      alert('Gözlənilməz xəta baş verdi: ' + err.message);
       setLoadingSection(null);
     }
   };

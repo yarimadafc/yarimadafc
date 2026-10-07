@@ -1,10 +1,15 @@
-import PageTransition from '@/components/PageTransition';
+'use client';
+import { motion } from 'framer-motion';
 import MatchesAndStandings from '@/components/home/MatchesAndStandings';
 
 export default function Page() {
   return (
-    <PageTransition title="TURNİR CƏDVƏLİ">
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+    >
       <MatchesAndStandings />
-    </PageTransition>
+    </motion.div>
   );
 }

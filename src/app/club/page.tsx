@@ -55,10 +55,10 @@ export default function ClubPage() {
   ];
 
   return (
-    <div className="pt-24 min-h-screen bg-[#0a1423] pb-20">
+    <div className="pt-32 min-h-screen bg-[#0a1423] pb-20">
       
       {/* 1. Page Header */}
-      <div className="w-full bg-[#152741] py-16 md:py-24 border-b border-gray-800 relative overflow-hidden">
+      <div className="w-full bg-[#152741] py-12 md:py-16 border-b border-gray-800 relative overflow-hidden">
         <div 
           className="absolute inset-0 bg-cover bg-center opacity-10"
           style={{ backgroundImage: `url(${aboutBg})` }}
@@ -69,7 +69,7 @@ export default function ClubPage() {
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
-            className="text-4xl md:text-6xl font-black text-white uppercase tracking-tighter mb-4 drop-shadow-lg"
+            className="text-2xl md:text-4xl font-black text-white uppercase tracking-tighter mb-4 drop-shadow-lg"
           >
             Yarımada <span className="text-[#d7bf7b]">FK</span>
           </motion.h1>
@@ -146,7 +146,7 @@ export default function ClubPage() {
           className="text-center mb-16"
         >
           <span className="text-[#d7bf7b] font-bold tracking-widest text-sm uppercase mb-2 block">İdarə Heyəti</span>
-          <h2 className="text-3xl md:text-5xl font-black text-white uppercase tracking-tight">Klub Rəhbərliyi</h2>
+          <h2 className="text-2xl md:text-4xl font-black text-white uppercase tracking-tight">Klub Rəhbərliyi</h2>
         </motion.div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-5xl mx-auto">
@@ -187,7 +187,7 @@ export default function ClubPage() {
           viewport={{ once: true }}
           className="relative z-10"
         >
-          <h2 className="text-3xl md:text-5xl font-black text-white uppercase tracking-tight mb-6">Uğurlarımız & Nailiyyətlər</h2>
+          <h2 className="text-2xl md:text-4xl font-black text-white uppercase tracking-tight mb-6">Uğurlarımız & Nailiyyətlər</h2>
           <p className="text-gray-300 max-w-2xl font-medium leading-relaxed mb-8">
             Kısa zaman ərzində qazandığımız medallar, kuboklar və çempionluqlar klubumuzun inkişafının və məşqçilərimizin zəhmətinin bariz nümunəsidir. Uşaq futbolunda yeni standartlar müəyyən etməkdə davam edirik.
           </p>

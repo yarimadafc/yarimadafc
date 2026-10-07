@@ -44,10 +44,10 @@ export default function TeamDetailPage() {
   
 
   return (
-    <div className="pt-24 min-h-screen bg-[#0a1423] pb-20">
+    <div className="pt-32 min-h-screen bg-[#0a1423] pb-20">
       
       {/* Header Profile */}
-      <div className="w-full bg-[#152741] py-16 md:py-24 border-b border-gray-800 relative overflow-hidden">
+      <div className="w-full bg-[#152741] py-12 md:py-16 border-b border-gray-800 relative overflow-hidden">
         {teamImg ? (
           <div className="absolute inset-0 bg-cover bg-center opacity-30" style={{ backgroundImage: `url(${teamImg})` }}></div>
         ) : (
@@ -65,7 +65,7 @@ export default function TeamDetailPage() {
           <motion.h1 
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            className="text-4xl md:text-6xl font-black text-white uppercase tracking-tighter mb-2"
+            className="text-2xl md:text-4xl font-black text-white uppercase tracking-tighter mb-2"
           >
             {team.name}
           </motion.h1>

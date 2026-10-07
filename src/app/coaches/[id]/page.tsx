@@ -38,7 +38,7 @@ export default function CoachDetailPage() {
   }
 
   return (
-    <div className="pt-24 min-h-screen bg-[#0a1423] pb-20">
+    <div className="pt-32 min-h-screen bg-[#0a1423] pb-20">
       <div className="container mx-auto px-4 lg:px-8 mt-10">
         <div className="bg-[#152741] rounded-3xl border border-gray-800 overflow-hidden shadow-2xl flex flex-col md:flex-row">
           

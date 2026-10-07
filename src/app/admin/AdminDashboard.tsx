@@ -3,7 +3,7 @@
 import { compressImage } from '@/lib/imageCompress';
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import { LogOut, Image as ImageIcon, CheckCircle, UploadCloud, FileText, Video, Trophy, DollarSign, LayoutDashboard, Settings, Trash2 } from 'lucide-react';
+import { LogOut, Image as ImageIcon, CheckCircle, UploadCloud, FileText, Video, Trophy, DollarSign, LayoutDashboard, Settings, Trash2, ShoppingCart } from 'lucide-react';
 import { supabase } from '@/lib/supabase';
 import NewsAdmin from './components/NewsAdmin';
 import VideosAdmin from './components/VideosAdmin';
@@ -15,6 +15,7 @@ import TeamsAdmin from './components/TeamsAdmin';
 import MatchesAdmin from './components/MatchesAdmin';
 import AchievementsAdmin from './components/AchievementsAdmin';
 import SponsorsAdmin from './components/SponsorsAdmin';
+import ShopAdmin from './components/ShopAdmin';
 
 export default function AdminDashboard() {
   const router = useRouter();
@@ -215,6 +216,11 @@ export default function AdminDashboard() {
           <button onClick={() => setActiveTab('sponsors')} className={`flex-shrink-0 px-4 py-2 rounded-lg font-bold text-[10px] uppercase tracking-widest transition-colors ${activeTab === 'sponsors' ? 'bg-[#d7bf7b] text-[#152741]' : 'bg-[#152741] text-gray-400'}`}>Sponsorlar</button>
           <button onClick={() => setActiveTab('standings')} className={`flex-shrink-0 px-4 py-2 rounded-lg font-bold text-[10px] uppercase tracking-widest transition-colors ${activeTab === 'standings' ? 'bg-[#d7bf7b] text-[#152741]' : 'bg-[#152741] text-gray-400'}`}>Turnir Cədvəli</button>
           <button onClick={() => setActiveTab('matches')} className={`flex-shrink-0 px-4 py-2 rounded-lg font-bold text-[10px] uppercase tracking-widest transition-colors ${activeTab === 'matches' ? 'bg-[#d7bf7b] text-[#152741]' : 'bg-[#152741] text-gray-400'}`}>Oyunlar</button>
+          <button onClick={() => setActiveTab('shop')} className={`flex-shrink-0 px-4 py-2 rounded-lg font-bold text-[10px] uppercase tracking-widest transition-colors ${activeTab === 'shop' ? 'bg-[#d7bf7b] text-[#152741]' : 'bg-[#152741] text-gray-400'}`}>Mağaza</button>
+            <button onClick={() => setActiveTab('shop')} className={`w-full flex items-center space-x-3 px-4 py-3 rounded-lg font-bold text-xs uppercase tracking-widest transition-colors ${activeTab === 'shop' ? 'bg-[#d7bf7b] text-[#152741]' : 'text-gray-400 hover:text-white hover:bg-[#0d1a2d]'}`}>
+              <ShoppingCart className="w-4 h-4" />
+              <span>Mağaza</span>
+            </button>
             
         </div>
 
@@ -297,6 +303,7 @@ export default function AdminDashboard() {
         {activeTab === 'sponsors' && <SponsorsAdmin />}
           {activeTab === 'standings' && <StandingsAdmin />}
           {activeTab === 'matches' && <MatchesAdmin />}
+        {activeTab === 'shop' && <ShopAdmin />}
 
       </main>
     </div>

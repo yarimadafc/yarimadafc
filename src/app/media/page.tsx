@@ -1,5 +1,4 @@
 'use client';
-import PageTransition from '@/components/PageTransition';
 import { Play } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { supabase } from '@/lib/supabase';
@@ -26,7 +25,11 @@ export default function Page() {
   }, []);
 
   return (
-    <PageTransition title="MEDİA / VİDEOLAR">
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+    >
       <div className="container mx-auto px-4 lg:px-8 py-10 min-h-screen">
         
         {loading ? (
@@ -83,6 +86,6 @@ export default function Page() {
         )}
 
       </div>
-    </PageTransition>
+    </motion.div>
   );
 }

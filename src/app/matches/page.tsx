@@ -1,5 +1,4 @@
 'use client';
-import PageTransition from '@/components/PageTransition';
 import { motion } from 'framer-motion';
 import { useState, useEffect } from 'react';
 import { supabase } from '@/lib/supabase';
@@ -31,17 +30,21 @@ export default function MatchesPage() {
   const displayMatches = activeTab === 'upcoming' ? upcomingMatches : pastMatches;
 
   return (
-    <PageTransition title="BÜTÜN OYUNLAR">
-      <div className="min-h-screen bg-[#0a1423] pt-24 pb-20">
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+    >
+      <div className="min-h-screen bg-[#0a1423] pt-32 pb-20">
         
-        <div className="w-full bg-[#152741] py-16 md:py-24 border-b border-gray-800 relative overflow-hidden">
+        <div className="w-full bg-[#152741] py-12 md:py-16 border-b border-gray-800 relative overflow-hidden">
           <div className="absolute inset-0 bg-gradient-to-t from-[#0a1423] to-transparent"></div>
           <div className="container mx-auto px-4 lg:px-8 relative z-10 text-center">
             <motion.h1 
               initial={{ opacity: 0, y: -20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8 }}
-              className="text-4xl md:text-6xl font-black text-white uppercase tracking-tighter mb-4 drop-shadow-lg"
+              className="text-2xl md:text-4xl font-black text-white uppercase tracking-tighter mb-4 drop-shadow-lg"
             >
               BÜTÜN <span className="text-[#d7bf7b]">OYUNLAR</span>
             </motion.h1>
@@ -160,6 +163,6 @@ export default function MatchesPage() {
 
         </div>
       </div>
-    </PageTransition>
+    </motion.div>
   );
 }

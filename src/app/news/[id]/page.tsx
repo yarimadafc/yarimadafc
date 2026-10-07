@@ -44,7 +44,7 @@ export default function NewsArticlePage() {
   }
 
   return (
-    <div className="pt-24 min-h-screen bg-[#0a1423] pb-20">
+    <div className="pt-32 min-h-screen bg-[#0a1423] pb-20">
       <div className="container mx-auto px-4 lg:px-8 max-w-4xl">
         
         <Link href="/news" className="text-[#d7bf7b] text-xs font-bold uppercase tracking-widest hover:text-white transition-colors mb-8 inline-flex items-center">
@@ -65,7 +65,7 @@ export default function NewsArticlePage() {
             </div>
           </div>
 
-          <h1 className="text-3xl md:text-5xl font-black text-white leading-tight mb-8">
+          <h1 className="text-2xl md:text-4xl font-black text-white leading-tight mb-8">
             {news.title_az}
           </h1>
 

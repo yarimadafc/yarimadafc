@@ -23,9 +23,9 @@ export default function NewsPage() {
   const filteredNews = activeCategory === 'Bütün' ? news : news.filter(n => n.category === activeCategory);
 
   return (
-    <div className="pt-24 min-h-screen bg-[#0a1423] pb-20">
+    <div className="pt-32 min-h-screen bg-[#0a1423] pb-20">
       {/* Header */}
-      <div className="w-full bg-[#152741] py-16 md:py-24 border-b border-gray-800 relative overflow-hidden">
+      <div className="w-full bg-[#152741] py-12 md:py-16 border-b border-gray-800 relative overflow-hidden">
         <div className="absolute inset-0 bg-cover bg-center opacity-5 blur-sm" style={{ backgroundImage: "url('https://images.unsplash.com/photo-1518605368461-1ee7e1c152d1?auto=format&fit=crop&q=80')" }}></div>
         <div className="absolute inset-0 bg-gradient-to-t from-[#0a1423] to-transparent"></div>
         <div className="container mx-auto px-4 lg:px-8 relative z-10 text-center">
@@ -33,7 +33,7 @@ export default function NewsPage() {
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
-            className="text-4xl md:text-6xl font-black text-white uppercase tracking-tighter mb-4 drop-shadow-lg"
+            className="text-2xl md:text-4xl font-black text-white uppercase tracking-tighter mb-4 drop-shadow-lg"
           >
             KLUB <span className="text-[#d7bf7b]">XƏBƏRLƏRİ</span>
           </motion.h1>

@@ -160,6 +160,7 @@ export default function HomePage() {
               <div className="w-full lg:w-1/3 flex items-center justify-center lg:justify-end z-10 mt-10 lg:mt-0 lg:pl-10 relative">
                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-72 h-72 bg-[#d7bf7b]/20 rounded-full blur-[100px] pointer-events-none"></div>
                
+               {heroMatch ? (
                <motion.div 
                  initial={{ opacity: 0, scale: 0.9 }}
                  animate={{ opacity: 1, scale: 1 }}
@@ -270,6 +271,21 @@ export default function HomePage() {
                    </div>
                  )}
                </motion.div>
+               ) : (
+                 <motion.div 
+                   initial={{ opacity: 0, scale: 0.9 }}
+                   animate={{ opacity: 1, scale: 1 }}
+                   transition={{ duration: 0.8, delay: 0.2 }}
+                   className="w-full max-w-sm relative group cursor-pointer"
+                 >
+                   <div className="absolute -inset-0.5 bg-gradient-to-r from-[#d7bf7b] to-transparent rounded-3xl opacity-30 blur"></div>
+                   <div className="relative bg-[#112240] backdrop-blur-md rounded-2xl p-8 shadow-2xl flex flex-col items-center justify-center text-center h-64 z-10">
+                      <div className="text-[#d7bf7b] text-4xl mb-4">⚽</div>
+                      <h3 className="text-white font-bold uppercase tracking-widest mb-2">Təqvim Boşdur</h3>
+                      <p className="text-gray-500 text-xs">Hazırda təyin olunmuş heç bir oyun yoxdur.</p>
+                   </div>
+                 </motion.div>
+               )}
              </div>
             </div>
           </div>

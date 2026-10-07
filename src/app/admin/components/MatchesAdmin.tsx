@@ -34,6 +34,7 @@ export default function MatchesAdmin() {
   const [timerStartedAt, setTimerStartedAt] = useState<string | null>(null);
   const [elapsedSec, setElapsedSec] = useState<number>(0);
   const [h1, setH1] = useState(45);
+  const [ht, setHt] = useState(15);
   const [h2, setH2] = useState(45);
   const [ex1, setEx1] = useState(0);
   const [ex2, setEx2] = useState(0);
@@ -47,6 +48,29 @@ export default function MatchesAdmin() {
 
   // Real-time minute display for the admin panel
   const [currentDisplayMinute, setCurrentDisplayMinute] = useState<string>('');
+
+  
+  useEffect(() => {
+    if (isAdding && tournament && yarimadaLineup.length === 0) {
+      const matchedTeam = teams.find(t => t.name.toLowerCase() === tournament.toLowerCase());
+      if (matchedTeam) {
+        setSelectedTeamIdForLineup(matchedTeam.id);
+        // Auto fetch players
+        supabase.from('players').select('*').eq('team_id', matchedTeam.id).then(({ data }) => {
+          if (data && yarimadaLineup.length === 0) {
+            setYarimadaLineup(data.map(p => ({
+              id: p.id,
+              name: p.name,
+              number: p.number,
+              position: p.position,
+              is_starting: true, // Defaulting to starting
+              events: []
+            })));
+          }
+        });
+      }
+    }
+  }, [tournament, isAdding, teams]);
 
   useEffect(() => {
     fetchMatches();
@@ -145,6 +169,7 @@ export default function MatchesAdmin() {
     setTimerStartedAt(m.timer_started_at || null);
     setElapsedSec(m.elapsed_seconds || 0);
     setH1(m.half_1_duration || 45);
+    setHt(m.halftime_duration || 15);
     setH2(m.half_2_duration || 45);
     setEx1(m.extra_time_1 || 0);
     setEx2(m.extra_time_2 || 0);
@@ -176,6 +201,7 @@ export default function MatchesAdmin() {
       timer_started_at: timerStartedAt,
       elapsed_seconds: elapsedSec,
       half_1_duration: h1,
+      halftime_duration: ht,
       half_2_duration: h2,
       extra_time_1: ex1,
       extra_time_2: ex2,
@@ -206,7 +232,7 @@ export default function MatchesAdmin() {
     setTournament(''); setHomeTeam(''); setAwayTeam(''); setHomeLogo(''); setAwayLogo('');
     setMatchDate(''); setMatchTime(''); setVenue(''); setHomeScore(''); setAwayScore('');
     setStatus('upcoming'); setIsHero(false); 
-    setTimerStatus('stopped'); setTimerStartedAt(null); setElapsedSec(0); setH1(45); setH2(45); setEx1(0); setEx2(0);
+    setTimerStatus('stopped'); setTimerStartedAt(null); setElapsedSec(0); setH1(45); setHt(15); setH2(45); setEx1(0); setEx2(0);
     setYarimadaLineup([]); setSelectedTeamIdForLineup('');
     setEditingId(null);
   };
@@ -385,21 +411,25 @@ export default function MatchesAdmin() {
                 </div>
               </div>
 
-              <div className="grid grid-cols-2 md:grid-cols-4 gap-4 bg-[#0d1a2d] p-4 rounded-xl border border-gray-800">
+              <div className="grid grid-cols-2 md:grid-cols-5 gap-4 bg-[#0d1a2d] p-4 rounded-xl border border-gray-800">
                 <div>
                   <label className="block text-gray-400 text-[10px] font-bold uppercase mb-2">1-ci hissə (Dəq)</label>
                   <input type="number" value={h1} onChange={e => setH1(Number(e.target.value))} className="w-full bg-[#152741] border border-gray-700 rounded p-2 text-white" />
+                </div>
+                <div>
+                  <label className="block text-gray-400 text-[10px] font-bold uppercase mb-2">Fasilə (Dəq)</label>
+                  <input type="number" value={ht} onChange={e => setHt(Number(e.target.value))} className="w-full bg-[#152741] border border-gray-700 rounded p-2 text-white" />
                 </div>
                 <div>
                   <label className="block text-gray-400 text-[10px] font-bold uppercase mb-2">2-ci hissə (Dəq)</label>
                   <input type="number" value={h2} onChange={e => setH2(Number(e.target.value))} className="w-full bg-[#152741] border border-gray-700 rounded p-2 text-white" />
                 </div>
                 <div>
-                  <label className="block text-gray-400 text-[10px] font-bold uppercase mb-2">1-ci Hissəyə Əlavə</label>
+                  <label className="block text-gray-400 text-[10px] font-bold uppercase mb-2">1-ci hissəyə əlavə</label>
                   <input type="number" value={ex1} onChange={e => setEx1(Number(e.target.value))} className="w-full bg-[#152741] border border-gray-700 rounded p-2 text-white" />
                 </div>
                 <div>
-                  <label className="block text-gray-400 text-[10px] font-bold uppercase mb-2">2-ci Hissəyə Əlavə</label>
+                  <label className="block text-gray-400 text-[10px] font-bold uppercase mb-2">2-ci hissəyə əlavə</label>
                   <input type="number" value={ex2} onChange={e => setEx2(Number(e.target.value))} className="w-full bg-[#152741] border border-gray-700 rounded p-2 text-white" />
                 </div>
               </div>

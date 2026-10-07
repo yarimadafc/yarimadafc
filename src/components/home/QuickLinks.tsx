@@ -23,7 +23,7 @@ export default function QuickLinks() {
   }, []);
 
   const links = [
-    { title: 'Onlayn mağaza', href: '/shop', key: 'quick_shop' },
+    { title: 'Yarımada Shop', href: '/shop', key: 'quick_shop' },
     { title: 'Akademiya', href: '/academy', key: 'quick_academy' },
   ];
 

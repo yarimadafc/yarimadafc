@@ -2,6 +2,7 @@
 import { motion } from 'framer-motion';
 import { useState, useEffect } from 'react';
 import { supabase } from '@/lib/supabase';
+import Link from 'next/link';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 
 export default function ShopPage() {
@@ -85,7 +86,9 @@ export default function ShopPage() {
                   <div className="h-72 bg-[#0d1a2d] relative flex items-center justify-center overflow-hidden">
                     {p.images && p.images.length > 0 ? (
                       <>
-                        <img src={p.images[currentImgIdx]} alt={p.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                        <Link href={`/shop/${p.id}`} className="w-full h-full block">
+                          <img src={p.images[currentImgIdx]} alt={p.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                        </Link>
                         {hasMultipleImages && (
                           <>
                             <button onClick={(e) => prevImage(e, p.id, p.images.length)} className="absolute left-2 top-1/2 -translate-y-1/2 bg-black/50 hover:bg-black/80 text-white p-1.5 rounded-full backdrop-blur-sm opacity-0 group-hover:opacity-100 transition-opacity">
@@ -108,7 +111,7 @@ export default function ShopPage() {
                   </div>
                   
                   <div className="p-6 flex flex-col flex-1 bg-[#152741]">
-                    <h3 className="text-xl font-black text-white uppercase tracking-tighter mb-2 line-clamp-2">{p.title}</h3>
+                    <Link href={`/shop/${p.id}`} className="hover:text-[#d7bf7b] transition-colors"><h3 className="text-xl font-black text-white uppercase tracking-tighter mb-2 line-clamp-2">{p.title}</h3></Link>
                     {p.description && <p className="text-gray-400 text-sm mb-4 line-clamp-3">{p.description}</p>}
                     
                     <div className="mt-auto space-y-4">

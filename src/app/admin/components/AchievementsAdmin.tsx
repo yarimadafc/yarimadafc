@@ -2,6 +2,7 @@
 import { useState, useEffect } from 'react';
 import { supabase } from '@/lib/supabase';
 import { Trash2, Plus } from 'lucide-react';
+import { compressImage } from '@/lib/imageCompress';
 
 export default function AchievementsAdmin() {
   const [achievements, setAchievements] = useState<any[]>([]);
@@ -42,9 +43,12 @@ export default function AchievementsAdmin() {
       if (!e.target.files || e.target.files.length === 0) return;
       setUploadingImage(true);
       const file = e.target.files[0];
-      const formData = new FormData();
-      formData.append('file', file);
-      const res = await fetch('/api/upload', { method: 'POST', body: formData });
+      const base64 = await compressImage(file);
+      const res = await fetch('/api/upload', { 
+        method: 'POST', 
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ image: base64 }) 
+      });
       const data = await res.json();
       if (data.url) setImageUrl(data.url);
     } catch (error) {

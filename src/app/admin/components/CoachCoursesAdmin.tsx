@@ -1,6 +1,7 @@
 'use client';
 import { useState, useEffect } from 'react';
 import { supabase } from '@/lib/supabase';
+import { compressImage } from '@/lib/imageCompress';
 import { Trash2, Plus, Edit2, PlayCircle } from 'lucide-react';
 
 export default function CoachCoursesAdmin() {
@@ -31,9 +32,12 @@ export default function CoachCoursesAdmin() {
       if (!e.target.files || e.target.files.length === 0) return;
       setUploading(true);
       const file = e.target.files[0];
-      const formData = new FormData();
-      formData.append('file', file);
-      const res = await fetch('/api/upload', { method: 'POST', body: formData });
+      const base64 = await compressImage(file);
+      const res = await fetch('/api/upload', { 
+        method: 'POST', 
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ image: base64 }) 
+      });
       const data = await res.json();
       if (data.url) setImageUrl(data.url);
     } catch (error) {

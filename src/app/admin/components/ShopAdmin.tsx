@@ -2,6 +2,7 @@
 import { useState, useEffect } from 'react';
 import { supabase } from '@/lib/supabase';
 import { Trash2, Plus, Edit2, X } from 'lucide-react';
+import { compressImage } from '@/lib/imageCompress';
 
 export default function ShopAdmin() {
   const [products, setProducts] = useState<any[]>([]);
@@ -45,9 +46,12 @@ export default function ShopAdmin() {
       }
       setUploading(true);
       const file = e.target.files[0];
-      const formData = new FormData();
-      formData.append('file', file);
-      const res = await fetch('/api/upload', { method: 'POST', body: formData });
+      const base64 = await compressImage(file);
+      const res = await fetch('/api/upload', { 
+        method: 'POST', 
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ image: base64 })
+      });
       const data = await res.json();
       if (data.url) {
         setImages([...images, data.url]);

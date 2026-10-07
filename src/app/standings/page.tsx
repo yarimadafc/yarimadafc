@@ -9,6 +9,8 @@ export default function StandingsPage() {
   const [leagues, setLeagues] = useState<string[]>([]);
   const [standings, setStandings] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
+  const [activeTab, setActiveTab] = useState("standings");
+  const [results, setResults] = useState<any[]>([]);
 
   useEffect(() => {
     async function loadStandings() {
@@ -25,19 +27,26 @@ export default function StandingsPage() {
       setLoading(false);
     }
     loadStandings();
+
+    async function loadResults() {
+      const { data } = await supabase.from('matches').select('*').eq('status', 'finished').order('date', { ascending: false });
+      if (data) setResults(data);
+    }
+    loadResults();
+
   }, []);
 
   return (
-    <div className="pt-[140px] min-h-screen bg-[#0a0a0a] pb-20">
+    <div className="pt-[140px] min-h-screen bg-bg-main pb-20">
       <div className="container mx-auto px-4 lg:px-8">
         <motion.h1 
           initial={{ opacity: 0, x: -20 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.8 }}
-          className="text-3xl font-bold text-white tracking-tight mb-8 border-b border-[#1f1f1f] pb-4 flex items-center"
+          className="text-3xl font-bold text-text-main tracking-tight mt-12 mb-8 border-b border-bg-border pb-4 flex items-center"
         >
           <div className="relative">
-            <div className="absolute -top-4 left-0 w-8 h-[2px] bg-[#d7bf7b]"></div>
+            <div className="absolute -top-4 left-0 w-8 h-[2px] bg-accent"></div>
             Turnir Cədvəlləri
           </div>
         </motion.h1>
@@ -45,18 +54,14 @@ export default function StandingsPage() {
         <div className="flex flex-col lg:flex-row gap-8 mt-10">
           
           {/* Sidebar */}
-          <div className="w-full lg:w-1/4 flex flex-col space-y-2 border-r border-[#1f1f1f] pr-4">
-             <div className="bg-[#141414] text-white p-4 rounded-lg font-bold flex items-center justify-between cursor-pointer border-l-4 border-[#d7bf7b]">
+          <div className="w-full lg:w-1/4 flex flex-col space-y-2 border-r border-bg-border pr-4">
+             <div onClick={() => setActiveTab('standings')} className={`${activeTab === 'standings' ? 'bg-bg-sec text-text-main border-l-4 border-accent' : 'text-text-sec hover:bg-bg-sec hover:text-text-main'} p-4 rounded-lg font-bold flex items-center justify-between cursor-pointer transition-colors`}>
                <span>Turnir cədvəli</span>
-               <ChevronRight className="w-4 h-4 text-[#d7bf7b]" />
+               {activeTab === 'standings' && <ChevronRight className="w-4 h-4 text-accent" />}
              </div>
-             <div className="text-gray-400 p-4 rounded-lg font-bold hover:bg-[#141414] hover:text-white transition-colors cursor-pointer flex items-center justify-between">
-               <span>Təqvim</span>
-               <ChevronRight className="w-4 h-4" />
-             </div>
-             <div className="text-gray-400 p-4 rounded-lg font-bold hover:bg-[#141414] hover:text-white transition-colors cursor-pointer flex items-center justify-between">
+             <div onClick={() => setActiveTab('results')} className={`${activeTab === 'results' ? 'bg-bg-sec text-text-main border-l-4 border-accent' : 'text-text-sec hover:bg-bg-sec hover:text-text-main'} p-4 rounded-lg font-bold flex items-center justify-between cursor-pointer transition-colors`}>
                <span>Nəticələr</span>
-               <ChevronRight className="w-4 h-4" />
+               {activeTab === 'results' && <ChevronRight className="w-4 h-4 text-accent" />}
              </div>
           </div>
 
@@ -64,24 +69,26 @@ export default function StandingsPage() {
           <div className="w-full lg:w-3/4">
             
             {/* Filter */}
-            <div className="mb-6 flex flex-wrap gap-4 border-b border-[#1f1f1f] pb-4">
+            <div className="mb-6 flex flex-wrap gap-4 border-b border-bg-border pb-4">
               {leagues.map(league => (
                 <button 
                   key={league}
                   onClick={() => setActiveLeague(league)}
-                  className={`text-sm font-bold tracking-widest uppercase transition-colors ${activeLeague === league ? 'text-[#d7bf7b] border-b-2 border-[#d7bf7b] pb-1' : 'text-gray-400 hover:text-white pb-1'}`}
+                  className={`text-sm font-bold tracking-widest uppercase transition-colors ${activeLeague === league ? 'text-accent border-b-2 border-accent pb-1' : 'text-text-sec hover:text-text-main pb-1'}`}
                 >
                   {league}
                 </button>
               ))}
             </div>
 
+            
             {loading ? (
-              <div className="text-center py-20 text-[#d7bf7b] font-medium text-sm">Yüklənir...</div>
-            ) : (
-              <div className="overflow-x-auto bg-[#141414] rounded-xl border border-[#1f1f1f]">
-                <table className="w-full text-left text-sm text-gray-300 min-w-[500px]">
-                  <thead className="bg-[#000000] text-gray-400 uppercase text-[10px] font-bold tracking-widest border-b border-[#1f1f1f]">
+              <div className="text-center py-20 text-accent font-medium text-sm">Yüklənir...</div>
+            ) : activeTab === 'standings' ? (
+
+              <div className="overflow-x-auto bg-bg-sec rounded-xl border border-bg-border">
+                <table className="w-full text-left text-sm text-text-sec min-w-[500px]">
+                  <thead className="bg-bg-deep text-text-sec uppercase text-[10px] font-bold tracking-widest border-b border-bg-border">
                     <tr>
                       <th className="py-5 px-6">Komanda</th>
                       <th className="py-5 px-2 text-center">O</th>
@@ -90,18 +97,18 @@ export default function StandingsPage() {
                       <th className="py-5 px-2 text-center">M</th>
                       <th className="py-5 px-2 text-center text-green-400">VQ</th>
                       <th className="py-5 px-2 text-center text-red-400">BT</th>
-                      <th className="py-5 px-4 text-center text-[#d7bf7b]">Xal</th>
+                      <th className="py-5 px-4 text-center text-accent">Xal</th>
                     </tr>
                   </thead>
                   <tbody className="divide-y divide-[#1f1f1f]">
                     {standings.filter(s => (s.tournament_name || leagues[0]) === activeLeague).map((team, idx) => (
                       <tr 
                         key={team.id} 
-                        className={`transition-colors ${team.team_name.includes('Yarımada') ? 'bg-[#d7bf7b]/5' : 'hover:bg-[#1a1a1a]'}`}
+                        className={`transition-colors ${team.team_name.includes('Yarımada') ? 'bg-accent/5' : 'hover:bg-bg-card'}`}
                       >
                         <td className="py-4 px-6 flex items-center space-x-4">
-                          <span className={`w-5 font-black text-xs ${idx < 3 ? 'text-[#d7bf7b]' : 'text-gray-500'}`}>{idx + 1}</span>
-                          <span className={`font-bold text-xs md:text-sm uppercase tracking-wide ${team.team_name.includes('Yarımada') ? 'text-[#d7bf7b]' : 'text-white'}`}>
+                          <span className={`w-5 font-black text-xs ${idx < 3 ? 'text-accent' : 'text-text-sec'}`}>{idx + 1}</span>
+                          <span className={`font-bold text-xs md:text-sm uppercase tracking-wide ${team.team_name.includes('Yarımada') ? 'text-accent' : 'text-text-main'}`}>
                             {team.team_name}
                           </span>
                         </td>
@@ -111,18 +118,40 @@ export default function StandingsPage() {
                         <td className="py-4 px-3 text-center font-medium">{team.lost}</td>
                         <td className="py-4 px-3 text-center font-medium text-green-400">{team.gf || 0}</td>
                         <td className="py-4 px-3 text-center font-medium text-red-400">{team.ga || 0}</td>
-                        <td className="py-4 px-6 text-center text-[#d7bf7b] font-black text-base">{team.points}</td>
+                        <td className="py-4 px-6 text-center text-accent font-black text-base">{team.points}</td>
                       </tr>
                     ))}
                     {standings.filter(s => (s.tournament_name || leagues[0]) === activeLeague).length === 0 && (
                       <tr>
-                        <td colSpan={8} className="text-center py-10 text-gray-500 font-medium">Bu qrup üçün məlumat yoxdur.</td>
+                        <td colSpan={8} className="text-center py-10 text-text-sec font-medium">Bu qrup üçün məlumat yoxdur.</td>
                       </tr>
                     )}
                   </tbody>
                 </table>
               </div>
+
+            ) : (
+              <div className="space-y-4">
+                {results.filter(r => (r.tournament || leagues[0]) === activeLeague).map(m => (
+                  <div key={m.id} className="bg-bg-sec rounded-xl p-4 border border-bg-border flex items-center justify-between">
+                    <div className="flex flex-col items-center w-1/3">
+                      <span className="text-text-main font-bold text-sm uppercase">{m.home_team}</span>
+                    </div>
+                    <div className="flex flex-col items-center w-1/3">
+                       <span className="text-accent font-black text-xl">{m.home_score} - {m.away_score}</span>
+                       <span className="text-text-sec text-[10px] mt-1">{m.date}</span>
+                    </div>
+                    <div className="flex flex-col items-center w-1/3">
+                      <span className="text-text-main font-bold text-sm uppercase">{m.away_team}</span>
+                    </div>
+                  </div>
+                ))}
+                {results.filter(r => (r.tournament || leagues[0]) === activeLeague).length === 0 && (
+                  <div className="text-center py-20 text-text-sec font-medium">Bu qrup üzrə nəticə tapılmadı.</div>
+                )}
+              </div>
             )}
+
           </div>
 
         </div>

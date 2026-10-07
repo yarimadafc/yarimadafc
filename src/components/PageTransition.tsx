@@ -16,9 +16,9 @@ export default function PageTransition({ children, title }: { children: ReactNod
         initial={{ width: 0 }}
         animate={{ width: 64 }}
         transition={{ duration: 0.8, delay: 0.2 }}
-        className="h-1 bg-[#d7bf7b] mb-6"
+        className="h-1 bg-accent mb-6"
       ></motion.div>
-      <h1 className="text-3xl md:text-4xl font-black text-white uppercase tracking-tighter mb-12">
+      <h1 className="text-3xl md:text-4xl font-black text-text-main uppercase tracking-tighter mb-12">
         {title}
       </h1>
       {children}

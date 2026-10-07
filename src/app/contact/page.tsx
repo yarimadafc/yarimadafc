@@ -17,8 +17,8 @@ export default function ContactPage() {
           className="flex flex-col space-y-12"
         >
           <div className="flex flex-col space-y-6">
-            <h3 className="text-3xl font-black text-white uppercase tracking-tight">Bizimlə Əlaqə Saxlayın</h3>
-            <p className="text-gray-400 font-medium leading-relaxed max-w-md">
+            <h3 className="text-3xl font-black text-text-main uppercase tracking-tight">Bizimlə Əlaqə Saxlayın</h3>
+            <p className="text-text-sec font-medium leading-relaxed max-w-md">
               Sualınız var? Akademiyamıza yazılmaq və ya komandamız haqqında daha çox məlumat almaq istəyirsinizsə, bizimlə əlaqə saxlayın.
             </p>
           </div>
@@ -26,12 +26,12 @@ export default function ContactPage() {
           <div className="flex flex-col space-y-8">
             {/* Phone */}
             <div className="flex items-start space-x-6">
-              <div className="w-14 h-14 bg-[#141414] border border-gray-800 rounded-2xl flex items-center justify-center flex-shrink-0 text-[#d7bf7b]">
+              <div className="w-14 h-14 bg-bg-sec border border-bg-border rounded-2xl flex items-center justify-center flex-shrink-0 text-accent">
                 <Phone className="w-6 h-6" />
               </div>
               <div className="flex flex-col">
-                <span className="text-gray-500 font-bold text-xs uppercase tracking-widest mb-1">Telefon</span>
-                <a href="tel:0554477467" className="text-white font-bold text-xl hover:text-[#d7bf7b] transition-colors">
+                <span className="text-text-sec font-bold text-xs uppercase tracking-widest mb-1">Telefon</span>
+                <a href="tel:0554477467" className="text-text-main font-bold text-xl hover:text-accent transition-colors">
                   055 447 74 67
                 </a>
               </div>
@@ -39,12 +39,12 @@ export default function ContactPage() {
 
             {/* Email */}
             <div className="flex items-start space-x-6">
-              <div className="w-14 h-14 bg-[#141414] border border-gray-800 rounded-2xl flex items-center justify-center flex-shrink-0 text-[#d7bf7b]">
+              <div className="w-14 h-14 bg-bg-sec border border-bg-border rounded-2xl flex items-center justify-center flex-shrink-0 text-accent">
                 <Mail className="w-6 h-6" />
               </div>
               <div className="flex flex-col">
-                <span className="text-gray-500 font-bold text-xs uppercase tracking-widest mb-1">E-poçt</span>
-                <a href="mailto:info@yarimadafc.com" className="text-white font-bold text-xl hover:text-[#d7bf7b] transition-colors">
+                <span className="text-text-sec font-bold text-xs uppercase tracking-widest mb-1">E-poçt</span>
+                <a href="mailto:info@yarimadafc.com" className="text-text-main font-bold text-xl hover:text-accent transition-colors">
                   info@yarimadafc.com
                 </a>
               </div>
@@ -52,12 +52,12 @@ export default function ContactPage() {
 
             {/* Address */}
             <div className="flex items-start space-x-6">
-              <div className="w-14 h-14 bg-[#141414] border border-gray-800 rounded-2xl flex items-center justify-center flex-shrink-0 text-[#d7bf7b]">
+              <div className="w-14 h-14 bg-bg-sec border border-bg-border rounded-2xl flex items-center justify-center flex-shrink-0 text-accent">
                 <MapPin className="w-6 h-6" />
               </div>
               <div className="flex flex-col">
-                <span className="text-gray-500 font-bold text-xs uppercase tracking-widest mb-1">Ünvan</span>
-                <p className="text-white font-medium text-lg leading-relaxed">
+                <span className="text-text-sec font-bold text-xs uppercase tracking-widest mb-1">Ünvan</span>
+                <p className="text-text-main font-medium text-lg leading-relaxed">
                   Kristal Abşeron 1,<br />
                   Xırdalan şəhəri
                 </p>
@@ -71,7 +71,7 @@ export default function ContactPage() {
           initial={{ opacity: 0, x: 50 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.8, delay: 0.4 }}
-          className="bg-[#141414] p-4 md:p-6 rounded-3xl border border-gray-800 shadow-2xl w-full h-[400px] lg:h-auto overflow-hidden relative"
+          className="bg-bg-sec p-4 md:p-6 rounded-3xl border border-bg-border shadow-2xl w-full h-[400px] lg:h-auto overflow-hidden relative"
         >
           <iframe 
             src="https://maps.google.com/maps?q=Kristal+Abşeron+1,Xırdalan&hl=az&z=15&output=embed" 

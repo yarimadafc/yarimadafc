@@ -81,44 +81,44 @@ export default function LeadershipAdmin() {
     setName(''); setPosition(''); setBio(''); setImageUrl(''); setOrderNum(0); setEditingId(null);
   };
 
-  if (loading) return <div className="text-white p-6">Yüklənir...</div>;
+  if (loading) return <div className="text-text-main p-6">Yüklənir...</div>;
 
   return (
     <div className="p-6">
       <div className="flex justify-between items-center mb-8">
-        <h2 className="text-2xl font-bold text-white">Komanda Rəhbərliyi</h2>
+        <h2 className="text-2xl font-bold text-text-main">Komanda Rəhbərliyi</h2>
         <button 
           onClick={() => { resetForm(); setIsAdding(!isAdding); }}
-          className="bg-[#d7bf7b] text-[#141414] px-4 py-2 rounded-lg font-bold flex items-center space-x-2"
+          className="bg-accent text-[#141414] px-4 py-2 rounded-lg font-bold flex items-center space-x-2"
         >
           <Plus className="w-4 h-4" /> <span>{isAdding ? 'Ləğv et' : 'Yeni Şəxs'}</span>
         </button>
       </div>
 
       {isAdding && (
-        <form onSubmit={handleSave} className="bg-[#000000] p-6 rounded-2xl border border-gray-800 mb-8 space-y-4">
+        <form onSubmit={handleSave} className="bg-bg-deep p-6 rounded-2xl border border-bg-border mb-8 space-y-4">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
-              <label className="block text-gray-400 text-xs font-bold uppercase mb-2">Ad Soyad</label>
-              <input type="text" value={name} onChange={e => setName(e.target.value)} className="w-full bg-[#0a0a0a] border border-gray-700 rounded p-3 text-white" required />
+              <label className="block text-text-sec text-xs font-bold uppercase mb-2">Ad Soyad</label>
+              <input type="text" value={name} onChange={e => setName(e.target.value)} className="w-full bg-bg-main border border-bg-border rounded p-3 text-text-main" required />
             </div>
             <div>
-              <label className="block text-gray-400 text-xs font-bold uppercase mb-2">Vəzifə (Məs: Prezident)</label>
-              <input type="text" value={position} onChange={e => setPosition(e.target.value)} className="w-full bg-[#0a0a0a] border border-gray-700 rounded p-3 text-white" required />
+              <label className="block text-text-sec text-xs font-bold uppercase mb-2">Vəzifə (Məs: Prezident)</label>
+              <input type="text" value={position} onChange={e => setPosition(e.target.value)} className="w-full bg-bg-main border border-bg-border rounded p-3 text-text-main" required />
             </div>
             <div className="md:col-span-2">
-              <label className="block text-gray-400 text-xs font-bold uppercase mb-2">Haqqında (İstəyə bağlı)</label>
-              <textarea value={bio} onChange={e => setBio(e.target.value)} rows={3} className="w-full bg-[#0a0a0a] border border-gray-700 rounded p-3 text-white"></textarea>
+              <label className="block text-text-sec text-xs font-bold uppercase mb-2">Haqqında (İstəyə bağlı)</label>
+              <textarea value={bio} onChange={e => setBio(e.target.value)} rows={3} className="w-full bg-bg-main border border-bg-border rounded p-3 text-text-main"></textarea>
             </div>
             <div>
-              <label className="block text-gray-400 text-xs font-bold uppercase mb-2">Sıralama (Məs: 1 öndə)</label>
-              <input type="number" value={orderNum} onChange={e => setOrderNum(Number(e.target.value))} className="w-full bg-[#0a0a0a] border border-gray-700 rounded p-3 text-white" />
+              <label className="block text-text-sec text-xs font-bold uppercase mb-2">Sıralama (Məs: 1 öndə)</label>
+              <input type="number" value={orderNum} onChange={e => setOrderNum(Number(e.target.value))} className="w-full bg-bg-main border border-bg-border rounded p-3 text-text-main" />
             </div>
             <div>
-              <label className="block text-gray-400 text-xs font-bold uppercase mb-2">Şəkil</label>
+              <label className="block text-text-sec text-xs font-bold uppercase mb-2">Şəkil</label>
               <div className="flex items-center space-x-3">
                 {imageUrl && <img src={imageUrl} alt="img" className="w-10 h-10 object-cover rounded" />}
-                <label className="cursor-pointer bg-[#141414] border border-gray-700 px-4 py-2 rounded text-xs font-bold text-white uppercase">
+                <label className="cursor-pointer bg-bg-sec border border-bg-border px-4 py-2 rounded text-xs font-bold text-text-main uppercase">
                   {uploading ? 'Yüklənir...' : 'Seç'}
                   <input type="file" accept="image/*" onChange={handleImageUpload} className="hidden" />
                 </label>
@@ -126,21 +126,21 @@ export default function LeadershipAdmin() {
             </div>
           </div>
           <div className="flex justify-end pt-4">
-            <button type="submit" className="bg-green-600 hover:bg-green-500 text-white px-6 py-2 rounded-lg font-bold">Yadda Saxla</button>
+            <button type="submit" className="bg-green-600 hover:bg-green-500 text-text-main px-6 py-2 rounded-lg font-bold">Yadda Saxla</button>
           </div>
         </form>
       )}
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {leaders.map(L => (
-          <div key={L.id} className="bg-[#000000] p-4 rounded-xl border border-gray-800 flex flex-col items-center text-center">
+          <div key={L.id} className="bg-bg-deep p-4 rounded-xl border border-bg-border flex flex-col items-center text-center">
             {L.image_url ? (
-              <img src={L.image_url} alt={L.name} className="w-24 h-24 rounded-full object-cover mb-4 border-2 border-[#d7bf7b]" />
+              <img src={L.image_url} alt={L.name} className="w-24 h-24 rounded-full object-cover mb-4 border-2 border-accent" />
             ) : (
-              <div className="w-24 h-24 rounded-full bg-[#141414] flex items-center justify-center mb-4 text-3xl">👤</div>
+              <div className="w-24 h-24 rounded-full bg-bg-sec flex items-center justify-center mb-4 text-3xl">👤</div>
             )}
-            <h3 className="text-white font-bold">{L.name}</h3>
-            <p className="text-[#d7bf7b] text-xs font-bold uppercase tracking-widest">{L.position}</p>
+            <h3 className="text-text-main font-bold">{L.name}</h3>
+            <p className="text-accent text-xs font-bold uppercase tracking-widest">{L.position}</p>
             <div className="flex space-x-2 mt-4">
               <button onClick={() => handleEdit(L)} className="p-2 bg-blue-600/20 text-blue-400 rounded-lg"><Edit2 className="w-4 h-4" /></button>
               <button onClick={() => handleDelete(L.id)} className="p-2 bg-red-600/20 text-red-400 rounded-lg"><Trash2 className="w-4 h-4" /></button>

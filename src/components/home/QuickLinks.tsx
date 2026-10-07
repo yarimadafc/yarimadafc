@@ -45,7 +45,7 @@ export default function QuickLinks() {
   };
 
   return (
-    <section className="bg-[#0a0a0a] py-16 border-b border-gray-800/50 overflow-hidden">
+    <section className="bg-bg-main py-16 border-b border-bg-border/50 overflow-hidden">
       <div className="container mx-auto px-4 lg:px-8">
         <motion.div 
           variants={containerVariants}
@@ -58,21 +58,21 @@ export default function QuickLinks() {
             <motion.div key={i} variants={itemVariants}>
               <Link 
                 href={link.href}
-                className="group flex flex-col sm:flex-row bg-[#141414] rounded-2xl overflow-hidden hover:transform hover:-translate-y-1 transition-all duration-300 border border-transparent hover:border-[#d7bf7b]/30 h-full"
+                className="group flex flex-col sm:flex-row bg-bg-sec rounded-2xl overflow-hidden hover:transform hover:-translate-y-1 transition-all duration-300 border border-transparent hover:border-accent/30 h-full"
               >
                 {/* Text Area */}
                 <div className="w-full sm:w-1/2 p-8 flex flex-col justify-between z-10">
-                  <h3 className="text-white font-black text-2xl lg:text-3xl tracking-tight leading-tight drop-shadow-md">
+                  <h3 className="text-text-main font-black text-2xl lg:text-3xl tracking-tight leading-tight drop-shadow-md">
                     {link.title}
                   </h3>
-                  <div className="mt-8 flex items-center space-x-4 text-[#d7bf7b]">
-                    <div className="w-12 h-[2px] bg-[#d7bf7b] group-hover:w-16 transition-all shadow-md"></div>
+                  <div className="mt-8 flex items-center space-x-4 text-accent">
+                    <div className="w-12 h-[2px] bg-accent group-hover:w-16 transition-all shadow-md"></div>
                     <ArrowRight className="w-5 h-5 group-hover:translate-x-2 transition-transform drop-shadow-md" />
                   </div>
                 </div>
 
                 {/* Image Box */}
-                <div className="w-full sm:w-1/2 min-h-[200px] sm:min-h-[250px] bg-[#000000] relative overflow-hidden">
+                <div className="w-full sm:w-1/2 min-h-[200px] sm:min-h-[250px] bg-bg-deep relative overflow-hidden">
                   {images[link.key] ? (
                     <img 
                       src={images[link.key]} 
@@ -85,7 +85,7 @@ export default function QuickLinks() {
                     </div>
                   )}
                   {/* Gradient Overlay for text readability when responsive stack */}
-                  <div className="absolute inset-0 bg-gradient-to-t from-[#141414] via-transparent to-transparent sm:bg-gradient-to-l opacity-80"></div>
+                  <div className="absolute inset-0 bg-gradient-to-t from-bg-sec via-transparent to-transparent sm:bg-gradient-to-l opacity-80"></div>
                 </div>
               </Link>
             </motion.div>

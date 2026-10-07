@@ -34,7 +34,7 @@ export default function VideoSection() {
   const smallVideos = videos.slice(1, 4);
 
   return (
-    <section className="bg-[#0a0a0a] py-20 border-b border-gray-800/50 overflow-hidden relative">
+    <section className="bg-bg-main py-20 border-b border-bg-border/50 overflow-hidden relative">
       <div className="container mx-auto px-4 lg:px-8">
         
         {/* Header */}
@@ -45,8 +45,8 @@ export default function VideoSection() {
           viewport={{ once: true, margin: "-100px" }}
           className="flex flex-col items-start mb-12"
         >
-          <div className="w-8 h-[2px] bg-[#d7bf7b] mb-4"></div>
-          <h2 className="text-4xl font-black text-white tracking-tighter uppercase">VİDEOLAR</h2>
+          <div className="w-8 h-[2px] bg-accent mb-4"></div>
+          <h2 className="text-4xl font-black text-text-main tracking-tighter uppercase">VİDEOLAR</h2>
         </motion.div>
 
         <div className="flex flex-col xl:flex-row gap-6">
@@ -75,13 +75,13 @@ export default function VideoSection() {
                      
                      {/* Play Button Overlay */}
                      <div className="absolute bottom-4 md:bottom-6 lg:bottom-12 left-4 md:left-6 lg:left-12 right-4 flex flex-col items-start z-10">
-                       <div className="w-10 h-10 md:w-14 md:h-14 lg:w-16 lg:h-16 bg-[#d7bf7b] rounded-xl flex items-center justify-center mb-3 md:mb-6 shadow-lg shadow-black/50 group-hover:bg-white transition-colors">
+                       <div className="w-10 h-10 md:w-14 md:h-14 lg:w-16 lg:h-16 bg-accent rounded-xl flex items-center justify-center mb-3 md:mb-6 shadow-lg shadow-black/50 group-hover:bg-text-main hover:text-bg-main transition-colors">
                          <Play className="w-5 h-5 md:w-6 md:h-6 lg:w-8 lg:h-8 text-[#141414] fill-current ml-1" />
                        </div>
-                       <h3 className="text-white font-black text-lg sm:text-xl md:text-2xl lg:text-4xl uppercase tracking-tight leading-tight max-w-2xl group-hover:text-[#d7bf7b] transition-colors drop-shadow-md line-clamp-3">
+                       <h3 className="text-text-main font-black text-lg sm:text-xl md:text-2xl lg:text-4xl uppercase tracking-tight leading-tight max-w-2xl group-hover:text-accent transition-colors drop-shadow-md line-clamp-3">
                          {mainVideo.title}
                        </h3>
-                       <span className="text-gray-300 font-medium text-xs sm:text-sm mt-2 md:mt-4 drop-shadow-md">
+                       <span className="text-text-sec font-medium text-xs sm:text-sm mt-2 md:mt-4 drop-shadow-md">
                          {(new Date(mainVideo.published_date || mainVideo.created_at).getDate().toString().padStart(2, '0') + '.' + (new Date(mainVideo.published_date || mainVideo.created_at).getMonth() + 1).toString().padStart(2, '0') + '.' + new Date(mainVideo.published_date || mainVideo.created_at).getFullYear())}
                        </span>
                      </div>
@@ -105,7 +105,7 @@ export default function VideoSection() {
                   transition={{ duration: 0.6, delay: i * 0.2, ease: "easeOut" }}
                   viewport={{ once: true, margin: "-50px" }}
                 >
-                  <div className="group flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4 pb-6 border-b border-gray-800/50 hover:bg-gray-800/10 rounded-lg transition-colors p-2">
+                  <div className="group flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4 pb-6 border-b border-bg-border/50 hover:bg-gray-800/10 rounded-lg transition-colors p-2">
                     {/* Thumb / Video */}
                     <div className="w-full sm:w-48 aspect-video bg-black rounded-xl relative overflow-hidden flex-shrink-0">
                       {playingId === video.id ? (
@@ -119,7 +119,7 @@ export default function VideoSection() {
                       ) : (
                         <div className="cursor-pointer absolute inset-0 w-full h-full" onClick={() => setPlayingId(video.id)}>
                           <img src={video.thumbnail_url} alt={video.title} className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
-                          <div className="absolute bottom-2 left-2 w-8 h-8 bg-[#d7bf7b] rounded-lg flex items-center justify-center shadow-md group-hover:bg-white transition-colors z-10">
+                          <div className="absolute bottom-2 left-2 w-8 h-8 bg-accent rounded-lg flex items-center justify-center shadow-md group-hover:bg-text-main hover:text-bg-main transition-colors z-10">
                             <Play className="w-4 h-4 text-[#141414] fill-current ml-0.5" />
                           </div>
                         </div>
@@ -128,10 +128,10 @@ export default function VideoSection() {
                     
                     {/* Info */}
                     <div className="flex flex-col justify-center cursor-pointer" onClick={() => { if(playingId !== video.id) setPlayingId(video.id); }}>
-                      <h4 className="text-white font-bold text-sm lg:text-base leading-tight mb-2 group-hover:text-[#d7bf7b] transition-colors uppercase line-clamp-3">
+                      <h4 className="text-text-main font-bold text-sm lg:text-base leading-tight mb-2 group-hover:text-accent transition-colors uppercase line-clamp-3">
                         {video.title}
                       </h4>
-                      <span className="text-gray-500 font-medium text-xs">
+                      <span className="text-text-sec font-medium text-xs">
                         {(new Date(video.published_date || video.created_at).getDate().toString().padStart(2, '0') + '.' + (new Date(video.published_date || video.created_at).getMonth() + 1).toString().padStart(2, '0') + '.' + new Date(video.published_date || video.created_at).getFullYear())}
                       </span>
                     </div>
@@ -148,7 +148,7 @@ export default function VideoSection() {
               viewport={{ once: true }}
               className="mt-8 flex justify-end"
             >
-              <Link href="/media" className="text-white font-bold text-sm tracking-widest border-b-2 border-[#d7bf7b] pb-1 hover:text-[#d7bf7b] transition-colors uppercase">
+              <Link href="/media" className="text-text-main font-bold text-sm tracking-widest border-b-2 border-accent pb-1 hover:text-accent transition-colors uppercase">
                 Bütün videolar
               </Link>
             </motion.div>

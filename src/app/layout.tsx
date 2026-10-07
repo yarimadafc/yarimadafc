@@ -37,7 +37,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="az" className={`${albert.variable} ${alumni.variable} ${jetbrains.variable}`}>
-      <body className="min-h-screen flex flex-col antialiased bg-[#0a0a0a]">
+      <body className="min-h-screen flex flex-col antialiased bg-bg-main">
         <ClientLayout>
           {children}
         </ClientLayout>

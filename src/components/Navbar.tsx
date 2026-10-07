@@ -25,6 +25,14 @@ const TelegramIcon = ({ className }: { className?: string }) => (
   <svg className={className} xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
 );
 
+
+const SunIcon = ({ className }: { className?: string }) => (
+  <svg className={className} xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>
+);
+const MoonIcon = ({ className }: { className?: string }) => (
+  <svg className={className} xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
+);
+
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
@@ -33,6 +41,30 @@ export default function Navbar() {
   const [currentTime, setCurrentTime] = useState('');
   const [currentDate, setCurrentDate] = useState('');
   const [mounted, setMounted] = useState(false);
+
+  const [theme, setTheme] = useState('dark');
+
+  useEffect(() => {
+    const savedTheme = localStorage.getItem('theme') || 'dark';
+    setTheme(savedTheme);
+    if (savedTheme === 'dark') {
+      document.documentElement.classList.add('dark');
+    } else {
+      document.documentElement.classList.remove('dark');
+    }
+  }, []);
+
+  const toggleTheme = () => {
+    const newTheme = theme === 'dark' ? 'light' : 'dark';
+    setTheme(newTheme);
+    localStorage.setItem('theme', newTheme);
+    if (newTheme === 'dark') {
+      document.documentElement.classList.add('dark');
+    } else {
+      document.documentElement.classList.remove('dark');
+    }
+  };
+
 
   useEffect(() => {
     setMounted(true);
@@ -83,20 +115,20 @@ export default function Navbar() {
       className="fixed w-full top-0 z-50 flex flex-col"
     >
       {/* Top Bar */}
-      <div className="bg-[#000000]">
+      <div className="bg-bg-deep">
         <div className="container mx-auto px-4 lg:px-8 h-12 flex items-center justify-between">
           {/* Left: Phone & Slogan */}
           <div className="flex items-center justify-center sm:justify-between w-full lg:w-auto lg:space-x-6">
-            <a href="tel:0554477467" className="hover:text-[#d7bf7b] transition-colors hidden sm:flex items-center text-gray-400 text-sm font-bold tracking-widest">
+            <a href="tel:0554477467" className="hover:text-accent transition-colors hidden sm:flex items-center text-text-sec text-sm font-bold tracking-widest">
               <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="mr-2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>
               055 447 74 67
             </a>
             
             {mounted && currentTime && (
-              <div className="text-[#d7bf7b] text-[10px] sm:text-xs uppercase font-bold tracking-widest sm:border-l border-gray-800 sm:pl-6 flex items-center space-x-2 sm:space-x-3 text-center">
+              <div className="text-accent text-[10px] sm:text-xs uppercase font-bold tracking-widest sm:border-l border-bg-border sm:pl-6 flex items-center space-x-2 sm:space-x-3 text-center">
                 <span>{currentDate}</span>
                 <span className="text-gray-600">|</span>
-                <span className="text-white w-[50px]">{currentTime}</span>
+                <span className="text-text-main w-[50px]">{currentTime}</span>
               </div>
             )}
             
@@ -105,22 +137,22 @@ export default function Navbar() {
           
           {/* Right: Social, Language */}
           <div className="hidden lg:flex items-center space-x-6">
-            <span className="text-[#d7bf7b] text-xs uppercase font-bold tracking-widest border-r border-gray-800 pr-6">
+            <span className="text-accent text-xs uppercase font-bold tracking-widest border-r border-bg-border pr-6">
               Gələcəyin Çempionları Burada Yetişir!
             </span>
-            <div className="flex items-center space-x-5 text-gray-400">
-              <a href="https://www.instagram.com/yarimada_fk/" target="_blank" rel="noopener noreferrer" className="hover:text-[#d7bf7b] transition-colors"><InstagramIcon className="w-5 h-5" /></a>
-              <a href="https://www.facebook.com/profile.php?id=61590640762611" target="_blank" rel="noopener noreferrer" className="hover:text-[#d7bf7b] transition-colors"><FacebookIcon className="w-5 h-5" /></a>
-              <a href="https://www.youtube.com/@yarimada_fk" target="_blank" rel="noopener noreferrer" className="hover:text-[#d7bf7b] transition-colors"><YoutubeIcon className="w-5 h-5" /></a>
-              <a href="https://www.tiktok.com/@yarimadafk" target="_blank" rel="noopener noreferrer" className="hover:text-[#d7bf7b] transition-colors"><TiktokIcon className="w-5 h-5" /></a>
-              <a href="https://t.me/yarimadafk?fbclid=PAZXh0bgNhZW0CMTEAcGRvZgRzcnRjBmFwcF9pZAwyNTYyODEwNDA1NTgAAafK0KsTFGaHEdkdFqPvdB_YUJuYByPtPKvdfmdCKantOLunANZ5C8nrnroI0A_aem_3_m_V6XwTbX1OL0eUZhRoA" target="_blank" rel="noopener noreferrer" className="hover:text-[#d7bf7b] transition-colors"><TelegramIcon className="w-5 h-5" /></a>
+            <div className="flex items-center space-x-5 text-text-sec">
+              <a href="https://www.instagram.com/yarimada_fk/" target="_blank" rel="noopener noreferrer" className="hover:text-accent transition-colors"><InstagramIcon className="w-5 h-5" /></a>
+              <a href="https://www.facebook.com/profile.php?id=61590640762611" target="_blank" rel="noopener noreferrer" className="hover:text-accent transition-colors"><FacebookIcon className="w-5 h-5" /></a>
+              <a href="https://www.youtube.com/@yarimada_fk" target="_blank" rel="noopener noreferrer" className="hover:text-accent transition-colors"><YoutubeIcon className="w-5 h-5" /></a>
+              <a href="https://www.tiktok.com/@yarimadafk" target="_blank" rel="noopener noreferrer" className="hover:text-accent transition-colors"><TiktokIcon className="w-5 h-5" /></a>
+              <a href="https://t.me/yarimadafk?fbclid=PAZXh0bgNhZW0CMTEAcGRvZgRzcnRjBmFwcF9pZAwyNTYyODEwNDA1NTgAAafK0KsTFGaHEdkdFqPvdB_YUJuYByPtPKvdfmdCKantOLunANZ5C8nrnroI0A_aem_3_m_V6XwTbX1OL0eUZhRoA" target="_blank" rel="noopener noreferrer" className="hover:text-accent transition-colors"><TelegramIcon className="w-5 h-5" /></a>
             </div>
           </div>
         </div>
       </div>
 
       {/* Main Navbar */}
-      <div className="bg-[#0a0a0a]/95 backdrop-blur-md border-b border-gray-800 shadow-xl">
+      <div className="bg-bg-main/95 backdrop-blur-md border-b border-bg-border shadow-xl">
         <div className="container mx-auto px-4 lg:px-8">
           <div className="flex items-center justify-between h-20 md:h-24">
             
@@ -130,12 +162,12 @@ export default function Navbar() {
                 <motion.div 
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
-                  className="relative w-10 h-10 md:w-16 md:h-16 rounded-full overflow-hidden border-2 border-[#d7bf7b] flex-shrink-0"
+                  className="relative w-10 h-10 md:w-16 md:h-16 rounded-full overflow-hidden border-2 border-accent flex-shrink-0"
                 >
                   <Image src="/Logo.JPG.jpeg" alt="Yarımada FK" fill className="object-cover" />
                 </motion.div>
                 <div className="flex flex-col">
-                   <span className="text-white font-black text-base md:text-xl tracking-tighter uppercase group-hover:text-[#d7bf7b] transition-colors whitespace-nowrap">Yarımada FK</span>
+                   <span className="text-text-main font-black text-base md:text-xl tracking-tighter uppercase group-hover:text-accent transition-colors whitespace-nowrap">Yarımada FK</span>
                 </div>
               </Link>
             </div>
@@ -151,10 +183,10 @@ export default function Navbar() {
                 >
                   <Link
                     href={item.href} 
-                    className="font-bold text-[12px] 2xl:text-[13px] tracking-widest text-white hover:text-[#d7bf7b] transition-colors relative group"
+                    className="font-bold text-[12px] 2xl:text-[13px] tracking-widest text-text-main hover:text-accent transition-colors relative group"
                   >
                     {item.name}
-                    <span className="absolute -bottom-2 left-0 w-0 h-[2px] bg-[#d7bf7b] transition-all duration-300 group-hover:w-full"></span>
+                    <span className="absolute -bottom-2 left-0 w-0 h-[2px] bg-accent transition-all duration-300 group-hover:w-full"></span>
                   </Link>
                 </motion.div>
               ))}
@@ -164,11 +196,11 @@ export default function Navbar() {
             <div className="hidden lg:flex items-center space-x-4">
               <button 
                 onClick={() => setIsSearchOpen(!isSearchOpen)}
-                className="text-white hover:text-[#d7bf7b] transition-colors p-2"
+                className="text-text-main hover:text-accent transition-colors p-2"
               >
                 {isSearchOpen ? <X className="w-5 h-5" /> : <Search className="w-5 h-5" />}
               </button>
-              <Link href="/contact" className="bg-[#d7bf7b] text-[#141414] hover:bg-white transition-colors font-black text-[11px] tracking-widest px-6 py-2.5 rounded-full uppercase">
+              <Link href="/contact" className="bg-accent text-[#141414] hover:bg-text-main hover:text-bg-main transition-colors font-black text-[11px] tracking-widest px-6 py-2.5 rounded-full uppercase">
                 BİZƏ QOŞUL
               </Link>
             </div>
@@ -177,13 +209,13 @@ export default function Navbar() {
             <div className="xl:hidden flex items-center space-x-3">
               <button 
                 onClick={() => setIsSearchOpen(!isSearchOpen)}
-                className="text-white hover:text-[#d7bf7b] focus:outline-none p-1"
+                className="text-text-main hover:text-accent focus:outline-none p-1"
               >
                 {isSearchOpen ? <X className="w-5 h-5 md:w-6 md:h-6" /> : <Search className="w-5 h-5 md:w-6 md:h-6" />}
               </button>
               <button
                 onClick={() => setIsOpen(!isOpen)}
-                className="text-white hover:text-[#d7bf7b] focus:outline-none p-1"
+                className="text-text-main hover:text-accent focus:outline-none p-1"
               >
                 {isOpen ? <X className="w-7 h-7 md:w-8 md:h-8" /> : <Menu className="w-7 h-7 md:w-8 md:h-8" />}
               </button>
@@ -198,7 +230,7 @@ export default function Navbar() {
               initial={{ height: 0, opacity: 0 }}
               animate={{ height: 'auto', opacity: 1 }}
               exit={{ height: 0, opacity: 0 }}
-              className="w-full bg-[#141414] border-t border-gray-800 overflow-hidden"
+              className="w-full bg-bg-sec border-t border-bg-border overflow-hidden"
             >
               <form onSubmit={handleSearch} className="container mx-auto px-4 lg:px-8 py-4">
                 <div className="relative">
@@ -208,10 +240,10 @@ export default function Navbar() {
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
                     placeholder="Saytda axtarış..." 
-                    className="w-full bg-[#0a0a0a] text-white border border-gray-700 rounded-lg py-3 px-4 pl-12 focus:outline-none focus:border-[#d7bf7b] transition-colors"
+                    className="w-full bg-bg-main text-text-main border border-bg-border rounded-lg py-3 px-4 pl-12 focus:outline-none focus:border-accent transition-colors"
                   />
-                  <Search className="absolute left-4 top-3.5 w-5 h-5 text-gray-400" />
-                  <button type="submit" className="absolute right-2 top-2 bg-[#d7bf7b] text-[#141414] px-4 py-1.5 rounded-md font-bold text-sm hover:bg-white transition-colors">
+                  <Search className="absolute left-4 top-3.5 w-5 h-5 text-text-sec" />
+                  <button type="submit" className="absolute right-2 top-2 bg-accent text-[#141414] px-4 py-1.5 rounded-md font-bold text-sm hover:bg-text-main hover:text-bg-main transition-colors">
                     Axtar
                   </button>
                 </div>
@@ -227,16 +259,16 @@ export default function Navbar() {
               initial={{ height: 0, opacity: 0 }}
               animate={{ height: 'auto', opacity: 1 }}
               exit={{ height: 0, opacity: 0 }}
-              className="xl:hidden bg-[#0a0a0a] border-t border-gray-800 absolute w-full overflow-hidden shadow-2xl max-h-[85vh] overflow-y-auto"
+              className="xl:hidden bg-bg-main border-t border-bg-border absolute w-full overflow-hidden shadow-2xl max-h-[85vh] overflow-y-auto"
             >
               <div className="px-6 py-4 space-y-1">
                 <div className="flex items-center justify-center mb-6 px-2 mt-4">
-                  <div className="flex space-x-6 text-gray-400">
-                    <a href="https://www.instagram.com/yarimada_fk/" target="_blank" rel="noopener noreferrer"><InstagramIcon className="w-6 h-6 hover:text-[#d7bf7b] transition-colors" /></a>
-                    <a href="https://www.facebook.com/profile.php?id=61590640762611" target="_blank" rel="noopener noreferrer"><FacebookIcon className="w-6 h-6 hover:text-[#d7bf7b] transition-colors" /></a>
-                    <a href="https://www.youtube.com/@yarimada_fk" target="_blank" rel="noopener noreferrer"><YoutubeIcon className="w-6 h-6 hover:text-[#d7bf7b] transition-colors" /></a>
-                    <a href="https://www.tiktok.com/@yarimadafk" target="_blank" rel="noopener noreferrer"><TiktokIcon className="w-6 h-6 hover:text-[#d7bf7b] transition-colors" /></a>
-                    <a href="https://t.me/yarimadafk?fbclid=PAZXh0bgNhZW0CMTEAcGRvZgRzcnRjBmFwcF9pZAwyNTYyODEwNDA1NTgAAafK0KsTFGaHEdkdFqPvdB_YUJuYByPtPKvdfmdCKantOLunANZ5C8nrnroI0A_aem_3_m_V6XwTbX1OL0eUZhRoA" target="_blank" rel="noopener noreferrer"><TelegramIcon className="w-6 h-6 hover:text-[#d7bf7b] transition-colors" /></a>
+                  <div className="flex space-x-6 text-text-sec">
+                    <a href="https://www.instagram.com/yarimada_fk/" target="_blank" rel="noopener noreferrer"><InstagramIcon className="w-6 h-6 hover:text-accent transition-colors" /></a>
+                    <a href="https://www.facebook.com/profile.php?id=61590640762611" target="_blank" rel="noopener noreferrer"><FacebookIcon className="w-6 h-6 hover:text-accent transition-colors" /></a>
+                    <a href="https://www.youtube.com/@yarimada_fk" target="_blank" rel="noopener noreferrer"><YoutubeIcon className="w-6 h-6 hover:text-accent transition-colors" /></a>
+                    <a href="https://www.tiktok.com/@yarimadafk" target="_blank" rel="noopener noreferrer"><TiktokIcon className="w-6 h-6 hover:text-accent transition-colors" /></a>
+                    <a href="https://t.me/yarimadafk?fbclid=PAZXh0bgNhZW0CMTEAcGRvZgRzcnRjBmFwcF9pZAwyNTYyODEwNDA1NTgAAafK0KsTFGaHEdkdFqPvdB_YUJuYByPtPKvdfmdCKantOLunANZ5C8nrnroI0A_aem_3_m_V6XwTbX1OL0eUZhRoA" target="_blank" rel="noopener noreferrer"><TelegramIcon className="w-6 h-6 hover:text-accent transition-colors" /></a>
                   </div>
                 </div>
 
@@ -244,7 +276,7 @@ export default function Navbar() {
                   <motion.div key={item.name}>
                     <Link
                       href={item.href} 
-                      className="block py-3.5 font-bold text-sm tracking-widest text-white hover:text-[#d7bf7b] border-b border-gray-800/50 transition-colors"
+                      className="block py-3.5 font-bold text-sm tracking-widest text-text-main hover:text-accent border-b border-bg-border/50 transition-colors"
                       onClick={(e) => { setIsOpen(false); if(item.href === '/' && window.location.pathname === '/') { window.scrollTo({top: 0, behavior: 'smooth'}) } }}
                     >
                       {item.name}
@@ -253,7 +285,7 @@ export default function Navbar() {
                 ))}
                 
                 <div className="pt-6 pb-4 flex">
-                  <Link href="/contact" onClick={() => setIsOpen(false)} className="bg-[#d7bf7b] text-[#141414] w-full text-center hover:bg-white transition-colors font-black text-sm tracking-widest px-6 py-4 rounded-xl uppercase">
+                  <Link href="/contact" onClick={() => setIsOpen(false)} className="bg-accent text-[#141414] w-full text-center hover:bg-text-main hover:text-bg-main transition-colors font-black text-sm tracking-widest px-6 py-4 rounded-xl uppercase">
                     BİZƏ QOŞUL
                   </Link>
                 </div>

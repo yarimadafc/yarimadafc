@@ -6,16 +6,16 @@ export const metadata: Metadata = {
 
 export default function PrivacyPolicyPage() {
   return (
-    <div className="pt-[140px] pb-20 min-h-screen bg-[#000000]">
+    <div className="pt-[140px] pb-20 min-h-screen bg-bg-deep">
       <div className="container mx-auto px-4 lg:px-8 max-w-4xl">
-        <h1 className="text-4xl md:text-5xl font-black text-white uppercase tracking-tight mb-8">Məxfilik Siyasəti</h1>
+        <h1 className="text-4xl md:text-5xl font-black text-text-main uppercase tracking-tight mb-8">Məxfilik Siyasəti</h1>
         
-        <div className="prose prose-invert max-w-none text-gray-300 space-y-6">
+        <div className="prose prose-invert max-w-none text-text-sec space-y-6">
           <p className="text-lg font-medium text-gray-200">
             Yarımada Futbol Klubu olaraq məxfiliyinizə hörmətlə yanaşır və şəxsi məlumatlarınızı qorumağa sadiqik. Bu səhifə, veb saytımızdan istifadə edərkən hansı məlumatların toplandığını və necə istifadə edildiyini izah edir.
           </p>
 
-          <h2 className="text-2xl font-black text-white uppercase mt-12 mb-4">1. Toplanan Məlumatlar</h2>
+          <h2 className="text-2xl font-black text-text-main uppercase mt-12 mb-4">1. Toplanan Məlumatlar</h2>
           <p>
             Veb saytımıza daxil olduğunuzda aşağıdakı məlumatlar toplana bilər:
           </p>
@@ -24,7 +24,7 @@ export default function PrivacyPolicyPage() {
             <li><strong>Texniki Məlumatlar:</strong> İP ünvanınız, brauzer növü, cihaz məlumatları və saytda keçirdiyiniz vaxt (analitik məqsədlər üçün).</li>
           </ul>
 
-          <h2 className="text-2xl font-black text-white uppercase mt-12 mb-4">2. Məlumatların İstifadəsi</h2>
+          <h2 className="text-2xl font-black text-text-main uppercase mt-12 mb-4">2. Məlumatların İstifadəsi</h2>
           <p>Topladığımız məlumatlar aşağıdakı məqsədlər üçün istifadə olunur:</p>
           <ul className="list-disc pl-5 space-y-2">
             <li>Sizinlə əlaqə saxlamaq və qeydiyyat sorğularınızı cavablandırmaq.</li>
@@ -32,16 +32,16 @@ export default function PrivacyPolicyPage() {
             <li>Klubumuz haqqında önəmli xəbərlər və yeniliklər barədə məlumat vermək (əgər abunə olmusunuzsa).</li>
           </ul>
 
-          <h2 className="text-2xl font-black text-white uppercase mt-12 mb-4">3. Məlumatların Qorunması</h2>
+          <h2 className="text-2xl font-black text-text-main uppercase mt-12 mb-4">3. Məlumatların Qorunması</h2>
           <p>
             Şəxsi məlumatlarınızın təhlükəsizliyini təmin etmək üçün müasir təhlükəsizlik tədbirləri tətbiq edirik. Məlumatlarınız heç bir halda üçüncü tərəflərə satılmır və qanunla tələb olunmayan hallarda paylaşılmır.
           </p>
 
-          <h2 className="text-2xl font-black text-white uppercase mt-12 mb-4">4. Əlaqə</h2>
+          <h2 className="text-2xl font-black text-text-main uppercase mt-12 mb-4">4. Əlaqə</h2>
           <p>
             Məxfilik siyasətimizlə bağlı hər hansı sualınız olarsa, bizimlə əlaqə saxlaya bilərsiniz:
           </p>
-          <ul className="list-none space-y-2 text-[#d7bf7b] font-medium">
+          <ul className="list-none space-y-2 text-accent font-medium">
             <li>E-poçt: info@yarimadafc.com</li>
             <li>Telefon: 055 447 74 67</li>
             <li>Ünvan: Kristal Abşeron 1, Xırdalan şəhəri</li>

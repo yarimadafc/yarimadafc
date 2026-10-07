@@ -54,29 +54,29 @@ export default function ClubPage() {
   ];
 
   return (
-    <div className="pt-[140px] min-h-screen bg-[#000000] pb-20">
+    <div className="pt-[140px] min-h-screen bg-bg-deep pb-20">
       
       {/* 1. Page Header */}
-      <div className="w-full bg-[#141414] py-12 md:py-16 border-b border-gray-800 relative overflow-hidden">
+      <div className="w-full bg-bg-sec py-12 md:py-16 border-b border-bg-border relative overflow-hidden">
         <div 
           className="absolute inset-0 bg-cover bg-center opacity-10"
           style={{ backgroundImage: `url(${aboutBg})` }}
         ></div>
-        <div className="absolute inset-0 bg-gradient-to-t from-[#000000] to-transparent"></div>
+        <div className="absolute inset-0 bg-gradient-to-t from-bg-deep to-transparent"></div>
         <div className="container mx-auto px-4 lg:px-8 relative z-10 text-center">
           <motion.h1 
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
-            className="text-2xl md:text-4xl font-black text-white uppercase tracking-tighter mb-4 drop-shadow-lg"
+            className="text-2xl md:text-4xl font-black text-text-main uppercase tracking-tighter mb-4 drop-shadow-lg"
           >
-            Yarımada <span className="text-[#d7bf7b]">FK</span>
+            Yarımada <span className="text-accent">FK</span>
           </motion.h1>
           <motion.div 
             initial={{ width: 0 }}
             animate={{ width: 64 }}
             transition={{ duration: 0.8, delay: 0.3 }}
-            className="h-1 bg-[#d7bf7b] mx-auto"
+            className="h-1 bg-accent mx-auto"
           ></motion.div>
         </div>
       </div>
@@ -91,14 +91,14 @@ export default function ClubPage() {
             transition={{ duration: 0.8 }}
             className="space-y-6"
           >
-            <span className="text-[#d7bf7b] font-bold tracking-widest text-sm uppercase">Haqqımızda</span>
-            <h2 className="text-3xl md:text-4xl font-black text-white uppercase tracking-tight leading-tight">
+            <span className="text-accent font-bold tracking-widest text-sm uppercase">Haqqımızda</span>
+            <h2 className="text-3xl md:text-4xl font-black text-text-main uppercase tracking-tight leading-tight">
               Gələcəyin Çempionları <br /> Burada Yetişir
             </h2>
-            <p className="text-gray-400 leading-relaxed font-medium">
+            <p className="text-text-sec leading-relaxed font-medium">
               {clubTexts['club_about_1'] || 'Yarımada Futbol Klubu uşaq və gənclər futbolunun inkişafı, onlarda idmana sevgi yaratmaq məqsədilə təsis edilmişdir. Yarandığı gündən etibarən klubumuz qısa zamanda böyük uğurlara imza atmış və bir çox istedadlı gəncləri üzə çıxarmışdır.'}
             </p>
-            <p className="text-gray-400 leading-relaxed font-medium">
+            <p className="text-text-sec leading-relaxed font-medium">
               {clubTexts['club_about_2'] || 'Bizim üçün hər bir uşaq gələcəyin ulduzudur. Mütəxəssis məşqçilərimiz tərəfindən tətbiq olunan xüsusi inkişaf proqramları ilə futbolçularımızın həm fiziki, həm də psixoloji cəhətdən tam hazırlıqlı olmasını təmin edirik.'}
             </p>
           </motion.div>
@@ -107,7 +107,7 @@ export default function ClubPage() {
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.8 }}
-            className="relative h-[400px] md:h-[500px] w-full rounded-2xl overflow-hidden border border-gray-800 shadow-2xl"
+            className="relative h-[400px] md:h-[500px] w-full rounded-2xl overflow-hidden border border-bg-border shadow-2xl"
           >
             <img src={aboutBg} alt="Klub Şəkli" className="absolute inset-0 w-full h-full object-cover" />
           </motion.div>
@@ -124,13 +124,13 @@ export default function ClubPage() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.6, delay: i * 0.2 }}
-              className="bg-[#141414] p-8 rounded-2xl border border-gray-800 hover:border-[#d7bf7b]/50 transition-colors shadow-xl group"
+              className="bg-bg-sec p-8 rounded-2xl border border-bg-border hover:border-accent/50 transition-colors shadow-xl group"
             >
-              <div className="w-12 h-12 rounded-xl bg-[#000000] border border-[#d7bf7b]/30 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
-                <div className="w-4 h-4 bg-[#d7bf7b] rounded-sm transform rotate-45"></div>
+              <div className="w-12 h-12 rounded-xl bg-bg-deep border border-accent/30 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+                <div className="w-4 h-4 bg-accent rounded-sm transform rotate-45"></div>
               </div>
-              <h3 className="text-xl font-black text-white uppercase tracking-widest mb-4">{v.title}</h3>
-              <p className="text-gray-400 leading-relaxed text-sm">{v.desc}</p>
+              <h3 className="text-xl font-black text-text-main uppercase tracking-widest mb-4">{v.title}</h3>
+              <p className="text-text-sec leading-relaxed text-sm">{v.desc}</p>
             </motion.div>
           ))}
         </div>
@@ -144,8 +144,8 @@ export default function ClubPage() {
           viewport={{ once: true }}
           className="text-center mb-16"
         >
-          <span className="text-[#d7bf7b] font-bold tracking-widest text-sm uppercase mb-2 block">İdarə Heyəti</span>
-          <h2 className="text-2xl md:text-4xl font-black text-white uppercase tracking-tight">Klub Rəhbərliyi</h2>
+          <span className="text-accent font-bold tracking-widest text-sm uppercase mb-2 block">İdarə Heyəti</span>
+          <h2 className="text-2xl md:text-4xl font-black text-text-main uppercase tracking-tight">Klub Rəhbərliyi</h2>
         </motion.div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-5xl mx-auto">
@@ -157,8 +157,8 @@ export default function ClubPage() {
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: i * 0.2 }}
             >
-              <Link href={`/leadership/${person.id}`} className="bg-[#141414] rounded-2xl overflow-hidden border border-gray-800 flex flex-col items-center text-center shadow-2xl group h-full block hover:border-[#d7bf7b] transition-colors">
-                <div className="w-full h-64 bg-[#000000] relative overflow-hidden border-b border-gray-800">
+              <Link href={`/leadership/${person.id}`} className="bg-bg-sec rounded-2xl overflow-hidden border border-bg-border flex flex-col items-center text-center shadow-2xl group h-full block hover:border-accent transition-colors">
+                <div className="w-full h-64 bg-bg-deep relative overflow-hidden border-b border-bg-border">
                   {person.image_url ? (
                     <img src={person.image_url} alt={person.name} className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 opacity-80 object-top" />
                   ) : (
@@ -168,9 +168,9 @@ export default function ClubPage() {
                   )}
                 </div>
                 <div className="p-8 w-full flex-grow flex flex-col">
-                  <h3 className="text-xl font-black text-white uppercase tracking-widest mb-1 group-hover:text-[#d7bf7b] transition-colors">{person.name}</h3>
-                  <p className="text-[#d7bf7b] font-bold text-xs uppercase tracking-widest mb-4">{person.position}</p>
-                  {person.bio && <p className="text-gray-400 text-xs leading-relaxed text-justify mt-auto line-clamp-3">{person.bio}</p>}
+                  <h3 className="text-xl font-black text-text-main uppercase tracking-widest mb-1 group-hover:text-accent transition-colors">{person.name}</h3>
+                  <p className="text-accent font-bold text-xs uppercase tracking-widest mb-4">{person.position}</p>
+                  {person.bio && <p className="text-text-sec text-xs leading-relaxed text-justify mt-auto line-clamp-3">{person.bio}</p>}
                 </div>
               </Link>
             </motion.div>
@@ -179,34 +179,34 @@ export default function ClubPage() {
       </div>
 
       {/* 5. Nailiyyətlər (Achievements module reused or custom) */}
-      <div className="container mx-auto px-4 lg:px-8 mt-32 bg-[#111111] rounded-3xl p-8 md:p-16 border border-[#d7bf7b]/20 relative overflow-hidden">
-        <div className="absolute -right-20 -top-20 w-64 h-64 bg-[#d7bf7b]/5 rounded-full blur-3xl"></div>
+      <div className="container mx-auto px-4 lg:px-8 mt-32 bg-bg-card rounded-3xl p-8 md:p-16 border border-accent/20 relative overflow-hidden">
+        <div className="absolute -right-20 -top-20 w-64 h-64 bg-accent/5 rounded-full blur-3xl"></div>
         <motion.div 
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           className="relative z-10"
         >
-          <h2 className="text-2xl md:text-4xl font-black text-white uppercase tracking-tight mb-6">Uğurlarımız & Nailiyyətlər</h2>
-          <p className="text-gray-300 max-w-2xl font-medium leading-relaxed mb-8">
+          <h2 className="text-2xl md:text-4xl font-black text-text-main uppercase tracking-tight mb-6">Uğurlarımız & Nailiyyətlər</h2>
+          <p className="text-text-sec max-w-2xl font-medium leading-relaxed mb-8">
             Kısa zaman ərzində qazandığımız medallar, kuboklar və çempionluqlar klubumuzun inkişafının və məşqçilərimizin zəhmətinin bariz nümunəsidir. Uşaq futbolunda yeni standartlar müəyyən etməkdə davam edirik.
           </p>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
-            <div className="bg-[#000000] border border-gray-800 p-6 rounded-xl text-center">
-              <div className="text-4xl font-black text-[#d7bf7b] mb-2">15+</div>
-              <div className="text-gray-400 text-xs font-bold uppercase tracking-widest">Kubok</div>
+            <div className="bg-bg-deep border border-bg-border p-6 rounded-xl text-center">
+              <div className="text-4xl font-black text-accent mb-2">15+</div>
+              <div className="text-text-sec text-xs font-bold uppercase tracking-widest">Kubok</div>
             </div>
-            <div className="bg-[#000000] border border-gray-800 p-6 rounded-xl text-center">
-              <div className="text-4xl font-black text-[#d7bf7b] mb-2">200+</div>
-              <div className="text-gray-400 text-xs font-bold uppercase tracking-widest">Oyunçu</div>
+            <div className="bg-bg-deep border border-bg-border p-6 rounded-xl text-center">
+              <div className="text-4xl font-black text-accent mb-2">200+</div>
+              <div className="text-text-sec text-xs font-bold uppercase tracking-widest">Oyunçu</div>
             </div>
-            <div className="bg-[#000000] border border-gray-800 p-6 rounded-xl text-center">
-              <div className="text-4xl font-black text-[#d7bf7b] mb-2">5</div>
-              <div className="text-gray-400 text-xs font-bold uppercase tracking-widest">Yaş Qrupu</div>
+            <div className="bg-bg-deep border border-bg-border p-6 rounded-xl text-center">
+              <div className="text-4xl font-black text-accent mb-2">5</div>
+              <div className="text-text-sec text-xs font-bold uppercase tracking-widest">Yaş Qrupu</div>
             </div>
-            <div className="bg-[#000000] border border-gray-800 p-6 rounded-xl text-center">
-              <div className="text-4xl font-black text-[#d7bf7b] mb-2">8+</div>
-              <div className="text-gray-400 text-xs font-bold uppercase tracking-widest">Məşqçi</div>
+            <div className="bg-bg-deep border border-bg-border p-6 rounded-xl text-center">
+              <div className="text-4xl font-black text-accent mb-2">8+</div>
+              <div className="text-text-sec text-xs font-bold uppercase tracking-widest">Məşqçi</div>
             </div>
           </div>
         </motion.div>

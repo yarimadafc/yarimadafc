@@ -22,28 +22,28 @@ export default function LeadershipDetailPage() {
 
   if (loading) {
     return (
-      <div className="pt-[140px] min-h-screen bg-[#000000] pb-20 flex justify-center">
-        <div className="text-[#d7bf7b] font-bold tracking-widest uppercase animate-pulse">Yüklənir...</div>
+      <div className="pt-[140px] min-h-screen bg-bg-deep pb-20 flex justify-center">
+        <div className="text-accent font-bold tracking-widest uppercase animate-pulse">Yüklənir...</div>
       </div>
     );
   }
 
   if (!person) {
     return (
-      <div className="pt-[140px] min-h-screen bg-[#000000] pb-20 flex flex-col items-center justify-center">
+      <div className="pt-[140px] min-h-screen bg-bg-deep pb-20 flex flex-col items-center justify-center">
         <div className="text-red-400 font-bold tracking-widest uppercase mb-4">Şəxs tapılmadı</div>
-        <Link href="/club" className="text-[#d7bf7b] hover:underline">Haqqımızda səhifəsinə qayıt</Link>
+        <Link href="/club" className="text-accent hover:underline">Haqqımızda səhifəsinə qayıt</Link>
       </div>
     );
   }
 
   return (
-    <div className="pt-[140px] min-h-screen bg-[#000000] pb-20">
+    <div className="pt-[140px] min-h-screen bg-bg-deep pb-20">
       <div className="container mx-auto px-4 lg:px-8 mt-10">
-        <div className="bg-[#141414] rounded-3xl border border-gray-800 overflow-hidden shadow-2xl flex flex-col md:flex-row max-w-5xl mx-auto">
+        <div className="bg-bg-sec rounded-3xl border border-bg-border overflow-hidden shadow-2xl flex flex-col md:flex-row max-w-5xl mx-auto">
           
           {/* Photo */}
-          <div className="w-full md:w-1/4 xl:w-1/5 h-[300px] md:h-[400px] relative bg-[#0a0a0a] flex-shrink-0 border-r border-gray-800">
+          <div className="w-full md:w-1/4 xl:w-1/5 h-[300px] md:h-[400px] relative bg-bg-main flex-shrink-0 border-r border-bg-border">
             {person.image_url ? (
               <img src={person.image_url} alt={person.name} className="absolute inset-0 w-full h-full object-contain object-top pt-4 opacity-90" />
             ) : (
@@ -51,21 +51,21 @@ export default function LeadershipDetailPage() {
                  <svg className="w-24 h-24 text-gray-700" fill="currentColor" viewBox="0 0 20 20"><path fillRule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clipRule="evenodd" /></svg>
               </div>
             )}
-            <div className="absolute inset-0 bg-gradient-to-t from-[#000000] md:from-transparent to-transparent"></div>
+            <div className="absolute inset-0 bg-gradient-to-t from-bg-deep md:from-transparent to-transparent"></div>
           </div>
 
           {/* Details */}
           <div className="w-full p-8 md:p-10 relative z-10 -mt-10 md:mt-0">
-            <Link href="/club" className="text-gray-500 hover:text-white transition-colors text-[10px] font-bold uppercase tracking-widest mb-6 inline-block flex items-center">
+            <Link href="/club" className="text-text-sec hover:text-text-main transition-colors text-[10px] font-bold uppercase tracking-widest mb-6 inline-block flex items-center">
               &larr; Klub Rəhbərliyinə Qayıt
             </Link>
             
-            <h1 className="text-3xl md:text-4xl font-black text-white uppercase tracking-tighter mb-2">{person.name}</h1>
-            <p className="text-[#d7bf7b] font-bold text-base md:text-lg uppercase tracking-widest mb-8">{person.position}</p>
+            <h1 className="text-3xl md:text-4xl font-black text-text-main uppercase tracking-tighter mb-2">{person.name}</h1>
+            <p className="text-accent font-bold text-base md:text-lg uppercase tracking-widest mb-8">{person.position}</p>
 
             <div className="mb-8">
-              <h3 className="text-white font-bold uppercase tracking-widest text-sm mb-4">Haqqında</h3>
-              <p className="text-gray-300 leading-relaxed font-medium whitespace-pre-wrap">
+              <h3 className="text-text-main font-bold uppercase tracking-widest text-sm mb-4">Haqqında</h3>
+              <p className="text-text-sec leading-relaxed font-medium whitespace-pre-wrap">
                  {person.bio || "Məlumat yoxdur."}
               </p>
             </div>

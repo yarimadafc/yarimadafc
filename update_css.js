@@ -1,0 +1,85 @@
+const fs = require('fs');
+
+const cssContent = `@import "tailwindcss";
+@import "../styles/kinpaku-tokens.css";
+@import "../styles/kinpaku-kit.css";
+
+@theme {
+  --color-bg-main: var(--bg-main);
+  --color-bg-sec: var(--bg-sec);
+  --color-bg-deep: var(--bg-deep);
+  --color-bg-card: var(--bg-card);
+  --color-bg-border: var(--bg-border);
+  --color-text-main: var(--text-main);
+  --color-text-sec: var(--text-sec);
+  --color-accent: var(--accent);
+}
+
+:root {
+  /* Gündüz (Ağ) Rejimi */
+  --bg-main: #ffffff;
+  --bg-sec: #f3f4f6;
+  --bg-deep: #e5e7eb;
+  --bg-card: #ffffff;
+  --bg-border: #d1d5db;
+  --text-main: #051024;
+  --text-sec: #4b5563;
+  --accent: #0f2b5c; /* Gold replaced by deep blue accent in light mode */
+  
+  --ks-font: var(--font-albert), system-ui, sans-serif;
+  --ks-font-condensed: var(--font-alumni), system-ui, sans-serif;
+  --ks-font-mono: var(--font-jetbrains), monospace;
+}
+
+.dark {
+  /* Gecə (Qatı Mavi) Rejimi */
+  --bg-main: #051024;
+  --bg-sec: #0a1f44;
+  --bg-deep: #030812;
+  --bg-card: #0d2857;
+  --bg-border: #1a428a;
+  --text-main: #ffffff;
+  --text-sec: #9ca3af;
+  --accent: #ffffff; /* Gold replaced by white accent in dark mode */
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: var(--bg-main);
+  color: var(--text-main);
+  font-family: var(--ks-font);
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--ks-font);
+}
+
+.font-condensed {
+  font-family: var(--ks-font-condensed);
+  letter-spacing: 0.02em;
+}
+
+.font-mono {
+  font-family: var(--ks-font-mono);
+}
+
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: var(--bg-border);
+  border-radius: 10px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--accent);
+}
+`;
+
+fs.writeFileSync('src/app/globals.css', cssContent, 'utf8');

@@ -82,44 +82,44 @@ export default function VideosAdmin() {
 
   return (
     <div>
-      <div className="flex justify-between items-center mb-6 border-b border-gray-800 pb-4">
+      <div className="flex justify-between items-center mb-6 border-b border-bg-border pb-4">
         <div>
-          <h2 className="text-2xl font-black uppercase tracking-widest text-white mb-2">Videolar İdarəetməsi</h2>
-          <p className="text-gray-400 text-sm">Youtube linki əlavə etmək kifayətdir, şəkil avtomatik çəkiləcək.</p>
+          <h2 className="text-2xl font-black uppercase tracking-widest text-text-main mb-2">Videolar İdarəetməsi</h2>
+          <p className="text-text-sec text-sm">Youtube linki əlavə etmək kifayətdir, şəkil avtomatik çəkiləcək.</p>
         </div>
-        <button onClick={() => setIsAdding(!isAdding)} className="bg-[#d7bf7b] text-[#141414] px-4 py-2 rounded-lg font-bold text-xs uppercase tracking-widest flex items-center space-x-2 hover:bg-white transition-colors">
+        <button onClick={() => setIsAdding(!isAdding)} className="bg-accent text-[#141414] px-4 py-2 rounded-lg font-bold text-xs uppercase tracking-widest flex items-center space-x-2 hover:bg-text-main hover:text-bg-main transition-colors">
           {isAdding ? <span onClick={() => { setEditingId(null); setTitle(''); setUrl(''); }}>Ləğv Et</span> : <><Plus className="w-4 h-4" /><span>Yeni Video</span></>}
         </button>
       </div>
 
       {isAdding && (
-        <form onSubmit={handleAddVideo} className="bg-[#141414] p-6 rounded-2xl border border-gray-800 mb-8 space-y-4">
+        <form onSubmit={handleAddVideo} className="bg-bg-sec p-6 rounded-2xl border border-bg-border mb-8 space-y-4">
           <div>
-            <label className="block text-gray-400 text-xs font-bold uppercase tracking-widest mb-2">Video Başlığı</label>
-            <input type="text" value={title} onChange={e => setTitle(e.target.value)} className="w-full bg-[#0a0a0a] border border-gray-700 rounded-lg p-3 text-white focus:border-[#d7bf7b] outline-none" required />
+            <label className="block text-text-sec text-xs font-bold uppercase tracking-widest mb-2">Video Başlığı</label>
+            <input type="text" value={title} onChange={e => setTitle(e.target.value)} className="w-full bg-bg-main border border-bg-border rounded-lg p-3 text-text-main focus:border-accent outline-none" required />
           </div>
           <div>
-            <label className="block text-gray-400 text-xs font-bold uppercase tracking-widest mb-2">YouTube Linki</label>
-            <input type="url" value={url} onChange={e => setUrl(e.target.value)} placeholder="https://youtube.com/watch?v=..." className="w-full bg-[#0a0a0a] border border-gray-700 rounded-lg p-3 text-white focus:border-[#d7bf7b] outline-none" required />
+            <label className="block text-text-sec text-xs font-bold uppercase tracking-widest mb-2">YouTube Linki</label>
+            <input type="url" value={url} onChange={e => setUrl(e.target.value)} placeholder="https://youtube.com/watch?v=..." className="w-full bg-bg-main border border-bg-border rounded-lg p-3 text-text-main focus:border-accent outline-none" required />
           </div>
-          <button type="submit" className="w-full bg-[#d7bf7b] text-[#141414] py-3 rounded-lg font-bold text-xs uppercase tracking-widest hover:bg-white transition-colors">Yadda Saxla</button>
+          <button type="submit" className="w-full bg-accent text-[#141414] py-3 rounded-lg font-bold text-xs uppercase tracking-widest hover:bg-text-main hover:text-bg-main transition-colors">Yadda Saxla</button>
         </form>
       )}
 
       {loading ? (
-        <div className="text-center text-[#d7bf7b] py-10">Yüklənir...</div>
+        <div className="text-center text-accent py-10">Yüklənir...</div>
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {videos.map(v => (
-            <div key={v.id} className="bg-[#141414] border border-gray-800 rounded-2xl overflow-hidden flex flex-col">
+            <div key={v.id} className="bg-bg-sec border border-bg-border rounded-2xl overflow-hidden flex flex-col">
               <div className="h-32 relative">
                  <img src={v.thumbnail_url} alt={v.title} className="w-full h-full object-cover" />
                  <div className="absolute inset-0 flex items-center justify-center bg-black/30">
-                   <PlayCircle className="w-10 h-10 text-white/80" />
+                   <PlayCircle className="w-10 h-10 text-text-main/80" />
                  </div>
               </div>
               <div className="p-4 flex-1 flex flex-col justify-between">
-                 <h3 className="font-bold text-white text-sm line-clamp-2 mb-2">{v.title}</h3>
+                 <h3 className="font-bold text-text-main text-sm line-clamp-2 mb-2">{v.title}</h3>
                  <div className="mt-2 flex space-x-2">
      <button onClick={() => handleEdit(v)} className="flex-1 flex items-center justify-center space-x-2 text-blue-400 hover:text-blue-300 hover:bg-blue-400/10 py-2 rounded-lg transition-colors text-xs font-bold uppercase">
        Düzəliş
@@ -131,7 +131,7 @@ export default function VideosAdmin() {
               </div>
             </div>
           ))}
-          {videos.length === 0 && <div className="col-span-full text-center text-gray-500 py-10">Video tapılmadı.</div>}
+          {videos.length === 0 && <div className="col-span-full text-center text-text-sec py-10">Video tapılmadı.</div>}
         </div>
       )}
     </div>

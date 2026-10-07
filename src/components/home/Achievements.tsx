@@ -18,7 +18,7 @@ export default function Achievements() {
   }, []);
 
   return (
-    <section className="bg-[#000000] py-24 border-b border-[#1f1f1f]">
+    <section className="bg-bg-deep py-24 border-b border-bg-border">
       <div className="container mx-auto px-4 lg:px-8">
         
         {/* Header */}
@@ -29,7 +29,7 @@ export default function Achievements() {
           viewport={{ once: true }}
           className="flex justify-center mb-20"
         >
-          <h2 className="text-4xl font-bold text-white tracking-tight">Nailiyyətlər</h2>
+          <h2 className="text-4xl font-bold text-text-main tracking-tight">Nailiyyətlər</h2>
         </motion.div>
 
         {/* Grid for Achievement Stats */}
@@ -55,8 +55,8 @@ export default function Achievements() {
                   
                   {/* Number & Text */}
                   <div className="flex items-center gap-3 text-left">
-                    <span className="text-5xl md:text-6xl font-bold text-white">{item.count}</span>
-                    <span className="text-xs md:text-sm text-gray-300 font-medium leading-tight max-w-[120px]">{item.title}</span>
+                    <span className="text-5xl md:text-6xl font-bold text-text-main">{item.count}</span>
+                    <span className="text-xs md:text-sm text-text-sec font-medium leading-tight max-w-[120px]">{item.title}</span>
                   </div>
                 </motion.div>
               </Link>
@@ -64,7 +64,7 @@ export default function Achievements() {
           </div>
         ) : (
           <div className="flex justify-center items-center h-32">
-            <p className="text-gray-500 font-medium text-sm">
+            <p className="text-text-sec font-medium text-sm">
               Tezliklə yeni nailiyyətlər əlavə olunacaq...
             </p>
           </div>

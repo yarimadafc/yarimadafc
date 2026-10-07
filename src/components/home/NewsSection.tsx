@@ -58,7 +58,7 @@ export default function NewsSection() {
       </motion.div>
 
       {/* Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+      <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-4">
         {news.map((item, i) => (
           <motion.div
             key={item.id}
@@ -78,9 +78,9 @@ export default function NewsSection() {
               </div>
               
               {/* Content */}
-              <div className="p-4 md:p-5 flex flex-col flex-grow">
+              <div className="p-3 flex flex-col flex-grow">
                 <div className="flex items-center space-x-3 mb-4">
-                  <span className="text-[#d7bf7b] font-bold text-[11px] tracking-widest uppercase">
+                  <span className="text-[#d7bf7b] font-bold text-[9px] tracking-widest uppercase">
                     {item.category || 'Xəbər'}
                   </span>
                   <span className="w-1 h-1 rounded-full bg-gray-600"></span>
@@ -89,7 +89,7 @@ export default function NewsSection() {
                   </span>
                 </div>
                 
-                <h3 className="text-white font-bold text-sm md:text-base leading-snug line-clamp-2 mb-4 group-hover:text-[#d7bf7b] transition-colors">
+                <h3 className="text-white font-bold text-xs md:text-sm leading-snug line-clamp-2 mb-2 group-hover:text-[#d7bf7b] transition-colors">
                   {item.title_az || item.title}
                 </h3>
                 

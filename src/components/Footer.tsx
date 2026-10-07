@@ -61,7 +61,7 @@ export default function Footer() {
                   <div key={`s1-group-${i}`} className="flex items-center space-x-16 shrink-0">
                     {sponsors.map(s => (
                       <div key={`s1-${i}-${s.id}`} className="text-white text-lg font-black uppercase tracking-widest flex items-center shrink-0">
-                        <img src={s.logo_url} alt={s.name} className="h-10 md:h-14 object-contain grayscale hover:grayscale-0 transition-all duration-300" />
+                        {s.logo_url ? <img src={s.logo_url} alt={s.name} className="h-10 md:h-14 object-contain grayscale hover:grayscale-0 transition-all duration-300" /> : <span className="text-white/70 hover:text-white transition-colors">{s.name}</span>}
                       </div>
                     ))}
                   </div>

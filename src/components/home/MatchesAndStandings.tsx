@@ -219,7 +219,7 @@ export default function MatchesAndStandings() {
                       <th className="py-5 px-2 text-center" title="Heç-heçə">H</th>
                       <th className="py-5 px-2 text-center" title="Məğlubiyyət">M</th>
                       <th className="py-5 px-2 text-center text-green-400" title="Vurduğu Qol">VQ</th>
-                      <th className="py-5 px-2 text-center text-red-400" title="Buraxdığı Qol">BT</th>
+                      <th className="py-5 px-2 text-center text-red-400" title="Buraxdığı Top">BT</th>
                       <th className="py-5 px-4 text-center text-[#d7bf7b]" title="Xal">Xal</th>
                     </tr>
                   </thead>
@@ -239,6 +239,8 @@ export default function MatchesAndStandings() {
                         <td className="py-4 px-3 text-center font-medium">{team.won}</td>
                         <td className="py-4 px-3 text-center font-medium">{team.drawn}</td>
                         <td className="py-4 px-3 text-center font-medium">{team.lost}</td>
+                        <td className="py-4 px-3 text-center font-medium text-green-400">{team.gf || 0}</td>
+                        <td className="py-4 px-3 text-center font-medium text-red-400">{team.ga || 0}</td>
                         <td className="py-4 px-6 text-center text-[#d7bf7b] font-black text-base">{team.points}</td>
                       </tr>
                     ))}

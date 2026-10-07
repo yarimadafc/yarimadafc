@@ -1,7 +1,7 @@
 'use client';
 import { useState, useEffect } from 'react';
 import { supabase } from '@/lib/supabase';
-import { Plus, Trash2, UploadCloud, Save } from 'lucide-react';
+import { Plus, Trash2, Edit2, UploadCloud, Save } from 'lucide-react';
 import { compressImage } from '@/lib/imageCompress';
 
 export default function TeamsAdmin() {
@@ -18,6 +18,7 @@ export default function TeamsAdmin() {
   
   // Player adding state
   const [isAddingPlayer, setIsAddingPlayer] = useState(false);
+  const [editingPlayerId, setEditingPlayerId] = useState<string | null>(null);
   
   // Team details states
   const [teamPos, setTeamPos] = useState('');
@@ -50,7 +51,7 @@ export default function TeamsAdmin() {
   const handleSelectTeam = async (teamId: string) => {
     setSelectedTeamId(teamId);
     fetchPlayers(teamId);
-    setIsAddingPlayer(false);
+    setIsAddingPlayer(false); setEditingPlayerId(null);
     
     // Load team extra details from site_images
     setTeamPos(''); setTeamDesc(''); setTeamImg('');
@@ -111,7 +112,17 @@ export default function TeamsAdmin() {
     }
   };
 
-  const handleAddPlayer = async (e: React.FormEvent) => {
+  
+  const handleEditPlayer = (p: any) => {
+    setEditingPlayerId(p.id);
+    setPlayerName(p.name);
+    setPlayerPosition(p.position || '');
+    setPlayerNumber(p.jersey_number ? p.jersey_number.toString() : '');
+    setPlayerImage(p.image_url || '');
+    setIsAddingPlayer(true);
+  };
+
+  const handleSavePlayer = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!selectedTeamId || !playerName) return;
     await supabase.from('players').insert([{ 
@@ -235,13 +246,13 @@ export default function TeamsAdmin() {
 
               <div className="flex justify-between items-center mb-4">
                 <h3 className="text-white font-bold uppercase tracking-widest text-sm">Oyunçular</h3>
-                <button onClick={() => setIsAddingPlayer(!isAddingPlayer)} className="text-[#d7bf7b] hover:text-white transition-colors text-xs font-bold uppercase flex items-center">
+                <button onClick={() => { setIsAddingPlayer(!isAddingPlayer); setEditingPlayerId(null); setPlayerName(""); setPlayerPosition(""); setPlayerNumber(""); setPlayerImage(""); }} className="text-[#d7bf7b] hover:text-white transition-colors text-xs font-bold uppercase flex items-center">
                   <Plus className="w-3 h-3 mr-1" /> Oyunçu Əlavə Et
                 </button>
               </div>
 
               {isAddingPlayer && (
-                <form onSubmit={handleAddPlayer} className="bg-[#152741] p-6 rounded-2xl border border-gray-800 mb-6 grid grid-cols-2 gap-4">
+                <form onSubmit={handleSavePlayer} className="bg-[#152741] p-6 rounded-2xl border border-gray-800 mb-6 grid grid-cols-2 gap-4">
                   <div className="col-span-2 md:col-span-1"><label className="block text-gray-400 text-xs font-bold uppercase mb-2">Ad Soyad</label><input type="text" value={playerName} onChange={e => setPlayerName(e.target.value)} className="w-full bg-[#0d1a2d] border border-gray-700 rounded-lg p-3 text-white" required /></div>
                   <div className="col-span-2 md:col-span-1"><label className="block text-gray-400 text-xs font-bold uppercase mb-2">Mövqe</label><input type="text" value={playerPosition} onChange={e => setPlayerPosition(e.target.value)} placeholder="Məs: Hücumçu" className="w-full bg-[#0d1a2d] border border-gray-700 rounded-lg p-3 text-white" /></div>
                   <div className="col-span-2 md:col-span-1"><label className="block text-gray-400 text-xs font-bold uppercase mb-2">Nömrə</label><input type="number" value={playerNumber} onChange={e => setPlayerNumber(e.target.value)} className="w-full bg-[#0d1a2d] border border-gray-700 rounded-lg p-3 text-white" /></div>

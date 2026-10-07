@@ -243,7 +243,8 @@ export default function HomePage() {
                      </div>
                    </div>
 
-                   {heroMatch.yarimada_lineup && heroMatch.yarimada_lineup.length > 0 && (
+                   {/* Hiding lineup section based on user request */}
+                   {false && heroMatch.yarimada_lineup && heroMatch.yarimada_lineup.length > 0 && (
                      <div className="bg-[#152741] border-t border-gray-800 p-4 relative overflow-hidden backdrop-blur-sm z-10">
                        <h4 className="text-[#d7bf7b] font-bold uppercase tracking-widest text-[10px] text-center mb-3 border-b border-gray-800 pb-2">Yarımada FK - Heyət və Hadisələr</h4>
                        <div className="flex flex-col space-y-2 max-h-48 overflow-y-auto pr-2 custom-scrollbar">

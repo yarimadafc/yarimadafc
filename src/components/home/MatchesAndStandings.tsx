@@ -145,7 +145,8 @@ export default function MatchesAndStandings() {
                     </span>
                   </div>
                   
-                  {nextMatch.yarimada_lineup && nextMatch.yarimada_lineup.length > 0 && (
+                  {/* Hiding lineup section based on user request */}
+                  {false && nextMatch.yarimada_lineup && nextMatch.yarimada_lineup.length > 0 && (
                     <div className="mt-4 relative z-10 bg-[#0a1423]/80 rounded-xl border border-gray-800/50 p-3 max-h-32 overflow-y-auto custom-scrollbar">
                       <h4 className="text-[#d7bf7b] font-bold uppercase tracking-widest text-[9px] text-center mb-2 border-b border-gray-800 pb-1">Heyət və Hadisələr</h4>
                       <div className="flex flex-col space-y-1.5">

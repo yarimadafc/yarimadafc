@@ -153,7 +153,7 @@ export default function Navbar() {
                 onClick={() => setIsSearchOpen(!isSearchOpen)}
                 className="text-white hover:text-[#d7bf7b] focus:outline-none p-1"
               >
-                <Search className="w-5 h-5 md:w-6 md:h-6" />
+                {isSearchOpen ? <X className="w-5 h-5 md:w-6 md:h-6" /> : <Search className="w-5 h-5 md:w-6 md:h-6" />}
               </button>
               <button
                 onClick={() => setIsOpen(!isOpen)}

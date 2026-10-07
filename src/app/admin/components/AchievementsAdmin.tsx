@@ -37,6 +37,23 @@ export default function AchievementsAdmin() {
     setIsAdding(true);
   };
 
+  const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    try {
+      if (!e.target.files || e.target.files.length === 0) return;
+      setUploadingImage(true);
+      const file = e.target.files[0];
+      const formData = new FormData();
+      formData.append('file', file);
+      const res = await fetch('/api/upload', { method: 'POST', body: formData });
+      const data = await res.json();
+      if (data.url) setImageUrl(data.url);
+    } catch (error) {
+      console.error('Upload error:', error);
+    } finally {
+      setUploadingImage(false);
+    }
+  };
+
   const handleAdd = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!title || !count) return alert('Bütün xanaları doldurun');
@@ -48,7 +65,7 @@ export default function AchievementsAdmin() {
       image_url: imageUrl }).eq('id', editingId);
       error = res.error;
     } else {
-      const res = await supabase.from('achievements').insert([{ title, count, order_num: orderNum }]);
+      const res = await supabase.from('achievements').insert([{ title, count, order_num: orderNum, description, image_url: imageUrl }]);
       error = res.error;
     }
     
@@ -84,7 +101,7 @@ export default function AchievementsAdmin() {
 
       {isAdding && (
         <form onSubmit={handleAdd} className="bg-[#152741] p-6 rounded-2xl border border-gray-800 mb-8 space-y-4">
-          <div className="grid grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
               <label className="block text-gray-400 text-xs font-bold uppercase mb-2">Rəqəm (Məs: 15+)</label>
               <input type="text" value={count} onChange={e => setCount(e.target.value)} className="w-full bg-[#0d1a2d] border border-gray-700 rounded-lg p-3 text-white focus:border-[#d7bf7b] outline-none" required />
@@ -93,10 +110,27 @@ export default function AchievementsAdmin() {
               <label className="block text-gray-400 text-xs font-bold uppercase mb-2">Başlıq (Məs: Kubok)</label>
               <input type="text" value={title} onChange={e => setTitle(e.target.value)} className="w-full bg-[#0d1a2d] border border-gray-700 rounded-lg p-3 text-white focus:border-[#d7bf7b] outline-none" required />
             </div>
-          </div>
-          <div>
-            <label className="block text-gray-400 text-xs font-bold uppercase mb-2">Sıra Nömrəsi</label>
-            <input type="number" value={orderNum} onChange={e => setOrderNum(Number(e.target.value))} className="w-full bg-[#0d1a2d] border border-gray-700 rounded-lg p-3 text-white focus:border-[#d7bf7b] outline-none" required />
+            <div className="md:col-span-2">
+              <label className="block text-gray-400 text-xs font-bold uppercase mb-2">Haqqında (Məzmun)</label>
+              <textarea value={description} onChange={e => setDescription(e.target.value)} rows={3} className="w-full bg-[#0d1a2d] border border-gray-700 rounded-lg p-3 text-white focus:border-[#d7bf7b] outline-none"></textarea>
+            </div>
+            <div>
+              <label className="block text-gray-400 text-xs font-bold uppercase mb-2">Sıra Nömrəsi</label>
+              <input type="number" value={orderNum} onChange={e => setOrderNum(Number(e.target.value))} className="w-full bg-[#0d1a2d] border border-gray-700 rounded-lg p-3 text-white focus:border-[#d7bf7b] outline-none" required />
+            </div>
+            <div>
+              <label className="block text-gray-400 text-xs font-bold uppercase mb-2">Şəkil (İstəyə bağlı)</label>
+              <div className="flex items-center space-x-3">
+                {imageUrl && <img src={imageUrl} alt="preview" className="w-10 h-10 object-cover rounded" />}
+                <label className="cursor-pointer bg-[#0d1a2d] border border-gray-700 px-4 py-3 rounded-lg text-xs font-bold text-gray-400 uppercase">
+                  {uploadingImage ? 'Yüklənir...' : 'Cihazdan Seç'}
+                  <input type="file" accept="image/*" onChange={handleImageUpload} className="hidden" />
+                </label>
+                {imageUrl && (
+                  <button type="button" onClick={() => setImageUrl('')} className="text-red-500 text-xs font-bold">SIL</button>
+                )}
+              </div>
+            </div>
           </div>
           <button type="submit" className="w-full bg-[#d7bf7b] text-[#152741] py-3 rounded-lg font-bold text-xs uppercase hover:bg-white transition-colors">Yadda Saxla</button>
         </form>

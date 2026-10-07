@@ -48,8 +48,8 @@ export default function Achievements() {
                 <div className="absolute -top-10 -right-10 w-32 h-32 rounded-full blur-3xl opacity-20 group-hover:opacity-50 transition-opacity duration-500 bg-[#d7bf7b]"></div>
                 
                 {item.image_url ? (
-                  <div className="w-16 h-16 mx-auto mb-6 relative z-10">
-                    <img src={item.image_url} alt="img" className="w-full h-full object-contain drop-shadow-[0_0_15px_rgba(255,255,255,0.2)]" />
+                  <div className="w-20 h-20 mx-auto mb-6 relative z-10 flex items-center justify-center">
+                    <img src={item.image_url} alt="img" className="max-w-full max-h-full object-contain drop-shadow-[0_0_15px_rgba(255,255,255,0.2)]" />
                   </div>
                 ) : (
                   <div className="flex justify-center mb-6 relative z-10">

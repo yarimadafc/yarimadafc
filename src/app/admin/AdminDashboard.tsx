@@ -3,7 +3,7 @@
 import { compressImage } from '@/lib/imageCompress';
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import { LogOut, Image as ImageIcon, CheckCircle, UploadCloud, FileText, Video, Trophy, DollarSign, LayoutDashboard, Settings, Trash2, ShoppingCart } from 'lucide-react';
+import { LogOut, Image as ImageIcon, CheckCircle, UploadCloud, FileText, Video, Trophy, DollarSign, LayoutDashboard, Settings, Trash2, ShoppingCart, Users, PlayCircle } from 'lucide-react';
 import { supabase } from '@/lib/supabase';
 import NewsAdmin from './components/NewsAdmin';
 import VideosAdmin from './components/VideosAdmin';
@@ -16,6 +16,8 @@ import MatchesAdmin from './components/MatchesAdmin';
 import AchievementsAdmin from './components/AchievementsAdmin';
 import SponsorsAdmin from './components/SponsorsAdmin';
 import ShopAdmin from './components/ShopAdmin';
+import LeadershipAdmin from './components/LeadershipAdmin';
+import CoachCoursesAdmin from './components/CoachCoursesAdmin';
 
 export default function AdminDashboard() {
   const router = useRouter();
@@ -145,6 +147,19 @@ export default function AdminDashboard() {
               <FileText className="w-4 h-4" />
               <span>Klub (Haqqımızda)</span>
             </button>
+            <button onClick={() => setActiveTab('leadership')} className={`w-full flex items-center space-x-3 px-4 py-3 rounded-lg font-bold text-xs uppercase tracking-widest transition-colors ${activeTab === 'leadership' ? 'bg-[#d7bf7b] text-[#152741]' : 'text-gray-400 hover:text-white hover:bg-[#0d1a2d]'}`}>
+              <Users className="w-4 h-4" />
+              <span>İdarə Heyəti</span>
+            </button>
+            <button onClick={() => setActiveTab('courses')} className={`w-full flex items-center space-x-3 px-4 py-3 rounded-lg font-bold text-xs uppercase tracking-widest transition-colors ${activeTab === 'courses' ? 'bg-[#d7bf7b] text-[#152741]' : 'text-gray-400 hover:text-white hover:bg-[#0d1a2d]'}`}>
+              <PlayCircle className="w-4 h-4" />
+              <span>Məşqçi Kursu</span>
+            </button>
+            <button onClick={() => setActiveTab('shop')} className={`w-full flex items-center space-x-3 px-4 py-3 rounded-lg font-bold text-xs uppercase tracking-widest transition-colors ${activeTab === 'shop' ? 'bg-[#d7bf7b] text-[#152741]' : 'text-gray-400 hover:text-white hover:bg-[#0d1a2d]'}`}>
+              <ShoppingCart className="w-4 h-4" />
+              <span>Mağaza</span>
+            </button>
+
             <button onClick={() => setActiveTab('coaches')} className={`w-full flex items-center space-x-3 px-4 py-3 rounded-lg font-bold text-xs uppercase tracking-widest transition-colors ${activeTab === 'coaches' ? 'bg-[#d7bf7b] text-[#152741]' : 'text-gray-400 hover:text-white hover:bg-[#0d1a2d]'}`}>
               <CheckCircle className="w-4 h-4" />
               <span>Məşqçilər</span>
@@ -224,6 +239,8 @@ export default function AdminDashboard() {
             
         </div>
 
+        {activeTab === 'leadership' && <LeadershipAdmin />}
+        {activeTab === 'courses' && <CoachCoursesAdmin />}
         {activeTab === 'texts' && <TextsAdmin />}
         {activeTab === 'club' && <ClubAdmin />}
         {activeTab === 'coaches' && <CoachesAdmin />}

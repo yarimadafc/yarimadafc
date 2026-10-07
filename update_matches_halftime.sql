@@ -1,1 +1,0 @@
-ALTER TABLE matches ADD COLUMN IF NOT EXISTS halftime_duration INTEGER DEFAULT 15;

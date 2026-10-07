@@ -1,7 +1,7 @@
 'use client';
 import { useState, useEffect } from 'react';
 import { supabase } from '@/lib/supabase';
-import { Plus, UploadCloud } from 'lucide-react';
+import { Plus, UploadCloud, Star } from 'lucide-react';
 import { compressImage } from '@/lib/imageCompress';
 
 export default function CoachesAdmin() {
@@ -10,8 +10,8 @@ export default function CoachesAdmin() {
   const [loading, setLoading] = useState(true);
   const [isAdding, setIsAdding] = useState(false);
   const [uploadingImage, setUploadingImage] = useState(false);
-  const [isLeadership, setIsLeadership] = useState(false);
-  const [leadershipIds, setLeadershipIds] = useState<string[]>([]);
+
+
   const [editingId, setEditingId] = useState<string | null>(null);
 
   const [name, setName] = useState('');
@@ -35,9 +35,7 @@ export default function CoachesAdmin() {
     
     const { data: lsData } = await supabase.from('site_images').select('image_url').eq('section_key', 'leadership_coach_ids').maybeSingle();
     if (lsData && lsData.image_url) {
-      setLeadershipIds(lsData.image_url.split(','));
     } else {
-      setLeadershipIds([]);
     }
     
     setLoading(false);
@@ -51,7 +49,7 @@ export default function CoachesAdmin() {
     setTeamId(c.team_id || '');
     setEditingId(c.id);
     setIsAdding(true);
-    setIsLeadership(leadershipIds.includes(c.id.toString()));
+    
   };
 
   const handleSave = async (e: React.FormEvent) => {
@@ -75,28 +73,34 @@ export default function CoachesAdmin() {
       alert('Əlavə edildi!');
     }
 
-    if (newId) {
-      let updatedIds = [...leadershipIds];
-      if (isLeadership && !updatedIds.includes(newId.toString())) {
-        updatedIds.push(newId.toString());
-      } else if (!isLeadership && updatedIds.includes(newId.toString())) {
-        updatedIds = updatedIds.filter(id => id !== newId.toString());
-      }
-      
-      const newIdsString = updatedIds.join(',');
-      const { data: lsExists } = await supabase.from('site_images').select('id').eq('section_key', 'leadership_coach_ids').maybeSingle();
-      
-      if (lsExists) {
-        await supabase.from('site_images').update({ image_url: newIdsString }).eq('section_key', 'leadership_coach_ids');
-      } else {
-        await supabase.from('site_images').insert([{ section_key: 'leadership_coach_ids', image_url: newIdsString }]);
-      }
-    }
+
 
     setEditingId(null);
     setIsAdding(false);
     resetForm();
     fetchData();
+  };
+
+  const handleAddToLeadership = async (coach: any) => {
+    if (!confirm(`${coach.name} adlı şəxsi "Klub Rəhbərliyi" bölməsinə əlavə etmək istədiyinizə əminsiniz?`)) return;
+    
+    // Check if already in leadership
+    const { data: existing } = await supabase.from('leadership').select('id').eq('name', coach.name).maybeSingle();
+    if (existing) {
+      alert('Bu şəxs artıq Klub Rəhbərliyində mövcuddur!');
+      return;
+    }
+
+    const { error } = await supabase.from('leadership').insert([{
+      name: coach.name,
+      position: coach.role || 'Məşqçi',
+      image_url: coach.image_url,
+      bio: coach.bio || '',
+      order_num: 0
+    }]);
+
+    if (error) alert('Xəta: ' + error.message);
+    else alert(`${coach.name} uğurla Klub Rəhbərliyinə əlavə edildi!`);
   };
 
   const handleDelete = async (id: string) => {
@@ -107,7 +111,7 @@ export default function CoachesAdmin() {
   };
 
   const resetForm = () => {
-    setName(''); setRole(''); setBio(''); setLicense(''); setImageUrl(''); setTeamId(''); setIsLeadership(false); setIsLeadership(false);
+    setName(''); setRole(''); setBio(''); setLicense(''); setImageUrl(''); setTeamId(''); 
   };
 
   return (
@@ -173,12 +177,7 @@ export default function CoachesAdmin() {
               </label>
             )}
           </div>
-          <div className="md:col-span-2 mb-4">
-            <label className="flex items-center space-x-3 cursor-pointer bg-[#0d1a2d] p-4 rounded-lg border border-gray-700 hover:border-[#d7bf7b] transition-colors">
-              <input type="checkbox" checked={isLeadership} onChange={e => setIsLeadership(e.target.checked)} className="w-5 h-5 accent-[#d7bf7b]" />
-              <span className="text-white text-xs font-bold uppercase tracking-widest">Haqqımızda səhifəsində (Rəhbərlik kimi) göstərilsin</span>
-            </label>
-          </div>
+
           <div className="md:col-span-2"><button type="submit" className="w-full bg-[#d7bf7b] text-[#152741] py-3 rounded-lg font-bold text-xs uppercase tracking-widest">Yadda Saxla</button></div>
         </form>
       )}
@@ -194,6 +193,9 @@ export default function CoachesAdmin() {
             <p className="text-gray-400 text-[10px] uppercase font-bold mt-2">{c.teams?.name || 'Ümumi'} {c.license ? `• ${c.license}` : ''}</p>
             
             <div className="flex space-x-2 mt-6 w-full">
+              <button onClick={() => handleAddToLeadership(c)} className="bg-yellow-500/10 text-yellow-500 hover:bg-yellow-500/20 px-3 rounded-lg flex items-center justify-center transition-colors" title="Klub Rəhbərliyinə Əlavə Et">
+                <Star className="w-4 h-4" />
+              </button>
               <button onClick={() => handleEdit(c)} className="flex-1 bg-blue-500/10 text-blue-400 hover:bg-blue-500/20 py-2 rounded-lg text-xs font-bold uppercase transition-colors">Düzəliş</button>
               <button onClick={() => handleDelete(c.id)} className="flex-1 bg-red-500/10 text-red-400 hover:bg-red-500/20 py-2 rounded-lg text-xs font-bold uppercase transition-colors">Sil</button>
             </div>

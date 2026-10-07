@@ -1,8 +1,8 @@
 'use client';
 
 import Link from 'next/link';
-import { Play, X } from 'lucide-react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { Play } from 'lucide-react';
+import { motion } from 'framer-motion';
 import { useEffect, useState } from 'react';
 import { supabase } from '@/lib/supabase';
 
@@ -15,7 +15,7 @@ const getYoutubeId = (url: string) => {
 export default function VideoSection() {
   const [videos, setVideos] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
-  const [activeVideo, setActiveVideo] = useState<any>(null);
+  const [playingId, setPlayingId] = useState<string | null>(null);
 
   useEffect(() => {
     async function loadVideos() {
@@ -57,28 +57,39 @@ export default function VideoSection() {
             whileInView={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.8, ease: "easeOut" }}
             viewport={{ once: true, margin: "-100px" }}
-            className="flex-grow xl:w-2/3 cursor-pointer"
-            onClick={() => setActiveVideo(mainVideo)}
+            className="flex-grow xl:w-2/3"
           >
-            <div className="group relative rounded-2xl overflow-hidden block">
-              <div className="w-full aspect-video bg-gray-800 relative">
-                 <img src={mainVideo.thumbnail_url} alt={mainVideo.title} className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
-                 
-                 {/* Play Button Overlay */}
-                 <div className="absolute bottom-4 md:bottom-6 lg:bottom-12 left-4 md:left-6 lg:left-12 right-4 flex flex-col items-start z-10">
-                   <div className="w-10 h-10 md:w-14 md:h-14 lg:w-16 lg:h-16 bg-[#d7bf7b] rounded-xl flex items-center justify-center mb-3 md:mb-6 shadow-lg shadow-black/50 group-hover:bg-white transition-colors">
-                     <Play className="w-5 h-5 md:w-6 md:h-6 lg:w-8 lg:h-8 text-[#152741] fill-current ml-1" />
+            <div className="group relative rounded-2xl overflow-hidden block bg-black">
+              <div className="w-full aspect-video relative">
+                 {playingId === mainVideo.id ? (
+                   <iframe 
+                     src={`https://www.youtube.com/embed/${getYoutubeId(mainVideo.url)}?autoplay=1`} 
+                     title={mainVideo.title}
+                     className="absolute inset-0 w-full h-full"
+                     allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                     allowFullScreen
+                   ></iframe>
+                 ) : (
+                   <div className="cursor-pointer absolute inset-0 w-full h-full" onClick={() => setPlayingId(mainVideo.id)}>
+                     <img src={mainVideo.thumbnail_url} alt={mainVideo.title} className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
+                     
+                     {/* Play Button Overlay */}
+                     <div className="absolute bottom-4 md:bottom-6 lg:bottom-12 left-4 md:left-6 lg:left-12 right-4 flex flex-col items-start z-10">
+                       <div className="w-10 h-10 md:w-14 md:h-14 lg:w-16 lg:h-16 bg-[#d7bf7b] rounded-xl flex items-center justify-center mb-3 md:mb-6 shadow-lg shadow-black/50 group-hover:bg-white transition-colors">
+                         <Play className="w-5 h-5 md:w-6 md:h-6 lg:w-8 lg:h-8 text-[#152741] fill-current ml-1" />
+                       </div>
+                       <h3 className="text-white font-black text-lg sm:text-xl md:text-2xl lg:text-4xl uppercase tracking-tight leading-tight max-w-2xl group-hover:text-[#d7bf7b] transition-colors drop-shadow-md line-clamp-3">
+                         {mainVideo.title}
+                       </h3>
+                       <span className="text-gray-300 font-medium text-xs sm:text-sm mt-2 md:mt-4 drop-shadow-md">
+                         {new Date(mainVideo.published_date || mainVideo.created_at).toLocaleDateString('az-AZ')}
+                       </span>
+                     </div>
+                     
+                     {/* Gradient for text readability */}
+                     <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent"></div>
                    </div>
-                   <h3 className="text-white font-black text-lg sm:text-xl md:text-2xl lg:text-4xl uppercase tracking-tight leading-tight max-w-2xl group-hover:text-[#d7bf7b] transition-colors drop-shadow-md line-clamp-3">
-                     {mainVideo.title}
-                   </h3>
-                   <span className="text-gray-300 font-medium text-xs sm:text-sm mt-2 md:mt-4 drop-shadow-md">
-                     {new Date(mainVideo.published_date || mainVideo.created_at).toLocaleDateString('az-AZ')}
-                   </span>
-                 </div>
-                 
-                 {/* Gradient for text readability */}
-                 <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent"></div>
+                 )}
               </div>
             </div>
           </motion.div>
@@ -94,17 +105,29 @@ export default function VideoSection() {
                   transition={{ duration: 0.6, delay: i * 0.2, ease: "easeOut" }}
                   viewport={{ once: true, margin: "-50px" }}
                 >
-                  <div onClick={() => setActiveVideo(video)} className="cursor-pointer group flex space-x-4 pb-6 border-b border-gray-800/50 hover:bg-gray-800/10 rounded-lg transition-colors">
-                    {/* Thumb */}
-                    <div className="w-40 sm:w-48 aspect-video bg-gray-800 rounded-xl relative overflow-hidden flex-shrink-0">
-                      <img src={video.thumbnail_url} alt={video.title} className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
-                      <div className="absolute bottom-2 left-2 w-8 h-8 bg-[#d7bf7b] rounded-lg flex items-center justify-center shadow-md group-hover:bg-white transition-colors z-10">
-                        <Play className="w-4 h-4 text-[#152741] fill-current ml-0.5" />
-                      </div>
+                  <div className="group flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4 pb-6 border-b border-gray-800/50 hover:bg-gray-800/10 rounded-lg transition-colors p-2">
+                    {/* Thumb / Video */}
+                    <div className="w-full sm:w-48 aspect-video bg-black rounded-xl relative overflow-hidden flex-shrink-0">
+                      {playingId === video.id ? (
+                         <iframe 
+                           src={`https://www.youtube.com/embed/${getYoutubeId(video.url)}?autoplay=1`} 
+                           title={video.title}
+                           className="absolute inset-0 w-full h-full"
+                           allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                           allowFullScreen
+                         ></iframe>
+                      ) : (
+                        <div className="cursor-pointer absolute inset-0 w-full h-full" onClick={() => setPlayingId(video.id)}>
+                          <img src={video.thumbnail_url} alt={video.title} className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                          <div className="absolute bottom-2 left-2 w-8 h-8 bg-[#d7bf7b] rounded-lg flex items-center justify-center shadow-md group-hover:bg-white transition-colors z-10">
+                            <Play className="w-4 h-4 text-[#152741] fill-current ml-0.5" />
+                          </div>
+                        </div>
+                      )}
                     </div>
                     
                     {/* Info */}
-                    <div className="flex flex-col justify-center">
+                    <div className="flex flex-col justify-center cursor-pointer" onClick={() => { if(playingId !== video.id) setPlayingId(video.id); }}>
                       <h4 className="text-white font-bold text-sm lg:text-base leading-tight mb-2 group-hover:text-[#d7bf7b] transition-colors uppercase line-clamp-3">
                         {video.title}
                       </h4>
@@ -133,37 +156,6 @@ export default function VideoSection() {
 
         </div>
       </div>
-
-      {/* Video Modal Overlay */}
-      <AnimatePresence>
-        {activeVideo && (
-          <motion.div 
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            className="fixed inset-0 z-50 flex items-center justify-center bg-black/95 px-4"
-          >
-            <div className="absolute top-6 right-6">
-              <button 
-                onClick={() => setActiveVideo(null)}
-                className="text-white/70 hover:text-white transition-colors bg-white/10 hover:bg-white/20 p-2 rounded-full"
-              >
-                <X className="w-8 h-8" />
-              </button>
-            </div>
-            <div className="w-full max-w-5xl aspect-video bg-black rounded-2xl overflow-hidden shadow-2xl border border-gray-800">
-              <iframe 
-                src={`https://www.youtube.com/embed/${getYoutubeId(activeVideo.url)}?autoplay=1`} 
-                title={activeVideo.title}
-                className="w-full h-full"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
-                allowFullScreen
-              ></iframe>
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
-
     </section>
   );
 }

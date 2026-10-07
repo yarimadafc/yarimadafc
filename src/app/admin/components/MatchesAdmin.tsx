@@ -98,7 +98,14 @@ export default function MatchesAdmin() {
 
   const fetchTeams = async () => {
     const { data } = await supabase.from('teams').select('id, name');
-    if (data) setTeams(data);
+    if (data) {
+      const sorted = [...data].sort((a, b) => {
+        const numA = parseInt(a.name.replace(/\D/g, '')) || 0;
+        const numB = parseInt(b.name.replace(/\D/g, '')) || 0;
+        return numA - numB;
+      });
+      setTeams(sorted);
+    }
   };
 
   const syncLineup = async () => {

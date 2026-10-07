@@ -27,7 +27,14 @@ export default function StandingsAdmin() {
 
   const fetchTeams = async () => {
     const { data } = await supabase.from('teams').select('name').order('name', { ascending: true });
-    if (data) setTeams(data);
+    if (data) {
+      const sorted = [...data].sort((a, b) => {
+        const numA = parseInt(a.name.replace(/\D/g, '')) || 0;
+        const numB = parseInt(b.name.replace(/\D/g, '')) || 0;
+        return numA - numB;
+      });
+      setTeams(sorted);
+    }
   };
 
   const fetchStandings = async () => {
@@ -125,6 +132,8 @@ export default function StandingsAdmin() {
           <div><label className="block text-gray-400 text-xs font-bold uppercase mb-2">Qələbə</label><input type="number" value={won} onChange={e => setWon(Number(e.target.value))} className="w-full bg-[#0d1a2d] border border-gray-700 rounded-lg p-3 text-white" /></div>
           <div><label className="block text-gray-400 text-xs font-bold uppercase mb-2">Heç-Heçə</label><input type="number" value={drawn} onChange={e => setDrawn(Number(e.target.value))} className="w-full bg-[#0d1a2d] border border-gray-700 rounded-lg p-3 text-white" /></div>
           <div><label className="block text-gray-400 text-xs font-bold uppercase mb-2">Məğlubiyyət</label><input type="number" value={lost} onChange={e => setLost(Number(e.target.value))} className="w-full bg-[#0d1a2d] border border-gray-700 rounded-lg p-3 text-white" /></div>
+                    <div><label className="block text-green-400 text-xs font-bold uppercase mb-2">Vurduğu Qol (VQ)</label><input type="number" value={gf} onChange={e => setGf(Number(e.target.value))} className="w-full bg-[#0d1a2d] border border-gray-700 rounded-lg p-3 text-white" /></div>
+          <div><label className="block text-red-400 text-xs font-bold uppercase mb-2">Buraxdığı Top (BT)</label><input type="number" value={ga} onChange={e => setGa(Number(e.target.value))} className="w-full bg-[#0d1a2d] border border-gray-700 rounded-lg p-3 text-white" /></div>
           <div><label className="block text-[#d7bf7b] text-xs font-bold uppercase mb-2">Xal</label><input type="number" value={points} onChange={e => setPoints(Number(e.target.value))} className="w-full bg-[#0d1a2d] border border-[#d7bf7b] rounded-lg p-3 text-white" /></div>
           <div className="col-span-2 md:col-span-3 mt-4">
              <button type="submit" className="w-full bg-[#d7bf7b] text-[#152741] py-3 rounded-lg font-bold text-xs uppercase tracking-widest">Yadda Saxla</button>

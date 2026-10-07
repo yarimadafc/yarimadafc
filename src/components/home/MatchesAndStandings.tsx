@@ -20,7 +20,11 @@ export default function MatchesAndStandings() {
     async function fetchData() {
       const { data: tData } = await supabase.from('teams').select('name').order('name', { ascending: true });
       if (tData && tData.length > 0) {
-        const names = tData.map(t => t.name);
+        const names = tData.map(t => t.name).sort((a, b) => {
+          const numA = parseInt(a.replace(/\D/g, '')) || 0;
+          const numB = parseInt(b.replace(/\D/g, '')) || 0;
+          return numA - numB;
+        });
         setLeagues(names);
         setActiveLeague(names[0]);
       }
@@ -215,7 +219,7 @@ export default function MatchesAndStandings() {
                       <th className="py-5 px-2 text-center" title="Heç-heçə">H</th>
                       <th className="py-5 px-2 text-center" title="Məğlubiyyət">M</th>
                       <th className="py-5 px-2 text-center text-green-400" title="Vurduğu Qol">VQ</th>
-                      <th className="py-5 px-2 text-center text-red-400" title="Buraxdığı Qol">BQ</th>
+                      <th className="py-5 px-2 text-center text-red-400" title="Buraxdığı Qol">BT</th>
                       <th className="py-5 px-4 text-center text-[#d7bf7b]" title="Xal">Xal</th>
                     </tr>
                   </thead>

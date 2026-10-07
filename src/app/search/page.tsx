@@ -32,6 +32,9 @@ function SearchResults() {
 
       const { data: coaches } = await supabase.from('coaches').select('id, name, role, bio').ilike('name', searchTerm);
       if (coaches) coaches.forEach(c => allResults.push({ title: c.name, desc: c.role || 'Məşqçi', link: `/coaches/${c.id}`, type: 'Məşqçi' }));
+      
+      const { data: courses } = await supabase.from('coach_courses').select('id, title, description').ilike('title', searchTerm);
+      if (courses) courses.forEach(c => allResults.push({ title: c.title, desc: c.description?.substring(0, 100) || '', link: `/courses/${c.id}`, type: 'Kurs' }));
 
       const { data: leaders } = await supabase.from('leadership').select('id, name, position').ilike('name', searchTerm);
       if (leaders) leaders.forEach(l => allResults.push({ title: l.name, desc: l.position || 'Klub Rəhbərliyi', link: '/club', type: 'Rəhbərlik' }));
@@ -44,6 +47,7 @@ function SearchResults() {
         { title: 'Turnir Cədvəli', link: '/standings', terms: ['turnir', 'cədvəl', 'standings', 'xal'] },
         { title: 'Media (Qalereya & Video)', link: '/media', terms: ['media', 'qalereya', 'şəkil', 'video', 'foto'] },
         { title: 'Məşqçilər', link: '/coaches', terms: ['məşqçi', 'coaches', 'heyət'] },
+        { title: 'Məşqçi Kursu', link: '/#courses', terms: ['kurs', 'praktiki', 'məşqçi kursu'] },
         { title: 'Əlaqə', link: '/contact', terms: ['əlaqə', 'contact', 'nömrə', 'telefon', 'ünvan'] },
         { title: 'Onlayn Mağaza', link: '/shop', terms: ['mağaza', 'shop', 'forma', 'satış', 'almaq'] }
       ];

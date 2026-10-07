@@ -71,7 +71,7 @@ export default function NewsPage() {
         ) : filteredNews.length === 0 ? (
            <div className="text-center py-20 text-gray-500 font-bold tracking-widest uppercase">Bu kateqoriyada xəbər tapılmadı.</div>
         ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
             {filteredNews.map((item, i) => (
               <motion.div 
                 key={item.id}
@@ -82,7 +82,7 @@ export default function NewsPage() {
               >
                 <Link href={`/news/${item.id}`} className="group block h-full">
                   <div className="bg-[#152741] rounded-2xl overflow-hidden border border-gray-800 hover:border-[#d7bf7b]/50 transition-all shadow-xl h-full flex flex-col">
-                    <div className="w-full h-56 bg-[#0d1a2d] relative overflow-hidden">
+                    <div className="w-full aspect-video bg-[#0d1a2d] relative overflow-hidden">
                       <img src={item.image_url || '/placeholder-news-1.jpg'} alt={item.title_az} className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
                       <div className="absolute inset-0 bg-gradient-to-t from-[#152741] via-transparent to-transparent z-10"></div>
                       <div className="absolute top-4 left-4 z-20">
@@ -91,7 +91,7 @@ export default function NewsPage() {
                         </span>
                       </div>
                     </div>
-                    <div className="p-6 flex flex-col flex-grow">
+                    <div className="p-4 flex flex-col flex-grow">
                       <span className="text-gray-500 text-xs font-bold uppercase tracking-widest mb-3">{(new Date(item.created_at).getDate().toString().padStart(2, '0') + '.' + (new Date(item.created_at).getMonth() + 1).toString().padStart(2, '0') + '.' + new Date(item.created_at).getFullYear())}</span>
                       <h3 className="text-white font-black text-xl leading-tight mb-3 group-hover:text-[#d7bf7b] transition-colors line-clamp-2">{item.title_az}</h3>
                       <p className="text-gray-400 text-sm leading-relaxed mb-6 flex-grow line-clamp-3">{item.content_az}</p>

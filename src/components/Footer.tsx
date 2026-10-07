@@ -96,14 +96,7 @@ export default function Footer() {
                <div className="relative w-16 h-16 md:w-20 md:h-20 rounded-full overflow-hidden border-2 border-[#d7bf7b]">
                  <Image src="/Logo.JPG.jpeg" alt="Yarımada FK" fill className="object-cover" />
                </div>
-               <div className="flex flex-col">
-                 <span className="text-[#d7bf7b] font-black text-2xl md:text-3xl tracking-tighter uppercase">
-                   Yarımada
-                 </span>
-                 <span className="text-white text-[10px] md:text-xs tracking-[0.3em] font-light mt-1 uppercase">
-                   Futbol Klubu
-                 </span>
-               </div>
+               
             </Link>
             <p className="text-gray-400 font-medium text-xs md:text-sm italic pl-2 md:text-center lg:text-left">
               "Gələcəyin çempionları<br />burada yetişir!"

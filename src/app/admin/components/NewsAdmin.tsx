@@ -1,6 +1,6 @@
-import { compressImage } from "@/lib/imageCompress";
 
 'use client';
+import { compressImage } from '@/lib/imageCompress';
 import { useState, useEffect } from 'react';
 import { supabase } from '@/lib/supabase';
 import { Trash2, Plus, UploadCloud } from 'lucide-react';

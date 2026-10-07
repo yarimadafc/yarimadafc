@@ -211,23 +211,13 @@ export default function Navbar() {
 
                 {menuItems.map((item) => (
                   <motion.div key={item.name}>
-                    {item.onClick ? (
-                      <a
-                        href={item.href}
-                        onClick={(e) => { item.onClick(e); setIsOpen(false); }}
-                        className="block py-3.5 font-bold text-sm tracking-widest text-white hover:text-[#d7bf7b] border-b border-gray-800/50 transition-colors"
-                      >
-                        {item.name}
-                      </a>
-                    ) : (
-                      <Link
-                        href={item.href}
-                        className="block py-3.5 font-bold text-sm tracking-widest text-white hover:text-[#d7bf7b] border-b border-gray-800/50 transition-colors"
-                        onClick={() => setIsOpen(false)}
-                      >
-                        {item.name}
-                      </Link>
-                    )}
+                    <Link
+                      href={item.href}
+                      className="block py-3.5 font-bold text-sm tracking-widest text-white hover:text-[#d7bf7b] border-b border-gray-800/50 transition-colors"
+                      onClick={() => setIsOpen(false)}
+                    >
+                      {item.name}
+                    </Link>
                   </motion.div>
                 ))}
                 

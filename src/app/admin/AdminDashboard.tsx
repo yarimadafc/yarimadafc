@@ -1,6 +1,6 @@
-import { compressImage } from "@/lib/imageCompress";
 
 'use client';
+import { compressImage } from '@/lib/imageCompress';
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { LogOut, Image as ImageIcon, CheckCircle, UploadCloud, FileText, Video, Trophy, DollarSign, LayoutDashboard, Settings } from 'lucide-react';

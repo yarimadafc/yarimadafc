@@ -1,8 +1,10 @@
 'use client';
-import { useState, useEffect } from 'react';
+import { compressImage } from "@/lib/imageCompress";
+import { useState, useEffect } from "react";
+
+
 import { supabase } from '@/lib/supabase';
 import { Trash2, Plus, UploadCloud, PlayCircle } from 'lucide-react';
-import { compressImage } from "@/lib/imageCompress";
 
 export default function VideosAdmin() {
   const [videos, setVideos] = useState<any[]>([]);

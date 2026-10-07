@@ -12,6 +12,7 @@ export default function SponsorsAdmin() {
   
   const [name, setName] = useState('');
   const [logoUrl, setLogoUrl] = useState('');
+  const [editingId, setEditingId] = useState<string | null>(null);
   const [isUploading, setIsUploading] = useState(false);
 
   useEffect(() => {
@@ -48,16 +49,30 @@ export default function SponsorsAdmin() {
     }
   };
 
+  const handleEdit = (s: any) => {
+    setName(s.name);
+    setLogoUrl(s.logo_url);
+    setEditingId(s.id);
+    setIsAdding(true);
+  };
+
   const handleAdd = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!name || !logoUrl) return alert('Bütün xanaları doldurun');
     
-    const { error } = await supabase.from('sponsors').insert([{ name, logo_url: logoUrl }]);
+    let error;
+    if (editingId) {
+      const res = await supabase.from('sponsors').update({ name, logo_url: logoUrl }).eq('id', editingId);
+      error = res.error;
+    } else {
+      const res = await supabase.from('sponsors').insert([{ name, logo_url: logoUrl }]);
+      error = res.error;
+    }
     if (error) alert('Xəta: ' + error.message);
     else {
-      alert('Sponsor əlavə edildi!');
+      alert(editingId ? 'Sponsor yeniləndi!' : 'Sponsor əlavə edildi!');
       setIsAdding(false);
-      setName(''); setLogoUrl('');
+      setName(''); setLogoUrl(''); setEditingId(null);
       fetchSponsors();
     }
   };
@@ -76,7 +91,7 @@ export default function SponsorsAdmin() {
           <h2 className="text-2xl font-black uppercase tracking-widest text-white mb-2">Sponsorlar</h2>
           <p className="text-gray-400 text-sm">Aşağıdakı qaçan bannerdə görünəcək sponsor logoları.</p>
         </div>
-        <button onClick={() => setIsAdding(!isAdding)} className="bg-[#d7bf7b] text-[#152741] px-4 py-2 rounded-lg font-bold text-xs uppercase tracking-widest flex items-center space-x-2">
+        <button onClick={() => { setIsAdding(!isAdding); setEditingId(null); setName(''); setLogoUrl(''); }} className="bg-[#d7bf7b] text-[#152741] px-4 py-2 rounded-lg font-bold text-xs uppercase tracking-widest flex items-center space-x-2">
           {isAdding ? <span>Ləğv Et</span> : <><Plus className="w-4 h-4" /><span>Yeni Sponsor</span></>}
         </button>
       </div>
@@ -110,9 +125,14 @@ export default function SponsorsAdmin() {
             <div key={s.id} className="bg-[#152741] border border-gray-800 p-4 rounded-xl text-center flex flex-col justify-between items-center">
               <img src={s.logo_url} alt={s.name} className="h-16 w-full object-contain mb-4 bg-white rounded p-2" />
               <div className="text-white text-xs font-bold uppercase truncate w-full mb-3">{s.name}</div>
-              <button onClick={() => handleDelete(s.id)} className="text-red-500 text-xs font-bold uppercase flex items-center justify-center space-x-1 hover:text-red-400">
-                <Trash2 className="w-3 h-3" /> <span>Sil</span>
-              </button>
+              <div className="flex space-x-4 w-full justify-center">
+                <button onClick={() => handleEdit(s)} className="text-blue-400 text-xs font-bold uppercase flex items-center justify-center hover:text-blue-300">
+                  Düzəliş
+                </button>
+                <button onClick={() => handleDelete(s.id)} className="text-red-500 text-xs font-bold uppercase flex items-center justify-center space-x-1 hover:text-red-400">
+                  <Trash2 className="w-3 h-3" /> <span>Sil</span>
+                </button>
+              </div>
             </div>
           ))}
         </div>

@@ -1,5 +1,7 @@
 export type TimerStatus = 'stopped' | 'running_first' | 'halftime' | 'running_second' | 'finished';
 
+// NEW LOGIC: Fully automatic based on match_date and match_time if timer_status is not manually overridden.
+// Since user requested fully automatic:
 export const calculateLiveMinute = (
   status: TimerStatus,
   startedAt: string | null,
@@ -7,8 +9,33 @@ export const calculateLiveMinute = (
   h1: number,
   h2: number,
   ex1: number,
-  ex2: number
+  ex2: number,
+  matchDate?: string,
+  matchTime?: string
 ): string => {
+  // If matchDate and matchTime are provided, calculate automatically based on them.
+  if (matchDate && matchTime) {
+    const matchStart = new Date(`${matchDate}T${matchTime}`).getTime();
+    const now = Date.now();
+    
+    if (now < matchStart) {
+      return 'Başlamayıb';
+    }
+    
+    const diffMin = Math.floor((now - matchStart) / 1000 / 60);
+    
+    if (diffMin <= h1 + ex1) {
+      return `${diffMin}'`;
+    } else if (diffMin > h1 + ex1 && diffMin <= h1 + ex1 + 15) { // Assuming 15 min halftime
+      return 'HT (Fasilə)';
+    } else if (diffMin > h1 + ex1 + 15 && diffMin <= h1 + h2 + ex1 + ex2 + 15) {
+      return `${diffMin - 15}'`;
+    } else {
+      return 'Bitdi';
+    }
+  }
+
+  // Fallback to manual if no matchDate/Time provided
   if (status === 'stopped') return 'Başlamayıb';
   if (status === 'halftime') return 'HT (Fasilə)';
   if (status === 'finished') return 'Bitdi';
@@ -18,7 +45,6 @@ export const calculateLiveMinute = (
   const startMs = new Date(startedAt).getTime();
   const nowMs = Date.now();
   
-  // Total seconds = already elapsed before this run + (now - start)
   const totalSec = elapsedSec + Math.floor((nowMs - startMs) / 1000);
   const min = Math.floor(totalSec / 60);
 

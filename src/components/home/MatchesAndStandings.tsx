@@ -91,7 +91,7 @@ export default function MatchesAndStandings() {
                     <div className="flex flex-col items-center justify-center w-[30%]">
                       {nextMatch.status === 'live' ? (
                         <div className="flex flex-col items-center animate-pulse">
-                          <div className="text-red-500 font-black text-xs tracking-widest uppercase mb-2">{calculateLiveMinute(nextMatch.timer_status, nextMatch.timer_started_at, nextMatch.elapsed_seconds, nextMatch.half_1_duration, nextMatch.half_2_duration, nextMatch.extra_time_1, nextMatch.extra_time_2)}</div>
+                          <div className="text-red-500 font-black text-xs tracking-widest uppercase mb-2">{calculateLiveMinute(nextMatch.timer_status, nextMatch.timer_started_at, nextMatch.elapsed_seconds, nextMatch.half_1_duration, nextMatch.half_2_duration, nextMatch.extra_time_1, nextMatch.extra_time_2, nextMatch.match_date || nextMatch.date, nextMatch.match_time || nextMatch.time)}</div>
                           <div className="flex items-center space-x-2 bg-[#0a1423] border border-gray-700 px-3 py-1.5 rounded-lg shadow-inner">
                             <span className="text-white font-black text-xl md:text-2xl">{nextMatch.home_score !== null ? nextMatch.home_score : '-'}</span>
                             <span className="text-gray-500 font-bold">:</span>

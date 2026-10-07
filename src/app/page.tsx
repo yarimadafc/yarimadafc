@@ -202,7 +202,7 @@ export default function HomePage() {
                        <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 mt-[-10px] z-20 flex flex-col items-center">
                          {heroMatch.status === 'live' ? (
                            <div className="flex flex-col items-center animate-pulse">
-                             <div className="text-red-500 font-black text-[10px] tracking-widest uppercase mb-1">{calculateLiveMinute(heroMatch.timer_status, heroMatch.timer_started_at, heroMatch.elapsed_seconds, heroMatch.half_1_duration, heroMatch.half_2_duration, heroMatch.extra_time_1, heroMatch.extra_time_2)}</div>
+                             <div className="text-red-500 font-black text-[10px] tracking-widest uppercase mb-1">{calculateLiveMinute(heroMatch.timer_status, heroMatch.timer_started_at, heroMatch.elapsed_seconds, heroMatch.half_1_duration, heroMatch.half_2_duration, heroMatch.extra_time_1, heroMatch.extra_time_2, heroMatch.match_date || heroMatch.date, heroMatch.match_time || heroMatch.time)}</div>
                              <div className="flex items-center space-x-2 bg-[#0a1423] border border-gray-700 px-3 py-1 rounded-lg">
                                <span className="text-white font-black text-xl">{heroMatch.home_score !== null ? heroMatch.home_score : '-'}</span>
                                <span className="text-gray-500 font-bold">:</span>

@@ -2,10 +2,40 @@
 import { motion } from 'framer-motion';
 import Link from 'next/link';
 import { useParams } from 'next/navigation';
+import { useEffect, useState } from 'react';
+import { supabase } from '@/lib/supabase';
 
 export default function NewsArticlePage() {
   const params = useParams();
   const id = params.id;
+  const [news, setNews] = useState<any>(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    async function loadNews() {
+      if (!id) return;
+      const { data } = await supabase.from('news').select('*').eq('id', id).single();
+      if (data) setNews(data);
+      setLoading(false);
+    }
+    loadNews();
+  }, [id]);
+
+  if (loading) {
+    return (
+      <div className="pt-32 min-h-screen bg-[#0a1423] pb-20 flex justify-center">
+        <div className="text-[#d7bf7b] font-bold tracking-widest uppercase animate-pulse">Yüklənir...</div>
+      </div>
+    );
+  }
+
+  if (!news) {
+    return (
+      <div className="pt-32 min-h-screen bg-[#0a1423] pb-20 flex justify-center">
+        <div className="text-red-400 font-bold tracking-widest uppercase">Xəbər tapılmadı</div>
+      </div>
+    );
+  }
 
   return (
     <div className="pt-24 min-h-screen bg-[#0a1423] pb-20">
@@ -23,47 +53,39 @@ export default function NewsArticlePage() {
         >
           {/* Article Header Image */}
           <div className="w-full h-[300px] md:h-[450px] bg-[#0d1a2d] relative">
-            <div className="absolute inset-0 bg-gradient-to-t from-[#152741] via-transparent to-transparent z-10"></div>
+            <img src={news.image_url || '/placeholder-news-1.jpg'} alt={news.title_az} className="absolute inset-0 w-full h-full object-cover" />
+            <div className="absolute inset-0 bg-gradient-to-t from-[#152741] via-[#152741]/20 to-transparent z-10"></div>
             <div className="absolute bottom-6 left-6 md:bottom-10 md:left-10 z-20">
               <span className="bg-[#d7bf7b] text-[#152741] text-xs font-black uppercase tracking-widest px-4 py-1.5 rounded-sm shadow-lg mb-4 inline-block">
-                Klub Xəbərləri
+                {news.category || 'Xəbərlər'}
               </span>
             </div>
           </div>
 
           <div className="p-6 md:p-12">
             <div className="flex items-center space-x-4 mb-6 border-b border-gray-800 pb-6">
-              <span className="text-gray-400 text-sm font-bold uppercase tracking-widest">05 Oktyabr 2026</span>
+              <span className="text-gray-400 text-sm font-bold uppercase tracking-widest">{new Date(news.created_at).toLocaleDateString('az-AZ')}</span>
               <span className="w-1.5 h-1.5 rounded-full bg-[#d7bf7b]"></span>
               <span className="text-gray-400 text-sm font-bold uppercase tracking-widest">Müəllif: Mətbuat Xidməti</span>
             </div>
 
             <h1 className="text-3xl md:text-5xl font-black text-white leading-tight mb-8">
-              Yarımada U-12 komandası çempion oldu!
+              {news.title_az}
             </h1>
 
             <div className="prose prose-invert max-w-none text-gray-300">
-              <p className="text-lg leading-relaxed mb-6 font-medium text-gray-200">
-                Gərgin keçən mövsümün sonunda U-12 komandamız həlledici qarşılaşmada qələbə qazanaraq kuboku qaldırdı.
-              </p>
-              <p className="leading-relaxed mb-6">
-                Turnir boyu yüksək əzmkarlıq və peşəkarlıq nümayiş etdirən futbolçularımız, final oyununda Neftçi PFK-nın eyni yaş qrupu ilə qarşılaşdı. Matçın ilk dəqiqələrindən üstünlüyü ələ alan Yarımada FK, ardıcıl hücumların bəhrəsini gördü.
-              </p>
-              <h3 className="text-xl font-bold text-white mb-4 mt-8">Baş Məşqçinin Fikirləri</h3>
-              <p className="leading-relaxed mb-6 border-l-4 border-[#d7bf7b] pl-6 italic text-gray-400">
-                "Uşaqlar mövsüm boyu çox çalışdılar. Bu gün onların əməyinin bəhrəsini görmək mənim üçün qürurvericidir. Bu sadəcə başlanğıcdır, qarşıda bizi daha böyük uğurlar gözləyir."
-              </p>
-              <p className="leading-relaxed">
-                Rəhbərlik olaraq başda baş məşqçi Elnur Cəlilov olmaqla, bütün komanda üzvlərini və valideynləri təbrik edir, gələcək yarışlarda uğurlar arzulayırıq.
-              </p>
+              {news.content_az?.split('\n').map((paragraph: string, idx: number) => (
+                <p key={idx} className="leading-relaxed mb-6 font-medium text-gray-200">
+                  {paragraph}
+                </p>
+              ))}
             </div>
 
             {/* Share & Tags */}
             <div className="mt-12 pt-8 border-t border-gray-800 flex flex-col md:flex-row items-center justify-between">
               <div className="flex space-x-3 mb-4 md:mb-0">
                 <span className="text-gray-500 text-xs font-bold uppercase tracking-widest mr-2 flex items-center">Teqlər:</span>
-                <span className="bg-[#0a1423] border border-gray-800 text-gray-400 text-[10px] font-bold uppercase px-3 py-1.5 rounded-full">#U12</span>
-                <span className="bg-[#0a1423] border border-gray-800 text-gray-400 text-[10px] font-bold uppercase px-3 py-1.5 rounded-full">#Çempion</span>
+                <span className="bg-[#0a1423] border border-gray-800 text-gray-400 text-[10px] font-bold uppercase px-3 py-1.5 rounded-full">#{news.category?.replace(/\s+/g, '') || 'Klub'}</span>
               </div>
               <div className="flex items-center space-x-4">
                 <span className="text-gray-500 text-xs font-bold uppercase tracking-widest">Paylaş:</span>

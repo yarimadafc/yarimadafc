@@ -13,6 +13,7 @@ export default function NewsAdmin() {
   // Form State
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
+  const [category, setCategory] = useState('Klub Xəbərləri');
   const [imageUrl, setImageUrl] = useState('');
   const [isUploading, setIsUploading] = useState(false);
 
@@ -61,6 +62,7 @@ export default function NewsAdmin() {
     const { error } = await supabase.from('news').insert([{ 
       title_az: title, 
       content_az: content, 
+      category: category,
       image_url: imageUrl,
       published: true
     }]);
@@ -70,7 +72,7 @@ export default function NewsAdmin() {
     } else {
       alert('Xəbər əlavə edildi!');
       setIsAdding(false);
-      setTitle(''); setContent(''); setImageUrl('');
+      setTitle(''); setContent(''); setImageUrl(''); setCategory('Klub Xəbərləri');
       fetchNews();
     }
   };
@@ -102,6 +104,14 @@ export default function NewsAdmin() {
           <div>
             <label className="block text-gray-400 text-xs font-bold uppercase tracking-widest mb-2">Xəbər Başlığı</label>
             <input type="text" value={title} onChange={e => setTitle(e.target.value)} className="w-full bg-[#0d1a2d] border border-gray-700 rounded-lg p-3 text-white focus:border-[#d7bf7b] outline-none" placeholder="Başlıq..." required />
+          </div>
+          <div>
+            <label className="block text-gray-400 text-xs font-bold uppercase tracking-widest mb-2">Kateqoriya</label>
+            <select value={category} onChange={e => setCategory(e.target.value)} className="w-full bg-[#0d1a2d] border border-gray-700 rounded-lg p-3 text-white focus:border-[#d7bf7b] outline-none">
+              <option value="Əsas Komanda">Əsas Komanda</option>
+              <option value="Akademiya">Akademiya</option>
+              <option value="Rəsmi">Rəsmi</option>
+            </select>
           </div>
           <div>
             <label className="block text-gray-400 text-xs font-bold uppercase tracking-widest mb-2">Əsas Şəkil</label>

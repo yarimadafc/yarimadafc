@@ -93,7 +93,7 @@ export default function Navbar() {
             
             {/* Logo */}
             <div className="flex-shrink-0">
-              <Link href="/" className="flex items-center group cursor-pointer space-x-3">
+              <Link href="/" onClick={() => { if(window.location.pathname === '/') window.scrollTo({top: 0, behavior: 'smooth'}) }} className="flex items-center group cursor-pointer space-x-2 md:space-x-3 absolute left-1/2 -translate-x-1/2 xl:relative xl:left-auto xl:translate-x-0">
                 <motion.div 
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
@@ -102,9 +102,7 @@ export default function Navbar() {
                   <Image src="/Logo.JPG.jpeg" alt="Yarımada FK" fill className="object-cover" />
                 </motion.div>
                 <div className="flex flex-col">
-                   <span className="text-white font-black text-[15px] md:text-xl tracking-tighter uppercase group-hover:text-[#d7bf7b] transition-colors">
-                     Yarımada FK
-                   </span>
+                   <span className="text-white font-black text-lg md:text-xl tracking-tighter uppercase group-hover:text-[#d7bf7b] transition-colors whitespace-nowrap">Yarımada FK</span>
                 </div>
               </Link>
             </div>
@@ -119,7 +117,7 @@ export default function Navbar() {
                   transition={{ duration: 0.3, delay: i * 0.05 }}
                 >
                   <Link
-                    href={item.href}
+                    href={item.href} 
                     className="font-bold text-[12px] 2xl:text-[13px] tracking-widest text-white hover:text-[#d7bf7b] transition-colors relative group"
                   >
                     {item.name}
@@ -212,9 +210,9 @@ export default function Navbar() {
                 {menuItems.map((item) => (
                   <motion.div key={item.name}>
                     <Link
-                      href={item.href}
+                      href={item.href} 
                       className="block py-3.5 font-bold text-sm tracking-widest text-white hover:text-[#d7bf7b] border-b border-gray-800/50 transition-colors"
-                      onClick={() => setIsOpen(false)}
+                      onClick={(e) => { setIsOpen(false); if(item.href === '/' && window.location.pathname === '/') { window.scrollTo({top: 0, behavior: 'smooth'}) } }}
                     >
                       {item.name}
                     </Link>

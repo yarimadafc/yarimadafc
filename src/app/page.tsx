@@ -95,11 +95,11 @@ export default function HomePage() {
                     transition={{ duration: 0.8, delay: 1 }}
                     className="h-[2px] bg-[#d7bf7b] mb-6"
                   ></motion.div>
-                  <h1 className="text-5xl md:text-6xl xl:text-7xl font-black text-white mb-6 uppercase tracking-tighter leading-tight drop-shadow-lg">
+                  <h1 className="text-4xl md:text-6xl xl:text-7xl font-black text-white mb-6 uppercase tracking-tighter leading-tight drop-shadow-lg">
                     {heroTexts.hero_title_1} <br />
                     <span className="text-[#d7bf7b]">{heroTexts.hero_title_2}</span>
                   </h1>
-                  <p className="text-gray-300 font-bold text-base md:text-lg tracking-wide max-w-lg mb-10 drop-shadow-md">
+                  <p className="text-gray-300 font-bold text-sm md:text-lg tracking-wide max-w-lg mb-10 drop-shadow-md">
                     {heroTexts.hero_subtitle}
                   </p>
                   <motion.div 

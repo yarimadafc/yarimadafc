@@ -9,6 +9,9 @@ import NewsAdmin from './components/NewsAdmin';
 import VideosAdmin from './components/VideosAdmin';
 import StandingsAdmin from './components/StandingsAdmin';
 import TextsAdmin from './components/TextsAdmin';
+import ClubAdmin from './components/ClubAdmin';
+import CoachesAdmin from './components/CoachesAdmin';
+import TeamsAdmin from './components/TeamsAdmin';
 import MatchesAdmin from './components/MatchesAdmin';
 import AchievementsAdmin from './components/AchievementsAdmin';
 import SponsorsAdmin from './components/SponsorsAdmin';
@@ -117,6 +120,18 @@ export default function AdminDashboard() {
               <FileText className="w-4 h-4" />
               <span>Sayt Yazıları</span>
             </button>
+            <button onClick={() => setActiveTab('club')} className={`w-full flex items-center space-x-3 px-4 py-3 rounded-lg font-bold text-xs uppercase tracking-widest transition-colors ${activeTab === 'club' ? 'bg-[#d7bf7b] text-[#152741]' : 'text-gray-400 hover:text-white hover:bg-[#0d1a2d]'}`}>
+              <FileText className="w-4 h-4" />
+              <span>Klub (Haqqımızda)</span>
+            </button>
+            <button onClick={() => setActiveTab('coaches')} className={`w-full flex items-center space-x-3 px-4 py-3 rounded-lg font-bold text-xs uppercase tracking-widest transition-colors ${activeTab === 'coaches' ? 'bg-[#d7bf7b] text-[#152741]' : 'text-gray-400 hover:text-white hover:bg-[#0d1a2d]'}`}>
+              <CheckCircle className="w-4 h-4" />
+              <span>Məşqçilər</span>
+            </button>
+            <button onClick={() => setActiveTab('teams')} className={`w-full flex items-center space-x-3 px-4 py-3 rounded-lg font-bold text-xs uppercase tracking-widest transition-colors ${activeTab === 'teams' ? 'bg-[#d7bf7b] text-[#152741]' : 'text-gray-400 hover:text-white hover:bg-[#0d1a2d]'}`}>
+              <CheckCircle className="w-4 h-4" />
+              <span>Komandalar</span>
+            </button>
             <button onClick={() => setActiveTab('news')} className={`w-full flex items-center space-x-3 px-4 py-3 rounded-lg font-bold text-xs uppercase tracking-widest transition-colors ${activeTab === 'news' ? 'bg-[#d7bf7b] text-[#152741]' : 'text-gray-400 hover:text-white hover:bg-[#0d1a2d]'}`}>
               <FileText className="w-4 h-4" />
               <span>Xəbərlər</span>
@@ -171,6 +186,9 @@ export default function AdminDashboard() {
         <div className="md:hidden flex overflow-x-auto space-x-2 pb-4 mb-6 scrollbar-hide">
           <button onClick={() => setActiveTab('images')} className={`flex-shrink-0 px-4 py-2 rounded-lg font-bold text-[10px] uppercase tracking-widest transition-colors ${activeTab === 'images' ? 'bg-[#d7bf7b] text-[#152741]' : 'bg-[#152741] text-gray-400'}`}>Şəkillər</button>
           <button onClick={() => setActiveTab('texts')} className={`flex-shrink-0 px-4 py-2 rounded-lg font-bold text-[10px] uppercase tracking-widest transition-colors ${activeTab === 'texts' ? 'bg-[#d7bf7b] text-[#152741]' : 'bg-[#152741] text-gray-400'}`}>Sayt Yazıları</button>
+          <button onClick={() => setActiveTab('club')} className={`flex-shrink-0 px-4 py-2 rounded-lg font-bold text-[10px] uppercase tracking-widest transition-colors ${activeTab === 'club' ? 'bg-[#d7bf7b] text-[#152741]' : 'bg-[#152741] text-gray-400'}`}>Klub</button>
+          <button onClick={() => setActiveTab('coaches')} className={`flex-shrink-0 px-4 py-2 rounded-lg font-bold text-[10px] uppercase tracking-widest transition-colors ${activeTab === 'coaches' ? 'bg-[#d7bf7b] text-[#152741]' : 'bg-[#152741] text-gray-400'}`}>Məşqçilər</button>
+          <button onClick={() => setActiveTab('teams')} className={`flex-shrink-0 px-4 py-2 rounded-lg font-bold text-[10px] uppercase tracking-widest transition-colors ${activeTab === 'teams' ? 'bg-[#d7bf7b] text-[#152741]' : 'bg-[#152741] text-gray-400'}`}>Komandalar</button>
           <button onClick={() => setActiveTab('news')} className={`flex-shrink-0 px-4 py-2 rounded-lg font-bold text-[10px] uppercase tracking-widest transition-colors ${activeTab === 'news' ? 'bg-[#d7bf7b] text-[#152741]' : 'bg-[#152741] text-gray-400'}`}>Xəbərlər</button>
           <button onClick={() => setActiveTab('videos')} className={`flex-shrink-0 px-4 py-2 rounded-lg font-bold text-[10px] uppercase tracking-widest transition-colors ${activeTab === 'videos' ? 'bg-[#d7bf7b] text-[#152741]' : 'bg-[#152741] text-gray-400'}`}>Videolar</button>
           <button onClick={() => setActiveTab('achievements')} className={`flex-shrink-0 px-4 py-2 rounded-lg font-bold text-[10px] uppercase tracking-widest transition-colors ${activeTab === 'achievements' ? 'bg-[#d7bf7b] text-[#152741]' : 'bg-[#152741] text-gray-400'}`}>Nailiyyətlər</button>
@@ -181,6 +199,9 @@ export default function AdminDashboard() {
         </div>
 
         {activeTab === 'texts' && <TextsAdmin />}
+        {activeTab === 'club' && <ClubAdmin />}
+        {activeTab === 'coaches' && <CoachesAdmin />}
+        {activeTab === 'teams' && <TeamsAdmin />}
         {activeTab === 'images' && (
           <div>
             <h2 className="text-2xl font-black uppercase tracking-widest mb-2">Sayt Şəkilləri</h2>

@@ -1,13 +1,19 @@
 'use client';
 import { motion } from 'framer-motion';
 
+import { useState, useEffect } from 'react';
+import { supabase } from '@/lib/supabase';
+
 export default function CoachesPage() {
-  const coaches = [
-    { id: 1, name: 'Elnur Cəlilov', role: 'Baş Məşqçi (U-12)', license: 'UEFA B', experience: '10 İl', bio: 'Gənc istedadların kəşfi və inkişafında böyük rolu var.', image: '/placeholder-coach.jpg' },
-    { id: 2, name: 'Ramil Həsənov', role: 'Məşqçi (U-11)', license: 'UEFA C', experience: '6 İl', bio: 'Taktiki analiz və uşaq psixologiyası üzrə mütəxəssis.', image: '/placeholder-coach.jpg' },
-    { id: 3, name: 'Cavid Quliyev', role: 'Məşqçi (U-10)', license: 'UEFA C', experience: '5 İl', bio: 'Texniki bacarıqların formalaşmasına xüsusi diqqət ayırır.', image: '/placeholder-coach.jpg' },
-    { id: 4, name: 'Emin Kərimov', role: 'Məşqçi (U-9)', license: 'AFFA C', experience: '3 İl', bio: 'Yeni başlayan uşaqlara futbolu sevdirən təcrübəli kadr.', image: '/placeholder-coach.jpg' },
-  ];
+  const [coaches, setCoaches] = useState<any[]>([]);
+
+  useEffect(() => {
+    async function loadCoaches() {
+      const { data } = await supabase.from('coaches').select('*, teams(name)').order('created_at', { ascending: false });
+      if (data) setCoaches(data);
+    }
+    loadCoaches();
+  }, []);
 
   return (
     <div className="pt-24 min-h-screen bg-[#0a1423] pb-20">
@@ -51,7 +57,11 @@ export default function CoachesPage() {
               <div className="w-full h-72 bg-[#0d1a2d] relative overflow-hidden">
                 <div className="absolute inset-0 bg-gradient-to-t from-[#152741] to-transparent z-10"></div>
                 <div className="absolute inset-0 flex items-center justify-center">
-                  <svg className="w-20 h-20 text-gray-700" fill="currentColor" viewBox="0 0 20 20"><path fillRule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clipRule="evenodd" /></svg>
+                  {coach.image_url ? (
+                    <img src={coach.image_url} alt={coach.name} className="absolute inset-0 w-full h-full object-cover" />
+                  ) : (
+                    <svg className="w-20 h-20 text-gray-700 relative z-0" fill="currentColor" viewBox="0 0 20 20"><path fillRule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clipRule="evenodd" /></svg>
+                  )}
                 </div>
               </div>
               
@@ -60,7 +70,7 @@ export default function CoachesPage() {
                 <p className="text-[#d7bf7b] font-bold text-xs uppercase tracking-widest mb-4">{coach.role}</p>
                 
                 <p className="text-gray-400 text-sm leading-relaxed mb-6 h-16 line-clamp-3">
-                  {coach.bio}
+                  {coach.teams ? `Aid olduğu komanda: ${coach.teams.name}` : 'Akademiya və Ümumi Məşqçi'}
                 </p>
 
                 <div className="flex items-center justify-between pt-4 border-t border-gray-800">
@@ -68,11 +78,7 @@ export default function CoachesPage() {
                     <span className="text-gray-500 text-[10px] font-bold uppercase tracking-widest mb-1">Lisenziya</span>
                     <span className="text-white text-sm font-bold">{coach.license}</span>
                   </div>
-                  <div className="w-[1px] h-8 bg-gray-800"></div>
-                  <div className="flex flex-col text-right">
-                    <span className="text-gray-500 text-[10px] font-bold uppercase tracking-widest mb-1">Təcrübə</span>
-                    <span className="text-white text-sm font-bold">{coach.experience}</span>
-                  </div>
+                  
                 </div>
               </div>
             </motion.div>

@@ -2,13 +2,19 @@
 import { motion } from 'framer-motion';
 import Link from 'next/link';
 
+import { useState, useEffect } from 'react';
+import { supabase } from '@/lib/supabase';
+
 export default function TeamsPage() {
-  const teams = [
-    { id: 'u-12', name: 'U-12', coach: 'Elnur Cəlilov', playersCount: 22, league: 'AFFA U-12 Premyer Liqa' },
-    { id: 'u-11', name: 'U-11', coach: 'Ramil Həsənov', playersCount: 18, league: 'AFFA U-11 Liqa' },
-    { id: 'u-10', name: 'U-10', coach: 'Cavid Quliyev', playersCount: 20, league: 'AFFA U-10 Liqa' },
-    { id: 'u-9', name: 'U-9', coach: 'Emin Kərimov', playersCount: 16, league: 'Gənclər Liqası' },
-  ];
+  const [teams, setTeams] = useState<any[]>([]);
+
+  useEffect(() => {
+    async function loadTeams() {
+      const { data } = await supabase.from('teams').select('*, coaches(name), players(id)').order('created_at', { ascending: false });
+      if (data) setTeams(data);
+    }
+    loadTeams();
+  }, []);
 
   return (
     <div className="pt-24 min-h-screen bg-[#0a1423] pb-20">
@@ -65,16 +71,16 @@ export default function TeamsPage() {
                     <div className="space-y-4">
                       <div className="flex flex-col border-b border-gray-800 pb-3">
                         <span className="text-gray-500 text-[10px] uppercase tracking-widest font-bold mb-1">Turnir / Liqa</span>
-                        <span className="text-white text-sm font-medium">{team.league}</span>
+                        <span className="text-white text-sm font-medium">{team.league || 'Gənclər Liqası'}</span>
                       </div>
                       <div className="flex justify-between items-center border-b border-gray-800 pb-3">
                         <div className="flex flex-col">
                           <span className="text-gray-500 text-[10px] uppercase tracking-widest font-bold mb-1">Baş Məşqçi</span>
-                          <span className="text-white text-sm font-medium">{team.coach}</span>
+                          <span className="text-white text-sm font-medium">{team.coaches && team.coaches.length > 0 ? team.coaches[0].name : 'Təyin edilməyib'}</span>
                         </div>
                         <div className="flex flex-col items-end">
                           <span className="text-gray-500 text-[10px] uppercase tracking-widest font-bold mb-1">Oyunçu Sayı</span>
-                          <span className="text-[#d7bf7b] text-lg font-black">{team.playersCount}</span>
+                          <span className="text-[#d7bf7b] text-lg font-black">{team.players ? team.players.length : 0}</span>
                         </div>
                       </div>
                     </div>

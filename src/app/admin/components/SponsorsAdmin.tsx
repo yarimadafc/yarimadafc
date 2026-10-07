@@ -58,7 +58,7 @@ export default function SponsorsAdmin() {
 
   const handleAdd = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!name || !logoUrl) return alert('Bütün xanaları doldurun');
+    if (!name) return alert('Komanda və ya Sponsor adı mütləqdir');
     
     let error;
     if (editingId) {
@@ -123,7 +123,7 @@ export default function SponsorsAdmin() {
         <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-6">
           {sponsors.map(s => (
             <div key={s.id} className="bg-[#152741] border border-gray-800 p-4 rounded-xl text-center flex flex-col justify-between items-center">
-              <img src={s.logo_url} alt={s.name} className="h-16 w-full object-contain mb-4 bg-white rounded p-2" />
+              {s.logo_url ? <img src={s.logo_url} alt={s.name} className="h-16 w-full object-contain mb-4 bg-white rounded p-2" /> : <div className="h-16 w-full flex items-center justify-center mb-4 bg-[#0d1a2d] rounded border border-gray-700 text-[10px] text-gray-500 font-bold uppercase tracking-widest">Loqo yoxdur</div>}
               <div className="text-white text-xs font-bold uppercase truncate w-full mb-3">{s.name}</div>
               <div className="flex space-x-4 w-full justify-center">
                 <button onClick={() => handleEdit(s)} className="text-blue-400 text-xs font-bold uppercase flex items-center justify-center hover:text-blue-300">

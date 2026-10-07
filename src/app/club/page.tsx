@@ -90,9 +90,7 @@ export default function ClubPage() {
             transition={{ duration: 0.8 }}
             className="relative h-[400px] md:h-[500px] w-full rounded-2xl overflow-hidden border border-gray-800 shadow-2xl"
           >
-            <div className="absolute inset-0 bg-[#152741] flex items-center justify-center">
-               <span className="text-gray-600 font-bold uppercase tracking-widest text-sm">Klub Şəkli</span>
-            </div>
+            <img src={aboutBg} alt="Klub Şəkli" className="absolute inset-0 w-full h-full object-cover" />
           </motion.div>
         </div>
       </div>

@@ -9,6 +9,7 @@ export default function NewsAdmin() {
   const [news, setNews] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [isAdding, setIsAdding] = useState(false);
+  const [editingId, setEditingId] = useState<string | null>(null);
   
   // Form State
   const [title, setTitle] = useState('');
@@ -55,22 +56,43 @@ export default function NewsAdmin() {
     }
   };
 
+  const handleEdit = (newsItem: any) => {
+    setTitle(newsItem.title_az);
+    setContent(newsItem.content_az);
+    setCategory(newsItem.category || 'Əsas Komanda');
+    setImageUrl(newsItem.image_url || '');
+    setEditingId(newsItem.id);
+    setIsAdding(true);
+  };
+
   const handleAddNews = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!title || !content || !imageUrl) return alert('Bütün xanaları doldurun');
     
-    const { error } = await supabase.from('news').insert([{ 
-      title_az: title, 
-      content_az: content, 
-      category: category,
-      image_url: imageUrl,
-      published: true
-    }]);
+    let error;
+    if (editingId) {
+      const res = await supabase.from('news').update({ 
+        title_az: title, 
+        content_az: content, 
+        category: category,
+        image_url: imageUrl 
+      }).eq('id', editingId);
+      error = res.error;
+    } else {
+      const res = await supabase.from('news').insert([{ 
+        title_az: title, 
+        content_az: content, 
+        category: category,
+        image_url: imageUrl,
+        published: true
+      }]);
+      error = res.error;
+    }
     
     if (error) {
       alert('Xəta: ' + error.message);
     } else {
-      alert('Xəbər əlavə edildi!');
+      alert(editingId ? 'Xəbər yeniləndi!' : 'Xəbər əlavə edildi!');
       setIsAdding(false);
       setTitle(''); setContent(''); setImageUrl(''); setCategory('Klub Xəbərləri');
       fetchNews();
@@ -95,7 +117,7 @@ export default function NewsAdmin() {
           onClick={() => setIsAdding(!isAdding)} 
           className="bg-[#d7bf7b] text-[#152741] px-4 py-2 rounded-lg font-bold text-xs uppercase tracking-widest flex items-center space-x-2 hover:bg-white transition-colors"
         >
-          {isAdding ? <span>Ləğv Et</span> : <><Plus className="w-4 h-4" /><span>Yeni Xəbər</span></>}
+          {isAdding ? <span onClick={() => { setEditingId(null); setTitle(''); setContent(''); setImageUrl(''); }}>Ləğv Et</span> : <><Plus className="w-4 h-4" /><span>Yeni Xəbər</span></>}
         </button>
       </div>
 
@@ -146,9 +168,14 @@ export default function NewsAdmin() {
                    <span className="text-xs text-[#d7bf7b] mb-2 block">{new Date(n.created_at).toLocaleDateString('az-AZ')}</span>
                    <h3 className="font-bold text-white text-sm line-clamp-2 mb-2">{n.title_az}</h3>
                  </div>
-                 <button onClick={() => handleDelete(n.id)} className="mt-4 flex items-center justify-center space-x-2 text-red-400 hover:text-red-300 hover:bg-red-400/10 py-2 rounded-lg transition-colors text-xs font-bold uppercase">
+                 <div className="mt-4 flex space-x-2">
+     <button onClick={() => handleEdit(n)} className="flex-1 flex items-center justify-center space-x-2 text-blue-400 hover:text-blue-300 hover:bg-blue-400/10 py-2 rounded-lg transition-colors text-xs font-bold uppercase">
+       Düzəliş
+     </button>
+     <button onClick={() => handleDelete(n.id)} className="flex-1 flex items-center justify-center space-x-2 text-red-400 hover:text-red-300 hover:bg-red-400/10 py-2 rounded-lg transition-colors text-xs font-bold uppercase">
                    <Trash2 className="w-4 h-4" /> <span>Sil</span>
-                 </button>
+                   </button>
+                 </div>
               </div>
             </div>
           ))}

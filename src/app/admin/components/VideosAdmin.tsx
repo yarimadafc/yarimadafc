@@ -13,6 +13,7 @@ export default function VideosAdmin() {
   const [videos, setVideos] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [isAdding, setIsAdding] = useState(false);
+  const [editingId, setEditingId] = useState<string | null>(null);
   
   const [title, setTitle] = useState('');
   const [url, setUrl] = useState('');
@@ -28,6 +29,13 @@ export default function VideosAdmin() {
     setLoading(false);
   };
 
+  const handleEdit = (v: any) => {
+    setTitle(v.title);
+    setUrl(v.url);
+    setEditingId(v.id);
+    setIsAdding(true);
+  };
+
   const handleAddVideo = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!title || !url) return alert('Bütün xanaları doldurun');
@@ -37,19 +45,30 @@ export default function VideosAdmin() {
 
     const thumbUrl = `https://img.youtube.com/vi/${videoId}/maxresdefault.jpg`;
 
-    const { error } = await supabase.from('videos').insert([{ 
-      title, 
-      url, 
-      thumbnail_url: thumbUrl, 
-      published_date: new Date().toISOString() 
-    }]);
+    let error;
+    if (editingId) {
+      const res = await supabase.from('videos').update({ 
+        title, 
+        url, 
+        thumbnail_url: thumbUrl 
+      }).eq('id', editingId);
+      error = res.error;
+    } else {
+      const res = await supabase.from('videos').insert([{ 
+        title, 
+        url, 
+        thumbnail_url: thumbUrl, 
+        published_date: new Date().toISOString() 
+      }]);
+      error = res.error;
+    }
     
     if (error) {
       alert('Xəta: ' + error.message);
     } else {
-      alert('Video əlavə edildi!');
+      alert(editingId ? 'Video yeniləndi!' : 'Video əlavə edildi!');
       setIsAdding(false);
-      setTitle(''); setUrl('');
+      setTitle(''); setUrl(''); setEditingId(null);
       fetchVideos();
     }
   };
@@ -69,7 +88,7 @@ export default function VideosAdmin() {
           <p className="text-gray-400 text-sm">Youtube linki əlavə etmək kifayətdir, şəkil avtomatik çəkiləcək.</p>
         </div>
         <button onClick={() => setIsAdding(!isAdding)} className="bg-[#d7bf7b] text-[#152741] px-4 py-2 rounded-lg font-bold text-xs uppercase tracking-widest flex items-center space-x-2 hover:bg-white transition-colors">
-          {isAdding ? <span>Ləğv Et</span> : <><Plus className="w-4 h-4" /><span>Yeni Video</span></>}
+          {isAdding ? <span onClick={() => { setEditingId(null); setTitle(''); setUrl(''); }}>Ləğv Et</span> : <><Plus className="w-4 h-4" /><span>Yeni Video</span></>}
         </button>
       </div>
 
@@ -101,9 +120,14 @@ export default function VideosAdmin() {
               </div>
               <div className="p-4 flex-1 flex flex-col justify-between">
                  <h3 className="font-bold text-white text-sm line-clamp-2 mb-2">{v.title}</h3>
-                 <button onClick={() => handleDelete(v.id)} className="mt-2 flex items-center justify-center space-x-2 text-red-400 hover:text-red-300 hover:bg-red-400/10 py-2 rounded-lg transition-colors text-xs font-bold uppercase">
+                 <div className="mt-2 flex space-x-2">
+     <button onClick={() => handleEdit(v)} className="flex-1 flex items-center justify-center space-x-2 text-blue-400 hover:text-blue-300 hover:bg-blue-400/10 py-2 rounded-lg transition-colors text-xs font-bold uppercase">
+       Düzəliş
+     </button>
+     <button onClick={() => handleDelete(v.id)} className="flex-1 flex items-center justify-center space-x-2 text-red-400 hover:text-red-300 hover:bg-red-400/10 py-2 rounded-lg transition-colors text-xs font-bold uppercase">
                    <Trash2 className="w-4 h-4" /> <span>Sil</span>
-                 </button>
+                   </button>
+                 </div>
               </div>
             </div>
           ))}

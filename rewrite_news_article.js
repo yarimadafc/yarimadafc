@@ -1,4 +1,5 @@
-'use client';
+const fs = require('fs');
+const content = `'use client';
 import { motion } from 'framer-motion';
 import Link from 'next/link';
 import { useParams } from 'next/navigation';
@@ -106,3 +107,5 @@ export default function NewsArticlePage() {
     </div>
   );
 }
+`;
+fs.writeFileSync('src/app/news/[id]/page.tsx', content);

@@ -7,6 +7,8 @@ import { LogOut, Image as ImageIcon, CheckCircle, UploadCloud, FileText, Video, 
 import { supabase } from '@/lib/supabase';
 import NewsAdmin from './components/NewsAdmin';
 import VideosAdmin from './components/VideosAdmin';
+import StandingsAdmin from './components/StandingsAdmin';
+import MatchesAdmin from './components/MatchesAdmin';
 import AchievementsAdmin from './components/AchievementsAdmin';
 import SponsorsAdmin from './components/SponsorsAdmin';
 
@@ -86,7 +88,7 @@ export default function AdminDashboard() {
     { id: 'about_bg', title: 'Haqqımızda / Klub', desc: 'Haqqımızda səhifəsinin yuxarı fon şəkli.' },
     { id: 'news_bg', title: 'Xəbərlər Şəkli', desc: 'Ana səhifədəki son xəbərlər blokunun əsas şəkli.' },
     { id: 'quick_shop', title: 'Sürətli Keçid: Onlayn Mağaza', desc: 'Ana səhifədəki Onlayn Mağaza keçidinin şəkli.' },
-    { id: 'quick_school', title: 'Sürətli Keçid: Futbol Məktəbi', desc: 'Ana səhifədəki Futbol Məktəbi keçidinin şəkli.' },
+    
     { id: 'quick_academy', title: 'Sürətli Keçid: Akademiya', desc: 'Ana səhifədəki Akademiya keçidinin şəkli.' },
   ];
 
@@ -160,6 +162,12 @@ export default function AdminDashboard() {
           <button onClick={() => setActiveTab('videos')} className={`flex-shrink-0 px-4 py-2 rounded-lg font-bold text-[10px] uppercase tracking-widest transition-colors ${activeTab === 'videos' ? 'bg-[#d7bf7b] text-[#152741]' : 'bg-[#152741] text-gray-400'}`}>Videolar</button>
           <button onClick={() => setActiveTab('achievements')} className={`flex-shrink-0 px-4 py-2 rounded-lg font-bold text-[10px] uppercase tracking-widest transition-colors ${activeTab === 'achievements' ? 'bg-[#d7bf7b] text-[#152741]' : 'bg-[#152741] text-gray-400'}`}>Nailiyyətlər</button>
           <button onClick={() => setActiveTab('sponsors')} className={`flex-shrink-0 px-4 py-2 rounded-lg font-bold text-[10px] uppercase tracking-widest transition-colors ${activeTab === 'sponsors' ? 'bg-[#d7bf7b] text-[#152741]' : 'bg-[#152741] text-gray-400'}`}>Sponsorlar</button>
+            <button onClick={() => setActiveTab('standings')} className={`w-full flex items-center space-x-3 px-4 py-3 rounded-lg font-bold text-xs uppercase tracking-widest transition-colors ${activeTab === 'standings' ? 'bg-[#d7bf7b] text-[#152741]' : 'text-gray-400 hover:text-white hover:bg-[#0d1a2d]'}`}>
+              <Trophy className="w-4 h-4" /> <span>Turnir Cədvəli</span>
+            </button>
+            <button onClick={() => setActiveTab('matches')} className={`w-full flex items-center space-x-3 px-4 py-3 rounded-lg font-bold text-xs uppercase tracking-widest transition-colors ${activeTab === 'matches' ? 'bg-[#d7bf7b] text-[#152741]' : 'text-gray-400 hover:text-white hover:bg-[#0d1a2d]'}`}>
+              <CheckCircle className="w-4 h-4" /> <span>Oyunlar</span>
+            </button>
         </div>
 
         {activeTab === 'images' && (
@@ -223,6 +231,8 @@ export default function AdminDashboard() {
         {activeTab === 'videos' && <VideosAdmin />}
         {activeTab === 'achievements' && <AchievementsAdmin />}
         {activeTab === 'sponsors' && <SponsorsAdmin />}
+          {activeTab === 'standings' && <StandingsAdmin />}
+          {activeTab === 'matches' && <MatchesAdmin />}
 
       </main>
     </div>

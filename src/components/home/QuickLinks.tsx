@@ -11,7 +11,7 @@ export default function QuickLinks() {
 
   useEffect(() => {
     async function loadImages() {
-      const keys = ['quick_shop', 'quick_school', 'quick_academy'];
+      const keys = ['quick_shop', 'quick_academy'];
       const { data } = await supabase.from('site_images').select('section_key, image_url').in('section_key', keys);
       if (data) {
         const map: Record<string, string> = {};
@@ -24,7 +24,6 @@ export default function QuickLinks() {
 
   const links = [
     { title: 'Onlayn mağaza', href: '/shop', key: 'quick_shop' },
-    { title: '"Yarımada" Futbol Məktəbi', href: '/school', key: 'quick_school' },
     { title: 'Akademiya', href: '/academy', key: 'quick_academy' },
   ];
 
@@ -53,7 +52,7 @@ export default function QuickLinks() {
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, margin: "-100px" }}
-          className="grid grid-cols-1 md:grid-cols-3 gap-6"
+          className="grid grid-cols-1 md:grid-cols-2 gap-6"
         >
           {links.map((link, i) => (
             <motion.div key={i} variants={itemVariants}>

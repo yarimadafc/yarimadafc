@@ -115,7 +115,7 @@ export default function Footer() {
           {/* Links Col 1 */}
           <div className="flex flex-col space-y-3 md:space-y-4 col-span-1">
             <Link href="/news" className="text-white font-bold text-xs md:text-sm hover:text-[#d7bf7b] transition-colors">Xəbərlər</Link>
-            <Link href="/club" className="text-white font-bold text-xs md:text-sm hover:text-[#d7bf7b] transition-colors">Klub</Link>
+            <Link href="/club" className="text-white font-bold text-xs md:text-sm hover:text-[#d7bf7b] transition-colors">Haqqımızda</Link>
             <Link href="/matches" className="text-white font-bold text-xs md:text-sm hover:text-[#d7bf7b] transition-colors">Oyunlar</Link>
             <Link href="/social" className="text-white font-bold text-xs md:text-sm hover:text-[#d7bf7b] transition-colors">Sosial media</Link>
           </div>
@@ -124,9 +124,9 @@ export default function Footer() {
           <div className="flex flex-col space-y-3 md:space-y-4 col-span-1">
             <Link href="/teams" className="text-white font-bold text-xs md:text-sm hover:text-[#d7bf7b] transition-colors">Komandalar</Link>
             <Link href="/academy" className="text-white font-bold text-xs md:text-sm hover:text-[#d7bf7b] transition-colors">Akademiya</Link>
-            <Link href="/history" className="text-white font-bold text-xs md:text-sm hover:text-[#d7bf7b] transition-colors">Tarix</Link>
             <Link href="/sponsors" className="text-white font-bold text-xs md:text-sm hover:text-[#d7bf7b] transition-colors">Sponsorlar</Link>
             <Link href="/shop" className="text-white font-bold text-xs md:text-sm hover:text-[#d7bf7b] transition-colors">Mağaza</Link>
+            <Link href="/privacy" className="text-white font-bold text-xs md:text-sm hover:text-[#d7bf7b] transition-colors">Məxfilik siyasəti</Link>
           </div>
 
           {/* Contact & Address */}

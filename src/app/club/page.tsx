@@ -2,7 +2,26 @@
 import { motion } from 'framer-motion';
 import Image from 'next/image';
 
+import { useState, useEffect } from 'react';
+import { supabase } from '@/lib/supabase';
+
 export default function ClubPage() {
+  const [aboutBg, setAboutBg] = useState<string>('/placeholder-hero.jpg');
+
+  useEffect(() => {
+    async function loadAboutImage() {
+      try {
+        const { data } = await supabase.from('site_images').select('image_url').eq('section_key', 'about_bg').single();
+        if (data && data.image_url) {
+          setAboutBg(data.image_url);
+        }
+      } catch (err) {
+        console.error('No about image found');
+      }
+    }
+    loadAboutImage();
+  }, []);
+
   const leadership = [
     { name: 'Nağı Əliyev', role: 'Klubun Təsisçisi və Rəhbəri', image: '/Logo.JPG.jpeg' },
     { name: 'Əhməd Məmmədov', role: 'İdman Direktoru', image: '/Logo.JPG.jpeg' },
@@ -20,7 +39,10 @@ export default function ClubPage() {
       
       {/* 1. Page Header */}
       <div className="w-full bg-[#152741] py-16 md:py-24 border-b border-gray-800 relative overflow-hidden">
-        <div className="absolute inset-0 bg-[url('/placeholder-hero.jpg')] bg-cover bg-center opacity-10"></div>
+        <div 
+          className="absolute inset-0 bg-cover bg-center opacity-10"
+          style={{ backgroundImage: `url(${aboutBg})` }}
+        ></div>
         <div className="absolute inset-0 bg-gradient-to-t from-[#0a1423] to-transparent"></div>
         <div className="container mx-auto px-4 lg:px-8 relative z-10 text-center">
           <motion.h1 

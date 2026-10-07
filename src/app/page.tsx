@@ -9,12 +9,26 @@ import VideoSection from '@/components/home/VideoSection';
 import Achievements from '@/components/home/Achievements';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useState, useEffect } from 'react';
+import { supabase } from '@/lib/supabase';
 
 export default function HomePage() {
   const [time, setTime] = useState<string>('');
   const [date, setDate] = useState<string>('');
+  const [heroBg, setHeroBg] = useState<string>('/placeholder-hero.jpg');
 
   useEffect(() => {
+    async function loadHeroImage() {
+      try {
+        const { data } = await supabase.from('site_images').select('image_url').eq('section_key', 'hero_bg').single();
+        if (data && data.image_url) {
+          setHeroBg(data.image_url);
+        }
+      } catch (err) {
+        console.error('No hero image found, using default');
+      }
+    }
+    loadHeroImage();
+
     const updateTime = () => {
       const now = new Date();
       setTime(now.toLocaleTimeString('az-AZ', { hour12: false }));
@@ -42,7 +56,8 @@ export default function HomePage() {
             initial={{ scale: 1.2 }}
             animate={{ scale: 1 }}
             transition={{ duration: 1.5, ease: "easeOut" }}
-            className="absolute inset-0 bg-[url('/placeholder-hero.jpg')] bg-cover bg-center"
+            className="absolute inset-0 bg-cover bg-center"
+            style={{ backgroundImage: `url(${heroBg})` }}
           ></motion.div>
           <div className="absolute inset-0 bg-gradient-to-r from-[#0d1a2d]/95 via-[#0d1a2d]/70 to-transparent lg:via-[#0d1a2d]/60"></div>
           

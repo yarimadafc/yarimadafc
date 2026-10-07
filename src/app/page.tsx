@@ -18,7 +18,7 @@ export default function HomePage() {
     hero_title_2: 'YENİ HƏDƏFLƏR',
     hero_subtitle: 'Gələcəyin çempionları burada yetişir. Böyük hədəflərə doğru birlikdə addımlayırıq!'
   });
-  const [nextMatch, setNextMatch] = useState<any>(null);
+  const [heroMatch, setHeroMatch] = useState<any>({ home: 'YARIMADA', away: 'RƏQİB', date: '', time: '', venue: '', league: 'Gənclər Liqası' });
   const [time, setTime] = useState<string>('');
   const [date, setDate] = useState<string>('');
   const [heroBg, setHeroBg] = useState<string>('/placeholder-hero.jpg');
@@ -43,8 +43,20 @@ export default function HomePage() {
         texts.forEach(t => { map[t.section_key] = t.image_url; });
         setHeroTexts(map);
       }
-      const { data: match } = await supabase.from('matches').select('*').order('match_date', { ascending: true }).limit(1).single();
-      if (match) setNextMatch(match);
+      const hmKeys = ['hero_match_home', 'hero_match_away', 'hero_match_date', 'hero_match_time', 'hero_match_venue', 'hero_match_league'];
+      const { data: hmData } = await supabase.from('site_images').select('section_key, image_url').in('section_key', hmKeys);
+      if (hmData) {
+        const hm: any = { home: 'YARIMADA', away: 'RƏQİB', date: '', time: '', venue: '', league: 'Gənclər Liqası' };
+        hmData.forEach(item => {
+          if (item.section_key === 'hero_match_home') hm.home = item.image_url;
+          if (item.section_key === 'hero_match_away') hm.away = item.image_url;
+          if (item.section_key === 'hero_match_date') hm.date = item.image_url;
+          if (item.section_key === 'hero_match_time') hm.time = item.image_url;
+          if (item.section_key === 'hero_match_venue') hm.venue = item.image_url;
+          if (item.section_key === 'hero_match_league') hm.league = item.image_url;
+        });
+        setHeroMatch(hm);
+      }
     }
     loadData();
 
@@ -145,7 +157,7 @@ export default function HomePage() {
                      
                      <div className="flex items-center justify-between mb-6">
                        <span className="text-[#d7bf7b] font-bold tracking-[0.2em] text-[10px] uppercase">Növbəti Oyun</span>
-                       <span className="text-gray-400 text-[11px] font-medium tracking-wide">{nextMatch?.tournament || 'Gənclər Liqası'}</span>
+                       <span className="text-gray-400 text-[11px] font-medium tracking-wide">{heroMatch.league || 'Gənclər Liqası'}</span>
                      </div>
 
                      <div className="flex items-center justify-between mb-8 relative">
@@ -156,7 +168,7 @@ export default function HomePage() {
                              <img src="/Logo.JPG.jpeg" alt="Yarımada" className="w-full h-full object-cover rounded-full" />
                            </div>
                          </div>
-                         <span className="font-black text-white tracking-widest text-xs uppercase text-center">{nextMatch?.home_team || 'YARIMADA'}</span>
+                         <span className="font-black text-white tracking-widest text-xs uppercase text-center">{heroMatch.home || 'YARIMADA'}</span>
                        </div>
                        
                        {/* VS */}
@@ -172,14 +184,14 @@ export default function HomePage() {
                            {/* Placeholder logo for opponent */}
                            <div className="w-6 h-6 bg-gray-600 rounded-full"></div>
                          </div>
-                         <span className="font-black text-white tracking-widest text-xs uppercase text-center">{nextMatch?.away_team || 'RƏQİB'}</span>
+                         <span className="font-black text-white tracking-widest text-xs uppercase text-center">{heroMatch.away || 'RƏQİB'}</span>
                        </div>
                      </div>
 
                      <div className="w-full bg-[#0a1423] rounded-lg p-3 flex justify-between items-center border border-gray-800">
                        <div className="flex flex-col">
                          <span className="text-gray-500 text-[10px] uppercase tracking-widest mb-0.5">Tarix / Saat</span>
-                         <span className="text-white text-xs font-bold">{nextMatch ? `${nextMatch.match_date} • ${nextMatch.match_time}` : 'Məlumat Yoxdur'}</span>
+                         <span className="text-white text-xs font-bold">{heroMatch.date && heroMatch.time ? `${heroMatch.date} • ${heroMatch.time}` : 'Məlumat Yoxdur'}</span>
                        </div>
                        <Link href="/matches" className="text-[#d7bf7b] text-[10px] font-bold uppercase tracking-widest hover:text-white transition-colors flex items-center group-hover:underline underline-offset-4">
                          Ətraflı &rarr;

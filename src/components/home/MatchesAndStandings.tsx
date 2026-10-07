@@ -6,6 +6,7 @@ import { supabase } from '@/lib/supabase';
 export default function MatchesAndStandings() {
   const [standings, setStandings] = useState<any[]>([]);
   const [activeLeague, setActiveLeague] = useState('U-12');
+  const [allMatches, setAllMatches] = useState<any[]>([]);
   const [nextMatch, setNextMatch] = useState<any>(null);
 
   useEffect(() => {
@@ -13,8 +14,11 @@ export default function MatchesAndStandings() {
       const { data: sData } = await supabase.from('standings').select('*').order('points', { ascending: false });
       if (sData) setStandings(sData);
 
-      const { data: mData } = await supabase.from('matches').select('*').order('match_date', { ascending: true }).limit(1).single();
-      if (mData) setNextMatch(mData);
+      const { data: mData } = await supabase.from('matches').select('*').order('match_date', { ascending: true });
+      if (mData) {
+        setAllMatches(mData);
+        setNextMatch(mData.find((m: any) => (m.tournament || 'U-12') === 'U-12') || null);
+      }
     }
     fetchData();
   }, []);
@@ -109,7 +113,10 @@ export default function MatchesAndStandings() {
                 {['U-12', 'U-11', 'U-10', 'U-9'].map(league => (
                   <button 
                     key={league}
-                    onClick={() => setActiveLeague(league)}
+                    onClick={() => {
+                      setActiveLeague(league);
+                      setNextMatch(allMatches.find((m: any) => (m.tournament || 'U-12') === league) || null);
+                    }}
                     className={`px-4 py-2 rounded-full text-xs font-bold uppercase tracking-widest whitespace-nowrap transition-colors ${activeLeague === league ? 'bg-[#d7bf7b] text-[#152741]' : 'bg-[#152741] text-gray-400 border border-gray-800 hover:text-white'}`}
                   >
                     {league}

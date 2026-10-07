@@ -59,10 +59,10 @@ export default function NewsAdmin() {
     if (!title || !content || !imageUrl) return alert('Bütün xanaları doldurun');
     
     const { error } = await supabase.from('news').insert([{ 
-      title, 
-      content, 
-      image_url: imageUrl, 
-      published_date: new Date().toISOString() 
+      title_az: title, 
+      content_az: content, 
+      image_url: imageUrl,
+      published: true
     }]);
     
     if (error) {
@@ -129,12 +129,12 @@ export default function NewsAdmin() {
           {news.map(n => (
             <div key={n.id} className="bg-[#152741] border border-gray-800 rounded-2xl overflow-hidden flex flex-col">
               <div className="h-40 relative">
-                 <img src={n.image_url} alt={n.title} className="w-full h-full object-cover" />
+                 <img src={n.image_url} alt={n.title_az} className="w-full h-full object-cover" />
               </div>
               <div className="p-4 flex-1 flex flex-col justify-between">
                  <div>
-                   <span className="text-xs text-[#d7bf7b] mb-2 block">{new Date(n.published_date).toLocaleDateString('az-AZ')}</span>
-                   <h3 className="font-bold text-white text-sm line-clamp-2 mb-2">{n.title}</h3>
+                   <span className="text-xs text-[#d7bf7b] mb-2 block">{new Date(n.created_at).toLocaleDateString('az-AZ')}</span>
+                   <h3 className="font-bold text-white text-sm line-clamp-2 mb-2">{n.title_az}</h3>
                  </div>
                  <button onClick={() => handleDelete(n.id)} className="mt-4 flex items-center justify-center space-x-2 text-red-400 hover:text-red-300 hover:bg-red-400/10 py-2 rounded-lg transition-colors text-xs font-bold uppercase">
                    <Trash2 className="w-4 h-4" /> <span>Sil</span>

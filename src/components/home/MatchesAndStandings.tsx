@@ -191,7 +191,7 @@ export default function MatchesAndStandings() {
                 <span className="w-8 h-1 bg-[#d7bf7b]"></span>
                 <h2 className="text-3xl font-black text-white uppercase tracking-tight">Turnir Cədvəli</h2>
               </div>
-              <div className="flex space-x-2 overflow-x-auto pb-2 md:pb-0 scrollbar-hide">
+              <div className="flex flex-wrap gap-2 pb-2 md:pb-0">
                 {leagues.map(league => (
                   <button 
                     key={league}

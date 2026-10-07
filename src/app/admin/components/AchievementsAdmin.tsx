@@ -11,6 +11,9 @@ export default function AchievementsAdmin() {
   const [title, setTitle] = useState('');
   const [count, setCount] = useState('');
   const [orderNum, setOrderNum] = useState(0);
+  const [description, setDescription] = useState('');
+  const [imageUrl, setImageUrl] = useState('');
+  const [uploadingImage, setUploadingImage] = useState(false);
   const [editingId, setEditingId] = useState<string | null>(null);
 
   useEffect(() => {
@@ -28,6 +31,8 @@ export default function AchievementsAdmin() {
     setTitle(a.title);
     setCount(a.count);
     setOrderNum(a.order_num);
+    setDescription(a.description || '');
+    setImageUrl(a.image_url || '');
     setEditingId(a.id);
     setIsAdding(true);
   };
@@ -38,7 +43,9 @@ export default function AchievementsAdmin() {
     
     let error;
     if (editingId) {
-      const res = await supabase.from('achievements').update({ title, count, order_num: orderNum }).eq('id', editingId);
+      const res = await supabase.from('achievements').update({ title, count, order_num: orderNum,
+      description,
+      image_url: imageUrl }).eq('id', editingId);
       error = res.error;
     } else {
       const res = await supabase.from('achievements').insert([{ title, count, order_num: orderNum }]);
@@ -49,7 +56,9 @@ export default function AchievementsAdmin() {
     else {
       alert('Nailiyyət əlavə edildi!');
       setIsAdding(false);
-      setTitle(''); setCount(''); setOrderNum(0); setEditingId(null);
+      setTitle(''); setCount(''); setOrderNum(0);
+    setDescription('');
+    setImageUrl(''); setEditingId(null);
       fetchAchievements();
     }
   };

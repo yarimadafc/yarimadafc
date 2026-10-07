@@ -81,9 +81,7 @@ export default function Navbar() {
               <a href="https://www.youtube.com/@yarimada_fk" target="_blank" rel="noopener noreferrer" className="hover:text-[#d7bf7b] transition-colors"><YoutubeIcon /></a>
               <a href="https://www.tiktok.com/@yarimadafk" target="_blank" rel="noopener noreferrer" className="hover:text-[#d7bf7b] transition-colors"><TiktokIcon /></a>
               <a href="https://t.me/yarimadafk?fbclid=PAZXh0bgNhZW0CMTEAcGRvZgRzcnRjBmFwcF9pZAwyNTYyODEwNDA1NTgAAafK0KsTFGaHEdkdFqPvdB_YUJuYByPtPKvdfmdCKantOLunANZ5C8nrnroI0A_aem_3_m_V6XwTbX1OL0eUZhRoA" target="_blank" rel="noopener noreferrer" className="hover:text-[#d7bf7b] transition-colors"><TelegramIcon /></a>
-              <span className="text-gray-500 text-[10px] uppercase font-bold tracking-widest ml-6 border-l border-gray-800 pl-6 hidden xl:block">
-                Gələcəyin Çempionları Burada Yetişir!
-              </span>
+              
             </div>
           </div>
         </div>

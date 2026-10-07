@@ -41,6 +41,11 @@ export default function MatchesAdmin() {
 
   // Lineup
   const [yarimadaLineup, setYarimadaLineup] = useState<any[]>([]);
+  const [awayLineup, setAwayLineup] = useState<any[]>([]);
+  const [newPlayerName, setNewPlayerName] = useState('');
+  const [newPlayerNumber, setNewPlayerNumber] = useState('');
+  const [newAwayPlayerName, setNewAwayPlayerName] = useState('');
+  const [newAwayPlayerNumber, setNewAwayPlayerNumber] = useState('');
   const [selectedTeamIdForLineup, setSelectedTeamIdForLineup] = useState<string>('');
 
   const [uploadingHomeLogo, setUploadingHomeLogo] = useState(false);
@@ -174,6 +179,7 @@ export default function MatchesAdmin() {
     setEx1(m.extra_time_1 || 0);
     setEx2(m.extra_time_2 || 0);
     setYarimadaLineup(m.yarimada_lineup || []);
+    setAwayLineup(m.away_lineup || []);
 
     setEditingId(m.id);
     setIsAdding(true);
@@ -205,7 +211,8 @@ export default function MatchesAdmin() {
       half_2_duration: h2,
       extra_time_1: ex1,
       extra_time_2: ex2,
-      yarimada_lineup: yarimadaLineup
+      yarimada_lineup: yarimadaLineup,
+      away_lineup: awayLineup
     };
 
     if (editingId) {
@@ -233,7 +240,7 @@ export default function MatchesAdmin() {
     setMatchDate(''); setMatchTime(''); setVenue(''); setHomeScore(''); setAwayScore('');
     setStatus('upcoming'); setIsHero(false); 
     setTimerStatus('stopped'); setTimerStartedAt(null); setElapsedSec(0); setH1(45); setHt(15); setH2(45); setEx1(0); setEx2(0);
-    setYarimadaLineup([]); setSelectedTeamIdForLineup('');
+    setYarimadaLineup([]); setAwayLineup([]); setSelectedTeamIdForLineup('');
     setEditingId(null);
   };
 
@@ -453,8 +460,21 @@ export default function MatchesAdmin() {
                 </button>
               </div>
 
+              <div className="flex flex-col md:flex-row space-y-4 md:space-y-0 md:space-x-4 bg-[#0a1423] p-4 rounded-xl border border-gray-800 mb-6">
+                <input type="text" value={newPlayerName} onChange={e => setNewPlayerName(e.target.value)} placeholder="Oyunçu adı (Ev sahibi)..." className="flex-1 bg-[#0d1a2d] border border-gray-700 rounded-lg p-3 text-white outline-none" />
+                <input type="number" value={newPlayerNumber} onChange={e => setNewPlayerNumber(e.target.value)} placeholder="Nömrə..." className="w-full md:w-24 bg-[#0d1a2d] border border-gray-700 rounded-lg p-3 text-white outline-none" />
+                <button type="button" onClick={() => {
+                  if(newPlayerName && newPlayerNumber) {
+                    setYarimadaLineup([...yarimadaLineup, { id: 'manual_'+Date.now(), name: newPlayerName, number: newPlayerNumber, position: 'Oyunçu', is_starting: true, events: [] }]);
+                    setNewPlayerName(''); setNewPlayerNumber('');
+                  }
+                }} className="bg-green-600 hover:bg-green-500 text-white px-6 py-3 rounded-lg font-bold text-xs uppercase tracking-widest transition-colors whitespace-nowrap">
+                  Əlavə et
+                </button>
+              </div>
+
               {yarimadaLineup.length > 0 && (
-                <div className="bg-[#0a1423] rounded-xl border border-gray-800 overflow-hidden">
+                <div className="bg-[#0a1423] rounded-xl border border-gray-800 overflow-hidden mb-8">
                   <table className="w-full text-left text-sm text-gray-400">
                     <thead className="text-xs text-gray-500 uppercase bg-[#0d1a2d]">
                       <tr>

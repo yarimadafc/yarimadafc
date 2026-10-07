@@ -76,8 +76,8 @@ export default function CoachDetailPage() {
 
             <div className="mb-8">
               <h3 className="text-white font-bold uppercase tracking-widest text-sm mb-4">Haqqında</h3>
-              <p className="text-gray-400 leading-relaxed font-medium">
-                 {coach.name} klubumuzun inkişafında xüsusi rolu olan peşəkar məşqçilərimizdən biridir. Öz bilik və təcrübəsi ilə uşaq və gənclərin futbol sirlərinə yiyələnməsində onlara dəstək olur. Onun rəhbərliyi altında futbolçularımız həm texniki, həm də taktiki baxımdan böyük irəliləyişlər əldə edirlər.
+              <p className="text-gray-400 leading-relaxed font-medium whitespace-pre-wrap">
+                 {coach.bio || `${coach.name} klubumuzun inkişafında xüsusi rolu olan peşəkar məşqçilərimizdən biridir. Öz bilik və təcrübəsi ilə uşaq və gənclərin futbol sirlərinə yiyələnməsində onlara dəstək olur.`}
               </p>
             </div>
 

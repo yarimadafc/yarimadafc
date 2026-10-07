@@ -41,7 +41,7 @@ export default function MatchesPage() {
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
     >
-      <div className="min-h-screen bg-[#0a1423] pt-32 pb-20">
+      <div className="min-h-screen bg-[#0a1423] pt-[140px] pb-20">
         
         <div className="w-full bg-[#152741] py-12 md:py-16 border-b border-gray-800 relative overflow-hidden">
           <div className="absolute inset-0 bg-gradient-to-t from-[#0a1423] to-transparent"></div>

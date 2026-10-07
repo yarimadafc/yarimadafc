@@ -39,12 +39,12 @@ export default function TeamDetailPage() {
     loadTeam();
   }, [id]);
 
-  if (loading) return <div className="pt-32 min-h-screen bg-[#0a1423] pb-20 flex justify-center"><div className="text-[#d7bf7b] font-bold tracking-widest uppercase animate-pulse">Yüklənir...</div></div>;
-  if (!team) return <div className="pt-32 min-h-screen bg-[#0a1423] pb-20 flex justify-center"><div className="text-red-400 font-bold tracking-widest uppercase">Komanda tapılmadı</div></div>;
+  if (loading) return <div className="pt-[140px] min-h-screen bg-[#0a1423] pb-20 flex justify-center"><div className="text-[#d7bf7b] font-bold tracking-widest uppercase animate-pulse">Yüklənir...</div></div>;
+  if (!team) return <div className="pt-[140px] min-h-screen bg-[#0a1423] pb-20 flex justify-center"><div className="text-red-400 font-bold tracking-widest uppercase">Komanda tapılmadı</div></div>;
   
 
   return (
-    <div className="pt-32 min-h-screen bg-[#0a1423] pb-20">
+    <div className="pt-[140px] min-h-screen bg-[#0a1423] pb-20">
       
       {/* Header Profile */}
       <div className="w-full bg-[#152741] py-12 md:py-16 border-b border-gray-800 relative overflow-hidden">

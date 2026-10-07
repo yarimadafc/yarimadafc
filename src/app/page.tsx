@@ -107,7 +107,7 @@ export default function HomePage() {
         transition={{ duration: 1 }}
       >
         {/* 1. Hero / Main Slider placeholder */}
-        <section className="relative w-full min-h-screen lg:h-[850px] bg-[#152741] flex items-center justify-center border-b border-gray-800 overflow-hidden pt-28 lg:pt-0 pb-16 lg:pb-0">
+        <section className="relative w-full min-h-screen lg:h-[850px] bg-[#152741] flex items-center justify-center border-b border-gray-800 overflow-hidden pt-[140px] lg:pt-0 pb-16 lg:pb-0">
           <motion.div 
             initial={{ scale: 1.2 }}
             animate={{ scale: 1 }}

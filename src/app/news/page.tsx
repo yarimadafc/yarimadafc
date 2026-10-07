@@ -23,7 +23,7 @@ export default function NewsPage() {
   const filteredNews = activeCategory === 'Bütün' ? news : news.filter(n => n.category === activeCategory);
 
   return (
-    <div className="pt-32 min-h-screen bg-[#0a1423] pb-20">
+    <div className="pt-[140px] min-h-screen bg-[#0a1423] pb-20">
       {/* Header */}
       <div className="w-full bg-[#152741] py-12 md:py-16 border-b border-gray-800 relative overflow-hidden">
         <div className="absolute inset-0 bg-cover bg-center opacity-5 blur-sm" style={{ backgroundImage: "url('https://images.unsplash.com/photo-1518605368461-1ee7e1c152d1?auto=format&fit=crop&q=80')" }}></div>

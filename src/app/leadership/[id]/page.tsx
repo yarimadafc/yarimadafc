@@ -22,7 +22,7 @@ export default function LeadershipDetailPage() {
 
   if (loading) {
     return (
-      <div className="pt-32 min-h-screen bg-[#0a1423] pb-20 flex justify-center">
+      <div className="pt-[140px] min-h-screen bg-[#0a1423] pb-20 flex justify-center">
         <div className="text-[#d7bf7b] font-bold tracking-widest uppercase animate-pulse">Yüklənir...</div>
       </div>
     );
@@ -30,7 +30,7 @@ export default function LeadershipDetailPage() {
 
   if (!person) {
     return (
-      <div className="pt-32 min-h-screen bg-[#0a1423] pb-20 flex flex-col items-center justify-center">
+      <div className="pt-[140px] min-h-screen bg-[#0a1423] pb-20 flex flex-col items-center justify-center">
         <div className="text-red-400 font-bold tracking-widest uppercase mb-4">Şəxs tapılmadı</div>
         <Link href="/club" className="text-[#d7bf7b] hover:underline">Haqqımızda səhifəsinə qayıt</Link>
       </div>
@@ -38,7 +38,7 @@ export default function LeadershipDetailPage() {
   }
 
   return (
-    <div className="pt-32 min-h-screen bg-[#0a1423] pb-20">
+    <div className="pt-[140px] min-h-screen bg-[#0a1423] pb-20">
       <div className="container mx-auto px-4 lg:px-8 mt-10">
         <div className="bg-[#152741] rounded-3xl border border-gray-800 overflow-hidden shadow-2xl flex flex-col md:flex-row max-w-5xl mx-auto">
           

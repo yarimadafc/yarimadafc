@@ -29,7 +29,7 @@ export default function NewsArticlePage() {
 
   if (loading) {
     return (
-      <div className="pt-32 min-h-screen bg-[#0a1423] pb-20 flex justify-center">
+      <div className="pt-[140px] min-h-screen bg-[#0a1423] pb-20 flex justify-center">
         <div className="text-[#d7bf7b] font-bold tracking-widest uppercase animate-pulse">Yüklənir...</div>
       </div>
     );
@@ -37,14 +37,14 @@ export default function NewsArticlePage() {
 
   if (!news) {
     return (
-      <div className="pt-32 min-h-screen bg-[#0a1423] pb-20 flex justify-center">
+      <div className="pt-[140px] min-h-screen bg-[#0a1423] pb-20 flex justify-center">
         <div className="text-red-400 font-bold tracking-widest uppercase">Xəbər tapılmadı</div>
       </div>
     );
   }
 
   return (
-    <div className="pt-32 min-h-screen bg-[#0a1423] pb-20">
+    <div className="pt-[140px] min-h-screen bg-[#0a1423] pb-20">
       <div className="container mx-auto px-4 lg:px-8 max-w-4xl">
         
         <Link href="/news" className="text-[#d7bf7b] text-xs font-bold uppercase tracking-widest hover:text-white transition-colors mb-8 inline-flex items-center">

@@ -17,7 +17,7 @@ export default function CoachesPage() {
   }, []);
 
   return (
-    <div className="pt-32 min-h-screen bg-[#0a1423] pb-20">
+    <div className="pt-[140px] min-h-screen bg-[#0a1423] pb-20">
       
       {/* Header */}
       <div className="w-full bg-[#152741] py-12 md:py-16 border-b border-gray-800 relative overflow-hidden">

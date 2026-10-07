@@ -86,14 +86,14 @@ export default function Navbar() {
       <div className="bg-[#0a1423]">
         <div className="container mx-auto px-4 lg:px-8 h-12 flex items-center justify-between">
           {/* Left: Phone & Slogan */}
-          <div className="flex items-center justify-between w-full lg:w-auto lg:space-x-6">
+          <div className="flex items-center justify-center sm:justify-between w-full lg:w-auto lg:space-x-6">
             <a href="tel:0554477467" className="hover:text-[#d7bf7b] transition-colors hidden sm:flex items-center text-gray-400 text-sm font-bold tracking-widest">
               <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="mr-2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>
               055 447 74 67
             </a>
             
             {mounted && currentTime && (
-              <div className="text-[#d7bf7b] text-xs uppercase font-bold tracking-widest border-l border-gray-800 pl-6 flex items-center space-x-3">
+              <div className="text-[#d7bf7b] text-[10px] sm:text-xs uppercase font-bold tracking-widest sm:border-l border-gray-800 sm:pl-6 flex items-center space-x-2 sm:space-x-3 text-center">
                 <span>{currentDate}</span>
                 <span className="text-gray-600">|</span>
                 <span className="text-white w-[50px]">{currentTime}</span>

@@ -4,6 +4,7 @@ import Link from "next/link";
 
 import NewsSection from '@/components/home/NewsSection';
 import MatchesAndStandings from '@/components/home/MatchesAndStandings';
+import MatchesSection from '@/components/home/MatchesSection';
 import QuickLinks from '@/components/home/QuickLinks';
 import VideoSection from '@/components/home/VideoSection';
 import CoachCoursesSection from '@/components/home/CoachCoursesSection';
@@ -288,20 +289,22 @@ export default function HomePage() {
           </div>
         </section>
 
-                {/* 2. Sürətli Keçidlər (4-lü Grid) */}
+                {/* 2. Xəbərlər (News) - Overlaps Hero */}
+        <div className="-mt-32 relative z-20">
+          <NewsSection />
+        </div>
+
+        {/* 3. Təqvim və nəticələr (Matches) */}
+        <MatchesSection />
+
+        {/* 4. Turnir cədvəli & Növbəti oyunlar (Standings) */}
+        <MatchesAndStandings />
+        
         <QuickLinks />
 
-        {/* 3. Turnir cədvəli & Növbəti oyunlar */}
-        <MatchesAndStandings />
-
-        {/* 4. Xəbərlər (News) */}
-        <NewsSection />
-
-        {/* 4.5 Oyunlar Təqvimi */}
-        
         {/* 5. Yarımada TV */}
         <CoachCoursesSection />
-      <VideoSection />
+        <VideoSection />
 
         {/* 6. Nailiyyətlər */}
         <Achievements />

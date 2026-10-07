@@ -11,16 +11,15 @@ export default function Achievements() {
 
   useEffect(() => {
     async function fetchAchievements() {
-      const { data } = await supabase.from('achievements').select('*').order('created_at', { ascending: false });
+      const { data } = await supabase.from('achievements').select('*').order('created_at', { ascending: false }).limit(4);
       if (data) setAchievements(data);
     }
     fetchAchievements();
   }, []);
 
   return (
-    <section className="bg-[#152741] py-24 border-b border-gray-800/50 overflow-hidden relative">
-      <div className="absolute -right-20 -top-20 w-64 h-64 bg-[#d7bf7b]/5 rounded-full blur-3xl"></div>
-      <div className="container mx-auto px-4 lg:px-8 relative z-10">
+    <section className="bg-[#0a1423] py-24 border-b border-[#1c2d47]">
+      <div className="container mx-auto px-4 lg:px-8">
         
         {/* Header */}
         <motion.div 
@@ -28,47 +27,44 @@ export default function Achievements() {
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
           viewport={{ once: true }}
-          className="flex justify-center mb-16"
+          className="flex justify-center mb-20"
         >
-          <h2 className="text-4xl md:text-5xl font-black text-white tracking-tighter uppercase">Nailiyyətlər</h2>
+          <h2 className="text-4xl font-bold text-white tracking-tight">Nailiyyətlər</h2>
         </motion.div>
 
         {/* Grid for Achievement Stats */}
         {achievements.length > 0 ? (
-          <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 divide-y md:divide-y-0 md:divide-x divide-[#1c2d47]">
             {achievements.map((item, i) => (
-              <Link href={`/achievements/${item.id}`} key={item.id} className="block group">
-              <motion.div 
-                initial={{ opacity: 0, scale: 0.8 }}
-                whileInView={{ opacity: 1, scale: 1 }}
-                transition={{ duration: 0.5, delay: i * 0.1 }}
-                viewport={{ once: true }}
-                className="bg-[#0a1423] border border-gray-800 p-8 rounded-2xl text-center shadow-xl hover:-translate-y-2 hover:border-[#d7bf7b]/30 transition-all duration-300 relative overflow-hidden h-full flex flex-col justify-center items-center"
-              >
-                <div className="absolute -top-10 -right-10 w-32 h-32 rounded-full blur-3xl opacity-20 group-hover:opacity-50 transition-opacity duration-500 bg-[#d7bf7b]"></div>
-                
-                {item.image_url ? (
-                  <div className="w-20 h-20 mx-auto mb-6 relative z-10 flex items-center justify-center">
-                    <img src={item.image_url} alt="img" className="max-w-full max-h-full object-contain drop-shadow-[0_0_15px_rgba(255,255,255,0.2)]" />
+              <Link href={`/achievements/${item.id}`} key={item.id} className="block group px-4 py-8 md:py-0 text-center flex flex-col items-center">
+                <motion.div 
+                  initial={{ opacity: 0, scale: 0.9 }}
+                  whileInView={{ opacity: 1, scale: 1 }}
+                  transition={{ duration: 0.5, delay: i * 0.1 }}
+                  viewport={{ once: true }}
+                  className="flex flex-col items-center"
+                >
+                  {/* Icon / Image */}
+                  <div className="w-16 h-24 mb-6 flex items-center justify-center">
+                    {item.image_url ? (
+                      <img src={item.image_url} alt="img" className="max-w-full max-h-full object-contain filter drop-shadow-[0_0_8px_rgba(215,191,123,0.3)] group-hover:scale-110 transition-transform duration-500" />
+                    ) : (
+                      <Trophy className="w-16 h-16 text-[#d4af37] drop-shadow-[0_0_8px_rgba(212,175,55,0.4)] group-hover:scale-110 transition-transform duration-500" />
+                    )}
                   </div>
-                ) : (
-                  <div className="flex justify-center mb-6 relative z-10">
-                    {item.order_num === 1 && <Trophy className="w-12 h-12 text-yellow-500 drop-shadow-[0_0_15px_rgba(234,179,8,0.5)]" />}
-                    {item.order_num === 2 && <Medal className="w-12 h-12 text-gray-300 drop-shadow-[0_0_15px_rgba(209,213,219,0.5)]" />}
-                    {item.order_num === 3 && <Medal className="w-12 h-12 text-orange-500 drop-shadow-[0_0_15px_rgba(249,115,22,0.5)]" />}
-                    {(item.order_num === 0 || item.order_num === null) && <Star className="w-12 h-12 text-[#d7bf7b] drop-shadow-[0_0_15px_rgba(215,191,123,0.5)]" />}
+                  
+                  {/* Number & Text */}
+                  <div className="flex items-center gap-3 text-left">
+                    <span className="text-5xl md:text-6xl font-bold text-white">{item.count}</span>
+                    <span className="text-xs md:text-sm text-gray-300 font-medium leading-tight max-w-[120px]">{item.title}</span>
                   </div>
-                )}
-
-                <div className="text-4xl md:text-5xl font-black text-white mb-3 relative z-10">{item.count}</div>
-                <div className="text-gray-400 text-xs md:text-sm font-bold uppercase tracking-widest leading-relaxed relative z-10">{item.title}</div>
-              </motion.div>
-            </Link>
+                </motion.div>
+              </Link>
             ))}
           </div>
         ) : (
-          <div className="flex justify-center items-center h-32 border-2 border-dashed border-gray-800 rounded-2xl">
-            <p className="text-gray-500 font-bold uppercase tracking-widest text-sm text-center">
+          <div className="flex justify-center items-center h-32">
+            <p className="text-gray-500 font-medium text-sm">
               Tezliklə yeni nailiyyətlər əlavə olunacaq...
             </p>
           </div>

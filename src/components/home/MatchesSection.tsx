@@ -9,45 +9,41 @@ export default function MatchesSection() {
 
   useEffect(() => {
     async function fetchMatches() {
-      // Get the next 3 or 4 matches
-      const { data } = await supabase.from('matches').select('*').order('match_date', { ascending: true }).limit(4);
+      // Get the next 4 matches
+      const { data } = await supabase.from('matches').select('*').order('date', { ascending: false }).limit(4);
       if (data) setMatches(data);
     }
     fetchMatches();
   }, []);
 
   return (
-    <section className="bg-[#0a1423] py-24 border-b border-gray-800/50 relative overflow-hidden">
-      <div className="container mx-auto px-4 lg:px-8 relative z-10">
+    <section className="bg-[#0a1423] py-20 border-b border-[#1c2d47]">
+      <div className="container mx-auto px-4 lg:px-8">
         
-        <div className="flex flex-col md:flex-row justify-between items-end mb-16 gap-6">
+        {/* Header */}
+        <div className="flex justify-between items-end mb-12">
           <motion.div 
-            initial={{ opacity: 0, x: -50 }}
+            initial={{ opacity: 0, x: -30 }}
             whileInView={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.8 }}
+            transition={{ duration: 0.6 }}
             viewport={{ once: true }}
           >
-            <div className="flex items-center space-x-4 mb-4">
-              <span className="w-8 h-1 bg-[#d7bf7b]"></span>
-              <span className="text-[#d7bf7b] font-bold tracking-widest text-sm uppercase">Təqvim</span>
-            </div>
-            <h2 className="text-4xl md:text-5xl font-black text-white uppercase tracking-tight">Qarşıdakı Oyunlar</h2>
+            <h2 className="text-3xl md:text-4xl font-bold text-white tracking-tight">Təqvim və nəticələr</h2>
           </motion.div>
           <motion.div
-            initial={{ opacity: 0, x: 50 }}
+            initial={{ opacity: 0, x: 30 }}
             whileInView={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.8 }}
+            transition={{ duration: 0.6 }}
             viewport={{ once: true }}
           >
-            <Link href="/matches" className="text-[#d7bf7b] font-bold uppercase tracking-widest text-xs hover:text-white transition-colors flex items-center group">
-              Bütün Oyunlara Bax 
-              <span className="ml-2 group-hover:translate-x-2 transition-transform">&rarr;</span>
+            <Link href="/matches" className="text-gray-300 font-medium text-sm hover:text-white transition-colors border-b border-transparent hover:border-white pb-1">
+              Bütün nəticələr
             </Link>
           </motion.div>
         </div>
 
         {matches.length > 0 ? (
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
             {matches.map((m, i) => (
               <motion.div 
                 key={m.id}
@@ -55,55 +51,69 @@ export default function MatchesSection() {
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: i * 0.1 }}
                 viewport={{ once: true }}
-                className="bg-[#152741] rounded-2xl border border-gray-800 p-6 flex flex-col md:flex-row items-center justify-between hover:border-[#d7bf7b]/30 transition-colors group"
+                className="bg-[#0d1a2d] rounded-xl border border-[#1c2d47] flex flex-col items-center pt-6 pb-4 hover:border-[#1a2e4c] transition-colors group"
               >
-                {/* Date & Time */}
-                <div className="flex flex-col items-center justify-center w-full md:w-1/4 mb-6 md:mb-0 border-b md:border-b-0 md:border-r border-gray-800 pb-6 md:pb-0 md:pr-6">
-                   <span className="text-gray-400 font-bold uppercase text-[10px] tracking-widest mb-1">{m.tournament || 'Yoldaşlıq'}</span>
-                   <span className="text-white font-black text-2xl">{m.match_date?.split('-')[2] || '??'}</span>
-                   <span className="text-[#d7bf7b] font-bold text-xs uppercase">{m.match_date?.split('-')[1] ? ['Yan', 'Fev', 'Mar', 'Apr', 'May', 'İyn', 'İyl', 'Avq', 'Sen', 'Okt', 'Noy', 'Dek'][new Date(m.match_date).getMonth()] : 'Ay'}</span>
-                   <span className="text-gray-500 font-bold text-[10px] mt-2">{m.match_time}</span>
+                {/* League */}
+                <div className="text-white font-bold text-[15px] mb-4 text-center">
+                  {m.tournament || 'Yoldaşlıq'}
+                </div>
+                
+                <div className="w-full h-px bg-[#1c2d47] mb-4"></div>
+
+                {/* Date & Stadium */}
+                <div className="text-gray-400 text-[11px] font-medium text-center mb-6">
+                  {m.date || '??'} {m.time || '??'}<br />
+                  {m.stadium || 'Palms Sports Arena'}
                 </div>
 
                 {/* Teams */}
-                <div className="flex items-center justify-between w-full md:w-3/4 md:pl-6">
+                <div className="flex items-center justify-center w-full px-4 mb-8">
                   <div className="flex flex-col items-center w-2/5">
-                    <div className="w-16 h-16 bg-[#0a1423] rounded-full border border-gray-700 flex items-center justify-center p-2 mb-3 shadow-inner">
+                    <div className="w-12 h-12 flex items-center justify-center mb-2">
                       {m.home_logo ? (
-                        <img src={m.home_logo} alt={m.home_team} className="w-full h-full object-contain bg-white rounded-full p-1" />
-                      ) : m.home_team.includes('Yarımada') ? (
-                        <img src="/Logo.JPG.jpeg" alt="Yarımada" className="w-full h-full object-cover rounded-full" />
+                        <img src={m.home_logo} alt={m.home_team} className="max-w-full max-h-full object-contain" />
+                      ) : m.home_team?.includes('Yarımada') ? (
+                        <img src="/Logo.JPG.jpeg" alt="Yarımada" className="w-10 h-10 object-cover rounded-full" />
                       ) : (
-                        <div className="w-8 h-8 bg-gray-600 rounded-full"></div>
+                        <div className="w-10 h-10 bg-[#152741] rounded-full flex items-center justify-center text-[10px] text-gray-500 text-center leading-none px-1 overflow-hidden">{m.home_team?.substring(0,3)}</div>
                       )}
                     </div>
-                    <span className="text-white font-black text-sm text-center uppercase leading-tight">{m.home_team}</span>
+                    <span className="text-white font-medium text-[11px] text-center leading-tight truncate w-full">{m.home_team}</span>
                   </div>
 
                   <div className="flex flex-col items-center justify-center w-1/5">
-                    <span className="text-[#d7bf7b] font-black text-xl italic mb-1">VS</span>
+                    <span className="text-white font-bold text-xl">
+                      {m.status === 'finished' ? `${m.home_score} - ${m.away_score}` : '-'}
+                    </span>
                   </div>
 
                   <div className="flex flex-col items-center w-2/5">
-                    <div className="w-16 h-16 bg-[#0a1423] rounded-full border border-gray-700 flex items-center justify-center p-2 mb-3 shadow-inner">
+                    <div className="w-12 h-12 flex items-center justify-center mb-2">
                       {m.away_logo ? (
-                        <img src={m.away_logo} alt={m.away_team} className="w-full h-full object-contain bg-white rounded-full p-1" />
-                      ) : m.away_team.includes('Yarımada') ? (
-                        <img src="/Logo.JPG.jpeg" alt="Yarımada" className="w-full h-full object-cover rounded-full" />
+                        <img src={m.away_logo} alt={m.away_team} className="max-w-full max-h-full object-contain" />
+                      ) : m.away_team?.includes('Yarımada') ? (
+                        <img src="/Logo.JPG.jpeg" alt="Yarımada" className="w-10 h-10 object-cover rounded-full" />
                       ) : (
-                        <div className="w-8 h-8 bg-gray-600 rounded-full"></div>
+                        <div className="w-10 h-10 bg-[#152741] rounded-full flex items-center justify-center text-[10px] text-gray-500 text-center leading-none px-1 overflow-hidden">{m.away_team?.substring(0,3)}</div>
                       )}
                     </div>
-                    <span className="text-gray-300 font-black text-sm text-center uppercase leading-tight">{m.away_team}</span>
+                    <span className="text-white font-medium text-[11px] text-center leading-tight truncate w-full">{m.away_team}</span>
                   </div>
+                </div>
+
+                {/* Footer Link */}
+                <div className="mt-auto">
+                  <Link href="/matches" className="text-[#d7bf7b] font-medium text-[13px] hover:text-[#ebd38a] transition-colors">
+                    Təqvim
+                  </Link>
                 </div>
 
               </motion.div>
             ))}
           </div>
         ) : (
-          <div className="flex justify-center items-center h-40 border-2 border-dashed border-gray-800 rounded-2xl">
-            <p className="text-gray-500 font-bold uppercase tracking-widest text-sm text-center">
+          <div className="flex justify-center items-center h-40 border border-[#1c2d47] rounded-xl">
+            <p className="text-gray-500 font-medium text-sm text-center">
               Hazırda təyin olunmuş oyun yoxdur.
             </p>
           </div>

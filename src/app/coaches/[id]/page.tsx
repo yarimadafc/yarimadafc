@@ -13,7 +13,7 @@ export default function CoachDetailPage() {
 
   useEffect(() => {
     async function loadCoach() {
-      const { data } = await supabase.from('coaches').select('*, teams(name)').eq('id', id).single();
+      const { data } = await supabase.from('coaches').select('*, teams(id, name)').eq('id', id).single();
       if (data) setCoach(data);
       setLoading(false);
     }
@@ -82,7 +82,7 @@ export default function CoachDetailPage() {
             </div>
 
             {coach.teams && (
-              <Link href={`/teams/${coach.teams.id}`} className="inline-block bg-[#d7bf7b] text-[#152741] px-8 py-3 rounded-full font-black uppercase text-xs tracking-widest hover:bg-white transition-colors">
+              <Link href={`/teams/${coach.team_id || coach.teams.id}`} className="inline-block bg-[#d7bf7b] text-[#152741] px-8 py-3 rounded-full font-black uppercase text-xs tracking-widest hover:bg-white transition-colors">
                 Komandasına Bax
               </Link>
             )}

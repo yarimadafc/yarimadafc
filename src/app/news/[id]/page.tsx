@@ -61,7 +61,7 @@ export default function NewsArticlePage() {
             <div className="flex items-center space-x-4">
               <span className="text-[#d7bf7b] text-sm font-bold uppercase tracking-widest">{news.category || 'Xəbərlər'}</span>
               <span className="w-1.5 h-1.5 rounded-full bg-gray-600"></span>
-              <span className="text-gray-400 text-sm font-bold uppercase tracking-widest">{new Date(news.created_at).toLocaleDateString('az-AZ')}</span>
+              <span className="text-gray-400 text-sm font-bold uppercase tracking-widest">{(new Date(news.created_at).getDate().toString().padStart(2, '0') + '.' + (new Date(news.created_at).getMonth() + 1).toString().padStart(2, '0') + '.' + new Date(news.created_at).getFullYear())}</span>
             </div>
           </div>
 
@@ -95,7 +95,7 @@ export default function NewsArticlePage() {
                   </div>
                   <div className="p-4">
                     <h4 className="text-white font-bold text-sm line-clamp-2 group-hover:text-[#d7bf7b] transition-colors">{item.title_az}</h4>
-                    <span className="text-gray-500 text-[10px] uppercase font-bold mt-2 block">{new Date(item.created_at).toLocaleDateString('az-AZ')}</span>
+                    <span className="text-gray-500 text-[10px] uppercase font-bold mt-2 block">{(new Date(item.created_at).getDate().toString().padStart(2, '0') + '.' + (new Date(item.created_at).getMonth() + 1).toString().padStart(2, '0') + '.' + new Date(item.created_at).getFullYear())}</span>
                   </div>
                 </Link>
               ))}

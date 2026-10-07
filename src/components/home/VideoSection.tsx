@@ -82,7 +82,7 @@ export default function VideoSection() {
                          {mainVideo.title}
                        </h3>
                        <span className="text-gray-300 font-medium text-xs sm:text-sm mt-2 md:mt-4 drop-shadow-md">
-                         {new Date(mainVideo.published_date || mainVideo.created_at).toLocaleDateString('az-AZ')}
+                         {(new Date(mainVideo.published_date || mainVideo.created_at).getDate().toString().padStart(2, '0') + '.' + (new Date(mainVideo.published_date || mainVideo.created_at).getMonth() + 1).toString().padStart(2, '0') + '.' + new Date(mainVideo.published_date || mainVideo.created_at).getFullYear())}
                        </span>
                      </div>
                      
@@ -132,7 +132,7 @@ export default function VideoSection() {
                         {video.title}
                       </h4>
                       <span className="text-gray-500 font-medium text-xs">
-                        {new Date(video.published_date || video.created_at).toLocaleDateString('az-AZ')}
+                        {(new Date(video.published_date || video.created_at).getDate().toString().padStart(2, '0') + '.' + (new Date(video.published_date || video.created_at).getMonth() + 1).toString().padStart(2, '0') + '.' + new Date(video.published_date || video.created_at).getFullYear())}
                       </span>
                     </div>
                   </div>

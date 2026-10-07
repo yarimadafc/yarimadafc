@@ -165,7 +165,7 @@ export default function NewsAdmin() {
               </div>
               <div className="p-4 flex-1 flex flex-col justify-between">
                  <div>
-                   <span className="text-xs text-[#d7bf7b] mb-2 block">{new Date(n.created_at).toLocaleDateString('az-AZ')}</span>
+                   <span className="text-xs text-[#d7bf7b] mb-2 block">{(new Date(n.created_at).getDate().toString().padStart(2, '0') + '.' + (new Date(n.created_at).getMonth() + 1).toString().padStart(2, '0') + '.' + new Date(n.created_at).getFullYear())}</span>
                    <h3 className="font-bold text-white text-sm line-clamp-2 mb-2">{n.title_az}</h3>
                  </div>
                  <div className="mt-4 flex space-x-2">

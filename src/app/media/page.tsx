@@ -77,7 +77,7 @@ export default function Page() {
                     {video.title}
                   </h3>
                   <span className="text-[#d7bf7b] font-bold text-xs uppercase tracking-widest border-t border-gray-800 pt-4 mt-auto">
-                    {new Date(video.published_date || video.created_at).toLocaleDateString('az-AZ')}
+                    {(new Date(video.published_date || video.created_at).getDate().toString().padStart(2, '0') + '.' + (new Date(video.published_date || video.created_at).getMonth() + 1).toString().padStart(2, '0') + '.' + new Date(video.published_date || video.created_at).getFullYear())}
                   </span>
                 </div>
               </motion.div>

@@ -65,8 +65,9 @@ export default function HomePage() {
       const now = new Date();
       setTime(now.toLocaleTimeString('az-AZ', { hour12: false }));
       
-      const options: Intl.DateTimeFormatOptions = { day: 'numeric', month: 'long', year: 'numeric' };
-      setDate(now.toLocaleDateString('az-AZ', options));
+      // Custom date formatter
+      const azMonths = ['Yanvar', 'Fevral', 'Mart', 'Aprel', 'May', 'İyun', 'İyul', 'Avqust', 'Sentyabr', 'Oktyabr', 'Noyabr', 'Dekabr'];
+      setDate(`${now.getDate()} ${azMonths[now.getMonth()]} ${now.getFullYear()}`);
     };
     
     updateTime();

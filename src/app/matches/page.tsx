@@ -97,7 +97,7 @@ export default function MatchesPage() {
                   <div className="flex flex-col items-center justify-center w-full md:w-1/4 mb-6 md:mb-0 border-b md:border-b-0 md:border-r border-gray-800 pb-6 md:pb-0 md:pr-6 shrink-0">
                      <span className="text-gray-400 font-bold uppercase text-[10px] tracking-widest mb-1 text-center line-clamp-1">{m.tournament || 'Yoldaşlıq'}</span>
                      <span className="text-white font-black text-2xl">{m.match_date?.split('-')[2] || '??'}</span>
-                     <span className="text-[#d7bf7b] font-bold text-xs uppercase">{m.match_date?.split('-')[1] ? new Date(m.match_date).toLocaleString('az-AZ', { month: 'short' }) : 'Ay'}</span>
+                     <span className="text-[#d7bf7b] font-bold text-xs uppercase">{m.match_date?.split('-')[1] ? ['Yan', 'Fev', 'Mar', 'Apr', 'May', 'İyn', 'İyl', 'Avq', 'Sen', 'Okt', 'Noy', 'Dek'][new Date(m.match_date).getMonth()] : 'Ay'}</span>
                      
                      {activeTab === 'past' ? (
                         <div className="mt-3 bg-red-500/20 text-red-400 px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-widest">

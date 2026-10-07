@@ -92,7 +92,7 @@ export default function NewsPage() {
                       </div>
                     </div>
                     <div className="p-6 flex flex-col flex-grow">
-                      <span className="text-gray-500 text-xs font-bold uppercase tracking-widest mb-3">{new Date(item.created_at).toLocaleDateString('az-AZ')}</span>
+                      <span className="text-gray-500 text-xs font-bold uppercase tracking-widest mb-3">{(new Date(item.created_at).getDate().toString().padStart(2, '0') + '.' + (new Date(item.created_at).getMonth() + 1).toString().padStart(2, '0') + '.' + new Date(item.created_at).getFullYear())}</span>
                       <h3 className="text-white font-black text-xl leading-tight mb-3 group-hover:text-[#d7bf7b] transition-colors line-clamp-2">{item.title_az}</h3>
                       <p className="text-gray-400 text-sm leading-relaxed mb-6 flex-grow line-clamp-3">{item.content_az}</p>
                       <div className="text-[#d7bf7b] text-[11px] font-black uppercase tracking-widest flex items-center group-hover:translate-x-2 transition-transform">

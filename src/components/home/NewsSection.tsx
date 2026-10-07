@@ -85,7 +85,7 @@ export default function NewsSection() {
                   </span>
                   <span className="w-1 h-1 rounded-full bg-gray-600"></span>
                   <span className="text-gray-400 font-medium text-[11px] tracking-wider uppercase">
-                    {item.date || (item.created_at ? new Date(item.created_at).toLocaleDateString('az-AZ') : 'Yeni')}
+                    {item.date || (item.created_at ? (new Date(item.created_at).getDate().toString().padStart(2, '0') + '.' + (new Date(item.created_at).getMonth() + 1).toString().padStart(2, '0') + '.' + new Date(item.created_at).getFullYear()) : 'Yeni')}
                   </span>
                 </div>
                 

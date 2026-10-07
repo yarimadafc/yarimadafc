@@ -47,7 +47,7 @@ function SearchResults() {
         { title: 'Turnir Cədvəli', link: '/standings', terms: ['turnir', 'cədvəl', 'standings', 'xal'] },
         { title: 'Media (Qalereya & Video)', link: '/media', terms: ['media', 'qalereya', 'şəkil', 'video', 'foto'] },
         { title: 'Məşqçilər', link: '/coaches', terms: ['məşqçi', 'coaches', 'heyət'] },
-        { title: 'Məşqçi Kursu', link: '/#courses', terms: ['kurs', 'praktiki', 'məşqçi kursu'] },
+        { title: 'Məşqçi Kursu', link: '/courses', terms: ['kurs', 'praktiki', 'məşqçi kursu'] },
         { title: 'Əlaqə', link: '/contact', terms: ['əlaqə', 'contact', 'nömrə', 'telefon', 'ünvan'] },
         { title: 'Onlayn Mağaza', link: '/shop', terms: ['mağaza', 'shop', 'forma', 'satış', 'almaq'] }
       ];

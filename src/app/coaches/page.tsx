@@ -5,13 +5,19 @@ import { useState, useEffect } from 'react';
 import { supabase } from '@/lib/supabase';
 import Link from 'next/link';
 
+import { PlayCircle } from 'lucide-react';
+
 export default function CoachesPage() {
   const [coaches, setCoaches] = useState<any[]>([]);
+  const [recommendedCourses, setRecommendedCourses] = useState<any[]>([]);
 
   useEffect(() => {
     async function loadCoaches() {
       const { data } = await supabase.from('coaches').select('*, teams(name)').order('created_at', { ascending: false });
       if (data) setCoaches(data);
+      
+      const { data: cData } = await supabase.from('coach_courses').select('*').order('created_at', { ascending: false }).limit(3);
+      if (cData) setRecommendedCourses(cData);
     }
     loadCoaches();
   }, []);
@@ -84,6 +90,52 @@ export default function CoachesPage() {
         </div>
       </div>
 
+      {/* Recommended Courses Section */}
+      {recommendedCourses.length > 0 && (
+        <div className="container mx-auto px-4 lg:px-8 mt-24">
+          <div className="flex items-center space-x-4 mb-10">
+            <span className="w-8 h-1 bg-[#d7bf7b]"></span>
+            <h2 className="text-2xl md:text-3xl font-black text-white uppercase tracking-tight">Önərilən Məşqçi Kursları</h2>
+          </div>
+          
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {recommendedCourses.map((course, i) => (
+              <motion.div 
+                key={course.id}
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: i * 0.1, duration: 0.5 }}
+              >
+                <Link href={`/courses/${course.id}`} className="block h-full group cursor-pointer bg-[#152741] rounded-3xl overflow-hidden border border-gray-800 hover:border-[#d7bf7b]/50 transition-colors shadow-xl hover:shadow-2xl flex flex-col">
+                  <div className="relative aspect-video overflow-hidden shrink-0">
+                    <img 
+                      src={course.image_url || '/placeholder-hero.jpg'} 
+                      alt={course.title} 
+                      className="absolute inset-0 w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
+                    />
+                    <div className="absolute inset-0 bg-black/40 group-hover:bg-black/20 transition-colors flex items-center justify-center">
+                       {course.video_url && <PlayCircle className="w-16 h-16 text-white/80 group-hover:text-[#d7bf7b] group-hover:scale-110 transition-all duration-300" />}
+                    </div>
+                  </div>
+                  <div className="p-6 flex flex-col flex-grow">
+                    <h3 className="text-lg font-bold text-white mb-2 group-hover:text-[#d7bf7b] transition-colors">{course.title}</h3>
+                    <p className="text-gray-400 text-xs md:text-sm line-clamp-2 mb-6">{course.description}</p>
+                    <div className="mt-auto text-[#d7bf7b] text-xs font-bold uppercase tracking-widest hover:text-white transition-colors">
+                      Daha Ətraflı &rarr;
+                    </div>
+                  </div>
+                </Link>
+              </motion.div>
+            ))}
+          </div>
+          <div className="mt-10 text-center">
+            <Link href="/courses" className="inline-block bg-[#152741] text-white border border-gray-700 hover:border-[#d7bf7b] px-8 py-3 rounded-xl font-bold uppercase tracking-widest text-xs transition-colors">
+              Bütün Kurslara Bax
+            </Link>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

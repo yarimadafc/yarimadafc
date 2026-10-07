@@ -122,7 +122,7 @@ export default function Footer() {
           <div className="flex flex-col space-y-3 md:space-y-4 col-span-1">
             <Link href="/teams" className="text-white font-bold text-xs md:text-sm hover:text-[#d7bf7b] transition-colors">Komandalar</Link>
             <Link href="/academy" className="text-white font-bold text-xs md:text-sm hover:text-[#d7bf7b] transition-colors">Akademiya</Link>
-            <Link href="/#courses" className="text-white font-bold text-xs md:text-sm hover:text-[#d7bf7b] transition-colors">Məşqçi Kursu</Link>
+            <Link href="/courses" className="text-white font-bold text-xs md:text-sm hover:text-[#d7bf7b] transition-colors">Məşqçi Kursu</Link>
             <Link href="/sponsors" className="text-white font-bold text-xs md:text-sm hover:text-[#d7bf7b] transition-colors">Sponsorlar</Link>
             <Link href="/shop" className="text-white font-bold text-xs md:text-sm hover:text-[#d7bf7b] transition-colors">Mağaza</Link>
             <Link href="/privacy" className="text-white font-bold text-xs md:text-sm hover:text-[#d7bf7b] transition-colors">Məxfilik siyasəti</Link>

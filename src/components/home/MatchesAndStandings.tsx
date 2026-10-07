@@ -4,6 +4,11 @@ import { useEffect, useState } from 'react';
 import { supabase } from '@/lib/supabase';
 import { calculateLiveMinute } from '@/lib/matchTimer';
 
+const isTimePassed = (date: string, time: string) => {
+  if (!date || !time) return false;
+  return new Date(`${date}T${time}`) <= new Date();
+};
+
 export default function MatchesAndStandings() {
   const [standings, setStandings] = useState<any[]>([]);
   const [activeLeague, setActiveLeague] = useState('U-12');
@@ -95,6 +100,11 @@ export default function MatchesAndStandings() {
                             <span className="text-white font-black text-xl md:text-2xl">{nextMatch.away_score !== null ? nextMatch.away_score : '-'}</span>
                           </div>
                         </div>
+                      ) : isTimePassed(nextMatch.match_date, nextMatch.match_time) ? (
+                        <div className="flex flex-col items-center animate-pulse">
+                          <span className="text-red-500 font-black text-[10px] tracking-widest uppercase mb-1">OYUN BAŞLADI</span>
+                          <span className="text-gray-500 font-bold text-[10px] uppercase tracking-widest">{nextMatch.match_time || '00:00'}</span>
+                        </div>
                       ) : (
                         <div className="flex flex-col items-center">
                           <span className="text-[#d7bf7b] font-black text-3xl mb-1">VS</span>
@@ -153,7 +163,8 @@ export default function MatchesAndStandings() {
                     key={league}
                     onClick={() => {
                       setActiveLeague(league);
-                      // Do not override nextMatch when clicking tabs, keep it as the overall next match
+                      const leagueNext = allMatches.find((m: any) => m.tournament === league && m.status !== 'finished');
+                      setNextMatch(leagueNext || null);
                     }}
                     className={`px-4 py-2 rounded-full text-xs font-bold uppercase tracking-widest whitespace-nowrap transition-colors ${activeLeague === league ? 'bg-[#d7bf7b] text-[#152741]' : 'bg-[#152741] text-gray-400 border border-gray-800 hover:text-white'}`}
                   >

@@ -12,6 +12,11 @@ import { useState, useEffect } from 'react';
 import { supabase } from '@/lib/supabase';
 import { calculateLiveMinute } from '@/lib/matchTimer';
 
+const isTimePassed = (date: string, time: string) => {
+  if (!date || !time) return false;
+  return new Date(`${date}T${time}`) <= new Date();
+};
+
 export default function HomePage() {
   const [heroTexts, setHeroTexts] = useState<Record<string, string>>({
     hero_title_1: 'YENİ MÖVSÜM,',
@@ -205,6 +210,10 @@ export default function HomePage() {
                                <span className="text-gray-500 font-bold">:</span>
                                <span className="text-white font-black text-xl">{heroMatch.away_score !== null ? heroMatch.away_score : '-'}</span>
                              </div>
+                           </div>
+                         ) : isTimePassed(heroMatch.date, heroMatch.time) ? (
+                           <div className="flex flex-col items-center animate-pulse">
+                             <span className="text-red-500 font-black text-[10px] tracking-widest uppercase mb-1 text-center bg-[#0a1423] border border-red-500/30 px-2 py-1 rounded-lg">OYUN BAŞLADI</span>
                            </div>
                          ) : (
                            <div className="w-8 h-8 rounded-full bg-[#0a1423] border border-gray-700 flex items-center justify-center shadow-lg">

@@ -4,6 +4,11 @@ import { useState, useEffect } from 'react';
 import { supabase } from '@/lib/supabase';
 import { calculateLiveMinute } from '@/lib/matchTimer';
 
+const isTimePassed = (date: string, time: string) => {
+  if (!date || !time) return false;
+  return new Date(`${date}T${time}`) <= new Date();
+};
+
 export default function MatchesPage() {
   const [matches, setMatches] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);

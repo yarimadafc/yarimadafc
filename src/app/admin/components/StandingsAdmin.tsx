@@ -25,6 +25,12 @@ export default function StandingsAdmin() {
   const [gf, setGf] = useState<number>(0);
   const [ga, setGa] = useState<number>(0);
 
+  // Auto-calculate Points and Played matches
+  useEffect(() => {
+    setPlayed(won + drawn + lost);
+    setPoints((won * 3) + (drawn * 1));
+  }, [won, drawn, lost]);
+
   useEffect(() => {
     fetchTeams();
     fetchStandings();
@@ -145,13 +151,13 @@ export default function StandingsAdmin() {
                   <label className="block text-gray-400 text-xs font-bold uppercase mb-2">Komanda Adı</label>
                   <input type="text" value={teamName} onChange={e => setTeamName(e.target.value)} className="w-full bg-[#0d1a2d] border border-gray-700 rounded-lg p-3 text-white" required />
                 </div>
-                <div><label className="block text-gray-400 text-xs font-bold uppercase mb-2">Oyun</label><input type="number" value={played} onChange={e => setPlayed(Number(e.target.value))} className="w-full bg-[#0d1a2d] border border-gray-700 rounded-lg p-3 text-white" /></div>
+                <div><label className="block text-gray-400 text-xs font-bold uppercase mb-2">Oyun (Avto)</label><input type="number" value={played} readOnly className="w-full bg-[#0d1a2d]/50 border border-gray-800 rounded-lg p-3 text-gray-500 cursor-not-allowed" /></div>
                 <div><label className="block text-gray-400 text-xs font-bold uppercase mb-2">Qələbə</label><input type="number" value={won} onChange={e => setWon(Number(e.target.value))} className="w-full bg-[#0d1a2d] border border-gray-700 rounded-lg p-3 text-white" /></div>
                 <div><label className="block text-gray-400 text-xs font-bold uppercase mb-2">Heç-Heçə</label><input type="number" value={drawn} onChange={e => setDrawn(Number(e.target.value))} className="w-full bg-[#0d1a2d] border border-gray-700 rounded-lg p-3 text-white" /></div>
                 <div><label className="block text-gray-400 text-xs font-bold uppercase mb-2">Məğlubiyyət</label><input type="number" value={lost} onChange={e => setLost(Number(e.target.value))} className="w-full bg-[#0d1a2d] border border-gray-700 rounded-lg p-3 text-white" /></div>
                 <div className="col-span-2"><label className="block text-green-400 text-xs font-bold uppercase mb-2">Vurduğu Qol (VQ)</label><input type="number" value={gf} onChange={e => setGf(Number(e.target.value))} className="w-full bg-[#0d1a2d] border border-gray-700 rounded-lg p-3 text-white" /></div>
                 <div className="col-span-2"><label className="block text-red-400 text-xs font-bold uppercase mb-2">Buraxdığı Top (BT)</label><input type="number" value={ga} onChange={e => setGa(Number(e.target.value))} className="w-full bg-[#0d1a2d] border border-gray-700 rounded-lg p-3 text-white" /></div>
-                <div className="col-span-2 md:col-span-4"><label className="block text-[#d7bf7b] text-xs font-bold uppercase mb-2">Xal</label><input type="number" value={points} onChange={e => setPoints(Number(e.target.value))} className="w-full bg-[#0d1a2d] border border-[#d7bf7b] rounded-lg p-3 text-white" /></div>
+                <div className="col-span-2 md:col-span-4"><label className="block text-[#d7bf7b] text-xs font-bold uppercase mb-2">Xal (Avto)</label><input type="number" value={points} readOnly className="w-full bg-[#0d1a2d]/50 border border-[#d7bf7b]/50 rounded-lg p-3 text-[#d7bf7b] font-black cursor-not-allowed" /></div>
                 <div className="col-span-2 md:col-span-4 mt-2">
                    <button type="submit" className="w-full bg-[#d7bf7b] text-[#152741] py-3 rounded-lg font-bold text-xs uppercase tracking-widest">Yadda Saxla</button>
                 </div>

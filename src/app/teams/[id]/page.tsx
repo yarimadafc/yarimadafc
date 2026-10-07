@@ -11,6 +11,9 @@ export default function TeamDetailPage() {
   const params = useParams();
   const id = params.id as string;
   const [team, setTeam] = useState<any>(null);
+  const [teamPos, setTeamPos] = useState('');
+  const [teamImg, setTeamImg] = useState('');
+  const [teamDesc, setTeamDesc] = useState('');
   const [players, setPlayers] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
 
@@ -22,6 +25,15 @@ export default function TeamDetailPage() {
       const { data: playersData } = await supabase.from('players').select('*').eq('team_id', id).order('jersey_number', { ascending: true });
       if (playersData) setPlayers(playersData);
       
+      const keys = [`team_${id}_pos`, `team_${id}_desc`, `team_${id}_img`];
+      const { data: imgData } = await supabase.from('site_images').select('section_key, image_url').in('section_key', keys);
+      if (imgData) {
+        imgData.forEach(item => {
+          if (item.section_key.endsWith('_pos')) setTeamPos(item.image_url);
+          if (item.section_key.endsWith('_desc')) setTeamDesc(item.image_url);
+          if (item.section_key.endsWith('_img')) setTeamImg(item.image_url);
+        });
+      }
       setLoading(false);
     }
     loadTeam();
@@ -36,7 +48,11 @@ export default function TeamDetailPage() {
       
       {/* Header Profile */}
       <div className="w-full bg-[#152741] py-16 md:py-24 border-b border-gray-800 relative overflow-hidden">
-        <div className="absolute inset-0 bg-[url('/placeholder-hero.jpg')] bg-cover bg-center opacity-10 blur-sm"></div>
+        {teamImg ? (
+          <div className="absolute inset-0 bg-cover bg-center opacity-30" style={{ backgroundImage: `url(${teamImg})` }}></div>
+        ) : (
+          <div className="absolute inset-0 bg-[url('/placeholder-hero.jpg')] bg-cover bg-center opacity-10 blur-sm"></div>
+        )}
         <div className="absolute inset-0 bg-gradient-to-t from-[#0a1423] via-[#0a1423]/80 to-transparent"></div>
         
         <div className="container mx-auto px-4 lg:px-8 relative z-10 flex flex-col items-center">
@@ -75,7 +91,7 @@ export default function TeamDetailPage() {
             <div className="w-[1px] bg-gray-800 hidden md:block"></div>
             <div className="text-center px-4">
               <div className="text-gray-500 text-[10px] font-bold uppercase tracking-widest mb-1">Cari Mövqe</div>
-              <div className="text-[#d7bf7b] text-sm md:text-base font-black">3-cü yer</div>
+              <div className="text-[#d7bf7b] text-sm md:text-base font-black">{teamPos || 'Məlumat Yoxdur'}</div>
             </div>
           </div>
         </div>

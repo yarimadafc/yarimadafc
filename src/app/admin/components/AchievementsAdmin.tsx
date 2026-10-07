@@ -11,6 +11,7 @@ export default function AchievementsAdmin() {
   const [title, setTitle] = useState('');
   const [count, setCount] = useState('');
   const [orderNum, setOrderNum] = useState(0);
+  const [editingId, setEditingId] = useState<string | null>(null);
 
   useEffect(() => {
     fetchAchievements();
@@ -18,22 +19,37 @@ export default function AchievementsAdmin() {
 
   const fetchAchievements = async () => {
     setLoading(true);
-    const { data } = await supabase.from('achievements').select('*').order('order_num', { ascending: true });
+    const { data } = await supabase.from('achievements').select('*').order('created_at', { ascending: false });
     if (data) setAchievements(data);
     setLoading(false);
+  };
+
+  const handleEdit = (a: any) => {
+    setTitle(a.title);
+    setCount(a.count);
+    setOrderNum(a.order_num);
+    setEditingId(a.id);
+    setIsAdding(true);
   };
 
   const handleAdd = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!title || !count) return alert('Bütün xanaları doldurun');
     
-    const { error } = await supabase.from('achievements').insert([{ title, count, order_num: orderNum }]);
+    let error;
+    if (editingId) {
+      const res = await supabase.from('achievements').update({ title, count, order_num: orderNum }).eq('id', editingId);
+      error = res.error;
+    } else {
+      const res = await supabase.from('achievements').insert([{ title, count, order_num: orderNum }]);
+      error = res.error;
+    }
     
     if (error) alert('Xəta: ' + error.message);
     else {
       alert('Nailiyyət əlavə edildi!');
       setIsAdding(false);
-      setTitle(''); setCount(''); setOrderNum(0);
+      setTitle(''); setCount(''); setOrderNum(0); setEditingId(null);
       fetchAchievements();
     }
   };
@@ -53,7 +69,7 @@ export default function AchievementsAdmin() {
           <p className="text-gray-400 text-sm">Klubun uğurlarını statistika formatında əlavə edin.</p>
         </div>
         <button onClick={() => setIsAdding(!isAdding)} className="bg-[#d7bf7b] text-[#152741] px-4 py-2 rounded-lg font-bold text-xs uppercase tracking-widest flex items-center space-x-2">
-          {isAdding ? <span>Ləğv Et</span> : <><Plus className="w-4 h-4" /><span>Yeni Əlavə Et</span></>}
+          {isAdding ? <span onClick={() => { setEditingId(null); setTitle(''); setCount(''); setOrderNum(0); }}>Ləğv Et</span> : <><Plus className="w-4 h-4" /><span>Yeni Əlavə Et</span></>}
         </button>
       </div>
 

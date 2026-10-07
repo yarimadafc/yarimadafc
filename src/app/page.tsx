@@ -3,6 +3,7 @@ import Link from "next/link";
 
 
 import NewsSection from '@/components/home/NewsSection';
+import MatchesSection from '@/components/home/MatchesSection';
 import StandingsMatches from '@/components/home/StandingsMatches';
 import QuickLinks from '@/components/home/QuickLinks';
 import VideoSection from '@/components/home/VideoSection';
@@ -12,6 +13,12 @@ import { useState, useEffect } from 'react';
 import { supabase } from '@/lib/supabase';
 
 export default function HomePage() {
+  const [heroTexts, setHeroTexts] = useState<Record<string, string>>({
+    hero_title_1: 'YENİ MÖVSÜM,',
+    hero_title_2: 'YENİ HƏDƏFLƏR',
+    hero_subtitle: 'Gələcəyin çempionları burada yetişir. Böyük hədəflərə doğru birlikdə addımlayırıq!'
+  });
+  const [nextMatch, setNextMatch] = useState<any>(null);
   const [time, setTime] = useState<string>('');
   const [date, setDate] = useState<string>('');
   const [heroBg, setHeroBg] = useState<string>('/placeholder-hero.jpg');
@@ -28,6 +35,18 @@ export default function HomePage() {
       }
     }
     loadHeroImage();
+    
+    async function loadData() {
+      const { data: texts } = await supabase.from('site_images').select('section_key, image_url').in('section_key', ['hero_title_1', 'hero_title_2', 'hero_subtitle']);
+      if (texts) {
+        const map: Record<string, string> = { hero_title_1: 'YENİ MÖVSÜM,', hero_title_2: 'YENİ HƏDƏFLƏR', hero_subtitle: 'Gələcəyin çempionları burada yetişir. Böyük hədəflərə doğru birlikdə addımlayırıq!' };
+        texts.forEach(t => { map[t.section_key] = t.image_url; });
+        setHeroTexts(map);
+      }
+      const { data: match } = await supabase.from('matches').select('*').order('match_date', { ascending: true }).limit(1).single();
+      if (match) setNextMatch(match);
+    }
+    loadData();
 
     const updateTime = () => {
       const now = new Date();
@@ -77,11 +96,11 @@ export default function HomePage() {
                     className="h-[2px] bg-[#d7bf7b] mb-6"
                   ></motion.div>
                   <h1 className="text-5xl md:text-6xl xl:text-7xl font-black text-white mb-6 uppercase tracking-tighter leading-tight drop-shadow-lg">
-                    YENİ MÖVSÜM, <br />
-                    <span className="text-[#d7bf7b]">YENİ HƏDƏFLƏR</span>
+                    {heroTexts.hero_title_1} <br />
+                    <span className="text-[#d7bf7b]">{heroTexts.hero_title_2}</span>
                   </h1>
                   <p className="text-gray-300 font-bold text-base md:text-lg tracking-wide max-w-lg mb-10 drop-shadow-md">
-                    Gələcəyin çempionları burada yetişir. Böyük hədəflərə doğru birlikdə addımlayırıq!
+                    {heroTexts.hero_subtitle}
                   </p>
                   <motion.div 
                     initial={{ opacity: 0, y: 20 }}
@@ -126,7 +145,7 @@ export default function HomePage() {
                      
                      <div className="flex items-center justify-between mb-6">
                        <span className="text-[#d7bf7b] font-bold tracking-[0.2em] text-[10px] uppercase">Növbəti Oyun</span>
-                       <span className="text-gray-400 text-[11px] font-medium tracking-wide">U-12 Premyer Liqa</span>
+                       <span className="text-gray-400 text-[11px] font-medium tracking-wide">{nextMatch?.tournament || 'Gənclər Liqası'}</span>
                      </div>
 
                      <div className="flex items-center justify-between mb-8 relative">
@@ -137,7 +156,7 @@ export default function HomePage() {
                              <img src="/Logo.JPG.jpeg" alt="Yarımada" className="w-full h-full object-cover rounded-full" />
                            </div>
                          </div>
-                         <span className="font-black text-white tracking-widest text-xs uppercase text-center">YARIMADA</span>
+                         <span className="font-black text-white tracking-widest text-xs uppercase text-center">{nextMatch?.home_team || 'YARIMADA'}</span>
                        </div>
                        
                        {/* VS */}
@@ -149,18 +168,18 @@ export default function HomePage() {
 
                        {/* Team 2 */}
                        <div className="flex flex-col items-center space-y-3 w-[40%]">
-                         <div className="w-12 h-12 rounded-full border border-gray-700 bg-white flex items-center justify-center p-2 shadow-inner">
+                         <div className="w-12 h-12 rounded-full border border-gray-700 bg-[#0d1a2d] flex items-center justify-center p-2 shadow-inner">
                            {/* Placeholder logo for opponent */}
-                           <div className="w-6 h-6 bg-gray-200 rounded-full"></div>
+                           <div className="w-6 h-6 bg-gray-600 rounded-full"></div>
                          </div>
-                         <span className="font-black text-white tracking-widest text-xs uppercase text-center">NEFTÇİ</span>
+                         <span className="font-black text-white tracking-widest text-xs uppercase text-center">{nextMatch?.away_team || 'RƏQİB'}</span>
                        </div>
                      </div>
 
                      <div className="w-full bg-[#0a1423] rounded-lg p-3 flex justify-between items-center border border-gray-800">
                        <div className="flex flex-col">
                          <span className="text-gray-500 text-[10px] uppercase tracking-widest mb-0.5">Tarix / Saat</span>
-                         <span className="text-white text-xs font-bold">15 Okt • 20:00</span>
+                         <span className="text-white text-xs font-bold">{nextMatch ? `${nextMatch.match_date} • ${nextMatch.match_time}` : 'Məlumat Yoxdur'}</span>
                        </div>
                        <Link href="/matches" className="text-[#d7bf7b] text-[10px] font-bold uppercase tracking-widest hover:text-white transition-colors flex items-center group-hover:underline underline-offset-4">
                          Ətraflı &rarr;
@@ -181,6 +200,9 @@ export default function HomePage() {
 
         {/* 4. Xəbərlər (News) */}
         <NewsSection />
+
+        {/* 4.5 Oyunlar Təqvimi */}
+        <MatchesSection />
 
         {/* 5. Yarımada TV */}
         <VideoSection />

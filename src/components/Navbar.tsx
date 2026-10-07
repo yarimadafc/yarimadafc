@@ -66,7 +66,7 @@ export default function Navbar() {
       className="fixed w-full top-0 z-50 flex flex-col"
     >
       {/* Top Bar */}
-      <div className="bg-[#0a1423] border-b border-gray-800/80 hidden lg:block">
+      <div className="bg-[#0a1423] hidden lg:block">
         <div className="container mx-auto px-4 lg:px-8 h-10 flex items-center justify-between">
           {/* Left: Phone & Slogan */}
           <div className="flex items-center space-x-6">

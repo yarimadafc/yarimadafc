@@ -131,7 +131,7 @@ export default function HomePage() {
                    {heroTexts.hero_title_1} <br />
                    <span className="text-[#d7bf7b] relative">
                      {heroTexts.hero_title_2}
-                     <span className="absolute bottom-1 lg:bottom-2 left-0 w-full h-2 bg-[#d7bf7b]/30 -z-10"></span>
+                     
                    </span>
                  </motion.h1>
                  <motion.p 

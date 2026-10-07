@@ -2,11 +2,14 @@
 import { motion } from 'framer-motion';
 import { useState, useEffect } from 'react';
 import { supabase } from '@/lib/supabase';
+import { calculateLiveMinute } from '@/lib/matchTimer';
 
 export default function MatchesPage() {
   const [matches, setMatches] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [activeTab, setActiveTab] = useState<'upcoming' | 'past'>('upcoming');
+  const [, setTick] = useState(0);
+  useEffect(() => { const timer = setInterval(() => setTick(t => t+1), 1000); return () => clearInterval(timer); }, []);
 
   useEffect(() => {
     async function loadMatches() {
@@ -18,14 +21,12 @@ export default function MatchesPage() {
   }, []);
 
   // Determine if a match is past based on date
-  const isPast = (m: any) => {
-    if (!m.match_date) return false;
-    const matchDateTime = new Date(`${m.match_date}T${m.match_time || '00:00'}`);
-    return matchDateTime < new Date();
-  };
-
-  const upcomingMatches = matches.filter(m => !isPast(m));
-  const pastMatches = matches.filter(m => isPast(m)).sort((a, b) => new Date(b.match_date).getTime() - new Date(a.match_date).getTime()); // Past matches sorted newest first
+  const upcomingMatches = matches.filter(m => m.status !== 'finished');
+  const pastMatches = matches.filter(m => m.status === 'finished').sort((a, b) => {
+    if (!a.match_date) return 1;
+    if (!b.match_date) return -1;
+    return new Date(b.match_date).getTime() - new Date(a.match_date).getTime();
+  }); // Past matches sorted newest first
 
   const displayMatches = activeTab === 'upcoming' ? upcomingMatches : pastMatches;
 
@@ -100,8 +101,12 @@ export default function MatchesPage() {
                      <span className="text-[#d7bf7b] font-bold text-xs uppercase">{m.match_date?.split('-')[1] ? ['Yan', 'Fev', 'Mar', 'Apr', 'May', 'İyn', 'İyl', 'Avq', 'Sen', 'Okt', 'Noy', 'Dek'][new Date(m.match_date).getMonth()] : 'Ay'}</span>
                      
                      {activeTab === 'past' ? (
-                        <div className="mt-3 bg-red-500/20 text-red-400 px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-widest">
+                        <div className="mt-3 bg-red-500/0 text-red-400 px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-widest">
                           BİTDİ
+                        </div>
+                     ) : m.status === 'live' ? (
+                        <div className="mt-3 bg-red-500/20 text-red-400 px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-widest animate-pulse border border-red-500/30">
+                          Canlı: {calculateLiveMinute(m.timer_status, m.timer_started_at, m.elapsed_seconds, m.half_1_duration, m.half_2_duration, m.extra_time_1, m.extra_time_2)}
                         </div>
                      ) : (
                         <span className="text-gray-500 font-bold text-[10px] mt-2">{m.match_time}</span>

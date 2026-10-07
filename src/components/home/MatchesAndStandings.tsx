@@ -17,7 +17,10 @@ export default function MatchesAndStandings() {
       const { data: mData } = await supabase.from('matches').select('*').order('match_date', { ascending: true });
       if (mData) {
         setAllMatches(mData);
-        setNextMatch(mData.find((m: any) => (m.tournament || 'U-12') === 'U-12') || null);
+        // Find the next match that is NOT the hero match (or fallback to hero if it's the only one)
+        const nonHeroNext = mData.find(m => m.status !== 'finished' && !m.is_hero);
+        const heroNext = mData.find(m => m.status !== 'finished' && m.is_hero);
+        setNextMatch(nonHeroNext || heroNext || null);
       }
     }
     fetchData();

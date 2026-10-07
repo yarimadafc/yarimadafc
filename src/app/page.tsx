@@ -42,21 +42,31 @@ export default function HomePage() {
         texts.forEach(t => { map[t.section_key] = t.image_url; });
         setHeroTexts(map);
       }
-      const hmKeys = ['hero_match_home', 'hero_match_away', 'hero_match_date', 'hero_match_time', 'hero_match_venue', 'hero_match_league', 'hero_match_home_logo', 'hero_match_away_logo'];
-      const { data: hmData } = await supabase.from('site_images').select('section_key, image_url').in('section_key', hmKeys);
-      if (hmData) {
-        const hm: any = { home: 'YARIMADA', away: 'RƏQİB', date: '', time: '', venue: '', league: 'Gənclər Liqası', home_logo: '', away_logo: '' };
-        hmData.forEach(item => {
-          if (item.section_key === 'hero_match_home') hm.home = item.image_url;
-          if (item.section_key === 'hero_match_away') hm.away = item.image_url;
-          if (item.section_key === 'hero_match_date') hm.date = item.image_url;
-          if (item.section_key === 'hero_match_time') hm.time = item.image_url;
-          if (item.section_key === 'hero_match_venue') hm.venue = item.image_url;
-          if (item.section_key === 'hero_match_league') hm.league = item.image_url;
-          if (item.section_key === 'hero_match_home_logo') hm.home_logo = item.image_url;
-          if (item.section_key === 'hero_match_away_logo') hm.away_logo = item.image_url;
+      const { data: hmData } = await supabase
+        .from('matches')
+        .select('*')
+        .eq('is_hero', true)
+        .neq('status', 'finished')
+        .order('match_date', { ascending: true })
+        .limit(1);
+
+      if (hmData && hmData.length > 0) {
+        const m = hmData[0];
+        setHeroMatch({
+          home: m.home_team || 'YARIMADA',
+          away: m.away_team || 'RƏQİB',
+          date: m.match_date || '',
+          time: m.match_time || '',
+          venue: m.stadium || '',
+          league: m.tournament || 'Yoldaşlıq',
+          home_logo: m.home_logo || '',
+          away_logo: m.away_logo || '',
+          status: m.status || 'upcoming',
+          live_minute: m.live_minute || '',
+          added_time: m.added_time || '',
+          home_score: m.home_score,
+          away_score: m.away_score
         });
-        setHeroMatch(hm);
       }
     }
     loadData();
@@ -164,29 +174,58 @@ export default function HomePage() {
 
                      <div className="flex items-center justify-between mb-8 relative">
                        {/* Team 1 */}
-                       <div className="flex flex-col items-center space-y-3 w-[40%]">
-                         <div className="w-12 h-12 rounded-full border border-gray-700 bg-[#0d1a2d] flex items-center justify-center p-2 shadow-inner">
-                           <div className="w-full h-full relative">
+                       <div className="flex flex-col items-center space-y-3 w-[35%] z-10">
+                         <div className="w-14 h-14 rounded-full border border-gray-700 bg-[#0d1a2d] flex items-center justify-center p-1 shadow-inner overflow-hidden">
+                           {heroMatch.home_logo ? (
+                             <img src={heroMatch.home_logo} alt={heroMatch.home} className="w-full h-full object-contain bg-white rounded-full p-1" />
+                           ) : heroMatch.home?.includes('Yarımada') ? (
                              <img src="/Logo.JPG.jpeg" alt="Yarımada" className="w-full h-full object-cover rounded-full" />
-                           </div>
+                           ) : (
+                             <div className="w-full h-full bg-gray-600 rounded-full"></div>
+                           )}
                          </div>
-                         <span className="font-black text-white tracking-widest text-xs uppercase text-center">{heroMatch.home || 'YARIMADA'}</span>
+                         <span className="font-black text-white tracking-widest text-[10px] uppercase text-center line-clamp-2">{heroMatch.home}</span>
                        </div>
                        
-                       {/* VS */}
-                       <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 mt-[-10px]">
-                         <div className="w-8 h-8 rounded-full bg-[#0a1423] border border-gray-700 flex items-center justify-center shadow-lg">
-                           <span className="text-[#d7bf7b] text-[10px] font-black italic">VS</span>
-                         </div>
+                       {/* VS or Score */}
+                       <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 mt-[-10px] z-20 flex flex-col items-center">
+                         {heroMatch.status === 'live' ? (
+                           <div className="flex flex-col items-center animate-pulse">
+                             <div className="text-red-500 font-black text-[10px] tracking-widest uppercase mb-1">{heroMatch.live_minute || "CANLI"} {heroMatch.added_time ? `${heroMatch.added_time}` : ''}</div>
+                             <div className="flex items-center space-x-2 bg-[#0a1423] border border-gray-700 px-3 py-1 rounded-lg">
+                               <span className="text-white font-black text-xl">{heroMatch.home_score !== null ? heroMatch.home_score : '-'}</span>
+                               <span className="text-gray-500 font-bold">:</span>
+                               <span className="text-white font-black text-xl">{heroMatch.away_score !== null ? heroMatch.away_score : '-'}</span>
+                             </div>
+                           </div>
+                         ) : heroMatch.status === 'finished' ? (
+                           <div className="flex flex-col items-center">
+                             <div className="text-gray-500 font-black text-[10px] tracking-widest uppercase mb-1">NƏTİCƏ</div>
+                             <div className="flex items-center space-x-2 bg-[#0a1423] border border-gray-700 px-3 py-1 rounded-lg">
+                               <span className="text-white font-black text-xl">{heroMatch.home_score !== null ? heroMatch.home_score : '-'}</span>
+                               <span className="text-gray-500 font-bold">:</span>
+                               <span className="text-white font-black text-xl">{heroMatch.away_score !== null ? heroMatch.away_score : '-'}</span>
+                             </div>
+                           </div>
+                         ) : (
+                           <div className="w-8 h-8 rounded-full bg-[#0a1423] border border-gray-700 flex items-center justify-center shadow-lg">
+                             <span className="text-[#d7bf7b] text-[10px] font-black italic">VS</span>
+                           </div>
+                         )}
                        </div>
 
                        {/* Team 2 */}
-                       <div className="flex flex-col items-center space-y-3 w-[40%]">
-                         <div className="w-12 h-12 rounded-full border border-gray-700 bg-[#0d1a2d] flex items-center justify-center p-2 shadow-inner">
-                           {/* Placeholder logo for opponent */}
-                           <div className="w-6 h-6 bg-gray-600 rounded-full"></div>
+                       <div className="flex flex-col items-center space-y-3 w-[35%] z-10">
+                         <div className="w-14 h-14 rounded-full border border-gray-700 bg-[#0d1a2d] flex items-center justify-center p-1 shadow-inner overflow-hidden">
+                           {heroMatch.away_logo ? (
+                             <img src={heroMatch.away_logo} alt={heroMatch.away} className="w-full h-full object-contain bg-white rounded-full p-1" />
+                           ) : heroMatch.away?.includes('Yarımada') ? (
+                             <img src="/Logo.JPG.jpeg" alt="Yarımada" className="w-full h-full object-cover rounded-full" />
+                           ) : (
+                             <div className="w-full h-full bg-gray-600 rounded-full"></div>
+                           )}
                          </div>
-                         <span className="font-black text-white tracking-widest text-xs uppercase text-center">{heroMatch.away || 'RƏQİB'}</span>
+                         <span className="font-black text-white tracking-widest text-[10px] uppercase text-center line-clamp-2">{heroMatch.away}</span>
                        </div>
                      </div>
 
@@ -205,6 +244,7 @@ export default function HomePage() {
              </div>
           </div>
         </section>
+
 
         {/* 2. Sürətli Keçidlər (4-lü Grid) */}
         <QuickLinks />

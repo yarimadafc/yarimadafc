@@ -1,7 +1,7 @@
 const fs = require('fs');
-let content = fs.readFileSync('src/app/standings/page.tsx', 'utf-8');
+let content = fs.readFileSync('src/app/media/page.tsx', 'utf-8');
 
-const headerStr = `<div className="w-full bg-[#152741] py-12 md:py-16 border-b border-gray-800 relative overflow-hidden">
+const headerStr = `<div className="w-full bg-[#152741] py-12 md:py-16 border-b border-gray-800 relative overflow-hidden mb-10 mt-20">
         <div className="absolute inset-0 bg-gradient-to-t from-[#0a1423] to-transparent"></div>
         <div className="container mx-auto px-4 lg:px-8 relative z-10 text-center">
           <motion.h1 
@@ -10,7 +10,7 @@ const headerStr = `<div className="w-full bg-[#152741] py-12 md:py-16 border-b b
             transition={{ duration: 0.8 }}
             className="text-2xl md:text-4xl font-black text-white uppercase tracking-tighter mb-4 drop-shadow-lg"
           >
-            TURNİR <span className="text-[#d7bf7b]">CƏDVƏLİ</span>
+            KLUB <span className="text-[#d7bf7b]">MEDİASI</span>
           </motion.h1>
           <motion.div 
             initial={{ width: 0 }}
@@ -19,17 +19,17 @@ const headerStr = `<div className="w-full bg-[#152741] py-12 md:py-16 border-b b
             className="h-1 bg-[#d7bf7b] mx-auto mb-6"
           ></motion.div>
           <p className="text-gray-400 max-w-2xl mx-auto text-sm md:text-base font-medium">
-            Komandalarımızın iştirak etdiyi liqalardakı mövcud vəziyyəti və növbəti oyunları.
+            Yarımada FK-nın ən maraqlı oyun anları, məşqlər və klub daxili videoları.
           </p>
         </div>
       </div>`;
 
 content = content.replace(
-  /<MatchesAndStandings \/>/,
-  `<div className="min-h-screen bg-[#0a1423] pt-32 pb-20">
+  /<div className="container mx-auto px-4 lg:px-8 py-10 min-h-screen">/,
+  `<div className="min-h-screen bg-[#0a1423] pb-20">
       ${headerStr}
-      <MatchesAndStandings />
-      </div>`
+      <div className="container mx-auto px-4 lg:px-8">`
 );
 
-fs.writeFileSync('src/app/standings/page.tsx', content);
+// Remove the outer motion.div padding if any, it's fine.
+fs.writeFileSync('src/app/media/page.tsx', content);

@@ -1,47 +1,39 @@
 export const compressImage = (file: File): Promise<string> => {
   return new Promise((resolve, reject) => {
+    // Check if the file is extremely small or SVG, in which case bypass compression
+    if (file.type === 'image/svg+xml' || file.size < 500 * 1024) {
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onload = () => resolve(reader.result as string);
+      reader.onerror = (error) => reject(error);
+      return;
+    }
+
+    const img = new Image();
     const reader = new FileReader();
-    reader.readAsDataURL(file);
-    reader.onload = (event) => {
-      const img = new Image();
-      img.src = event.target?.result as string;
-      img.onload = () => {
-        const canvas = document.createElement('canvas');
-        const MAX_WIDTH = 1920;
-        const MAX_HEIGHT = 1080;
-        let width = img.width;
-        let height = img.height;
 
-        if (width > height) {
-          if (width > MAX_WIDTH) {
-            height *= MAX_WIDTH / width;
-            width = MAX_WIDTH;
-          }
-        } else {
-          if (height > MAX_HEIGHT) {
-            width *= MAX_HEIGHT / height;
-            height = MAX_HEIGHT;
-          }
-        }
-
-        canvas.width = width;
-        canvas.height = height;
-        const ctx = canvas.getContext('2d');
-        if (!ctx) return reject('No canvas context');
-
-        ctx.drawImage(img, 0, 0, width, height);
-
-        // Keep PNG as PNG to preserve transparency (Sponsors), otherwise WebP/JPEG
-        let type = 'image/jpeg';
-        if (file.type === 'image/png') {
-          type = 'image/png';
-        }
-
-        const dataUrl = canvas.toDataURL(type, 0.8);
-        resolve(dataUrl);
-      };
-      img.onerror = (err) => reject(err);
+    reader.onload = (e) => {
+      if (!e.target?.result) return reject(new Error('Failed to read image'));
+      img.src = e.target.result as string;
     };
-    reader.onerror = (err) => reject(err);
+
+    img.onload = () => {
+      const canvas = document.createElement('canvas');
+      const ctx = canvas.getContext('2d');
+      if (!ctx) return reject(new Error('Canvas not supported'));
+
+      // Keep original dimensions
+      canvas.width = img.width;
+      canvas.height = img.height;
+
+      ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+
+      // Use WebP with 0.95 quality for maximum preservation while reducing byte size substantially
+      const dataUrl = canvas.toDataURL('image/webp', 0.95);
+      resolve(dataUrl);
+    };
+
+    img.onerror = (error) => reject(error);
+    reader.readAsDataURL(file);
   });
 };

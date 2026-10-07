@@ -69,7 +69,9 @@ export default function MatchesSection() {
                 <div className="flex items-center justify-between w-full md:w-3/4 md:pl-6">
                   <div className="flex flex-col items-center w-2/5">
                     <div className="w-16 h-16 bg-[#0a1423] rounded-full border border-gray-700 flex items-center justify-center p-2 mb-3 shadow-inner">
-                      {m.home_team.includes('Yarımada') ? (
+                      {m.home_logo ? (
+                        <img src={m.home_logo} alt={m.home_team} className="w-full h-full object-contain bg-white rounded-full p-1" />
+                      ) : m.home_team.includes('Yarımada') ? (
                         <img src="/Logo.JPG.jpeg" alt="Yarımada" className="w-full h-full object-cover rounded-full" />
                       ) : (
                         <div className="w-8 h-8 bg-gray-600 rounded-full"></div>
@@ -84,7 +86,9 @@ export default function MatchesSection() {
 
                   <div className="flex flex-col items-center w-2/5">
                     <div className="w-16 h-16 bg-[#0a1423] rounded-full border border-gray-700 flex items-center justify-center p-2 mb-3 shadow-inner">
-                      {m.away_team.includes('Yarımada') ? (
+                      {m.away_logo ? (
+                        <img src={m.away_logo} alt={m.away_team} className="w-full h-full object-contain bg-white rounded-full p-1" />
+                      ) : m.away_team.includes('Yarımada') ? (
                         <img src="/Logo.JPG.jpeg" alt="Yarımada" className="w-full h-full object-cover rounded-full" />
                       ) : (
                         <div className="w-8 h-8 bg-gray-600 rounded-full"></div>

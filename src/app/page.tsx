@@ -18,7 +18,7 @@ export default function HomePage() {
     hero_title_2: 'YENİ HƏDƏFLƏR',
     hero_subtitle: 'Gələcəyin çempionları burada yetişir. Böyük hədəflərə doğru birlikdə addımlayırıq!'
   });
-  const [heroMatch, setHeroMatch] = useState<any>({ home: 'YARIMADA', away: 'RƏQİB', date: '', time: '', venue: '', league: 'Gənclər Liqası' });
+  const [heroMatch, setHeroMatch] = useState<any>({ home: 'YARIMADA', away: 'RƏQİB', date: '', time: '', venue: '', league: 'Gənclər Liqası', home_logo: '', away_logo: '' });
   const [time, setTime] = useState<string>('');
   const [date, setDate] = useState<string>('');
   const [heroBg, setHeroBg] = useState<string>('/placeholder-hero.jpg');
@@ -43,10 +43,10 @@ export default function HomePage() {
         texts.forEach(t => { map[t.section_key] = t.image_url; });
         setHeroTexts(map);
       }
-      const hmKeys = ['hero_match_home', 'hero_match_away', 'hero_match_date', 'hero_match_time', 'hero_match_venue', 'hero_match_league'];
+      const hmKeys = ['hero_match_home', 'hero_match_away', 'hero_match_date', 'hero_match_time', 'hero_match_venue', 'hero_match_league', 'hero_match_home_logo', 'hero_match_away_logo'];
       const { data: hmData } = await supabase.from('site_images').select('section_key, image_url').in('section_key', hmKeys);
       if (hmData) {
-        const hm: any = { home: 'YARIMADA', away: 'RƏQİB', date: '', time: '', venue: '', league: 'Gənclər Liqası' };
+        const hm: any = { home: 'YARIMADA', away: 'RƏQİB', date: '', time: '', venue: '', league: 'Gənclər Liqası', home_logo: '', away_logo: '' };
         hmData.forEach(item => {
           if (item.section_key === 'hero_match_home') hm.home = item.image_url;
           if (item.section_key === 'hero_match_away') hm.away = item.image_url;
@@ -54,6 +54,8 @@ export default function HomePage() {
           if (item.section_key === 'hero_match_time') hm.time = item.image_url;
           if (item.section_key === 'hero_match_venue') hm.venue = item.image_url;
           if (item.section_key === 'hero_match_league') hm.league = item.image_url;
+          if (item.section_key === 'hero_match_home_logo') hm.home_logo = item.image_url;
+          if (item.section_key === 'hero_match_away_logo') hm.away_logo = item.image_url;
         });
         setHeroMatch(hm);
       }

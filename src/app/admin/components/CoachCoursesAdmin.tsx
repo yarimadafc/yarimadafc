@@ -79,12 +79,12 @@ export default function CoachCoursesAdmin() {
     setTitle(''); setDescription(''); setVideoUrl(''); setImageUrl(''); setEditingId(null);
   };
 
-  if (loading) return <div className="text-text-main p-6">Yüklənir...</div>;
+  if (loading) return <div className="text-white p-6">Yüklənir...</div>;
 
   return (
     <div className="p-6">
       <div className="flex justify-between items-center mb-8">
-        <h2 className="text-2xl font-bold text-text-main">Məşqçi Kursu (Praktiki)</h2>
+        <h2 className="text-2xl font-bold text-white">Məşqçi Kursu (Praktiki)</h2>
         <button 
           onClick={() => { resetForm(); setIsAdding(!isAdding); }}
           className="bg-accent text-[#141414] px-4 py-2 rounded-lg font-bold flex items-center space-x-2"
@@ -94,25 +94,25 @@ export default function CoachCoursesAdmin() {
       </div>
 
       {isAdding && (
-        <form onSubmit={handleSave} className="bg-bg-deep p-6 rounded-2xl border border-bg-border mb-8 space-y-4">
+        <form onSubmit={handleSave} className="bg-black p-6 rounded-2xl border border-gray-700 mb-8 space-y-4">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
-              <label className="block text-text-sec text-xs font-bold uppercase mb-2">Başlıq</label>
-              <input type="text" value={title} onChange={e => setTitle(e.target.value)} className="w-full bg-bg-main border border-bg-border rounded p-3 text-text-main" required />
+              <label className="block text-gray-400 text-xs font-bold uppercase mb-2">Başlıq</label>
+              <input type="text" value={title} onChange={e => setTitle(e.target.value)} className="w-full bg-gray-900 border border-gray-700 rounded p-3 text-white" required />
             </div>
             <div>
-              <label className="block text-text-sec text-xs font-bold uppercase mb-2">Video URL (Məs: Youtube ID və ya Link)</label>
-              <input type="text" value={videoUrl} onChange={e => setVideoUrl(e.target.value)} className="w-full bg-bg-main border border-bg-border rounded p-3 text-text-main" />
+              <label className="block text-gray-400 text-xs font-bold uppercase mb-2">Video URL (Məs: Youtube ID və ya Link)</label>
+              <input type="text" value={videoUrl} onChange={e => setVideoUrl(e.target.value)} className="w-full bg-gray-900 border border-gray-700 rounded p-3 text-white" />
             </div>
             <div className="md:col-span-2">
-              <label className="block text-text-sec text-xs font-bold uppercase mb-2">Məlumat</label>
-              <textarea value={description} onChange={e => setDescription(e.target.value)} rows={3} className="w-full bg-bg-main border border-bg-border rounded p-3 text-text-main"></textarea>
+              <label className="block text-gray-400 text-xs font-bold uppercase mb-2">Məlumat</label>
+              <textarea value={description} onChange={e => setDescription(e.target.value)} rows={3} className="w-full bg-gray-900 border border-gray-700 rounded p-3 text-white"></textarea>
             </div>
             <div className="md:col-span-2">
-              <label className="block text-text-sec text-xs font-bold uppercase mb-2">Kapak Şəkli (Thumbnail)</label>
+              <label className="block text-gray-400 text-xs font-bold uppercase mb-2">Kapak Şəkli (Thumbnail)</label>
               <div className="flex items-center space-x-3">
                 {imageUrl && <img src={imageUrl} alt="img" className="w-16 h-10 object-cover rounded" />}
-                <label className="cursor-pointer bg-bg-sec border border-bg-border px-4 py-2 rounded text-xs font-bold text-text-main uppercase">
+                <label className="cursor-pointer bg-gray-800 border border-gray-700 px-4 py-2 rounded text-xs font-bold text-white uppercase">
                   {uploading ? 'Yüklənir...' : 'Seç'}
                   <input type="file" accept="image/*" onChange={handleImageUpload} className="hidden" />
                 </label>
@@ -120,26 +120,26 @@ export default function CoachCoursesAdmin() {
             </div>
           </div>
           <div className="flex justify-end pt-4">
-            <button type="submit" className="bg-green-600 hover:bg-green-500 text-text-main px-6 py-2 rounded-lg font-bold">Yadda Saxla</button>
+            <button type="submit" className="bg-green-600 hover:bg-green-500 text-white px-6 py-2 rounded-lg font-bold">Yadda Saxla</button>
           </div>
         </form>
       )}
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         {courses.map(c => (
-          <div key={c.id} className="bg-bg-deep rounded-xl border border-bg-border overflow-hidden flex flex-col">
-            <div className="relative h-40 bg-bg-sec">
+          <div key={c.id} className="bg-black rounded-xl border border-gray-700 overflow-hidden flex flex-col">
+            <div className="relative h-40 bg-gray-800">
               {c.image_url ? (
                 <img src={c.image_url} alt={c.title} className="w-full h-full object-cover opacity-80" />
               ) : (
-                <div className="w-full h-full flex items-center justify-center text-text-sec"><PlayCircle className="w-12 h-12" /></div>
+                <div className="w-full h-full flex items-center justify-center text-gray-400"><PlayCircle className="w-12 h-12" /></div>
               )}
             </div>
             <div className="p-4 flex-1">
-              <h3 className="text-text-main font-bold mb-2">{c.title}</h3>
-              <p className="text-text-sec text-xs line-clamp-2">{c.description}</p>
+              <h3 className="text-white font-bold mb-2">{c.title}</h3>
+              <p className="text-gray-400 text-xs line-clamp-2">{c.description}</p>
             </div>
-            <div className="p-4 border-t border-bg-border flex justify-end space-x-2">
+            <div className="p-4 border-t border-gray-700 flex justify-end space-x-2">
               <button onClick={() => handleEdit(c)} className="p-2 bg-blue-600/20 text-blue-400 rounded-lg"><Edit2 className="w-4 h-4" /></button>
               <button onClick={() => handleDelete(c.id)} className="p-2 bg-red-600/20 text-red-400 rounded-lg"><Trash2 className="w-4 h-4" /></button>
             </div>

@@ -108,10 +108,10 @@ export default function StandingsAdmin() {
 
   return (
     <div>
-      <div className="flex justify-between items-center mb-6 border-b border-bg-border pb-4">
+      <div className="flex justify-between items-center mb-6 border-b border-gray-700 pb-4">
         <div>
-          <h2 className="text-2xl font-black uppercase tracking-widest text-text-main mb-2">Turnir Cədvəli İdarəetməsi</h2>
-          <p className="text-text-sec text-sm">Cədvəldəki komandaları və xalları qruplar (komandalar) üzrə redaktə edin.</p>
+          <h2 className="text-2xl font-black uppercase tracking-widest text-white mb-2">Turnir Cədvəli İdarəetməsi</h2>
+          <p className="text-gray-400 text-sm">Cədvəldəki komandaları və xalları qruplar (komandalar) üzrə redaktə edin.</p>
         </div>
       </div>
 
@@ -121,10 +121,10 @@ export default function StandingsAdmin() {
                <div 
                  key={t.name}
                  onClick={() => setActiveLeague(t.name)}
-                 className="bg-bg-sec border border-bg-border hover:border-accent/50 p-6 rounded-2xl cursor-pointer group transition-all hover:shadow-xl flex items-center justify-between"
+                 className="bg-gray-800 border border-gray-700 hover:border-accent/50 p-6 rounded-2xl cursor-pointer group transition-all hover:shadow-xl flex items-center justify-between"
                >
-                 <h3 className="text-lg font-black text-text-main uppercase tracking-widest group-hover:text-accent">{t.name}</h3>
-                 <ChevronRight className="w-5 h-5 text-text-sec group-hover:text-accent" />
+                 <h3 className="text-lg font-black text-white uppercase tracking-widest group-hover:text-accent">{t.name}</h3>
+                 <ChevronRight className="w-5 h-5 text-gray-400 group-hover:text-accent" />
                </div>
             ))}
          </div>
@@ -133,7 +133,7 @@ export default function StandingsAdmin() {
             <div className="flex items-center justify-between mb-8">
                <button 
                   onClick={() => { setActiveLeague(null); setIsAdding(false); resetForm(); }}
-                  className="flex items-center text-text-sec hover:text-text-main transition-colors text-sm font-bold uppercase tracking-widest bg-bg-sec px-4 py-2 rounded-lg border border-bg-border"
+                  className="flex items-center text-gray-400 hover:text-white transition-colors text-sm font-bold uppercase tracking-widest bg-gray-800 px-4 py-2 rounded-lg border border-gray-700"
                >
                  <ArrowLeft className="w-4 h-4 mr-2" />
                  Siyahıya Qayıt
@@ -143,31 +143,31 @@ export default function StandingsAdmin() {
                </button>
             </div>
 
-            <h3 className="text-xl font-bold text-text-main mb-6 uppercase tracking-widest">{activeLeague} Qrupu - Turnir Cədvəli</h3>
+            <h3 className="text-xl font-bold text-white mb-6 uppercase tracking-widest">{activeLeague} Qrupu - Turnir Cədvəli</h3>
 
             {isAdding && (
-              <form onSubmit={handleSave} className="bg-bg-sec p-6 rounded-2xl border border-bg-border mb-8 grid grid-cols-2 md:grid-cols-4 gap-4">
+              <form onSubmit={handleSave} className="bg-gray-800 p-6 rounded-2xl border border-gray-700 mb-8 grid grid-cols-2 md:grid-cols-4 gap-4">
                 <div className="col-span-2 md:col-span-4">
-                  <label className="block text-text-sec text-xs font-bold uppercase mb-2">Komanda Adı</label>
-                  <input type="text" value={teamName} onChange={e => setTeamName(e.target.value)} className="w-full bg-bg-main border border-bg-border rounded-lg p-3 text-text-main" required />
+                  <label className="block text-gray-400 text-xs font-bold uppercase mb-2">Komanda Adı</label>
+                  <input type="text" value={teamName} onChange={e => setTeamName(e.target.value)} className="w-full bg-gray-900 border border-gray-700 rounded-lg p-3 text-white" required />
                 </div>
-                <div><label className="block text-text-sec text-xs font-bold uppercase mb-2">Oyun (Avto)</label><input type="number" value={played} readOnly className="w-full bg-bg-main/50 border border-bg-border rounded-lg p-3 text-text-sec cursor-not-allowed" /></div>
-                <div><label className="block text-text-sec text-xs font-bold uppercase mb-2">Qələbə</label><input type="number" value={won} onChange={e => setWon(Number(e.target.value))} className="w-full bg-bg-main border border-bg-border rounded-lg p-3 text-text-main" /></div>
-                <div><label className="block text-text-sec text-xs font-bold uppercase mb-2">Heç-Heçə</label><input type="number" value={drawn} onChange={e => setDrawn(Number(e.target.value))} className="w-full bg-bg-main border border-bg-border rounded-lg p-3 text-text-main" /></div>
-                <div><label className="block text-text-sec text-xs font-bold uppercase mb-2">Məğlubiyyət</label><input type="number" value={lost} onChange={e => setLost(Number(e.target.value))} className="w-full bg-bg-main border border-bg-border rounded-lg p-3 text-text-main" /></div>
-                <div className="col-span-2"><label className="block text-green-400 text-xs font-bold uppercase mb-2">Vurduğu Qol (VQ)</label><input type="number" value={gf} onChange={e => setGf(Number(e.target.value))} className="w-full bg-bg-main border border-bg-border rounded-lg p-3 text-text-main" /></div>
-                <div className="col-span-2"><label className="block text-red-400 text-xs font-bold uppercase mb-2">Buraxdığı Top (BT)</label><input type="number" value={ga} onChange={e => setGa(Number(e.target.value))} className="w-full bg-bg-main border border-bg-border rounded-lg p-3 text-text-main" /></div>
-                <div className="col-span-2 md:col-span-4"><label className="block text-accent text-xs font-bold uppercase mb-2">Xal (Avto)</label><input type="number" value={points} readOnly className="w-full bg-bg-main/50 border border-accent/50 rounded-lg p-3 text-accent font-black cursor-not-allowed" /></div>
+                <div><label className="block text-gray-400 text-xs font-bold uppercase mb-2">Oyun (Avto)</label><input type="number" value={played} readOnly className="w-full bg-gray-900/50 border border-gray-700 rounded-lg p-3 text-gray-400 cursor-not-allowed" /></div>
+                <div><label className="block text-gray-400 text-xs font-bold uppercase mb-2">Qələbə</label><input type="number" value={won} onChange={e => setWon(Number(e.target.value))} className="w-full bg-gray-900 border border-gray-700 rounded-lg p-3 text-white" /></div>
+                <div><label className="block text-gray-400 text-xs font-bold uppercase mb-2">Heç-Heçə</label><input type="number" value={drawn} onChange={e => setDrawn(Number(e.target.value))} className="w-full bg-gray-900 border border-gray-700 rounded-lg p-3 text-white" /></div>
+                <div><label className="block text-gray-400 text-xs font-bold uppercase mb-2">Məğlubiyyət</label><input type="number" value={lost} onChange={e => setLost(Number(e.target.value))} className="w-full bg-gray-900 border border-gray-700 rounded-lg p-3 text-white" /></div>
+                <div className="col-span-2"><label className="block text-green-400 text-xs font-bold uppercase mb-2">Vurduğu Qol (VQ)</label><input type="number" value={gf} onChange={e => setGf(Number(e.target.value))} className="w-full bg-gray-900 border border-gray-700 rounded-lg p-3 text-white" /></div>
+                <div className="col-span-2"><label className="block text-red-400 text-xs font-bold uppercase mb-2">Buraxdığı Top (BT)</label><input type="number" value={ga} onChange={e => setGa(Number(e.target.value))} className="w-full bg-gray-900 border border-gray-700 rounded-lg p-3 text-white" /></div>
+                <div className="col-span-2 md:col-span-4"><label className="block text-accent text-xs font-bold uppercase mb-2">Xal (Avto)</label><input type="number" value={points} readOnly className="w-full bg-gray-900/50 border border-accent/50 rounded-lg p-3 text-accent font-black cursor-not-allowed" /></div>
                 <div className="col-span-2 md:col-span-4 mt-2">
                    <button type="submit" className="w-full bg-accent text-[#141414] py-3 rounded-lg font-bold text-xs uppercase tracking-widest">Yadda Saxla</button>
                 </div>
               </form>
             )}
 
-            <div className="bg-bg-sec rounded-2xl border border-bg-border overflow-hidden">
+            <div className="bg-gray-800 rounded-2xl border border-gray-700 overflow-hidden">
               <div className="overflow-x-auto">
-                <table className="w-full text-left text-sm text-text-sec">
-                  <thead className="bg-bg-main text-text-sec uppercase text-[10px] font-bold tracking-widest">
+                <table className="w-full text-left text-sm text-gray-400">
+                  <thead className="bg-gray-900 text-gray-400 uppercase text-[10px] font-bold tracking-widest">
                     <tr>
                       <th className="p-4">Sıra</th>
                       <th className="p-4">Komanda</th>
@@ -183,10 +183,10 @@ export default function StandingsAdmin() {
                   </thead>
                   <tbody>
                     {activeStandings.map((s, i) => (
-                      <tr key={s.id} className="border-t border-bg-border hover:bg-bg-card">
-                        <td className="p-4 text-text-sec font-bold">{i + 1}</td>
+                      <tr key={s.id} className="border-t border-gray-700 hover:bg-gray-800">
+                        <td className="p-4 text-gray-400 font-bold">{i + 1}</td>
                         <td className="p-4 font-bold">
-                          <span className={s.team_name.includes('Yarımada') ? 'text-accent' : 'text-text-main'}>{s.team_name}</span>
+                          <span className={s.team_name.includes('Yarımada') ? 'text-accent' : 'text-white'}>{s.team_name}</span>
                         </td>
                         <td className="p-4 text-center">{s.played}</td>
                         <td className="p-4 text-center">{s.won}</td>
@@ -207,7 +207,7 @@ export default function StandingsAdmin() {
                     ))}
                     {activeStandings.length === 0 && (
                       <tr>
-                        <td colSpan={10} className="p-8 text-center text-text-sec font-medium">Bu qrup üçün məlumat yoxdur.</td>
+                        <td colSpan={10} className="p-8 text-center text-gray-400 font-medium">Bu qrup üçün məlumat yoxdur.</td>
                       </tr>
                     )}
                   </tbody>

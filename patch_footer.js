@@ -1,16 +1,17 @@
 const fs = require('fs');
-
 let content = fs.readFileSync('src/components/Footer.tsx', 'utf8');
 
-const toReplace = `<div className="flex flex-col">
-                 <span className="text-[#d7bf7b] font-black text-2xl md:text-3xl tracking-tighter uppercase">
-                   Yarımada
-                 </span>
-                 <span className="text-white text-[10px] md:text-xs tracking-[0.3em] font-light mt-1 uppercase">
-                   Futbol Klubu
-                 </span>
-               </div>`;
+const oldBlock = `<Link href="/teams" className="text-text-main font-bold text-xs md:text-sm hover:text-accent transition-colors">Komandalar</Link>
+            <Link href="/academy" className="text-text-main font-bold text-xs md:text-sm hover:text-accent transition-colors">Akademiya</Link>
+            <Link href="/transfers" className="text-text-main font-bold text-xs md:text-sm hover:text-accent transition-colors">Məşqçi Kursu</Link>
+            <Link href="/sponsors" className="text-text-main font-bold text-xs md:text-sm hover:text-accent transition-colors">Sponsorlar</Link>`;
 
-content = content.replace(toReplace, "");
+const newBlock = `<Link href="/teams" className="text-text-main font-bold text-xs md:text-sm hover:text-accent transition-colors">Komandalar</Link>
+            <Link href="/academy" className="text-text-main font-bold text-xs md:text-sm hover:text-accent transition-colors">Akademiya</Link>
+            <Link href="/courses" className="text-text-main font-bold text-xs md:text-sm hover:text-accent transition-colors">Məşqçi Kursu</Link>
+            <Link href="/transfers" className="text-text-main font-bold text-xs md:text-sm hover:text-accent transition-colors">Transferlər</Link>
+            <Link href="/sponsors" className="text-text-main font-bold text-xs md:text-sm hover:text-accent transition-colors">Sponsorlar</Link>`;
+
+content = content.replace(oldBlock, newBlock);
 
 fs.writeFileSync('src/components/Footer.tsx', content, 'utf8');

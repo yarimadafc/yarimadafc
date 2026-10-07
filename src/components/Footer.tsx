@@ -116,6 +116,7 @@ export default function Footer() {
             <Link href="/teams" className="text-text-main font-bold text-xs md:text-sm hover:text-accent transition-colors">Komandalar</Link>
             <Link href="/academy" className="text-text-main font-bold text-xs md:text-sm hover:text-accent transition-colors">Akademiya</Link>
             <Link href="/courses" className="text-text-main font-bold text-xs md:text-sm hover:text-accent transition-colors">Məşqçi Kursu</Link>
+            <Link href="/transfers" className="text-text-main font-bold text-xs md:text-sm hover:text-accent transition-colors">Məşqçi Kursu</Link>
             <Link href="/sponsors" className="text-text-main font-bold text-xs md:text-sm hover:text-accent transition-colors">Sponsorlar</Link>
             <Link href="/shop" className="text-text-main font-bold text-xs md:text-sm hover:text-accent transition-colors">Mağaza</Link>
             <Link href="/privacy" className="text-text-main font-bold text-xs md:text-sm hover:text-accent transition-colors">Məxfilik siyasəti</Link>

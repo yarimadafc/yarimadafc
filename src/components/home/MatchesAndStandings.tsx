@@ -92,13 +92,13 @@ export default function MatchesAndStandings() {
                            <span className="text-xl font-black text-gray-600">{nextMatch.home_team?.substring(0,3)}</span>
                         )}
                       </div>
-                      <span className="text-text-main font-black text-lg lg:text-xl text-center leading-tight uppercase">{nextMatch.home_team}</span>
+                      <span className="text-text-main font-black text-2xl lg:text-3xl text-center leading-tight uppercase">{nextMatch.home_team}</span>
                     </div>
 
                     {/* VS */}
                     <div className="my-2 relative flex items-center justify-center w-full">
                        <div className="w-full h-px bg-gradient-to-r from-transparent via-[#1f1f1f] to-transparent absolute"></div>
-                       <span className="bg-bg-sec px-4 py-1 rounded-full text-accent font-black italic tracking-widest text-lg relative z-10 border border-bg-border">
+                       <span className="bg-bg-sec px-4 py-1 rounded-full text-accent font-black italic tracking-widest text-2xl lg:text-3xl relative z-10 py-2 px-6 border border-bg-border">
                          {nextMatch.status === 'finished' ? `${nextMatch.home_score} - ${nextMatch.away_score}` : 'VS'}
                        </span>
                     </div>
@@ -112,7 +112,7 @@ export default function MatchesAndStandings() {
                            <span className="text-xl font-black text-gray-600">{nextMatch.away_team?.substring(0,3)}</span>
                         )}
                       </div>
-                      <span className="text-text-sec font-black text-lg lg:text-xl text-center leading-tight uppercase">{nextMatch.away_team}</span>
+                      <span className="text-text-sec font-black text-2xl lg:text-3xl text-center leading-tight uppercase">{nextMatch.away_team}</span>
                     </div>
                   </div>
 
@@ -124,7 +124,7 @@ export default function MatchesAndStandings() {
                 </>
               ) : (
                 <div className="flex flex-col items-center justify-center h-full text-center">
-                   <div className="text-accent text-4xl mb-4">⚽</div>
+                   <div className="text-accent mb-4"><svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div>
                    <h3 className="text-text-main font-bold uppercase tracking-widest mb-2">Təqvim Boşdur</h3>
                    <p className="text-text-sec text-sm">Hazırda təyin olunmuş növbəti oyun yoxdur.</p>
                 </div>

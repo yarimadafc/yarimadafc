@@ -86,10 +86,10 @@ export default function SponsorsAdmin() {
 
   return (
     <div>
-      <div className="flex justify-between items-center mb-6 border-b border-bg-border pb-4">
+      <div className="flex justify-between items-center mb-6 border-b border-gray-700 pb-4">
         <div>
-          <h2 className="text-2xl font-black uppercase tracking-widest text-text-main mb-2">Sponsorlar</h2>
-          <p className="text-text-sec text-sm">Aşağıdakı qaçan bannerdə görünəcək sponsor logoları.</p>
+          <h2 className="text-2xl font-black uppercase tracking-widest text-white mb-2">Sponsorlar</h2>
+          <p className="text-gray-400 text-sm">Aşağıdakı qaçan bannerdə görünəcək sponsor logoları.</p>
         </div>
         <button onClick={() => { setIsAdding(!isAdding); setEditingId(null); setName(''); setLogoUrl(''); }} className="bg-accent text-[#141414] px-4 py-2 rounded-lg font-bold text-xs uppercase tracking-widest flex items-center space-x-2">
           {isAdding ? <span>Ləğv Et</span> : <><Plus className="w-4 h-4" /><span>Yeni Sponsor</span></>}
@@ -97,15 +97,15 @@ export default function SponsorsAdmin() {
       </div>
 
       {isAdding && (
-        <form onSubmit={handleAdd} className="bg-bg-sec p-6 rounded-2xl border border-bg-border mb-8 space-y-4">
+        <form onSubmit={handleAdd} className="bg-gray-800 p-6 rounded-2xl border border-gray-700 mb-8 space-y-4">
           <div>
-            <label className="block text-text-sec text-xs font-bold uppercase mb-2">Sponsorun Adı</label>
-            <input type="text" value={name} onChange={e => setName(e.target.value)} className="w-full bg-bg-main border border-bg-border rounded-lg p-3 text-text-main focus:border-accent outline-none" required />
+            <label className="block text-gray-400 text-xs font-bold uppercase mb-2">Sponsorun Adı</label>
+            <input type="text" value={name} onChange={e => setName(e.target.value)} className="w-full bg-gray-900 border border-gray-700 rounded-lg p-3 text-white focus:border-accent outline-none" required />
           </div>
           <div>
-            <label className="block text-text-sec text-xs font-bold uppercase mb-2">Sponsor Loqosu (Şəffaf PNG tövsiyə olunur)</label>
+            <label className="block text-gray-400 text-xs font-bold uppercase mb-2">Sponsor Loqosu (Şəffaf PNG tövsiyə olunur)</label>
             <div className="flex items-center space-x-4">
-              <label className="bg-bg-main border border-bg-border hover:border-accent text-text-sec px-4 py-3 rounded-lg cursor-pointer flex items-center space-x-2 transition-colors">
+              <label className="bg-gray-900 border border-gray-700 hover:border-accent text-gray-400 px-4 py-3 rounded-lg cursor-pointer flex items-center space-x-2 transition-colors">
                 <UploadCloud className="w-5 h-5" />
                 <span className="text-xs font-bold uppercase">{isUploading ? 'Yüklənir...' : 'Loqo Seç'}</span>
                 <input type="file" accept="image/*" onChange={handleImageUpload} className="hidden" />
@@ -122,9 +122,9 @@ export default function SponsorsAdmin() {
       ) : (
         <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-6">
           {sponsors.map(s => (
-            <div key={s.id} className="bg-bg-sec border border-bg-border p-4 rounded-xl text-center flex flex-col justify-between items-center">
-              {s.logo_url ? <img src={s.logo_url} alt={s.name} className="h-16 w-full object-contain mb-4 bg-white rounded p-2" /> : <div className="h-16 w-full flex items-center justify-center mb-4 bg-bg-main rounded border border-bg-border text-[10px] text-text-sec font-bold uppercase tracking-widest">Loqo yoxdur</div>}
-              <div className="text-text-main text-xs font-bold uppercase truncate w-full mb-3">{s.name}</div>
+            <div key={s.id} className="bg-gray-800 border border-gray-700 p-4 rounded-xl text-center flex flex-col justify-between items-center">
+              {s.logo_url ? <img src={s.logo_url} alt={s.name} className="h-16 w-full object-contain mb-4 bg-white rounded p-2" /> : <div className="h-16 w-full flex items-center justify-center mb-4 bg-gray-900 rounded border border-gray-700 text-[10px] text-gray-400 font-bold uppercase tracking-widest">Loqo yoxdur</div>}
+              <div className="text-white text-xs font-bold uppercase truncate w-full mb-3">{s.name}</div>
               <div className="flex space-x-4 w-full justify-center">
                 <button onClick={() => handleEdit(s)} className="text-blue-400 text-xs font-bold uppercase flex items-center justify-center hover:text-blue-300">
                   Düzəliş

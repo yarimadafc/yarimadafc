@@ -60,29 +60,29 @@ export default function ClubAdmin() {
 
   return (
     <div>
-      <div className="flex justify-between items-center mb-6 border-b border-bg-border pb-4">
+      <div className="flex justify-between items-center mb-6 border-b border-gray-700 pb-4">
         <div>
-          <h2 className="text-2xl font-black uppercase tracking-widest text-text-main mb-2">Haqqımızda İdarəetməsi</h2>
-          <p className="text-text-sec text-sm">Klub səhifəsindəki mətnləri və rəhbərlik heyətini buradan dəyişin.</p>
+          <h2 className="text-2xl font-black uppercase tracking-widest text-white mb-2">Haqqımızda İdarəetməsi</h2>
+          <p className="text-gray-400 text-sm">Klub səhifəsindəki mətnləri və rəhbərlik heyətini buradan dəyişin.</p>
         </div>
       </div>
 
       <div className="space-y-8 max-w-4xl">
         {/* Haqqımızda */}
-        <div className="bg-bg-sec p-6 rounded-2xl border border-bg-border space-y-4">
+        <div className="bg-gray-800 p-6 rounded-2xl border border-gray-700 space-y-4">
           <h3 className="text-accent font-bold tracking-widest text-sm uppercase mb-4">Haqqımızda Mətnləri və Şəkli</h3>
           
           <div className="mb-6">
-            <label className="block text-text-sec text-xs font-bold uppercase tracking-widest mb-2">Haqqımızda Şəkli (Arxa Plan)</label>
+            <label className="block text-gray-400 text-xs font-bold uppercase tracking-widest mb-2">Haqqımızda Şəkli (Arxa Plan)</label>
             {texts['about_bg'] ? (
-              <div className="relative w-full h-40 bg-bg-main border border-bg-border rounded-lg overflow-hidden group mb-2">
+              <div className="relative w-full h-40 bg-gray-900 border border-gray-700 rounded-lg overflow-hidden group mb-2">
                 <img src={texts['about_bg']} alt="Preview" className="w-full h-full object-cover" />
-                <button type="button" onClick={() => { handleChange('about_bg', ''); handleSave('about_bg'); }} className="absolute inset-0 bg-red-500/80 text-text-main font-bold opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center uppercase tracking-widest">Şəkli Sil</button>
+                <button type="button" onClick={() => { handleChange('about_bg', ''); handleSave('about_bg'); }} className="absolute inset-0 bg-red-500/80 text-white font-bold opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center uppercase tracking-widest">Şəkli Sil</button>
               </div>
             ) : (
-              <label className={`w-full flex flex-col items-center justify-center space-y-2 bg-bg-main border-2 border-dashed border-bg-border rounded-lg p-8 cursor-pointer hover:border-accent transition-colors ${uploadingImage ? 'opacity-50' : ''}`}>
-                <UploadCloud className="w-8 h-8 text-text-sec" />
-                <span className="text-text-sec text-xs font-bold uppercase tracking-widest">{uploadingImage ? 'YÜKLƏNİR...' : 'CİHAZDAN ŞƏKİL SEÇ'}</span>
+              <label className={`w-full flex flex-col items-center justify-center space-y-2 bg-gray-900 border-2 border-dashed border-gray-700 rounded-lg p-8 cursor-pointer hover:border-accent transition-colors ${uploadingImage ? 'opacity-50' : ''}`}>
+                <UploadCloud className="w-8 h-8 text-gray-400" />
+                <span className="text-gray-400 text-xs font-bold uppercase tracking-widest">{uploadingImage ? 'YÜKLƏNİR...' : 'CİHAZDAN ŞƏKİL SEÇ'}</span>
                 <input 
                   type="file" 
                   accept="image/*" 
@@ -120,31 +120,31 @@ export default function ClubAdmin() {
           </div>
           
           <div>
-            <label className="block text-text-sec text-xs font-bold uppercase tracking-widest mb-2">Paraqraf 1</label>
+            <label className="block text-gray-400 text-xs font-bold uppercase tracking-widest mb-2">Paraqraf 1</label>
             <div className="flex space-x-4 items-start">
-              <textarea value={texts['club_about_1']} onChange={e => handleChange('club_about_1', e.target.value)} className="flex-1 bg-bg-main border border-bg-border rounded-lg p-3 text-text-main h-24" />
+              <textarea value={texts['club_about_1']} onChange={e => handleChange('club_about_1', e.target.value)} className="flex-1 bg-gray-900 border border-gray-700 rounded-lg p-3 text-white h-24" />
               <button onClick={() => handleSave('club_about_1')} disabled={saving} className="bg-accent text-[#141414] px-4 py-3 rounded-lg font-bold uppercase text-xs">Yadda Saxla</button>
             </div>
           </div>
 
           <div>
-            <label className="block text-text-sec text-xs font-bold uppercase tracking-widest mb-2">Paraqraf 2</label>
+            <label className="block text-gray-400 text-xs font-bold uppercase tracking-widest mb-2">Paraqraf 2</label>
             <div className="flex space-x-4 items-start">
-              <textarea value={texts['club_about_2']} onChange={e => handleChange('club_about_2', e.target.value)} className="flex-1 bg-bg-main border border-bg-border rounded-lg p-3 text-text-main h-24" />
+              <textarea value={texts['club_about_2']} onChange={e => handleChange('club_about_2', e.target.value)} className="flex-1 bg-gray-900 border border-gray-700 rounded-lg p-3 text-white h-24" />
               <button onClick={() => handleSave('club_about_2')} disabled={saving} className="bg-accent text-[#141414] px-4 py-3 rounded-lg font-bold uppercase text-xs">Yadda Saxla</button>
             </div>
           </div>
         </div>
 
         {/* Missiya, Vizyon, Dəyərlər */}
-        <div className="bg-bg-sec p-6 rounded-2xl border border-bg-border space-y-4">
+        <div className="bg-gray-800 p-6 rounded-2xl border border-gray-700 space-y-4">
           <h3 className="text-accent font-bold tracking-widest text-sm uppercase mb-4">Missiya, Vizyon, Dəyərlər</h3>
           
           {['mission', 'vision', 'values'].map((key) => (
             <div key={key}>
-              <label className="block text-text-sec text-xs font-bold uppercase tracking-widest mb-2">{key === 'mission' ? 'Missiya' : key === 'vision' ? 'Vizyon' : 'Dəyərlər'}</label>
+              <label className="block text-gray-400 text-xs font-bold uppercase tracking-widest mb-2">{key === 'mission' ? 'Missiya' : key === 'vision' ? 'Vizyon' : 'Dəyərlər'}</label>
               <div className="flex space-x-4 items-start">
-                <textarea value={texts[`club_${key}`]} onChange={e => handleChange(`club_${key}`, e.target.value)} className="flex-1 bg-bg-main border border-bg-border rounded-lg p-3 text-text-main h-20" />
+                <textarea value={texts[`club_${key}`]} onChange={e => handleChange(`club_${key}`, e.target.value)} className="flex-1 bg-gray-900 border border-gray-700 rounded-lg p-3 text-white h-20" />
                 <button onClick={() => handleSave(`club_${key}`)} disabled={saving} className="bg-accent text-[#141414] px-4 py-3 rounded-lg font-bold uppercase text-xs">Yadda Saxla</button>
               </div>
             </div>

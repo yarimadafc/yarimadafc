@@ -117,10 +117,10 @@ export default function CoachesAdmin() {
 
   return (
     <div>
-      <div className="flex justify-between items-center mb-6 border-b border-bg-border pb-4">
+      <div className="flex justify-between items-center mb-6 border-b border-gray-700 pb-4">
         <div>
-          <h2 className="text-2xl font-black uppercase tracking-widest text-text-main mb-2">Məşqçilər İdarəetməsi</h2>
-          <p className="text-text-sec text-sm">Akademiya və komanda məşqçilərini idarə edin.</p>
+          <h2 className="text-2xl font-black uppercase tracking-widest text-white mb-2">Məşqçilər İdarəetməsi</h2>
+          <p className="text-gray-400 text-sm">Akademiya və komanda məşqçilərini idarə edin.</p>
         </div>
         <button onClick={() => { setIsAdding(!isAdding); setEditingId(null); resetForm(); }} className="bg-accent text-[#141414] px-4 py-2 rounded-lg font-bold text-xs uppercase tracking-widest flex items-center space-x-2">
           {isAdding ? <span>Ləğv Et</span> : <><Plus className="w-4 h-4" /><span>Yeni Məşqçi</span></>}
@@ -128,31 +128,31 @@ export default function CoachesAdmin() {
       </div>
 
       {isAdding && (
-        <form onSubmit={handleSave} className="bg-bg-sec p-6 rounded-2xl border border-bg-border mb-8 grid grid-cols-1 md:grid-cols-2 gap-4">
-          <div><label className="block text-text-sec text-xs font-bold uppercase mb-2">Ad Soyad</label><input type="text" value={name} onChange={e => setName(e.target.value)} className="w-full bg-bg-main border border-bg-border rounded-lg p-3 text-text-main" required /></div>
-          <div><label className="block text-text-sec text-xs font-bold uppercase mb-2">Vəzifə</label><input type="text" value={role} onChange={e => setRole(e.target.value)} placeholder="Məs: Baş Məşqçi" className="w-full bg-bg-main border border-bg-border rounded-lg p-3 text-text-main" required /></div>
+        <form onSubmit={handleSave} className="bg-gray-800 p-6 rounded-2xl border border-gray-700 mb-8 grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div><label className="block text-gray-400 text-xs font-bold uppercase mb-2">Ad Soyad</label><input type="text" value={name} onChange={e => setName(e.target.value)} className="w-full bg-gray-900 border border-gray-700 rounded-lg p-3 text-white" required /></div>
+          <div><label className="block text-gray-400 text-xs font-bold uppercase mb-2">Vəzifə</label><input type="text" value={role} onChange={e => setRole(e.target.value)} placeholder="Məs: Baş Məşqçi" className="w-full bg-gray-900 border border-gray-700 rounded-lg p-3 text-white" required /></div>
           <div>
-            <label className="block text-text-sec text-xs font-bold uppercase mb-2">Aid Olduğu Komanda</label>
-            <select value={teamId} onChange={e => setTeamId(e.target.value)} className="w-full bg-bg-main border border-bg-border rounded-lg p-3 text-text-main">
+            <label className="block text-gray-400 text-xs font-bold uppercase mb-2">Aid Olduğu Komanda</label>
+            <select value={teamId} onChange={e => setTeamId(e.target.value)} className="w-full bg-gray-900 border border-gray-700 rounded-lg p-3 text-white">
               <option value="">Heç biri / Ümumi</option>
               {teams.map(t => <option key={t.id} value={t.id}>{t.name}</option>)}
             </select>
           </div>
           <div className="md:col-span-2">
-            <label className="block text-text-sec text-xs font-bold uppercase mb-2">Haqqında (Bio)</label>
-            <textarea value={bio} onChange={e => setBio(e.target.value)} placeholder="Məşqçi haqqında məlumat..." className="w-full bg-bg-main border border-bg-border rounded-lg p-3 text-text-main h-24 custom-scrollbar" />
+            <label className="block text-gray-400 text-xs font-bold uppercase mb-2">Haqqında (Bio)</label>
+            <textarea value={bio} onChange={e => setBio(e.target.value)} placeholder="Məşqçi haqqında məlumat..." className="w-full bg-gray-900 border border-gray-700 rounded-lg p-3 text-white h-24 custom-scrollbar" />
           </div>
           <div className="md:col-span-2">
-            <label className="block text-text-sec text-xs font-bold uppercase mb-2">Məşqçinin Şəkli (3:4 formatı tövsiyə olunur)</label>
+            <label className="block text-gray-400 text-xs font-bold uppercase mb-2">Məşqçinin Şəkli (3:4 formatı tövsiyə olunur)</label>
             {imageUrl ? (
-              <div className="relative w-32 h-40 bg-bg-main border border-bg-border rounded-lg overflow-hidden group">
+              <div className="relative w-32 h-40 bg-gray-900 border border-gray-700 rounded-lg overflow-hidden group">
                 <img src={imageUrl} alt="Preview" className="w-full h-full object-cover" />
-                <button type="button" onClick={() => setImageUrl('')} className="absolute inset-0 bg-red-500/80 text-text-main font-bold opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">SIL</button>
+                <button type="button" onClick={() => setImageUrl('')} className="absolute inset-0 bg-red-500/80 text-white font-bold opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">SIL</button>
               </div>
             ) : (
-              <label className={`w-full flex items-center justify-center space-x-2 bg-bg-main border border-bg-border rounded-lg p-4 cursor-pointer hover:border-accent transition-colors ${uploadingImage ? 'opacity-50' : ''}`}>
-                <UploadCloud className="w-5 h-5 text-text-sec" />
-                <span className="text-text-sec text-xs font-bold uppercase">{uploadingImage ? 'YÜKLƏNİR...' : 'CİHAZDAN ŞƏKİL SEÇ'}</span>
+              <label className={`w-full flex items-center justify-center space-x-2 bg-gray-900 border border-gray-700 rounded-lg p-4 cursor-pointer hover:border-accent transition-colors ${uploadingImage ? 'opacity-50' : ''}`}>
+                <UploadCloud className="w-5 h-5 text-gray-400" />
+                <span className="text-gray-400 text-xs font-bold uppercase">{uploadingImage ? 'YÜKLƏNİR...' : 'CİHAZDAN ŞƏKİL SEÇ'}</span>
                 <input 
                   type="file" 
                   accept="image/*" 
@@ -188,13 +188,13 @@ export default function CoachesAdmin() {
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         {coaches.map(c => (
-          <div key={c.id} className="bg-bg-sec rounded-2xl border border-bg-border p-6 flex flex-col items-center text-center">
-            <div className="w-24 h-24 rounded-full bg-bg-main border-2 border-bg-border mb-4 overflow-hidden">
+          <div key={c.id} className="bg-gray-800 rounded-2xl border border-gray-700 p-6 flex flex-col items-center text-center">
+            <div className="w-24 h-24 rounded-full bg-gray-900 border-2 border-gray-700 mb-4 overflow-hidden">
                <img src={c.image_url || '/Logo.JPG.jpeg'} alt={c.name} className="w-full h-full object-cover" />
             </div>
-            <h3 className="text-text-main font-black uppercase tracking-widest text-sm mb-1">{c.name}</h3>
+            <h3 className="text-white font-black uppercase tracking-widest text-sm mb-1">{c.name}</h3>
             <p className="text-accent text-xs font-bold uppercase">{c.role}</p>
-            <p className="text-text-sec text-[10px] uppercase font-bold mt-2">{c.teams?.name || 'Ümumi'} {c.license ? `• ${c.license}` : ''}</p>
+            <p className="text-gray-400 text-[10px] uppercase font-bold mt-2">{c.teams?.name || 'Ümumi'} {c.license ? `• ${c.license}` : ''}</p>
             
             <div className="flex space-x-2 mt-6 w-full">
               <button onClick={() => handleAddToLeadership(c)} className="bg-yellow-500/10 text-yellow-500 hover:bg-yellow-500/20 px-3 rounded-lg flex items-center justify-center transition-colors" title="Klub Rəhbərliyinə Əlavə Et">
@@ -205,7 +205,7 @@ export default function CoachesAdmin() {
             </div>
           </div>
         ))}
-        {coaches.length === 0 && <div className="col-span-full text-text-sec text-center py-6">Heç bir məşqçi tapılmadı.</div>}
+        {coaches.length === 0 && <div className="col-span-full text-gray-400 text-center py-6">Heç bir məşqçi tapılmadı.</div>}
       </div>
     </div>
   );

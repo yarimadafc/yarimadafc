@@ -99,7 +99,7 @@ export default function TeamDetailPage() {
 
       {/* Heyət (Squad) */}
       <div className="container mx-auto px-4 lg:px-8 mt-20">
-        <div className="flex items-center justify-between mb-10 border-b border-bg-border pb-4 text-center flex justify-center">
+        <div className="flex flex-col md:flex-row items-center justify-center space-y-4 md:space-y-0 md:space-x-8 mb-10 border-b border-bg-border pb-4 text-center">
           <h2 className="text-2xl md:text-3xl font-black text-text-main uppercase tracking-tighter">Komanda Heyəti</h2>
           <span className="text-text-sec text-sm font-bold bg-bg-sec px-4 py-1.5 rounded-full border border-bg-border">Sezon 2026/27</span>
         </div>
@@ -113,7 +113,8 @@ export default function TeamDetailPage() {
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: i * 0.1 }}
             >
-              <div className="bg-bg-sec border border-bg-border rounded-2xl overflow-hidden hover:border-accent/50 transition-colors group cursor-pointer relative shadow-lg">
+              <Link href={`/players/${player.id}`} className="block h-full">
+<div className="bg-bg-sec border border-bg-border rounded-2xl overflow-hidden hover:border-accent/50 transition-colors group cursor-pointer relative shadow-lg h-full">
                 <div className="absolute top-2 right-2 md:top-4 md:right-4 w-8 h-8 md:w-10 md:h-10 bg-bg-deep/80 backdrop-blur-sm border border-bg-border rounded-full flex items-center justify-center z-10 shadow-lg">
                   <span className="text-accent font-black text-xs md:text-sm">{player.jersey_number || '-'}</span>
                 </div>
@@ -132,6 +133,7 @@ export default function TeamDetailPage() {
                   <p className="text-accent text-[10px] md:text-xs font-bold uppercase tracking-widest">{player.position}</p>
                 </div>
               </div>
+</Link>
             </motion.div>
           ))}
         </div>

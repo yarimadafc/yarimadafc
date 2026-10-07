@@ -278,7 +278,7 @@ export default function HomePage() {
                  >
                    <div className="absolute -inset-0.5 bg-gradient-to-r from-accent to-transparent rounded-3xl opacity-30 blur"></div>
                    <div className="relative bg-bg-card backdrop-blur-md rounded-2xl p-8 shadow-2xl flex flex-col items-center justify-center text-center h-64 z-10">
-                      <div className="text-accent text-4xl mb-4">⚽</div>
+                      <div className="text-accent mb-4"><svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div>
                       <h3 className="text-text-main font-bold uppercase tracking-widest mb-2">Təqvim Boşdur</h3>
                       <p className="text-text-sec text-xs">Hazırda təyin olunmuş heç bir oyun yoxdur.</p>
                    </div>

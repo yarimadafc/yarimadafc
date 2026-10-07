@@ -146,10 +146,10 @@ export default function TeamsAdmin() {
 
   return (
     <div>
-      <div className="flex justify-between items-center mb-6 border-b border-bg-border pb-4">
+      <div className="flex justify-between items-center mb-6 border-b border-gray-700 pb-4">
         <div>
-          <h2 className="text-2xl font-black uppercase tracking-widest text-text-main mb-2">Komandalar və Oyunçular</h2>
-          <p className="text-text-sec text-sm">Komandalar yaradın və tərkibini formalaşdırın.</p>
+          <h2 className="text-2xl font-black uppercase tracking-widest text-white mb-2">Komandalar və Oyunçular</h2>
+          <p className="text-gray-400 text-sm">Komandalar yaradın və tərkibini formalaşdırın.</p>
         </div>
         <button onClick={() => setIsAddingTeam(!isAddingTeam)} className="bg-accent text-[#141414] px-4 py-2 rounded-lg font-bold text-xs uppercase tracking-widest flex items-center space-x-2">
           {isAddingTeam ? <span>Ləğv Et</span> : <><Plus className="w-4 h-4" /><span>Yeni Komanda</span></>}
@@ -157,10 +157,10 @@ export default function TeamsAdmin() {
       </div>
 
       {isAddingTeam && (
-        <form onSubmit={handleAddTeam} className="bg-bg-sec p-6 rounded-2xl border border-bg-border mb-8 flex space-x-4">
+        <form onSubmit={handleAddTeam} className="bg-gray-800 p-6 rounded-2xl border border-gray-700 mb-8 flex space-x-4">
           <div className="flex-1">
-            <label className="block text-text-sec text-xs font-bold uppercase mb-2">Komanda Adı</label>
-            <input type="text" value={teamName} onChange={e => setTeamName(e.target.value)} placeholder="Məs: U-12" className="w-full bg-bg-main border border-bg-border rounded-lg p-3 text-text-main" required />
+            <label className="block text-gray-400 text-xs font-bold uppercase mb-2">Komanda Adı</label>
+            <input type="text" value={teamName} onChange={e => setTeamName(e.target.value)} placeholder="Məs: U-12" className="w-full bg-gray-900 border border-gray-700 rounded-lg p-3 text-white" required />
           </div>
           <div className="flex items-end">
              <button type="submit" className="bg-accent text-[#141414] py-3 px-6 rounded-lg font-bold text-xs uppercase tracking-widest h-[50px]">Yadda Saxla</button>
@@ -172,21 +172,21 @@ export default function TeamsAdmin() {
         
         {/* Teams List */}
         <div className="w-full md:w-1/3">
-          <h3 className="text-text-main font-bold uppercase tracking-widest text-sm mb-4">Komandalar</h3>
+          <h3 className="text-white font-bold uppercase tracking-widest text-sm mb-4">Komandalar</h3>
           <div className="space-y-3">
             {teams.map(t => (
               <div 
                 key={t.id} 
-                className={`bg-bg-sec border ${selectedTeamId === t.id ? 'border-accent' : 'border-bg-border'} p-4 rounded-xl flex justify-between items-center cursor-pointer hover:border-accent/50 transition-colors`}
+                className={`bg-gray-800 border ${selectedTeamId === t.id ? 'border-accent' : 'border-gray-700'} p-4 rounded-xl flex justify-between items-center cursor-pointer hover:border-accent/50 transition-colors`}
                 onClick={() => handleSelectTeam(t.id)}
               >
-                <span className={`font-black uppercase tracking-widest text-sm ${selectedTeamId === t.id ? 'text-accent' : 'text-text-main'}`}>{t.name}</span>
-                <button onClick={(e) => { e.stopPropagation(); handleDeleteTeam(t.id); }} className="text-text-sec hover:text-red-400 transition-colors p-2">
+                <span className={`font-black uppercase tracking-widest text-sm ${selectedTeamId === t.id ? 'text-accent' : 'text-white'}`}>{t.name}</span>
+                <button onClick={(e) => { e.stopPropagation(); handleDeleteTeam(t.id); }} className="text-gray-400 hover:text-red-400 transition-colors p-2">
                   <Trash2 className="w-4 h-4" />
                 </button>
               </div>
             ))}
-            {teams.length === 0 && <div className="text-text-sec text-center py-4">Heç bir komanda yoxdur.</div>}
+            {teams.length === 0 && <div className="text-gray-400 text-center py-4">Heç bir komanda yoxdur.</div>}
           </div>
         </div>
 
@@ -194,25 +194,25 @@ export default function TeamsAdmin() {
         <div className="w-full md:w-2/3">
           {selectedTeamId ? (
             <>
-              <div className="mb-10 bg-bg-sec border border-accent/30 p-6 rounded-2xl">
+              <div className="mb-10 bg-gray-800 border border-accent/30 p-6 rounded-2xl">
                 <h3 className="text-accent font-bold uppercase tracking-widest text-sm mb-4">Komandanın Ümumi Məlumatları</h3>
                 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
                   <div>
-                    <label className="block text-text-sec text-xs font-bold uppercase mb-2">Cari Mövqe</label>
-                    <input type="text" value={teamPos} onChange={e => setTeamPos(e.target.value)} placeholder="Məs: 3-cü yer" className="w-full bg-bg-main border border-bg-border rounded-lg p-3 text-text-main" />
+                    <label className="block text-gray-400 text-xs font-bold uppercase mb-2">Cari Mövqe</label>
+                    <input type="text" value={teamPos} onChange={e => setTeamPos(e.target.value)} placeholder="Məs: 3-cü yer" className="w-full bg-gray-900 border border-gray-700 rounded-lg p-3 text-white" />
                   </div>
                   <div>
-                    <label className="block text-text-sec text-xs font-bold uppercase mb-2">Komanda Şəkli (16:9 formatı)</label>
+                    <label className="block text-gray-400 text-xs font-bold uppercase mb-2">Komanda Şəkli (16:9 formatı)</label>
                     {teamImg ? (
-                      <div className="relative w-full h-[50px] bg-bg-main border border-bg-border rounded-lg overflow-hidden group">
+                      <div className="relative w-full h-[50px] bg-gray-900 border border-gray-700 rounded-lg overflow-hidden group">
                         <img src={teamImg} alt="Preview" className="w-full h-full object-cover opacity-50" />
-                        <button type="button" onClick={() => setTeamImg('')} className="absolute inset-0 text-text-main font-bold text-xs uppercase tracking-widest flex items-center justify-center hover:bg-red-500/80 transition-colors">Şəkli Sil</button>
+                        <button type="button" onClick={() => setTeamImg('')} className="absolute inset-0 text-white font-bold text-xs uppercase tracking-widest flex items-center justify-center hover:bg-red-500/80 transition-colors">Şəkli Sil</button>
                       </div>
                     ) : (
-                      <label className={`w-full h-[50px] flex items-center justify-center space-x-2 bg-bg-main border border-bg-border rounded-lg cursor-pointer hover:border-accent transition-colors ${uploadingTeamImg ? 'opacity-50' : ''}`}>
-                        <UploadCloud className="w-4 h-4 text-text-sec" />
-                        <span className="text-text-sec text-[10px] font-bold uppercase">{uploadingTeamImg ? 'Yüklənir...' : 'Cihazdan Şəkil Seç'}</span>
+                      <label className={`w-full h-[50px] flex items-center justify-center space-x-2 bg-gray-900 border border-gray-700 rounded-lg cursor-pointer hover:border-accent transition-colors ${uploadingTeamImg ? 'opacity-50' : ''}`}>
+                        <UploadCloud className="w-4 h-4 text-gray-400" />
+                        <span className="text-gray-400 text-[10px] font-bold uppercase">{uploadingTeamImg ? 'Yüklənir...' : 'Cihazdan Şəkil Seç'}</span>
                         <input 
                           type="file" 
                           accept="image/*" 
@@ -235,8 +235,8 @@ export default function TeamsAdmin() {
                     )}
                   </div>
                   <div className="md:col-span-2">
-                    <label className="block text-text-sec text-xs font-bold uppercase mb-2">Əlavə Məlumat</label>
-                    <textarea value={teamDesc} onChange={e => setTeamDesc(e.target.value)} placeholder="Komanda haqqında qısa məlumat..." className="w-full bg-bg-main border border-bg-border rounded-lg p-3 text-text-main h-20" />
+                    <label className="block text-gray-400 text-xs font-bold uppercase mb-2">Əlavə Məlumat</label>
+                    <textarea value={teamDesc} onChange={e => setTeamDesc(e.target.value)} placeholder="Komanda haqqında qısa məlumat..." className="w-full bg-gray-900 border border-gray-700 rounded-lg p-3 text-white h-20" />
                   </div>
                 </div>
                 <button onClick={handleSaveTeamDetails} disabled={savingDetails} className="bg-accent text-[#141414] px-4 py-2 rounded-lg font-bold text-xs uppercase tracking-widest flex items-center space-x-2">
@@ -245,28 +245,28 @@ export default function TeamsAdmin() {
               </div>
 
               <div className="flex justify-between items-center mb-4">
-                <h3 className="text-text-main font-bold uppercase tracking-widest text-sm">Oyunçular</h3>
-                <button onClick={() => { setIsAddingPlayer(!isAddingPlayer); setEditingPlayerId(null); setPlayerName(""); setPlayerPosition(""); setPlayerNumber(""); setPlayerImage(""); }} className="text-accent hover:text-text-main transition-colors text-xs font-bold uppercase flex items-center">
+                <h3 className="text-white font-bold uppercase tracking-widest text-sm">Oyunçular</h3>
+                <button onClick={() => { setIsAddingPlayer(!isAddingPlayer); setEditingPlayerId(null); setPlayerName(""); setPlayerPosition(""); setPlayerNumber(""); setPlayerImage(""); }} className="text-accent hover:text-white transition-colors text-xs font-bold uppercase flex items-center">
                   <Plus className="w-3 h-3 mr-1" /> Oyunçu Əlavə Et
                 </button>
               </div>
 
               {isAddingPlayer && (
-                <form onSubmit={handleSavePlayer} className="bg-bg-sec p-6 rounded-2xl border border-bg-border mb-6 grid grid-cols-2 gap-4">
-                  <div className="col-span-2 md:col-span-1"><label className="block text-text-sec text-xs font-bold uppercase mb-2">Ad Soyad</label><input type="text" value={playerName} onChange={e => setPlayerName(e.target.value)} className="w-full bg-bg-main border border-bg-border rounded-lg p-3 text-text-main" required /></div>
-                  <div className="col-span-2 md:col-span-1"><label className="block text-text-sec text-xs font-bold uppercase mb-2">Mövqe</label><input type="text" value={playerPosition} onChange={e => setPlayerPosition(e.target.value)} placeholder="Məs: Hücumçu" className="w-full bg-bg-main border border-bg-border rounded-lg p-3 text-text-main" /></div>
-                  <div className="col-span-2 md:col-span-1"><label className="block text-text-sec text-xs font-bold uppercase mb-2">Nömrə</label><input type="number" value={playerNumber} onChange={e => setPlayerNumber(e.target.value)} className="w-full bg-bg-main border border-bg-border rounded-lg p-3 text-text-main" /></div>
+                <form onSubmit={handleSavePlayer} className="bg-gray-800 p-6 rounded-2xl border border-gray-700 mb-6 grid grid-cols-2 gap-4">
+                  <div className="col-span-2 md:col-span-1"><label className="block text-gray-400 text-xs font-bold uppercase mb-2">Ad Soyad</label><input type="text" value={playerName} onChange={e => setPlayerName(e.target.value)} className="w-full bg-gray-900 border border-gray-700 rounded-lg p-3 text-white" required /></div>
+                  <div className="col-span-2 md:col-span-1"><label className="block text-gray-400 text-xs font-bold uppercase mb-2">Mövqe</label><input type="text" value={playerPosition} onChange={e => setPlayerPosition(e.target.value)} placeholder="Məs: Hücumçu" className="w-full bg-gray-900 border border-gray-700 rounded-lg p-3 text-white" /></div>
+                  <div className="col-span-2 md:col-span-1"><label className="block text-gray-400 text-xs font-bold uppercase mb-2">Nömrə</label><input type="number" value={playerNumber} onChange={e => setPlayerNumber(e.target.value)} className="w-full bg-gray-900 border border-gray-700 rounded-lg p-3 text-white" /></div>
                   <div className="col-span-2 md:col-span-1">
-                    <label className="block text-text-sec text-xs font-bold uppercase mb-2">Oyunçu Şəkli</label>
+                    <label className="block text-gray-400 text-xs font-bold uppercase mb-2">Oyunçu Şəkli</label>
                     {playerImage ? (
-                      <div className="relative w-12 h-12 bg-bg-main border border-bg-border rounded-full overflow-hidden group">
+                      <div className="relative w-12 h-12 bg-gray-900 border border-gray-700 rounded-full overflow-hidden group">
                         <img src={playerImage} alt="Preview" className="w-full h-full object-cover" />
-                        <button type="button" onClick={() => setPlayerImage('')} className="absolute inset-0 bg-red-500/80 text-text-main text-[8px] font-bold opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">SIL</button>
+                        <button type="button" onClick={() => setPlayerImage('')} className="absolute inset-0 bg-red-500/80 text-white text-[8px] font-bold opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">SIL</button>
                       </div>
                     ) : (
-                      <label className={`flex items-center space-x-2 bg-bg-main border border-bg-border rounded-lg p-3 cursor-pointer hover:border-accent transition-colors ${uploadingPlayerImg ? 'opacity-50' : ''}`}>
-                        <UploadCloud className="w-4 h-4 text-text-sec shrink-0" />
-                        <span className="text-text-sec text-[10px] font-bold uppercase truncate">{uploadingPlayerImg ? 'Yüklənir...' : 'Cihazdan Şəkil Seç'}</span>
+                      <label className={`flex items-center space-x-2 bg-gray-900 border border-gray-700 rounded-lg p-3 cursor-pointer hover:border-accent transition-colors ${uploadingPlayerImg ? 'opacity-50' : ''}`}>
+                        <UploadCloud className="w-4 h-4 text-gray-400 shrink-0" />
+                        <span className="text-gray-400 text-[10px] font-bold uppercase truncate">{uploadingPlayerImg ? 'Yüklənir...' : 'Cihazdan Şəkil Seç'}</span>
                         <input 
                           type="file" accept="image/*" className="hidden" disabled={uploadingPlayerImg}
                           onChange={async (e) => {
@@ -291,13 +291,13 @@ export default function TeamsAdmin() {
 
               <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
                 {players.map(p => (
-                  <div key={p.id} className="bg-bg-sec border border-bg-border rounded-xl p-4 flex items-center relative">
-                    <div className="w-12 h-12 rounded-full bg-bg-main overflow-hidden mr-4 border border-bg-border shrink-0">
+                  <div key={p.id} className="bg-gray-800 border border-gray-700 rounded-xl p-4 flex items-center relative">
+                    <div className="w-12 h-12 rounded-full bg-gray-900 overflow-hidden mr-4 border border-gray-700 shrink-0">
                       <img src={p.image_url || '/placeholder-player.jpg'} alt={p.name} className="w-full h-full object-cover" />
                     </div>
                     <div>
-                      <h4 className="text-text-main font-black text-sm uppercase tracking-wide leading-tight mb-1">{p.name}</h4>
-                      <div className="text-text-sec text-[10px] font-bold uppercase tracking-widest flex items-center space-x-2">
+                      <h4 className="text-white font-black text-sm uppercase tracking-wide leading-tight mb-1">{p.name}</h4>
+                      <div className="text-gray-400 text-[10px] font-bold uppercase tracking-widest flex items-center space-x-2">
                          <span>Nöm: {p.jersey_number || '-'}</span>
                          <span>•</span>
                          <span>{p.position || 'Bilinmir'}</span>
@@ -313,11 +313,11 @@ export default function TeamsAdmin() {
                     </div>
                   </div>
                 ))}
-                {players.length === 0 && !isAddingPlayer && <div className="col-span-full text-center text-text-sec py-10 bg-bg-sec rounded-2xl border border-bg-border">Bu komandada oyunçu yoxdur.</div>}
+                {players.length === 0 && !isAddingPlayer && <div className="col-span-full text-center text-gray-400 py-10 bg-gray-800 rounded-2xl border border-gray-700">Bu komandada oyunçu yoxdur.</div>}
               </div>
             </>
           ) : (
-             <div className="flex justify-center items-center h-full min-h-[200px] border-2 border-dashed border-bg-border rounded-2xl text-text-sec font-bold uppercase text-xs tracking-widest">
+             <div className="flex justify-center items-center h-full min-h-[200px] border-2 border-dashed border-gray-700 rounded-2xl text-gray-400 font-bold uppercase text-xs tracking-widest">
                 İdarə etmək üçün sol tərəfdən komanda seçin
              </div>
           )}

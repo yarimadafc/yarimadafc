@@ -3,6 +3,7 @@ import { motion } from 'framer-motion';
 import { useState, useEffect } from 'react';
 import { supabase } from '@/lib/supabase';
 import Link from 'next/link';
+import { User } from 'lucide-react';
 
 export default function CoachesPage() {
   const [coaches, setCoaches] = useState<any[]>([]);
@@ -61,11 +62,17 @@ export default function CoachesPage() {
               >
                 <Link href={`/coaches/${coach.id}`} className="block w-full">
                   <div className="relative w-full aspect-[3/4] rounded-2xl overflow-hidden mb-6 bg-[var(--bg-sec)] border border-[var(--border)] group-hover:border-[var(--accent)] transition-colors">
-                    <img 
-                      src={coach.image_url || '/placeholder-user.jpg'} 
-                      alt={coach.name} 
-                      className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 grayscale group-hover:grayscale-0"
-                    />
+                    {coach.image_url ? (
+                      <img 
+                        src={coach.image_url} 
+                        alt={coach.name} 
+                        className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+                      />
+                    ) : (
+                      <div className="absolute inset-0 flex items-center justify-center bg-[var(--bg-deep)]">
+                        <User className="w-20 h-20 text-[var(--bg-border)]" />
+                      </div>
+                    )}
                     <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-60 group-hover:opacity-40 transition-opacity"></div>
                     
                     <div className="absolute bottom-0 left-0 w-full p-6 translate-y-4 group-hover:translate-y-0 transition-transform duration-300">

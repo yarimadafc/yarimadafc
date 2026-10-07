@@ -98,29 +98,29 @@ export default function HeroAdmin() {
       </div>
 
       {isAdding && (
-        <form onSubmit={handleSave} className="bg-bg-sec p-6 rounded-2xl border border-bg-border mb-8 space-y-4">
+        <form onSubmit={handleSave} className="bg-gray-800 p-6 rounded-2xl border border-gray-700 mb-8 space-y-4">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
               <label className="block text-gray-400 text-xs font-bold uppercase mb-2">Başlıq</label>
-              <input type="text" value={title} onChange={e => setTitle(e.target.value)} className="w-full bg-bg-main border border-bg-border rounded p-3 text-white" />
+              <input type="text" value={title} onChange={e => setTitle(e.target.value)} className="w-full bg-gray-900 border border-gray-700 rounded p-3 text-white" />
             </div>
             <div>
               <label className="block text-gray-400 text-xs font-bold uppercase mb-2">Alt Başlıq (Subtitle)</label>
-              <input type="text" value={subtitle} onChange={e => setSubtitle(e.target.value)} className="w-full bg-bg-main border border-bg-border rounded p-3 text-white" />
+              <input type="text" value={subtitle} onChange={e => setSubtitle(e.target.value)} className="w-full bg-gray-900 border border-gray-700 rounded p-3 text-white" />
             </div>
             <div>
               <label className="block text-gray-400 text-xs font-bold uppercase mb-2">Sıralama (Məs: 1, 2, 3)</label>
-              <input type="number" value={sortOrder} onChange={e => setSortOrder(Number(e.target.value))} className="w-full bg-bg-main border border-bg-border rounded p-3 text-white" />
+              <input type="number" value={sortOrder} onChange={e => setSortOrder(Number(e.target.value))} className="w-full bg-gray-900 border border-gray-700 rounded p-3 text-white" />
             </div>
             <div>
               <label className="block text-gray-400 text-xs font-bold uppercase mb-2">Link (Kliklədikdə hara getsin? İxtiyari)</label>
-              <input type="text" value={linkUrl} onChange={e => setLinkUrl(e.target.value)} className="w-full bg-bg-main border border-bg-border rounded p-3 text-white" />
+              <input type="text" value={linkUrl} onChange={e => setLinkUrl(e.target.value)} className="w-full bg-gray-900 border border-gray-700 rounded p-3 text-white" />
             </div>
             <div className="md:col-span-2">
               <label className="block text-gray-400 text-xs font-bold uppercase mb-2">Slayd Şəkli (Zəruridir)</label>
               <div className="flex items-center space-x-3">
                 {imageUrl && <img src={imageUrl} alt="img" className="w-32 h-16 object-cover rounded" />}
-                <label className="cursor-pointer bg-bg-deep border border-bg-border px-4 py-2 rounded text-xs font-bold text-white uppercase">
+                <label className="cursor-pointer bg-black border border-gray-700 px-4 py-2 rounded text-xs font-bold text-white uppercase">
                   {uploading ? 'Yüklənir...' : 'Şəkil Seç'}
                   <input type="file" accept="image/*" onChange={handleImageUpload} className="hidden" />
                 </label>
@@ -135,8 +135,8 @@ export default function HeroAdmin() {
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {slides.map(s => (
-          <div key={s.id} className="bg-bg-sec rounded-xl border border-bg-border overflow-hidden flex flex-col">
-            <div className="relative h-40 bg-bg-deep">
+          <div key={s.id} className="bg-gray-800 rounded-xl border border-gray-700 overflow-hidden flex flex-col">
+            <div className="relative h-40 bg-black">
               <img src={s.image_url} alt="slide" className="w-full h-full object-cover" />
               <div className="absolute top-2 left-2 bg-black/60 text-white px-2 py-1 text-xs rounded font-bold">Sıra: {s.sort_order}</div>
             </div>
@@ -144,7 +144,7 @@ export default function HeroAdmin() {
               <h3 className="text-white font-bold mb-1 truncate">{s.title || '(Başlıq yoxdur)'}</h3>
               <p className="text-gray-400 text-xs line-clamp-1">{s.subtitle}</p>
             </div>
-            <div className="p-4 border-t border-bg-border flex justify-end space-x-2">
+            <div className="p-4 border-t border-gray-700 flex justify-end space-x-2">
               <button onClick={() => handleEdit(s)} className="p-2 bg-blue-600/20 text-blue-400 rounded-lg"><Edit2 className="w-4 h-4" /></button>
               <button onClick={() => handleDelete(s.id)} className="p-2 bg-red-600/20 text-red-400 rounded-lg"><Trash2 className="w-4 h-4" /></button>
             </div>

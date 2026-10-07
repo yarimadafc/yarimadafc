@@ -70,7 +70,7 @@ export default function Navbar() {
         <div className="container mx-auto px-4 lg:px-8 h-10 flex items-center justify-between">
           {/* Left: Empty or additional info */}
           <div className="flex items-center space-x-2 text-gray-500 text-xs font-bold tracking-widest uppercase">
-            Rəsmi Veb Səhifə
+            {/* Boş buraxıldı */}
           </div>
           
           {/* Right: Social, Language */}

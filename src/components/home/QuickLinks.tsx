@@ -45,7 +45,7 @@ export default function QuickLinks() {
   };
 
   return (
-    <section className="bg-[#0d1a2d] py-16 border-b border-gray-800/50 overflow-hidden">
+    <section className="bg-[#0a0a0a] py-16 border-b border-gray-800/50 overflow-hidden">
       <div className="container mx-auto px-4 lg:px-8">
         <motion.div 
           variants={containerVariants}
@@ -58,7 +58,7 @@ export default function QuickLinks() {
             <motion.div key={i} variants={itemVariants}>
               <Link 
                 href={link.href}
-                className="group flex flex-col sm:flex-row bg-[#152741] rounded-2xl overflow-hidden hover:transform hover:-translate-y-1 transition-all duration-300 border border-transparent hover:border-[#d7bf7b]/30 h-full"
+                className="group flex flex-col sm:flex-row bg-[#141414] rounded-2xl overflow-hidden hover:transform hover:-translate-y-1 transition-all duration-300 border border-transparent hover:border-[#d7bf7b]/30 h-full"
               >
                 {/* Text Area */}
                 <div className="w-full sm:w-1/2 p-8 flex flex-col justify-between z-10">
@@ -72,7 +72,7 @@ export default function QuickLinks() {
                 </div>
 
                 {/* Image Box */}
-                <div className="w-full sm:w-1/2 min-h-[200px] sm:min-h-[250px] bg-[#0a1423] relative overflow-hidden">
+                <div className="w-full sm:w-1/2 min-h-[200px] sm:min-h-[250px] bg-[#000000] relative overflow-hidden">
                   {images[link.key] ? (
                     <img 
                       src={images[link.key]} 
@@ -85,7 +85,7 @@ export default function QuickLinks() {
                     </div>
                   )}
                   {/* Gradient Overlay for text readability when responsive stack */}
-                  <div className="absolute inset-0 bg-gradient-to-t from-[#152741] via-transparent to-transparent sm:bg-gradient-to-l opacity-80"></div>
+                  <div className="absolute inset-0 bg-gradient-to-t from-[#141414] via-transparent to-transparent sm:bg-gradient-to-l opacity-80"></div>
                 </div>
               </Link>
             </motion.div>

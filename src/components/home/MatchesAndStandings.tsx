@@ -53,7 +53,7 @@ export default function MatchesAndStandings() {
   }, [activeLeague, allMatches]);
 
   return (
-    <section className="bg-[#0a1423] py-20 border-b border-[#1c2d47]">
+    <section className="bg-[#000000] py-20 border-b border-[#1f1f1f]">
       <div className="container mx-auto px-4 lg:px-8">
         <div className="grid grid-cols-1 lg:grid-cols-9 gap-12 lg:gap-8">
           
@@ -70,7 +70,7 @@ export default function MatchesAndStandings() {
               <h2 className="text-3xl font-black text-white uppercase tracking-tight">Oyunlar</h2>
             </div>
             
-            <div className="bg-gradient-to-br from-[#152741] to-[#0d1a2d] rounded-3xl border border-[#1c2d47] p-8 flex flex-col relative overflow-hidden shadow-2xl h-full min-h-[400px]">
+            <div className="bg-gradient-to-br from-[#141414] to-[#0a0a0a] rounded-3xl border border-[#1f1f1f] p-8 flex flex-col relative overflow-hidden shadow-2xl h-full min-h-[400px]">
               <div className="absolute top-0 right-0 w-32 h-32 bg-[#d7bf7b]/5 rounded-bl-full -mr-10 -mt-10"></div>
               
               {nextMatch ? (
@@ -85,7 +85,7 @@ export default function MatchesAndStandings() {
                   <div className="flex flex-col items-center justify-center flex-grow relative z-10 py-6">
                     {/* Home Team */}
                     <div className="flex flex-col items-center mb-6 w-full group">
-                      <div className="w-20 h-20 bg-[#0a1423] rounded-full flex items-center justify-center mb-4 border-2 border-transparent group-hover:border-[#d7bf7b] transition-all p-2 shadow-inner">
+                      <div className="w-20 h-20 bg-[#000000] rounded-full flex items-center justify-center mb-4 border-2 border-transparent group-hover:border-[#d7bf7b] transition-all p-2 shadow-inner">
                         {nextMatch.home_logo ? (
                            <img src={nextMatch.home_logo} alt={nextMatch.home_team} className="max-w-full max-h-full object-contain" />
                         ) : (
@@ -97,15 +97,15 @@ export default function MatchesAndStandings() {
 
                     {/* VS */}
                     <div className="my-2 relative flex items-center justify-center w-full">
-                       <div className="w-full h-px bg-gradient-to-r from-transparent via-[#1c2d47] to-transparent absolute"></div>
-                       <span className="bg-[#152741] px-4 py-1 rounded-full text-[#d7bf7b] font-black italic tracking-widest text-lg relative z-10 border border-[#1c2d47]">
+                       <div className="w-full h-px bg-gradient-to-r from-transparent via-[#1f1f1f] to-transparent absolute"></div>
+                       <span className="bg-[#141414] px-4 py-1 rounded-full text-[#d7bf7b] font-black italic tracking-widest text-lg relative z-10 border border-[#1f1f1f]">
                          {nextMatch.status === 'finished' ? `${nextMatch.home_score} - ${nextMatch.away_score}` : 'VS'}
                        </span>
                     </div>
 
                     {/* Away Team */}
                     <div className="flex flex-col items-center mt-6 w-full group">
-                      <div className="w-20 h-20 bg-[#0a1423] rounded-full flex items-center justify-center mb-4 border-2 border-transparent group-hover:border-[#d7bf7b] transition-all p-2 shadow-inner">
+                      <div className="w-20 h-20 bg-[#000000] rounded-full flex items-center justify-center mb-4 border-2 border-transparent group-hover:border-[#d7bf7b] transition-all p-2 shadow-inner">
                         {nextMatch.away_logo ? (
                            <img src={nextMatch.away_logo} alt={nextMatch.away_team} className="max-w-full max-h-full object-contain" />
                         ) : (
@@ -116,7 +116,7 @@ export default function MatchesAndStandings() {
                     </div>
                   </div>
 
-                  <div className="text-center relative z-10 bg-[#0a1423]/50 py-4 rounded-xl border border-[#1c2d47] mt-auto">
+                  <div className="text-center relative z-10 bg-[#000000]/50 py-4 rounded-xl border border-[#1f1f1f] mt-auto">
                     <span className="text-gray-400 text-[11px] font-bold uppercase tracking-widest">
                       Stadion: {nextMatch.stadium || 'Məlumat Yoxdur'}
                     </span>
@@ -162,9 +162,9 @@ export default function MatchesAndStandings() {
               </div>
             </div>
 
-            <div className="overflow-x-auto flex-grow bg-[#152741] rounded-2xl border border-[#1c2d47]">
+            <div className="overflow-x-auto flex-grow bg-[#141414] rounded-2xl border border-[#1f1f1f]">
               <table className="w-full text-left text-sm text-gray-300 min-w-[500px]">
-                <thead className="bg-[#0d1a2d] text-gray-400 uppercase text-[10px] font-bold tracking-widest border-b border-[#1c2d47]">
+                <thead className="bg-[#0a0a0a] text-gray-400 uppercase text-[10px] font-bold tracking-widest border-b border-[#1f1f1f]">
                   <tr>
                     <th className="py-5 px-6">Komanda</th>
                     <th className="py-5 px-2 text-center">O</th>
@@ -176,11 +176,11 @@ export default function MatchesAndStandings() {
                     <th className="py-5 px-4 text-center text-[#d7bf7b]">Xal</th>
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-[#1c2d47]">
+                <tbody className="divide-y divide-[#1f1f1f]">
                   {standings.filter(s => (s.tournament_name || leagues[0]) === activeLeague).map((team, idx) => (
                     <tr 
                       key={team.id} 
-                      className={`transition-colors ${team.team_name.includes('Yarımada') ? 'bg-[#d7bf7b]/5' : 'hover:bg-[#1a2e4c]'}`}
+                      className={`transition-colors ${team.team_name.includes('Yarımada') ? 'bg-[#d7bf7b]/5' : 'hover:bg-[#1a1a1a]'}`}
                     >
                       <td className="py-4 px-6 flex items-center space-x-4">
                         <span className={`w-5 font-black text-xs ${idx < 3 ? 'text-[#d7bf7b]' : 'text-gray-500'}`}>{idx + 1}</span>

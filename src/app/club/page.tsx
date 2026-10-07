@@ -54,15 +54,15 @@ export default function ClubPage() {
   ];
 
   return (
-    <div className="pt-[140px] min-h-screen bg-[#0a1423] pb-20">
+    <div className="pt-[140px] min-h-screen bg-[#000000] pb-20">
       
       {/* 1. Page Header */}
-      <div className="w-full bg-[#152741] py-12 md:py-16 border-b border-gray-800 relative overflow-hidden">
+      <div className="w-full bg-[#141414] py-12 md:py-16 border-b border-gray-800 relative overflow-hidden">
         <div 
           className="absolute inset-0 bg-cover bg-center opacity-10"
           style={{ backgroundImage: `url(${aboutBg})` }}
         ></div>
-        <div className="absolute inset-0 bg-gradient-to-t from-[#0a1423] to-transparent"></div>
+        <div className="absolute inset-0 bg-gradient-to-t from-[#000000] to-transparent"></div>
         <div className="container mx-auto px-4 lg:px-8 relative z-10 text-center">
           <motion.h1 
             initial={{ opacity: 0, y: -20 }}
@@ -124,9 +124,9 @@ export default function ClubPage() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.6, delay: i * 0.2 }}
-              className="bg-[#152741] p-8 rounded-2xl border border-gray-800 hover:border-[#d7bf7b]/50 transition-colors shadow-xl group"
+              className="bg-[#141414] p-8 rounded-2xl border border-gray-800 hover:border-[#d7bf7b]/50 transition-colors shadow-xl group"
             >
-              <div className="w-12 h-12 rounded-xl bg-[#0a1423] border border-[#d7bf7b]/30 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+              <div className="w-12 h-12 rounded-xl bg-[#000000] border border-[#d7bf7b]/30 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
                 <div className="w-4 h-4 bg-[#d7bf7b] rounded-sm transform rotate-45"></div>
               </div>
               <h3 className="text-xl font-black text-white uppercase tracking-widest mb-4">{v.title}</h3>
@@ -157,8 +157,8 @@ export default function ClubPage() {
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: i * 0.2 }}
             >
-              <Link href={`/leadership/${person.id}`} className="bg-[#152741] rounded-2xl overflow-hidden border border-gray-800 flex flex-col items-center text-center shadow-2xl group h-full block hover:border-[#d7bf7b] transition-colors">
-                <div className="w-full h-64 bg-[#0a1423] relative overflow-hidden border-b border-gray-800">
+              <Link href={`/leadership/${person.id}`} className="bg-[#141414] rounded-2xl overflow-hidden border border-gray-800 flex flex-col items-center text-center shadow-2xl group h-full block hover:border-[#d7bf7b] transition-colors">
+                <div className="w-full h-64 bg-[#000000] relative overflow-hidden border-b border-gray-800">
                   {person.image_url ? (
                     <img src={person.image_url} alt={person.name} className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 opacity-80 object-top" />
                   ) : (
@@ -179,7 +179,7 @@ export default function ClubPage() {
       </div>
 
       {/* 5. Nailiyyətlər (Achievements module reused or custom) */}
-      <div className="container mx-auto px-4 lg:px-8 mt-32 bg-[#112240] rounded-3xl p-8 md:p-16 border border-[#d7bf7b]/20 relative overflow-hidden">
+      <div className="container mx-auto px-4 lg:px-8 mt-32 bg-[#111111] rounded-3xl p-8 md:p-16 border border-[#d7bf7b]/20 relative overflow-hidden">
         <div className="absolute -right-20 -top-20 w-64 h-64 bg-[#d7bf7b]/5 rounded-full blur-3xl"></div>
         <motion.div 
           initial={{ opacity: 0, y: 30 }}
@@ -192,19 +192,19 @@ export default function ClubPage() {
             Kısa zaman ərzində qazandığımız medallar, kuboklar və çempionluqlar klubumuzun inkişafının və məşqçilərimizin zəhmətinin bariz nümunəsidir. Uşaq futbolunda yeni standartlar müəyyən etməkdə davam edirik.
           </p>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
-            <div className="bg-[#0a1423] border border-gray-800 p-6 rounded-xl text-center">
+            <div className="bg-[#000000] border border-gray-800 p-6 rounded-xl text-center">
               <div className="text-4xl font-black text-[#d7bf7b] mb-2">15+</div>
               <div className="text-gray-400 text-xs font-bold uppercase tracking-widest">Kubok</div>
             </div>
-            <div className="bg-[#0a1423] border border-gray-800 p-6 rounded-xl text-center">
+            <div className="bg-[#000000] border border-gray-800 p-6 rounded-xl text-center">
               <div className="text-4xl font-black text-[#d7bf7b] mb-2">200+</div>
               <div className="text-gray-400 text-xs font-bold uppercase tracking-widest">Oyunçu</div>
             </div>
-            <div className="bg-[#0a1423] border border-gray-800 p-6 rounded-xl text-center">
+            <div className="bg-[#000000] border border-gray-800 p-6 rounded-xl text-center">
               <div className="text-4xl font-black text-[#d7bf7b] mb-2">5</div>
               <div className="text-gray-400 text-xs font-bold uppercase tracking-widest">Yaş Qrupu</div>
             </div>
-            <div className="bg-[#0a1423] border border-gray-800 p-6 rounded-xl text-center">
+            <div className="bg-[#000000] border border-gray-800 p-6 rounded-xl text-center">
               <div className="text-4xl font-black text-[#d7bf7b] mb-2">8+</div>
               <div className="text-gray-400 text-xs font-bold uppercase tracking-widest">Məşqçi</div>
             </div>

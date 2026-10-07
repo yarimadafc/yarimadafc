@@ -30,9 +30,9 @@ export default function Page() {
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
     >
-      <div className="min-h-screen bg-[#0a1423] pt-[140px] pb-20">
-      <div className="w-full bg-[#152741] py-12 md:py-16 border-b border-gray-800 relative overflow-hidden ">
-        <div className="absolute inset-0 bg-gradient-to-t from-[#0a1423] to-transparent"></div>
+      <div className="min-h-screen bg-[#000000] pt-[140px] pb-20">
+      <div className="w-full bg-[#141414] py-12 md:py-16 border-b border-gray-800 relative overflow-hidden ">
+        <div className="absolute inset-0 bg-gradient-to-t from-[#000000] to-transparent"></div>
         <div className="container mx-auto px-4 lg:px-8 relative z-10 text-center">
           <motion.h1 
             initial={{ opacity: 0, y: -20 }}
@@ -60,7 +60,7 @@ export default function Page() {
             <p className="text-[#d7bf7b] font-bold text-lg uppercase tracking-widest animate-pulse">Yüklənir...</p>
           </div>
         ) : videos.length === 0 ? (
-          <div className="h-96 border border-gray-800 flex items-center justify-center rounded-2xl bg-[#0d1a2d]">
+          <div className="h-96 border border-gray-800 flex items-center justify-center rounded-2xl bg-[#0a0a0a]">
             <p className="text-gray-500 font-bold text-xl uppercase tracking-widest">Hələ video əlavə edilməyib</p>
           </div>
         ) : (
@@ -71,7 +71,7 @@ export default function Page() {
                 initial={{ opacity: 0, y: 30 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: i * 0.1 }}
-                className="bg-[#0d1a2d] border border-gray-800 rounded-2xl overflow-hidden shadow-lg flex flex-col"
+                className="bg-[#0a0a0a] border border-gray-800 rounded-2xl overflow-hidden shadow-lg flex flex-col"
               >
                 <div className="w-full aspect-video bg-black relative flex-shrink-0">
                   {playingId === video.id ? (
@@ -88,7 +88,7 @@ export default function Page() {
                       <div className="absolute inset-0 bg-black/20 group-hover:bg-black/40 transition-colors"></div>
                       <div className="absolute inset-0 flex items-center justify-center">
                         <div className="w-12 h-12 bg-[#d7bf7b] rounded-full flex items-center justify-center shadow-lg group-hover:bg-white group-hover:scale-110 transition-all duration-300">
-                          <Play className="w-5 h-5 text-[#152741] fill-current ml-1" />
+                          <Play className="w-5 h-5 text-[#141414] fill-current ml-1" />
                         </div>
                       </div>
                     </div>

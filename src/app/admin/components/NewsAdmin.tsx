@@ -115,21 +115,21 @@ export default function NewsAdmin() {
         </div>
         <button 
           onClick={() => setIsAdding(!isAdding)} 
-          className="bg-[#d7bf7b] text-[#152741] px-4 py-2 rounded-lg font-bold text-xs uppercase tracking-widest flex items-center space-x-2 hover:bg-white transition-colors"
+          className="bg-[#d7bf7b] text-[#141414] px-4 py-2 rounded-lg font-bold text-xs uppercase tracking-widest flex items-center space-x-2 hover:bg-white transition-colors"
         >
           {isAdding ? <span onClick={() => { setEditingId(null); setTitle(''); setContent(''); setImageUrl(''); }}>Ləğv Et</span> : <><Plus className="w-4 h-4" /><span>Yeni Xəbər</span></>}
         </button>
       </div>
 
       {isAdding && (
-        <form onSubmit={handleAddNews} className="bg-[#152741] p-6 rounded-2xl border border-gray-800 mb-8 space-y-4">
+        <form onSubmit={handleAddNews} className="bg-[#141414] p-6 rounded-2xl border border-gray-800 mb-8 space-y-4">
           <div>
             <label className="block text-gray-400 text-xs font-bold uppercase tracking-widest mb-2">Xəbər Başlığı</label>
-            <input type="text" value={title} onChange={e => setTitle(e.target.value)} className="w-full bg-[#0d1a2d] border border-gray-700 rounded-lg p-3 text-white focus:border-[#d7bf7b] outline-none" placeholder="Başlıq..." required />
+            <input type="text" value={title} onChange={e => setTitle(e.target.value)} className="w-full bg-[#0a0a0a] border border-gray-700 rounded-lg p-3 text-white focus:border-[#d7bf7b] outline-none" placeholder="Başlıq..." required />
           </div>
           <div>
             <label className="block text-gray-400 text-xs font-bold uppercase tracking-widest mb-2">Kateqoriya</label>
-            <select value={category} onChange={e => setCategory(e.target.value)} className="w-full bg-[#0d1a2d] border border-gray-700 rounded-lg p-3 text-white focus:border-[#d7bf7b] outline-none">
+            <select value={category} onChange={e => setCategory(e.target.value)} className="w-full bg-[#0a0a0a] border border-gray-700 rounded-lg p-3 text-white focus:border-[#d7bf7b] outline-none">
               <option value="Əsas Komanda">Əsas Komanda</option>
               <option value="Akademiya">Akademiya</option>
               <option value="Rəsmi">Rəsmi</option>
@@ -138,7 +138,7 @@ export default function NewsAdmin() {
           <div>
             <label className="block text-gray-400 text-xs font-bold uppercase tracking-widest mb-2">Əsas Şəkil</label>
             <div className="flex items-center space-x-4">
-              <label className="bg-[#0d1a2d] border border-gray-700 hover:border-[#d7bf7b] text-gray-300 px-4 py-3 rounded-lg cursor-pointer flex items-center space-x-2 transition-colors">
+              <label className="bg-[#0a0a0a] border border-gray-700 hover:border-[#d7bf7b] text-gray-300 px-4 py-3 rounded-lg cursor-pointer flex items-center space-x-2 transition-colors">
                 <UploadCloud className="w-5 h-5" />
                 <span className="text-xs font-bold uppercase">{isUploading ? 'Yüklənir...' : 'Şəkil Seç'}</span>
                 <input type="file" accept="image/*" onChange={handleImageUpload} className="hidden" />
@@ -148,9 +148,9 @@ export default function NewsAdmin() {
           </div>
           <div>
             <label className="block text-gray-400 text-xs font-bold uppercase tracking-widest mb-2">Xəbər Mətni</label>
-            <textarea value={content} onChange={e => setContent(e.target.value)} className="w-full bg-[#0d1a2d] border border-gray-700 rounded-lg p-3 text-white focus:border-[#d7bf7b] outline-none h-32" placeholder="Mətn..." required></textarea>
+            <textarea value={content} onChange={e => setContent(e.target.value)} className="w-full bg-[#0a0a0a] border border-gray-700 rounded-lg p-3 text-white focus:border-[#d7bf7b] outline-none h-32" placeholder="Mətn..." required></textarea>
           </div>
-          <button type="submit" className="w-full bg-[#d7bf7b] text-[#152741] py-3 rounded-lg font-bold text-xs uppercase tracking-widest hover:bg-white transition-colors">Yadda Saxla</button>
+          <button type="submit" className="w-full bg-[#d7bf7b] text-[#141414] py-3 rounded-lg font-bold text-xs uppercase tracking-widest hover:bg-white transition-colors">Yadda Saxla</button>
         </form>
       )}
 
@@ -159,7 +159,7 @@ export default function NewsAdmin() {
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {news.map(n => (
-            <div key={n.id} className="bg-[#152741] border border-gray-800 rounded-2xl overflow-hidden flex flex-col">
+            <div key={n.id} className="bg-[#141414] border border-gray-800 rounded-2xl overflow-hidden flex flex-col">
               <div className="h-40 relative">
                  <img src={n.image_url} alt={n.title_az} className="w-full h-full object-cover" />
               </div>

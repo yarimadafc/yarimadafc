@@ -87,32 +87,32 @@ export default function CoachCoursesAdmin() {
         <h2 className="text-2xl font-bold text-white">Məşqçi Kursu (Praktiki)</h2>
         <button 
           onClick={() => { resetForm(); setIsAdding(!isAdding); }}
-          className="bg-[#d7bf7b] text-[#152741] px-4 py-2 rounded-lg font-bold flex items-center space-x-2"
+          className="bg-[#d7bf7b] text-[#141414] px-4 py-2 rounded-lg font-bold flex items-center space-x-2"
         >
           <Plus className="w-4 h-4" /> <span>{isAdding ? 'Ləğv et' : 'Yeni Dərs'}</span>
         </button>
       </div>
 
       {isAdding && (
-        <form onSubmit={handleSave} className="bg-[#0a1423] p-6 rounded-2xl border border-gray-800 mb-8 space-y-4">
+        <form onSubmit={handleSave} className="bg-[#000000] p-6 rounded-2xl border border-gray-800 mb-8 space-y-4">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
               <label className="block text-gray-400 text-xs font-bold uppercase mb-2">Başlıq</label>
-              <input type="text" value={title} onChange={e => setTitle(e.target.value)} className="w-full bg-[#0d1a2d] border border-gray-700 rounded p-3 text-white" required />
+              <input type="text" value={title} onChange={e => setTitle(e.target.value)} className="w-full bg-[#0a0a0a] border border-gray-700 rounded p-3 text-white" required />
             </div>
             <div>
               <label className="block text-gray-400 text-xs font-bold uppercase mb-2">Video URL (Məs: Youtube ID və ya Link)</label>
-              <input type="text" value={videoUrl} onChange={e => setVideoUrl(e.target.value)} className="w-full bg-[#0d1a2d] border border-gray-700 rounded p-3 text-white" />
+              <input type="text" value={videoUrl} onChange={e => setVideoUrl(e.target.value)} className="w-full bg-[#0a0a0a] border border-gray-700 rounded p-3 text-white" />
             </div>
             <div className="md:col-span-2">
               <label className="block text-gray-400 text-xs font-bold uppercase mb-2">Məlumat</label>
-              <textarea value={description} onChange={e => setDescription(e.target.value)} rows={3} className="w-full bg-[#0d1a2d] border border-gray-700 rounded p-3 text-white"></textarea>
+              <textarea value={description} onChange={e => setDescription(e.target.value)} rows={3} className="w-full bg-[#0a0a0a] border border-gray-700 rounded p-3 text-white"></textarea>
             </div>
             <div className="md:col-span-2">
               <label className="block text-gray-400 text-xs font-bold uppercase mb-2">Kapak Şəkli (Thumbnail)</label>
               <div className="flex items-center space-x-3">
                 {imageUrl && <img src={imageUrl} alt="img" className="w-16 h-10 object-cover rounded" />}
-                <label className="cursor-pointer bg-[#152741] border border-gray-700 px-4 py-2 rounded text-xs font-bold text-white uppercase">
+                <label className="cursor-pointer bg-[#141414] border border-gray-700 px-4 py-2 rounded text-xs font-bold text-white uppercase">
                   {uploading ? 'Yüklənir...' : 'Seç'}
                   <input type="file" accept="image/*" onChange={handleImageUpload} className="hidden" />
                 </label>
@@ -127,8 +127,8 @@ export default function CoachCoursesAdmin() {
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         {courses.map(c => (
-          <div key={c.id} className="bg-[#0a1423] rounded-xl border border-gray-800 overflow-hidden flex flex-col">
-            <div className="relative h-40 bg-[#152741]">
+          <div key={c.id} className="bg-[#000000] rounded-xl border border-gray-800 overflow-hidden flex flex-col">
+            <div className="relative h-40 bg-[#141414]">
               {c.image_url ? (
                 <img src={c.image_url} alt={c.title} className="w-full h-full object-cover opacity-80" />
               ) : (

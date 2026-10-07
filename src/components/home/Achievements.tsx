@@ -18,7 +18,7 @@ export default function Achievements() {
   }, []);
 
   return (
-    <section className="bg-[#0a1423] py-24 border-b border-[#1c2d47]">
+    <section className="bg-[#000000] py-24 border-b border-[#1f1f1f]">
       <div className="container mx-auto px-4 lg:px-8">
         
         {/* Header */}
@@ -34,7 +34,7 @@ export default function Achievements() {
 
         {/* Grid for Achievement Stats */}
         {achievements.length > 0 ? (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 divide-y md:divide-y-0 md:divide-x divide-[#1c2d47]">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 divide-y md:divide-y-0 md:divide-x divide-[#1f1f1f]">
             {achievements.map((item, i) => (
               <Link href={`/achievements/${item.id}`} key={item.id} className="block group px-4 py-8 md:py-0 text-center flex flex-col items-center">
                 <motion.div 

@@ -37,11 +37,11 @@ export default function AdminLogin() {
   };
 
   return (
-    <div className="min-h-screen bg-[#0d1a2d] flex items-center justify-center p-4">
+    <div className="min-h-screen bg-[#0a0a0a] flex items-center justify-center p-4">
       <motion.div 
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
-        className="bg-[#152741] p-8 rounded-2xl border border-gray-800 shadow-2xl w-full max-w-md"
+        className="bg-[#141414] p-8 rounded-2xl border border-gray-800 shadow-2xl w-full max-w-md"
       >
         <div className="text-center mb-8">
           <h1 className="text-2xl font-black text-white uppercase tracking-widest mb-2">Admin Panel</h1>
@@ -61,7 +61,7 @@ export default function AdminLogin() {
               type="email" 
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              className="w-full bg-[#0a1423] border border-gray-700 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-[#d7bf7b] transition-colors"
+              className="w-full bg-[#000000] border border-gray-700 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-[#d7bf7b] transition-colors"
               required 
             />
           </div>
@@ -71,14 +71,14 @@ export default function AdminLogin() {
               type="password" 
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              className="w-full bg-[#0a1423] border border-gray-700 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-[#d7bf7b] transition-colors"
+              className="w-full bg-[#000000] border border-gray-700 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-[#d7bf7b] transition-colors"
               required 
             />
           </div>
           <button 
             type="submit" 
             disabled={loading}
-            className="w-full bg-[#d7bf7b] text-[#152741] font-black uppercase tracking-widest py-3 rounded-lg hover:bg-white transition-colors disabled:opacity-50"
+            className="w-full bg-[#d7bf7b] text-[#141414] font-black uppercase tracking-widest py-3 rounded-lg hover:bg-white transition-colors disabled:opacity-50"
           >
             {loading ? 'Daxil olunur...' : 'Daxil Ol'}
           </button>

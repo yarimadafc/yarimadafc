@@ -42,9 +42,9 @@ export default function ShopPage() {
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
     >
-      <div className="min-h-screen bg-[#0a1423] pt-[140px] pb-20">
-      <div className="w-full bg-[#152741] py-12 md:py-16 border-b border-gray-800 relative overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-t from-[#0a1423] to-transparent"></div>
+      <div className="min-h-screen bg-[#000000] pt-[140px] pb-20">
+      <div className="w-full bg-[#141414] py-12 md:py-16 border-b border-gray-800 relative overflow-hidden">
+        <div className="absolute inset-0 bg-gradient-to-t from-[#000000] to-transparent"></div>
         <div className="container mx-auto px-4 lg:px-8 relative z-10 text-center">
           <motion.h1 
             initial={{ opacity: 0, y: -20 }}
@@ -81,9 +81,9 @@ export default function ShopPage() {
                   initial={{ opacity: 0, y: 30 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.5, delay: i * 0.1 }}
-                  className="bg-[#152741] rounded-3xl overflow-hidden border border-gray-800 shadow-xl group flex flex-col"
+                  className="bg-[#141414] rounded-3xl overflow-hidden border border-gray-800 shadow-xl group flex flex-col"
                 >
-                  <div className="h-72 bg-[#0d1a2d] relative flex items-center justify-center overflow-hidden">
+                  <div className="h-72 bg-[#0a0a0a] relative flex items-center justify-center overflow-hidden">
                     {p.images && p.images.length > 0 ? (
                       <>
                         <Link href={`/shop/${p.id}`} className="w-full h-full block">
@@ -110,7 +110,7 @@ export default function ShopPage() {
                     )}
                   </div>
                   
-                  <div className="p-6 flex flex-col flex-1 bg-[#152741]">
+                  <div className="p-6 flex flex-col flex-1 bg-[#141414]">
                     <Link href={`/shop/${p.id}`} className="hover:text-[#d7bf7b] transition-colors"><h3 className="text-xl font-black text-white uppercase tracking-tighter mb-2 line-clamp-2">{p.title}</h3></Link>
                     {p.description && <p className="text-gray-400 text-sm mb-4 line-clamp-3">{p.description}</p>}
                     
@@ -120,13 +120,13 @@ export default function ShopPage() {
                         {p.colors && p.colors.length > 0 && (
                           <div className="flex flex-wrap gap-1 items-center">
                             <span className="text-xs text-gray-500 font-bold uppercase mr-2">Rəng:</span>
-                            {p.colors.map((c: string) => <span key={c} className="text-[10px] text-gray-300 bg-[#0a1423] px-2 py-1 rounded border border-gray-700">{c}</span>)}
+                            {p.colors.map((c: string) => <span key={c} className="text-[10px] text-gray-300 bg-[#000000] px-2 py-1 rounded border border-gray-700">{c}</span>)}
                           </div>
                         )}
                         {p.sizes && p.sizes.length > 0 && (
                           <div className="flex flex-wrap gap-1 items-center">
                             <span className="text-xs text-gray-500 font-bold uppercase mr-2">Ölçü:</span>
-                            {p.sizes.map((s: string) => <span key={s} className="text-[10px] text-gray-300 bg-[#0a1423] px-2 py-1 rounded border border-gray-700">{s}</span>)}
+                            {p.sizes.map((s: string) => <span key={s} className="text-[10px] text-gray-300 bg-[#000000] px-2 py-1 rounded border border-gray-700">{s}</span>)}
                           </div>
                         )}
                       </div>

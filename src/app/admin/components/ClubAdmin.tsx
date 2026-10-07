@@ -69,18 +69,18 @@ export default function ClubAdmin() {
 
       <div className="space-y-8 max-w-4xl">
         {/* Haqqımızda */}
-        <div className="bg-[#152741] p-6 rounded-2xl border border-gray-800 space-y-4">
+        <div className="bg-[#141414] p-6 rounded-2xl border border-gray-800 space-y-4">
           <h3 className="text-[#d7bf7b] font-bold tracking-widest text-sm uppercase mb-4">Haqqımızda Mətnləri və Şəkli</h3>
           
           <div className="mb-6">
             <label className="block text-gray-400 text-xs font-bold uppercase tracking-widest mb-2">Haqqımızda Şəkli (Arxa Plan)</label>
             {texts['about_bg'] ? (
-              <div className="relative w-full h-40 bg-[#0d1a2d] border border-gray-700 rounded-lg overflow-hidden group mb-2">
+              <div className="relative w-full h-40 bg-[#0a0a0a] border border-gray-700 rounded-lg overflow-hidden group mb-2">
                 <img src={texts['about_bg']} alt="Preview" className="w-full h-full object-cover" />
                 <button type="button" onClick={() => { handleChange('about_bg', ''); handleSave('about_bg'); }} className="absolute inset-0 bg-red-500/80 text-white font-bold opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center uppercase tracking-widest">Şəkli Sil</button>
               </div>
             ) : (
-              <label className={`w-full flex flex-col items-center justify-center space-y-2 bg-[#0d1a2d] border-2 border-dashed border-gray-700 rounded-lg p-8 cursor-pointer hover:border-[#d7bf7b] transition-colors ${uploadingImage ? 'opacity-50' : ''}`}>
+              <label className={`w-full flex flex-col items-center justify-center space-y-2 bg-[#0a0a0a] border-2 border-dashed border-gray-700 rounded-lg p-8 cursor-pointer hover:border-[#d7bf7b] transition-colors ${uploadingImage ? 'opacity-50' : ''}`}>
                 <UploadCloud className="w-8 h-8 text-gray-400" />
                 <span className="text-gray-400 text-xs font-bold uppercase tracking-widest">{uploadingImage ? 'YÜKLƏNİR...' : 'CİHAZDAN ŞƏKİL SEÇ'}</span>
                 <input 
@@ -122,30 +122,30 @@ export default function ClubAdmin() {
           <div>
             <label className="block text-gray-400 text-xs font-bold uppercase tracking-widest mb-2">Paraqraf 1</label>
             <div className="flex space-x-4 items-start">
-              <textarea value={texts['club_about_1']} onChange={e => handleChange('club_about_1', e.target.value)} className="flex-1 bg-[#0d1a2d] border border-gray-700 rounded-lg p-3 text-white h-24" />
-              <button onClick={() => handleSave('club_about_1')} disabled={saving} className="bg-[#d7bf7b] text-[#152741] px-4 py-3 rounded-lg font-bold uppercase text-xs">Yadda Saxla</button>
+              <textarea value={texts['club_about_1']} onChange={e => handleChange('club_about_1', e.target.value)} className="flex-1 bg-[#0a0a0a] border border-gray-700 rounded-lg p-3 text-white h-24" />
+              <button onClick={() => handleSave('club_about_1')} disabled={saving} className="bg-[#d7bf7b] text-[#141414] px-4 py-3 rounded-lg font-bold uppercase text-xs">Yadda Saxla</button>
             </div>
           </div>
 
           <div>
             <label className="block text-gray-400 text-xs font-bold uppercase tracking-widest mb-2">Paraqraf 2</label>
             <div className="flex space-x-4 items-start">
-              <textarea value={texts['club_about_2']} onChange={e => handleChange('club_about_2', e.target.value)} className="flex-1 bg-[#0d1a2d] border border-gray-700 rounded-lg p-3 text-white h-24" />
-              <button onClick={() => handleSave('club_about_2')} disabled={saving} className="bg-[#d7bf7b] text-[#152741] px-4 py-3 rounded-lg font-bold uppercase text-xs">Yadda Saxla</button>
+              <textarea value={texts['club_about_2']} onChange={e => handleChange('club_about_2', e.target.value)} className="flex-1 bg-[#0a0a0a] border border-gray-700 rounded-lg p-3 text-white h-24" />
+              <button onClick={() => handleSave('club_about_2')} disabled={saving} className="bg-[#d7bf7b] text-[#141414] px-4 py-3 rounded-lg font-bold uppercase text-xs">Yadda Saxla</button>
             </div>
           </div>
         </div>
 
         {/* Missiya, Vizyon, Dəyərlər */}
-        <div className="bg-[#152741] p-6 rounded-2xl border border-gray-800 space-y-4">
+        <div className="bg-[#141414] p-6 rounded-2xl border border-gray-800 space-y-4">
           <h3 className="text-[#d7bf7b] font-bold tracking-widest text-sm uppercase mb-4">Missiya, Vizyon, Dəyərlər</h3>
           
           {['mission', 'vision', 'values'].map((key) => (
             <div key={key}>
               <label className="block text-gray-400 text-xs font-bold uppercase tracking-widest mb-2">{key === 'mission' ? 'Missiya' : key === 'vision' ? 'Vizyon' : 'Dəyərlər'}</label>
               <div className="flex space-x-4 items-start">
-                <textarea value={texts[`club_${key}`]} onChange={e => handleChange(`club_${key}`, e.target.value)} className="flex-1 bg-[#0d1a2d] border border-gray-700 rounded-lg p-3 text-white h-20" />
-                <button onClick={() => handleSave(`club_${key}`)} disabled={saving} className="bg-[#d7bf7b] text-[#152741] px-4 py-3 rounded-lg font-bold uppercase text-xs">Yadda Saxla</button>
+                <textarea value={texts[`club_${key}`]} onChange={e => handleChange(`club_${key}`, e.target.value)} className="flex-1 bg-[#0a0a0a] border border-gray-700 rounded-lg p-3 text-white h-20" />
+                <button onClick={() => handleSave(`club_${key}`)} disabled={saving} className="bg-[#d7bf7b] text-[#141414] px-4 py-3 rounded-lg font-bold uppercase text-xs">Yadda Saxla</button>
               </div>
             </div>
           ))}

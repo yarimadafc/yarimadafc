@@ -43,7 +43,7 @@ export default function Footer() {
   }, []);
 
   return (
-    <footer className="w-full bg-[#0d1a2d] border-t border-gray-800 pt-8 pb-8 overflow-hidden">
+    <footer className="w-full bg-[#0a0a0a] border-t border-gray-800 pt-8 pb-8 overflow-hidden">
       {/* Sponsors Section - Marquee */}
       <div className="w-full border-b border-gray-800/50 pb-6 mb-10 overflow-hidden">
         <div className="container mx-auto px-4 lg:px-8 mb-4">

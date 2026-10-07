@@ -9,10 +9,10 @@
   --ks-kinpaku-rich: #d7bf7b;
   --ks-kinpaku-deep: #8c7128;
   
-  --ks-ink: #152741; 
-  --ks-instrument: #152741;
-  --ks-instrument-deep: #050b14;
-  --ks-instrument-raised: #15294a;
+  --ks-ink: #0a0a0a; 
+  --ks-instrument: #141414;
+  --ks-instrument-deep: #000000;
+  --ks-instrument-raised: #1f1f1f;
   
   --ks-paper: #ffffff;
   --ks-paper-raised: #ffffff;
@@ -29,7 +29,7 @@ html {
 }
 
 body {
-  background-color: #152741;
+  background-color: #141414;
   color: var(--ks-ink);
   font-family: var(--ks-font);
 }

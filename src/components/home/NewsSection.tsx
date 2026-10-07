@@ -43,7 +43,7 @@ export default function NewsSection() {
         whileInView={{ opacity: 1, x: 0 }}
         transition={{ duration: 0.8, ease: "easeOut" }}
         viewport={{ once: true, margin: "-100px" }}
-        className="flex justify-between items-end mb-8 border-b border-[#1c2d47] pb-4"
+        className="flex justify-between items-end mb-8 border-b border-[#1f1f1f] pb-4"
       >
         <div className="relative">
           <div className="absolute -top-4 left-0 w-8 h-[2px] bg-[#d7bf7b]"></div>
@@ -68,13 +68,13 @@ export default function NewsSection() {
             viewport={{ once: true, margin: "-50px" }}
             className={i === 0 ? "lg:col-span-2" : "col-span-1"}
           >
-            <Link href={`/news/${item.id}`} className="group flex flex-col h-full bg-[#152741] rounded-lg overflow-hidden hover:bg-[#1a2e4c] transition-all duration-300">
+            <Link href={`/news/${item.id}`} className="group flex flex-col h-full bg-[#141414] rounded-lg overflow-hidden hover:bg-[#1a1a1a] transition-all duration-300">
               {/* Image Box */}
               <div className={`relative w-full overflow-hidden ${i === 0 ? 'aspect-video' : 'aspect-[4/3]'}`}>
                  {item.image_url && item.image_url !== '/placeholder-news-1.jpg' ? (
                    <img src={item.image_url} alt={item.title_az || item.title} className={`absolute inset-0 w-full h-full ${i === 0 ? 'object-cover' : 'object-cover'} group-hover:scale-105 transition-transform duration-700 ease-in-out`} />
                  ) : (
-                   <div className="absolute inset-0 bg-[#1a2e4c] group-hover:scale-105 transition-transform duration-700 ease-in-out"></div>
+                   <div className="absolute inset-0 bg-[#1a1a1a] group-hover:scale-105 transition-transform duration-700 ease-in-out"></div>
                  )}
               </div>
               
@@ -93,7 +93,7 @@ export default function NewsSection() {
                   {item.title_az || item.title}
                 </h3>
                 
-                <div className="mt-auto flex justify-between items-center text-gray-400 group-hover:text-[#d7bf7b] border-t border-[#1c2d47] pt-3 pb-1">
+                <div className="mt-auto flex justify-between items-center text-gray-400 group-hover:text-[#d7bf7b] border-t border-[#1f1f1f] pt-3 pb-1">
                   <span className="font-medium text-xs">Daha ətraflı</span>
                   <ArrowRight className="w-4 h-4 transform group-hover:translate-x-1 transition-transform" />
                 </div>

@@ -300,31 +300,31 @@ export default function MatchesAdmin() {
           <h2 className="text-2xl font-black uppercase tracking-widest text-white mb-2">Oyunlar və Nəticələr</h2>
           <p className="text-gray-400 text-sm">Bütün oyunları, canlı nəticələri və ana səhifədə görünəcək əsas oyunu idarə edin.</p>
         </div>
-        <button onClick={() => { setIsAdding(!isAdding); resetForm(); }} className="bg-[#d7bf7b] text-[#152741] px-4 py-2 rounded-lg font-bold text-xs uppercase tracking-widest flex items-center space-x-2">
+        <button onClick={() => { setIsAdding(!isAdding); resetForm(); }} className="bg-[#d7bf7b] text-[#141414] px-4 py-2 rounded-lg font-bold text-xs uppercase tracking-widest flex items-center space-x-2">
           {isAdding ? <span>Ləğv Et</span> : <><Plus className="w-4 h-4" /><span>Yeni Oyun</span></>}
         </button>
       </div>
 
       {isAdding && (
-        <form onSubmit={handleSave} className="bg-[#152741] p-6 rounded-2xl border border-gray-800 mb-8">
+        <form onSubmit={handleSave} className="bg-[#141414] p-6 rounded-2xl border border-gray-800 mb-8">
           
           <div className="flex space-x-2 mb-6 border-b border-gray-800 pb-4 overflow-x-auto">
-            <button type="button" onClick={() => setActiveTab('info')} className={`px-4 py-2 rounded font-bold text-xs uppercase tracking-widest whitespace-nowrap ${activeTab === 'info' ? 'bg-[#d7bf7b] text-[#152741]' : 'text-gray-400 hover:text-white'}`}>Əsas Məlumatlar</button>
+            <button type="button" onClick={() => setActiveTab('info')} className={`px-4 py-2 rounded font-bold text-xs uppercase tracking-widest whitespace-nowrap ${activeTab === 'info' ? 'bg-[#d7bf7b] text-[#141414]' : 'text-gray-400 hover:text-white'}`}>Əsas Məlumatlar</button>
             <button type="button" onClick={() => setActiveTab('timer')} className={`px-4 py-2 rounded font-bold text-xs uppercase tracking-widest flex items-center space-x-2 whitespace-nowrap ${activeTab === 'timer' ? 'bg-red-500 text-white' : 'text-gray-400 hover:text-red-400'}`}><Clock className="w-4 h-4"/> <span>Canlı Taymer</span></button>
-            <button type="button" onClick={() => setActiveTab('lineup')} className={`px-4 py-2 rounded font-bold text-xs uppercase tracking-widest flex items-center space-x-2 whitespace-nowrap ${activeTab === 'lineup' ? 'bg-[#d7bf7b] text-[#152741]' : 'text-gray-400 hover:text-white'}`}><Users className="w-4 h-4"/> <span>Heyət & Hadisələr</span></button>
+            <button type="button" onClick={() => setActiveTab('lineup')} className={`px-4 py-2 rounded font-bold text-xs uppercase tracking-widest flex items-center space-x-2 whitespace-nowrap ${activeTab === 'lineup' ? 'bg-[#d7bf7b] text-[#141414]' : 'text-gray-400 hover:text-white'}`}><Users className="w-4 h-4"/> <span>Heyət & Hadisələr</span></button>
           </div>
 
           {activeTab === 'info' && (
             <div className="space-y-6">
-              <div className="bg-[#0a1423] p-4 rounded-xl border border-gray-800 grid grid-cols-1 md:grid-cols-2 gap-4">
-                <label className="flex items-center space-x-3 cursor-pointer p-3 bg-[#152741] rounded-lg border border-gray-700 hover:border-[#d7bf7b] transition-colors">
+              <div className="bg-[#000000] p-4 rounded-xl border border-gray-800 grid grid-cols-1 md:grid-cols-2 gap-4">
+                <label className="flex items-center space-x-3 cursor-pointer p-3 bg-[#141414] rounded-lg border border-gray-700 hover:border-[#d7bf7b] transition-colors">
                   <input type="checkbox" checked={isHero} onChange={(e) => setIsHero(e.target.checked)} className="w-5 h-5 accent-[#d7bf7b] rounded" />
                   <span className="text-white font-bold text-xs uppercase tracking-widest">Ana səhifənin ən üstündə göstər</span>
                 </label>
 
                 <div>
                   <label className="block text-gray-400 text-xs font-bold uppercase mb-2">Oyunun Vəziyyəti</label>
-                  <select value={status} onChange={(e: any) => setStatus(e.target.value)} className="w-full bg-[#0d1a2d] border border-gray-700 rounded-lg p-3 text-white outline-none focus:border-[#d7bf7b]">
+                  <select value={status} onChange={(e: any) => setStatus(e.target.value)} className="w-full bg-[#0a0a0a] border border-gray-700 rounded-lg p-3 text-white outline-none focus:border-[#d7bf7b]">
                     <option value="upcoming">Gələcək Oyun (Upcoming)</option>
                     <option value="live">Canlı (Live)</option>
                     <option value="finished">Bitdi (Finished)</option>
@@ -335,29 +335,29 @@ export default function MatchesAdmin() {
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div>
                   <label className="block text-gray-400 text-xs font-bold uppercase mb-2">Ev Sahibi (Home)</label>
-                  <input type="text" value={homeTeam} onChange={e => setHomeTeam(e.target.value)} className="w-full bg-[#0d1a2d] border border-gray-700 rounded-lg p-3 text-white" required />
+                  <input type="text" value={homeTeam} onChange={e => setHomeTeam(e.target.value)} className="w-full bg-[#0a0a0a] border border-gray-700 rounded-lg p-3 text-white" required />
                 </div>
                 <div>
                   <label className="block text-gray-400 text-xs font-bold uppercase mb-2">Qonaq Komanda (Away)</label>
-                  <input type="text" value={awayTeam} onChange={e => setAwayTeam(e.target.value)} className="w-full bg-[#0d1a2d] border border-gray-700 rounded-lg p-3 text-white" required />
+                  <input type="text" value={awayTeam} onChange={e => setAwayTeam(e.target.value)} className="w-full bg-[#0a0a0a] border border-gray-700 rounded-lg p-3 text-white" required />
                 </div>
 
-                <div className="bg-[#0a1423] p-3 rounded-lg border border-gray-800">
+                <div className="bg-[#000000] p-3 rounded-lg border border-gray-800">
                   <label className="block text-gray-400 text-xs font-bold uppercase mb-2">Ev Sahibi Loqosu</label>
                   <div className="flex items-center space-x-3">
                     {homeLogo && <img src={homeLogo} alt="Home" className="w-10 h-10 object-contain bg-white rounded p-1" />}
-                    <label className="cursor-pointer bg-[#152741] border border-gray-700 hover:border-[#d7bf7b] px-4 py-2 rounded text-xs font-bold text-white uppercase transition-colors">
+                    <label className="cursor-pointer bg-[#141414] border border-gray-700 hover:border-[#d7bf7b] px-4 py-2 rounded text-xs font-bold text-white uppercase transition-colors">
                       {uploadingHomeLogo ? 'Yüklənir...' : 'Cihazdan Seç'}
                       <input type="file" accept="image/*" onChange={e => handleLogoUpload(e, true)} className="hidden" />
                     </label>
                   </div>
                 </div>
 
-                <div className="bg-[#0a1423] p-3 rounded-lg border border-gray-800">
+                <div className="bg-[#000000] p-3 rounded-lg border border-gray-800">
                   <label className="block text-gray-400 text-xs font-bold uppercase mb-2">Qonaq Loqosu</label>
                   <div className="flex items-center space-x-3">
                     {awayLogo && <img src={awayLogo} alt="Away" className="w-10 h-10 object-contain bg-white rounded p-1" />}
-                    <label className="cursor-pointer bg-[#152741] border border-gray-700 hover:border-[#d7bf7b] px-4 py-2 rounded text-xs font-bold text-white uppercase transition-colors">
+                    <label className="cursor-pointer bg-[#141414] border border-gray-700 hover:border-[#d7bf7b] px-4 py-2 rounded text-xs font-bold text-white uppercase transition-colors">
                       {uploadingAwayLogo ? 'Yüklənir...' : 'Cihazdan Seç'}
                       <input type="file" accept="image/*" onChange={e => handleLogoUpload(e, false)} className="hidden" />
                     </label>
@@ -366,25 +366,25 @@ export default function MatchesAdmin() {
 
                 <div>
                   <label className="block text-gray-400 text-xs font-bold uppercase mb-2">Ev Sahibi Hesab</label>
-                  <input type="number" value={homeScore} onChange={e => setHomeScore(e.target.value ? Number(e.target.value) : '')} className="w-full bg-[#0d1a2d] border border-gray-700 rounded-lg p-3 text-white" />
+                  <input type="number" value={homeScore} onChange={e => setHomeScore(e.target.value ? Number(e.target.value) : '')} className="w-full bg-[#0a0a0a] border border-gray-700 rounded-lg p-3 text-white" />
                 </div>
                 <div>
                   <label className="block text-gray-400 text-xs font-bold uppercase mb-2">Qonaq Hesab</label>
-                  <input type="number" value={awayScore} onChange={e => setAwayScore(e.target.value ? Number(e.target.value) : '')} className="w-full bg-[#0d1a2d] border border-gray-700 rounded-lg p-3 text-white" />
+                  <input type="number" value={awayScore} onChange={e => setAwayScore(e.target.value ? Number(e.target.value) : '')} className="w-full bg-[#0a0a0a] border border-gray-700 rounded-lg p-3 text-white" />
                 </div>
 
                 <div>
                   <label className="block text-gray-400 text-xs font-bold uppercase mb-2">Tarix</label>
-                  <input type="date" value={matchDate} onChange={e => setMatchDate(e.target.value)} className="w-full bg-[#0d1a2d] border border-gray-700 rounded-lg p-3 text-white" />
+                  <input type="date" value={matchDate} onChange={e => setMatchDate(e.target.value)} className="w-full bg-[#0a0a0a] border border-gray-700 rounded-lg p-3 text-white" />
                 </div>
                 <div>
                   <label className="block text-gray-400 text-xs font-bold uppercase mb-2">Saat</label>
-                  <input type="time" value={matchTime} onChange={e => setMatchTime(e.target.value)} className="w-full bg-[#0d1a2d] border border-gray-700 rounded-lg p-3 text-white" />
+                  <input type="time" value={matchTime} onChange={e => setMatchTime(e.target.value)} className="w-full bg-[#0a0a0a] border border-gray-700 rounded-lg p-3 text-white" />
                 </div>
 
                 <div>
                   <label className="block text-gray-400 text-xs font-bold uppercase mb-2">Komanda Kateqoriyası (Liqa)</label>
-                  <select value={tournament} onChange={e => setTournament(e.target.value)} className="w-full bg-[#0d1a2d] border border-gray-700 rounded-lg p-3 text-white">
+                  <select value={tournament} onChange={e => setTournament(e.target.value)} className="w-full bg-[#0a0a0a] border border-gray-700 rounded-lg p-3 text-white">
                     <option value="">Seçin...</option>
                     {teams.map(t => (
                       <option key={t.id} value={t.name}>{t.name}</option>
@@ -393,7 +393,7 @@ export default function MatchesAdmin() {
                 </div>
                 <div>
                   <label className="block text-gray-400 text-xs font-bold uppercase mb-2">Stadion</label>
-                  <input type="text" value={venue} onChange={e => setVenue(e.target.value)} className="w-full bg-[#0d1a2d] border border-gray-700 rounded-lg p-3 text-white" />
+                  <input type="text" value={venue} onChange={e => setVenue(e.target.value)} className="w-full bg-[#0a0a0a] border border-gray-700 rounded-lg p-3 text-white" />
                 </div>
               </div>
             </div>
@@ -401,7 +401,7 @@ export default function MatchesAdmin() {
 
           {activeTab === 'timer' && (
             <div className="space-y-6">
-              <div className="bg-[#0a1423] p-6 rounded-2xl border border-gray-800 text-center">
+              <div className="bg-[#000000] p-6 rounded-2xl border border-gray-800 text-center">
                 <div className="text-gray-400 font-bold uppercase tracking-widest text-xs mb-2">Canlı Dəqiqə</div>
                 <div className="text-6xl font-black text-white mb-6 tabular-nums">{currentDisplayMinute}</div>
                 
@@ -430,26 +430,26 @@ export default function MatchesAdmin() {
                 </div>
               </div>
 
-              <div className="grid grid-cols-2 md:grid-cols-5 gap-4 bg-[#0d1a2d] p-4 rounded-xl border border-gray-800">
+              <div className="grid grid-cols-2 md:grid-cols-5 gap-4 bg-[#0a0a0a] p-4 rounded-xl border border-gray-800">
                 <div>
                   <label className="block text-gray-400 text-[10px] font-bold uppercase mb-2">1-ci hissə (Dəq)</label>
-                  <input type="number" value={h1} onChange={e => setH1(Number(e.target.value))} className="w-full bg-[#152741] border border-gray-700 rounded p-2 text-white" />
+                  <input type="number" value={h1} onChange={e => setH1(Number(e.target.value))} className="w-full bg-[#141414] border border-gray-700 rounded p-2 text-white" />
                 </div>
                 <div>
                   <label className="block text-gray-400 text-[10px] font-bold uppercase mb-2">Fasilə (Dəq)</label>
-                  <input type="number" value={ht} onChange={e => setHt(Number(e.target.value))} className="w-full bg-[#152741] border border-gray-700 rounded p-2 text-white" />
+                  <input type="number" value={ht} onChange={e => setHt(Number(e.target.value))} className="w-full bg-[#141414] border border-gray-700 rounded p-2 text-white" />
                 </div>
                 <div>
                   <label className="block text-gray-400 text-[10px] font-bold uppercase mb-2">2-ci hissə (Dəq)</label>
-                  <input type="number" value={h2} onChange={e => setH2(Number(e.target.value))} className="w-full bg-[#152741] border border-gray-700 rounded p-2 text-white" />
+                  <input type="number" value={h2} onChange={e => setH2(Number(e.target.value))} className="w-full bg-[#141414] border border-gray-700 rounded p-2 text-white" />
                 </div>
                 <div>
                   <label className="block text-gray-400 text-[10px] font-bold uppercase mb-2">1-ci hissəyə əlavə</label>
-                  <input type="number" value={ex1} onChange={e => setEx1(Number(e.target.value))} className="w-full bg-[#152741] border border-gray-700 rounded p-2 text-white" />
+                  <input type="number" value={ex1} onChange={e => setEx1(Number(e.target.value))} className="w-full bg-[#141414] border border-gray-700 rounded p-2 text-white" />
                 </div>
                 <div>
                   <label className="block text-gray-400 text-[10px] font-bold uppercase mb-2">2-ci hissəyə əlavə</label>
-                  <input type="number" value={ex2} onChange={e => setEx2(Number(e.target.value))} className="w-full bg-[#152741] border border-gray-700 rounded p-2 text-white" />
+                  <input type="number" value={ex2} onChange={e => setEx2(Number(e.target.value))} className="w-full bg-[#141414] border border-gray-700 rounded p-2 text-white" />
                 </div>
               </div>
             </div>
@@ -457,10 +457,10 @@ export default function MatchesAdmin() {
 
           {activeTab === 'lineup' && (
             <div className="space-y-6">
-              <div className="flex flex-col md:flex-row items-end space-y-4 md:space-y-0 md:space-x-4 bg-[#0a1423] p-4 rounded-xl border border-gray-800">
+              <div className="flex flex-col md:flex-row items-end space-y-4 md:space-y-0 md:space-x-4 bg-[#000000] p-4 rounded-xl border border-gray-800">
                 <div className="flex-1 w-full">
                   <label className="block text-gray-400 text-xs font-bold uppercase mb-2">Bazada olan komandadan oyunçuları çək</label>
-                  <select value={selectedTeamIdForLineup} onChange={e => setSelectedTeamIdForLineup(e.target.value)} className="w-full bg-[#0d1a2d] border border-gray-700 rounded-lg p-3 text-white outline-none">
+                  <select value={selectedTeamIdForLineup} onChange={e => setSelectedTeamIdForLineup(e.target.value)} className="w-full bg-[#0a0a0a] border border-gray-700 rounded-lg p-3 text-white outline-none">
                     <option value="">Komanda seçin...</option>
                     {teams.map(t => (
                       <option key={t.id} value={t.id}>{t.name}</option>
@@ -472,9 +472,9 @@ export default function MatchesAdmin() {
                 </button>
               </div>
 
-              <div className="flex flex-col md:flex-row space-y-4 md:space-y-0 md:space-x-4 bg-[#0a1423] p-4 rounded-xl border border-gray-800 mb-6">
-                <input type="text" value={newPlayerName} onChange={e => setNewPlayerName(e.target.value)} placeholder="Oyunçu adı (Ev sahibi)..." className="flex-1 bg-[#0d1a2d] border border-gray-700 rounded-lg p-3 text-white outline-none" />
-                <input type="number" value={newPlayerNumber} onChange={e => setNewPlayerNumber(e.target.value)} placeholder="Nömrə..." className="w-full md:w-24 bg-[#0d1a2d] border border-gray-700 rounded-lg p-3 text-white outline-none" />
+              <div className="flex flex-col md:flex-row space-y-4 md:space-y-0 md:space-x-4 bg-[#000000] p-4 rounded-xl border border-gray-800 mb-6">
+                <input type="text" value={newPlayerName} onChange={e => setNewPlayerName(e.target.value)} placeholder="Oyunçu adı (Ev sahibi)..." className="flex-1 bg-[#0a0a0a] border border-gray-700 rounded-lg p-3 text-white outline-none" />
+                <input type="number" value={newPlayerNumber} onChange={e => setNewPlayerNumber(e.target.value)} placeholder="Nömrə..." className="w-full md:w-24 bg-[#0a0a0a] border border-gray-700 rounded-lg p-3 text-white outline-none" />
                 <button type="button" onClick={() => {
                   if(newPlayerName && newPlayerNumber) {
                     setYarimadaLineup([...yarimadaLineup, { id: 'manual_'+Date.now(), name: newPlayerName, number: newPlayerNumber, position: 'Oyunçu', is_starting: true, events: [] }]);
@@ -486,9 +486,9 @@ export default function MatchesAdmin() {
               </div>
 
               {yarimadaLineup.length > 0 && (
-                <div className="bg-[#0a1423] rounded-xl border border-gray-800 overflow-hidden mb-8">
+                <div className="bg-[#000000] rounded-xl border border-gray-800 overflow-hidden mb-8">
                   <table className="w-full text-left text-sm text-gray-400">
-                    <thead className="text-xs text-gray-500 uppercase bg-[#0d1a2d]">
+                    <thead className="text-xs text-gray-500 uppercase bg-[#0a0a0a]">
                       <tr>
                         <th className="px-4 py-3">№</th>
                         <th className="px-4 py-3">Oyunçu</th>
@@ -498,7 +498,7 @@ export default function MatchesAdmin() {
                     </thead>
                     <tbody>
                       {yarimadaLineup.map((p, index) => (
-                        <tr key={p.id || index} className="border-b border-gray-800/50 hover:bg-[#152741]/50">
+                        <tr key={p.id || index} className="border-b border-gray-800/50 hover:bg-[#141414]/50">
                           <td className="px-4 py-3 text-white font-bold">{p.number}</td>
                           <td className="px-4 py-3 font-medium text-white">{p.name} <span className="text-gray-500 text-[10px] ml-2 uppercase">({p.position})</span></td>
                           <td className="px-4 py-3 text-center">
@@ -529,7 +529,7 @@ export default function MatchesAdmin() {
           )}
 
           <div className="mt-8 pt-4 border-t border-gray-800">
-            <button type="submit" className="w-full bg-[#d7bf7b] text-[#152741] py-4 rounded-lg font-black text-sm uppercase tracking-widest hover:bg-white transition-colors shadow-lg shadow-[#d7bf7b]/20">
+            <button type="submit" className="w-full bg-[#d7bf7b] text-[#141414] py-4 rounded-lg font-black text-sm uppercase tracking-widest hover:bg-white transition-colors shadow-lg shadow-[#d7bf7b]/20">
               Dəyişiklikləri Yadda Saxla
             </button>
           </div>
@@ -541,11 +541,11 @@ export default function MatchesAdmin() {
       ) : (
         <div className="space-y-4">
           {matches.map(m => (
-            <div key={m.id} className={`bg-[#152741] border ${m.is_hero ? 'border-[#d7bf7b]' : 'border-gray-800'} p-4 md:p-6 rounded-xl flex flex-col md:flex-row items-center justify-between`}>
+            <div key={m.id} className={`bg-[#141414] border ${m.is_hero ? 'border-[#d7bf7b]' : 'border-gray-800'} p-4 md:p-6 rounded-xl flex flex-col md:flex-row items-center justify-between`}>
               
               <div className="flex flex-col flex-1 w-full text-center md:text-left mb-4 md:mb-0">
                 <div className="flex items-center justify-center md:justify-start space-x-2 mb-2">
-                  {m.is_hero && <span className="bg-[#d7bf7b] text-[#152741] text-[9px] font-black uppercase tracking-widest px-2 py-0.5 rounded">Ana Səhifə</span>}
+                  {m.is_hero && <span className="bg-[#d7bf7b] text-[#141414] text-[9px] font-black uppercase tracking-widest px-2 py-0.5 rounded">Ana Səhifə</span>}
                   
                   {m.status === 'live' && <span className="bg-red-500 text-white text-[9px] font-black uppercase tracking-widest px-2 py-0.5 rounded animate-pulse">Canlı: {calculateLiveMinute(m.timer_status, m.timer_started_at, m.elapsed_seconds, m.half_1_duration, m.half_2_duration, m.extra_time_1, m.extra_time_2)}</span>}
                   {m.status === 'finished' && <span className="bg-gray-700 text-white text-[9px] font-black uppercase tracking-widest px-2 py-0.5 rounded">Bitdi</span>}

@@ -28,13 +28,13 @@ export default function StandingsPage() {
   }, []);
 
   return (
-    <div className="pt-[140px] min-h-screen bg-[#0d1a2d] pb-20">
+    <div className="pt-[140px] min-h-screen bg-[#0a0a0a] pb-20">
       <div className="container mx-auto px-4 lg:px-8">
         <motion.h1 
           initial={{ opacity: 0, x: -20 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.8 }}
-          className="text-3xl font-bold text-white tracking-tight mb-8 border-b border-[#1c2d47] pb-4 flex items-center"
+          className="text-3xl font-bold text-white tracking-tight mb-8 border-b border-[#1f1f1f] pb-4 flex items-center"
         >
           <div className="relative">
             <div className="absolute -top-4 left-0 w-8 h-[2px] bg-[#d7bf7b]"></div>
@@ -45,16 +45,16 @@ export default function StandingsPage() {
         <div className="flex flex-col lg:flex-row gap-8 mt-10">
           
           {/* Sidebar */}
-          <div className="w-full lg:w-1/4 flex flex-col space-y-2 border-r border-[#1c2d47] pr-4">
-             <div className="bg-[#152741] text-white p-4 rounded-lg font-bold flex items-center justify-between cursor-pointer border-l-4 border-[#d7bf7b]">
+          <div className="w-full lg:w-1/4 flex flex-col space-y-2 border-r border-[#1f1f1f] pr-4">
+             <div className="bg-[#141414] text-white p-4 rounded-lg font-bold flex items-center justify-between cursor-pointer border-l-4 border-[#d7bf7b]">
                <span>Turnir cədvəli</span>
                <ChevronRight className="w-4 h-4 text-[#d7bf7b]" />
              </div>
-             <div className="text-gray-400 p-4 rounded-lg font-bold hover:bg-[#152741] hover:text-white transition-colors cursor-pointer flex items-center justify-between">
+             <div className="text-gray-400 p-4 rounded-lg font-bold hover:bg-[#141414] hover:text-white transition-colors cursor-pointer flex items-center justify-between">
                <span>Təqvim</span>
                <ChevronRight className="w-4 h-4" />
              </div>
-             <div className="text-gray-400 p-4 rounded-lg font-bold hover:bg-[#152741] hover:text-white transition-colors cursor-pointer flex items-center justify-between">
+             <div className="text-gray-400 p-4 rounded-lg font-bold hover:bg-[#141414] hover:text-white transition-colors cursor-pointer flex items-center justify-between">
                <span>Nəticələr</span>
                <ChevronRight className="w-4 h-4" />
              </div>
@@ -64,7 +64,7 @@ export default function StandingsPage() {
           <div className="w-full lg:w-3/4">
             
             {/* Filter */}
-            <div className="mb-6 flex flex-wrap gap-4 border-b border-[#1c2d47] pb-4">
+            <div className="mb-6 flex flex-wrap gap-4 border-b border-[#1f1f1f] pb-4">
               {leagues.map(league => (
                 <button 
                   key={league}
@@ -79,9 +79,9 @@ export default function StandingsPage() {
             {loading ? (
               <div className="text-center py-20 text-[#d7bf7b] font-medium text-sm">Yüklənir...</div>
             ) : (
-              <div className="overflow-x-auto bg-[#152741] rounded-xl border border-[#1c2d47]">
+              <div className="overflow-x-auto bg-[#141414] rounded-xl border border-[#1f1f1f]">
                 <table className="w-full text-left text-sm text-gray-300 min-w-[500px]">
-                  <thead className="bg-[#0a1423] text-gray-400 uppercase text-[10px] font-bold tracking-widest border-b border-[#1c2d47]">
+                  <thead className="bg-[#000000] text-gray-400 uppercase text-[10px] font-bold tracking-widest border-b border-[#1f1f1f]">
                     <tr>
                       <th className="py-5 px-6">Komanda</th>
                       <th className="py-5 px-2 text-center">O</th>
@@ -93,11 +93,11 @@ export default function StandingsPage() {
                       <th className="py-5 px-4 text-center text-[#d7bf7b]">Xal</th>
                     </tr>
                   </thead>
-                  <tbody className="divide-y divide-[#1c2d47]">
+                  <tbody className="divide-y divide-[#1f1f1f]">
                     {standings.filter(s => (s.tournament_name || leagues[0]) === activeLeague).map((team, idx) => (
                       <tr 
                         key={team.id} 
-                        className={`transition-colors ${team.team_name.includes('Yarımada') ? 'bg-[#d7bf7b]/5' : 'hover:bg-[#1a2e4c]'}`}
+                        className={`transition-colors ${team.team_name.includes('Yarımada') ? 'bg-[#d7bf7b]/5' : 'hover:bg-[#1a1a1a]'}`}
                       >
                         <td className="py-4 px-6 flex items-center space-x-4">
                           <span className={`w-5 font-black text-xs ${idx < 3 ? 'text-[#d7bf7b]' : 'text-gray-500'}`}>{idx + 1}</span>

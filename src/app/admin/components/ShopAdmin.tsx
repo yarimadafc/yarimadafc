@@ -150,30 +150,30 @@ export default function ShopAdmin() {
         </div>
         <button 
           onClick={() => { resetForm(); setIsAdding(!isAdding); }}
-          className="bg-[#d7bf7b] text-[#152741] px-4 py-2 rounded-lg font-bold flex items-center space-x-2 uppercase text-xs"
+          className="bg-[#d7bf7b] text-[#141414] px-4 py-2 rounded-lg font-bold flex items-center space-x-2 uppercase text-xs"
         >
           <Plus className="w-4 h-4" /> <span>{isAdding ? 'Ləğv et' : 'Yeni Məhsul'}</span>
         </button>
       </div>
 
       {isAdding && (
-        <form onSubmit={handleSave} className="bg-[#152741] p-6 rounded-2xl border border-gray-800 mb-8 space-y-6 shadow-2xl">
+        <form onSubmit={handleSave} className="bg-[#141414] p-6 rounded-2xl border border-gray-800 mb-8 space-y-6 shadow-2xl">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div>
               <label className="block text-gray-400 text-xs font-bold uppercase mb-2">Məhsul Adı</label>
-              <input type="text" value={title} onChange={e => setTitle(e.target.value)} className="w-full bg-[#0d1a2d] border border-gray-700 rounded-lg p-3 text-white focus:border-[#d7bf7b] outline-none" required />
+              <input type="text" value={title} onChange={e => setTitle(e.target.value)} className="w-full bg-[#0a0a0a] border border-gray-700 rounded-lg p-3 text-white focus:border-[#d7bf7b] outline-none" required />
             </div>
             <div>
               <label className="block text-gray-400 text-xs font-bold uppercase mb-2">Qiymət (AZN)</label>
-              <input type="number" step="0.01" value={price} onChange={e => setPrice(e.target.value)} className="w-full bg-[#0d1a2d] border border-gray-700 rounded-lg p-3 text-white focus:border-[#d7bf7b] outline-none" required />
+              <input type="number" step="0.01" value={price} onChange={e => setPrice(e.target.value)} className="w-full bg-[#0a0a0a] border border-gray-700 rounded-lg p-3 text-white focus:border-[#d7bf7b] outline-none" required />
             </div>
             <div className="md:col-span-2">
               <label className="block text-gray-400 text-xs font-bold uppercase mb-2">Məzmun (Haqqında)</label>
-              <textarea value={description} onChange={e => setDescription(e.target.value)} rows={3} className="w-full bg-[#0d1a2d] border border-gray-700 rounded-lg p-3 text-white focus:border-[#d7bf7b] outline-none"></textarea>
+              <textarea value={description} onChange={e => setDescription(e.target.value)} rows={3} className="w-full bg-[#0a0a0a] border border-gray-700 rounded-lg p-3 text-white focus:border-[#d7bf7b] outline-none"></textarea>
             </div>
             
             {/* Şəkillər */}
-            <div className="md:col-span-2 bg-[#0a1423] p-4 rounded-xl border border-gray-800">
+            <div className="md:col-span-2 bg-[#000000] p-4 rounded-xl border border-gray-800">
               <label className="block text-gray-400 text-xs font-bold uppercase mb-4">Şəkillər (1-5 ədəd)</label>
               <div className="flex flex-wrap gap-4 items-center">
                 {images.map((img, idx) => (
@@ -197,12 +197,12 @@ export default function ShopAdmin() {
             <div>
               <label className="block text-gray-400 text-xs font-bold uppercase mb-2">Rənglər (İstəyə bağlı)</label>
               <div className="flex space-x-2 mb-3">
-                <input type="text" value={colorInput} onChange={e => setColorInput(e.target.value)} onKeyDown={e => e.key === 'Enter' && (e.preventDefault(), addColor())} placeholder="Məs: Qara" className="flex-1 bg-[#0d1a2d] border border-gray-700 rounded-lg p-2 text-white text-sm" />
+                <input type="text" value={colorInput} onChange={e => setColorInput(e.target.value)} onKeyDown={e => e.key === 'Enter' && (e.preventDefault(), addColor())} placeholder="Məs: Qara" className="flex-1 bg-[#0a0a0a] border border-gray-700 rounded-lg p-2 text-white text-sm" />
                 <button type="button" onClick={addColor} className="bg-gray-700 text-white px-3 rounded-lg text-sm font-bold">Əlavə et</button>
               </div>
               <div className="flex flex-wrap gap-2">
                 {colors.map(col => (
-                  <span key={col} className="bg-[#0a1423] border border-gray-700 text-gray-300 text-xs px-2 py-1 rounded flex items-center space-x-1">
+                  <span key={col} className="bg-[#000000] border border-gray-700 text-gray-300 text-xs px-2 py-1 rounded flex items-center space-x-1">
                     <span>{col}</span><button type="button" onClick={() => removeColor(col)}><X className="w-3 h-3 text-red-400" /></button>
                   </span>
                 ))}
@@ -212,12 +212,12 @@ export default function ShopAdmin() {
             <div>
               <label className="block text-gray-400 text-xs font-bold uppercase mb-2">Ölçülər (İstəyə bağlı)</label>
               <div className="flex space-x-2 mb-3">
-                <input type="text" value={sizeInput} onChange={e => setSizeInput(e.target.value)} onKeyDown={e => e.key === 'Enter' && (e.preventDefault(), addSize())} placeholder="Məs: XL" className="flex-1 bg-[#0d1a2d] border border-gray-700 rounded-lg p-2 text-white text-sm" />
+                <input type="text" value={sizeInput} onChange={e => setSizeInput(e.target.value)} onKeyDown={e => e.key === 'Enter' && (e.preventDefault(), addSize())} placeholder="Məs: XL" className="flex-1 bg-[#0a0a0a] border border-gray-700 rounded-lg p-2 text-white text-sm" />
                 <button type="button" onClick={addSize} className="bg-gray-700 text-white px-3 rounded-lg text-sm font-bold">Əlavə et</button>
               </div>
               <div className="flex flex-wrap gap-2">
                 {sizes.map(sz => (
-                  <span key={sz} className="bg-[#0a1423] border border-gray-700 text-gray-300 text-xs px-2 py-1 rounded flex items-center space-x-1">
+                  <span key={sz} className="bg-[#000000] border border-gray-700 text-gray-300 text-xs px-2 py-1 rounded flex items-center space-x-1">
                     <span>{sz}</span><button type="button" onClick={() => removeSize(sz)}><X className="w-3 h-3 text-red-400" /></button>
                   </span>
                 ))}
@@ -226,7 +226,7 @@ export default function ShopAdmin() {
 
             <div>
               <label className="block text-gray-400 text-xs font-bold uppercase mb-2">Sifariş üçün WhatsApp (Nömrə)</label>
-              <input type="text" value={whatsapp} onChange={e => setWhatsapp(e.target.value)} className="w-full bg-[#0d1a2d] border border-gray-700 rounded-lg p-3 text-white focus:border-[#d7bf7b] outline-none" required />
+              <input type="text" value={whatsapp} onChange={e => setWhatsapp(e.target.value)} className="w-full bg-[#0a0a0a] border border-gray-700 rounded-lg p-3 text-white focus:border-[#d7bf7b] outline-none" required />
             </div>
 
           </div>
@@ -240,8 +240,8 @@ export default function ShopAdmin() {
 
       <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-6">
         {products.map(p => (
-          <div key={p.id} className="bg-[#0a1423] rounded-2xl border border-gray-800 overflow-hidden flex flex-col">
-            <div className="h-48 relative bg-[#152741]">
+          <div key={p.id} className="bg-[#000000] rounded-2xl border border-gray-800 overflow-hidden flex flex-col">
+            <div className="h-48 relative bg-[#141414]">
               {p.images && p.images.length > 0 ? (
                 <img src={p.images[0]} alt={p.title} className="w-full h-full object-cover" />
               ) : (
@@ -257,8 +257,8 @@ export default function ShopAdmin() {
               
               <div className="mt-auto space-y-2">
                 <div className="flex space-x-2 overflow-x-auto no-scrollbar">
-                  {p.colors && p.colors.length > 0 && <span className="text-[10px] text-gray-400 bg-[#152741] px-2 py-1 rounded border border-gray-700 whitespace-nowrap">Rəng: {p.colors.length}</span>}
-                  {p.sizes && p.sizes.length > 0 && <span className="text-[10px] text-gray-400 bg-[#152741] px-2 py-1 rounded border border-gray-700 whitespace-nowrap">Ölçü: {p.sizes.length}</span>}
+                  {p.colors && p.colors.length > 0 && <span className="text-[10px] text-gray-400 bg-[#141414] px-2 py-1 rounded border border-gray-700 whitespace-nowrap">Rəng: {p.colors.length}</span>}
+                  {p.sizes && p.sizes.length > 0 && <span className="text-[10px] text-gray-400 bg-[#141414] px-2 py-1 rounded border border-gray-700 whitespace-nowrap">Ölçü: {p.sizes.length}</span>}
                 </div>
                 
                 <div className="flex space-x-2 pt-2 border-t border-gray-800">

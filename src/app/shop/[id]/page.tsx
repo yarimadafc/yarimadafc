@@ -23,7 +23,7 @@ export default function ProductDetail({ params }: { params: Promise<{ id: string
 
   if (loading) {
     return (
-      <main className="min-h-screen bg-[#0a1423] pt-[140px] text-white flex items-center justify-center">
+      <main className="min-h-screen bg-[#000000] pt-[140px] text-white flex items-center justify-center">
         <div className="w-10 h-10 border-4 border-[#d7bf7b] border-t-transparent rounded-full animate-spin"></div>
       </main>
     );
@@ -31,7 +31,7 @@ export default function ProductDetail({ params }: { params: Promise<{ id: string
 
   if (!product) {
     return (
-      <main className="min-h-screen bg-[#0a1423] pt-[140px] text-white flex flex-col items-center justify-center">
+      <main className="min-h-screen bg-[#000000] pt-[140px] text-white flex flex-col items-center justify-center">
         <h1 className="text-4xl font-black mb-4">Məhsul Tapılmadı</h1>
         <Link href="/shop" className="text-[#d7bf7b] hover:underline">Mağazaya Qayıt</Link>
       </main>
@@ -42,7 +42,7 @@ export default function ProductDetail({ params }: { params: Promise<{ id: string
   const prevImage = () => setCurrentImgIdx(prev => (prev - 1 + (product.images?.length || 1)) % (product.images?.length || 1));
 
   return (
-    <main className="min-h-screen bg-[#0a1423] flex flex-col text-white">
+    <main className="min-h-screen bg-[#000000] flex flex-col text-white">
       <Navbar />
       
       <div className="flex-grow pt-28 pb-20 px-4 md:px-8">
@@ -56,10 +56,10 @@ export default function ProductDetail({ params }: { params: Promise<{ id: string
             <span className="text-[#d7bf7b] truncate max-w-[200px]">{product.title}</span>
           </div>
 
-          <div className="bg-[#152741] rounded-3xl border border-gray-800 p-6 md:p-10 flex flex-col md:flex-row gap-10">
+          <div className="bg-[#141414] rounded-3xl border border-gray-800 p-6 md:p-10 flex flex-col md:flex-row gap-10">
             {/* Sol Tərəf - Şəkil */}
             <div className="w-full md:w-1/2 flex flex-col space-y-4">
-              <div className="relative aspect-square bg-[#0d1a2d] rounded-2xl overflow-hidden group">
+              <div className="relative aspect-square bg-[#0a0a0a] rounded-2xl overflow-hidden group">
                 {product.images && product.images.length > 0 ? (
                   <>
                     <img src={product.images[currentImgIdx]} alt={product.title} className="w-full h-full object-contain" />
@@ -89,7 +89,7 @@ export default function ProductDetail({ params }: { params: Promise<{ id: string
               {product.images && product.images.length > 1 && (
                 <div className="flex space-x-3 overflow-x-auto pb-2 custom-scrollbar">
                   {product.images.map((img: string, idx: number) => (
-                    <button key={idx} onClick={() => setCurrentImgIdx(idx)} className={`flex-shrink-0 w-20 h-20 bg-[#0d1a2d] rounded-xl overflow-hidden border-2 transition-all ${currentImgIdx === idx ? 'border-[#d7bf7b] opacity-100' : 'border-transparent opacity-50 hover:opacity-100'}`}>
+                    <button key={idx} onClick={() => setCurrentImgIdx(idx)} className={`flex-shrink-0 w-20 h-20 bg-[#0a0a0a] rounded-xl overflow-hidden border-2 transition-all ${currentImgIdx === idx ? 'border-[#d7bf7b] opacity-100' : 'border-transparent opacity-50 hover:opacity-100'}`}>
                       <img src={img} alt="" className="w-full h-full object-cover" />
                     </button>
                   ))}
@@ -118,7 +118,7 @@ export default function ProductDetail({ params }: { params: Promise<{ id: string
                     <h3 className="text-gray-500 text-xs font-bold uppercase tracking-widest mb-3">Rənglər</h3>
                     <div className="flex flex-wrap gap-2">
                       {product.colors.map((c: string) => (
-                        <div key={c} className="flex items-center space-x-1.5 bg-[#0d1a2d] border border-gray-700 px-3 py-1.5 rounded-lg">
+                        <div key={c} className="flex items-center space-x-1.5 bg-[#0a0a0a] border border-gray-700 px-3 py-1.5 rounded-lg">
                           <span className="text-xs font-bold text-gray-300">{c}</span>
                         </div>
                       ))}
@@ -131,7 +131,7 @@ export default function ProductDetail({ params }: { params: Promise<{ id: string
                     <h3 className="text-gray-500 text-xs font-bold uppercase tracking-widest mb-3">Ölçülər</h3>
                     <div className="flex flex-wrap gap-2">
                       {product.sizes.map((s: string) => (
-                        <span key={s} className="bg-[#0d1a2d] border border-gray-700 text-gray-300 text-xs font-black px-3 py-1.5 rounded-lg">{s}</span>
+                        <span key={s} className="bg-[#0a0a0a] border border-gray-700 text-gray-300 text-xs font-black px-3 py-1.5 rounded-lg">{s}</span>
                       ))}
                     </div>
                   </div>
@@ -139,7 +139,7 @@ export default function ProductDetail({ params }: { params: Promise<{ id: string
               </div>
 
               {/* Xüsusiyyətlər (Static info for trust) */}
-              <div className="flex flex-col space-y-3 mb-10 bg-[#0d1a2d] p-4 rounded-xl border border-gray-800">
+              <div className="flex flex-col space-y-3 mb-10 bg-[#0a0a0a] p-4 rounded-xl border border-gray-800">
                 <div className="flex items-center text-sm font-medium text-gray-300">
                   <Check className="w-4 h-4 text-green-500 mr-3 flex-shrink-0" />
                   Yüksək keyfiyyətli material

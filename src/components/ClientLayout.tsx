@@ -15,7 +15,7 @@ export default function ClientLayout({ children }: { children: React.ReactNode }
   const isAdminPath = pathname.startsWith('/admin');
 
   return (
-    <div className="min-h-screen bg-[#0d1a2d] text-white font-sans selection:bg-[#d7bf7b] selection:text-[#0d1a2d] flex flex-col">
+    <div className="min-h-screen bg-[#0a0a0a] text-white font-sans selection:bg-[#d7bf7b] selection:text-[#0a0a0a] flex flex-col">
       {!isAdminPath && <Navbar />}
       <main className="flex-grow">
         {children}

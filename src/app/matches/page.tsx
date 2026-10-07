@@ -41,10 +41,10 @@ export default function MatchesPage() {
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
     >
-      <div className="min-h-screen bg-[#0a1423] pt-[140px] pb-20">
+      <div className="min-h-screen bg-[#000000] pt-[140px] pb-20">
         
-        <div className="w-full bg-[#152741] py-12 md:py-16 border-b border-gray-800 relative overflow-hidden">
-          <div className="absolute inset-0 bg-gradient-to-t from-[#0a1423] to-transparent"></div>
+        <div className="w-full bg-[#141414] py-12 md:py-16 border-b border-gray-800 relative overflow-hidden">
+          <div className="absolute inset-0 bg-gradient-to-t from-[#000000] to-transparent"></div>
           <div className="container mx-auto px-4 lg:px-8 relative z-10 text-center">
             <motion.h1 
               initial={{ opacity: 0, y: -20 }}
@@ -70,16 +70,16 @@ export default function MatchesPage() {
           
           {/* Tabs */}
           <div className="flex justify-center mb-12">
-            <div className="bg-[#152741] p-1 rounded-xl flex border border-gray-800">
+            <div className="bg-[#141414] p-1 rounded-xl flex border border-gray-800">
               <button 
                 onClick={() => setActiveTab('upcoming')}
-                className={`px-8 py-3 rounded-lg font-black uppercase text-xs tracking-widest transition-colors ${activeTab === 'upcoming' ? 'bg-[#d7bf7b] text-[#152741]' : 'text-gray-400 hover:text-white'}`}
+                className={`px-8 py-3 rounded-lg font-black uppercase text-xs tracking-widest transition-colors ${activeTab === 'upcoming' ? 'bg-[#d7bf7b] text-[#141414]' : 'text-gray-400 hover:text-white'}`}
               >
                 Qarşıdakı Oyunlar
               </button>
               <button 
                 onClick={() => setActiveTab('past')}
-                className={`px-8 py-3 rounded-lg font-black uppercase text-xs tracking-widest transition-colors ${activeTab === 'past' ? 'bg-[#d7bf7b] text-[#152741]' : 'text-gray-400 hover:text-white'}`}
+                className={`px-8 py-3 rounded-lg font-black uppercase text-xs tracking-widest transition-colors ${activeTab === 'past' ? 'bg-[#d7bf7b] text-[#141414]' : 'text-gray-400 hover:text-white'}`}
               >
                 Keçmiş Oyunlar
               </button>
@@ -97,7 +97,7 @@ export default function MatchesPage() {
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.4, delay: i * 0.05 }}
-                  className="bg-[#152741] rounded-2xl border border-gray-800 p-6 flex flex-col md:flex-row items-center justify-between hover:border-[#d7bf7b]/30 transition-colors shadow-lg"
+                  className="bg-[#141414] rounded-2xl border border-gray-800 p-6 flex flex-col md:flex-row items-center justify-between hover:border-[#d7bf7b]/30 transition-colors shadow-lg"
                 >
                   {/* Date & Info */}
                   <div className="flex flex-col items-center justify-center w-full md:w-1/4 mb-6 md:mb-0 border-b md:border-b-0 md:border-r border-gray-800 pb-6 md:pb-0 md:pr-6 shrink-0">
@@ -122,7 +122,7 @@ export default function MatchesPage() {
                   {/* Teams */}
                   <div className="flex items-center justify-between w-full md:w-3/4 md:pl-6">
                     <div className="flex flex-col items-center w-2/5">
-                      <div className="w-16 h-16 bg-[#0a1423] rounded-full border border-gray-700 flex items-center justify-center p-1 mb-3 shadow-inner overflow-hidden">
+                      <div className="w-16 h-16 bg-[#000000] rounded-full border border-gray-700 flex items-center justify-center p-1 mb-3 shadow-inner overflow-hidden">
                         {m.home_logo ? (
                           <img src={m.home_logo} alt={m.home_team} className="w-full h-full object-contain bg-white rounded-full p-1" />
                         ) : m.home_team.includes('Yarımada') ? (
@@ -147,7 +147,7 @@ export default function MatchesPage() {
                     </div>
 
                     <div className="flex flex-col items-center w-2/5">
-                      <div className="w-16 h-16 bg-[#0a1423] rounded-full border border-gray-700 flex items-center justify-center p-1 mb-3 shadow-inner overflow-hidden">
+                      <div className="w-16 h-16 bg-[#000000] rounded-full border border-gray-700 flex items-center justify-center p-1 mb-3 shadow-inner overflow-hidden">
                         {m.away_logo ? (
                           <img src={m.away_logo} alt={m.away_team} className="w-full h-full object-contain bg-white rounded-full p-1" />
                         ) : m.away_team.includes('Yarımada') ? (

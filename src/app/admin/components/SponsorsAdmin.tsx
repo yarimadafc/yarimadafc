@@ -91,21 +91,21 @@ export default function SponsorsAdmin() {
           <h2 className="text-2xl font-black uppercase tracking-widest text-white mb-2">Sponsorlar</h2>
           <p className="text-gray-400 text-sm">Aşağıdakı qaçan bannerdə görünəcək sponsor logoları.</p>
         </div>
-        <button onClick={() => { setIsAdding(!isAdding); setEditingId(null); setName(''); setLogoUrl(''); }} className="bg-[#d7bf7b] text-[#152741] px-4 py-2 rounded-lg font-bold text-xs uppercase tracking-widest flex items-center space-x-2">
+        <button onClick={() => { setIsAdding(!isAdding); setEditingId(null); setName(''); setLogoUrl(''); }} className="bg-[#d7bf7b] text-[#141414] px-4 py-2 rounded-lg font-bold text-xs uppercase tracking-widest flex items-center space-x-2">
           {isAdding ? <span>Ləğv Et</span> : <><Plus className="w-4 h-4" /><span>Yeni Sponsor</span></>}
         </button>
       </div>
 
       {isAdding && (
-        <form onSubmit={handleAdd} className="bg-[#152741] p-6 rounded-2xl border border-gray-800 mb-8 space-y-4">
+        <form onSubmit={handleAdd} className="bg-[#141414] p-6 rounded-2xl border border-gray-800 mb-8 space-y-4">
           <div>
             <label className="block text-gray-400 text-xs font-bold uppercase mb-2">Sponsorun Adı</label>
-            <input type="text" value={name} onChange={e => setName(e.target.value)} className="w-full bg-[#0d1a2d] border border-gray-700 rounded-lg p-3 text-white focus:border-[#d7bf7b] outline-none" required />
+            <input type="text" value={name} onChange={e => setName(e.target.value)} className="w-full bg-[#0a0a0a] border border-gray-700 rounded-lg p-3 text-white focus:border-[#d7bf7b] outline-none" required />
           </div>
           <div>
             <label className="block text-gray-400 text-xs font-bold uppercase mb-2">Sponsor Loqosu (Şəffaf PNG tövsiyə olunur)</label>
             <div className="flex items-center space-x-4">
-              <label className="bg-[#0d1a2d] border border-gray-700 hover:border-[#d7bf7b] text-gray-300 px-4 py-3 rounded-lg cursor-pointer flex items-center space-x-2 transition-colors">
+              <label className="bg-[#0a0a0a] border border-gray-700 hover:border-[#d7bf7b] text-gray-300 px-4 py-3 rounded-lg cursor-pointer flex items-center space-x-2 transition-colors">
                 <UploadCloud className="w-5 h-5" />
                 <span className="text-xs font-bold uppercase">{isUploading ? 'Yüklənir...' : 'Loqo Seç'}</span>
                 <input type="file" accept="image/*" onChange={handleImageUpload} className="hidden" />
@@ -113,7 +113,7 @@ export default function SponsorsAdmin() {
               {logoUrl && <img src={logoUrl} alt="Preview" className="h-12 object-contain bg-white rounded p-1" />}
             </div>
           </div>
-          <button type="submit" className="w-full bg-[#d7bf7b] text-[#152741] py-3 rounded-lg font-bold text-xs uppercase hover:bg-white transition-colors">Yadda Saxla</button>
+          <button type="submit" className="w-full bg-[#d7bf7b] text-[#141414] py-3 rounded-lg font-bold text-xs uppercase hover:bg-white transition-colors">Yadda Saxla</button>
         </form>
       )}
 
@@ -122,8 +122,8 @@ export default function SponsorsAdmin() {
       ) : (
         <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-6">
           {sponsors.map(s => (
-            <div key={s.id} className="bg-[#152741] border border-gray-800 p-4 rounded-xl text-center flex flex-col justify-between items-center">
-              {s.logo_url ? <img src={s.logo_url} alt={s.name} className="h-16 w-full object-contain mb-4 bg-white rounded p-2" /> : <div className="h-16 w-full flex items-center justify-center mb-4 bg-[#0d1a2d] rounded border border-gray-700 text-[10px] text-gray-500 font-bold uppercase tracking-widest">Loqo yoxdur</div>}
+            <div key={s.id} className="bg-[#141414] border border-gray-800 p-4 rounded-xl text-center flex flex-col justify-between items-center">
+              {s.logo_url ? <img src={s.logo_url} alt={s.name} className="h-16 w-full object-contain mb-4 bg-white rounded p-2" /> : <div className="h-16 w-full flex items-center justify-center mb-4 bg-[#0a0a0a] rounded border border-gray-700 text-[10px] text-gray-500 font-bold uppercase tracking-widest">Loqo yoxdur</div>}
               <div className="text-white text-xs font-bold uppercase truncate w-full mb-3">{s.name}</div>
               <div className="flex space-x-4 w-full justify-center">
                 <button onClick={() => handleEdit(s)} className="text-blue-400 text-xs font-bold uppercase flex items-center justify-center hover:text-blue-300">

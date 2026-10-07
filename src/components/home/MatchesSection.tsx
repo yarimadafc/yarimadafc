@@ -17,7 +17,7 @@ export default function MatchesSection() {
   }, []);
 
   return (
-    <section className="bg-[#0a1423] py-20 border-b border-[#1c2d47]">
+    <section className="bg-[#000000] py-20 border-b border-[#1f1f1f]">
       <div className="container mx-auto px-4 lg:px-8">
         
         {/* Header */}
@@ -51,14 +51,14 @@ export default function MatchesSection() {
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: i * 0.1 }}
                 viewport={{ once: true }}
-                className="bg-[#0d1a2d] rounded-xl border border-[#1c2d47] flex flex-col items-center pt-6 pb-4 hover:border-[#1a2e4c] transition-colors group"
+                className="bg-[#0a0a0a] rounded-xl border border-[#1f1f1f] flex flex-col items-center pt-6 pb-4 hover:border-[#1a1a1a] transition-colors group"
               >
                 {/* League */}
                 <div className="text-white font-bold text-[15px] mb-4 text-center">
                   {m.tournament || 'Yoldaşlıq'}
                 </div>
                 
-                <div className="w-full h-px bg-[#1c2d47] mb-4"></div>
+                <div className="w-full h-px bg-[#1f1f1f] mb-4"></div>
 
                 {/* Date & Stadium */}
                 <div className="text-gray-400 text-[11px] font-medium text-center mb-6">
@@ -75,7 +75,7 @@ export default function MatchesSection() {
                       ) : m.home_team?.includes('Yarımada') ? (
                         <img src="/Logo.JPG.jpeg" alt="Yarımada" className="w-10 h-10 object-cover rounded-full" />
                       ) : (
-                        <div className="w-10 h-10 bg-[#152741] rounded-full flex items-center justify-center text-[10px] text-gray-500 text-center leading-none px-1 overflow-hidden">{m.home_team?.substring(0,3)}</div>
+                        <div className="w-10 h-10 bg-[#141414] rounded-full flex items-center justify-center text-[10px] text-gray-500 text-center leading-none px-1 overflow-hidden">{m.home_team?.substring(0,3)}</div>
                       )}
                     </div>
                     <span className="text-white font-medium text-[11px] text-center leading-tight truncate w-full">{m.home_team}</span>
@@ -94,7 +94,7 @@ export default function MatchesSection() {
                       ) : m.away_team?.includes('Yarımada') ? (
                         <img src="/Logo.JPG.jpeg" alt="Yarımada" className="w-10 h-10 object-cover rounded-full" />
                       ) : (
-                        <div className="w-10 h-10 bg-[#152741] rounded-full flex items-center justify-center text-[10px] text-gray-500 text-center leading-none px-1 overflow-hidden">{m.away_team?.substring(0,3)}</div>
+                        <div className="w-10 h-10 bg-[#141414] rounded-full flex items-center justify-center text-[10px] text-gray-500 text-center leading-none px-1 overflow-hidden">{m.away_team?.substring(0,3)}</div>
                       )}
                     </div>
                     <span className="text-white font-medium text-[11px] text-center leading-tight truncate w-full">{m.away_team}</span>
@@ -112,7 +112,7 @@ export default function MatchesSection() {
             ))}
           </div>
         ) : (
-          <div className="flex justify-center items-center h-40 border border-[#1c2d47] rounded-xl">
+          <div className="flex justify-center items-center h-40 border border-[#1f1f1f] rounded-xl">
             <p className="text-gray-500 font-medium text-sm text-center">
               Hazırda təyin olunmuş oyun yoxdur.
             </p>

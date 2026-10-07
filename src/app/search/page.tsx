@@ -80,10 +80,10 @@ function SearchResults() {
         <div className="space-y-4">
           {results.map((r, i) => (
             <Link href={r.link} key={i}>
-              <div className="bg-[#152741] p-6 rounded-xl border border-gray-800 hover:border-[#d7bf7b]/50 transition-colors cursor-pointer group mb-4 block">
+              <div className="bg-[#141414] p-6 rounded-xl border border-gray-800 hover:border-[#d7bf7b]/50 transition-colors cursor-pointer group mb-4 block">
                 <div className="flex justify-between items-start mb-2">
                   <h3 className="text-xl font-bold text-white group-hover:text-[#d7bf7b] transition-colors">{r.title}</h3>
-                  <span className="text-[10px] uppercase font-bold tracking-widest bg-[#0a1423] text-[#d7bf7b] px-3 py-1 rounded-lg border border-[#d7bf7b]/20">
+                  <span className="text-[10px] uppercase font-bold tracking-widest bg-[#000000] text-[#d7bf7b] px-3 py-1 rounded-lg border border-[#d7bf7b]/20">
                     {r.type}
                   </span>
                 </div>
@@ -93,7 +93,7 @@ function SearchResults() {
           ))}
         </div>
       ) : (
-        <div className="bg-[#152741] p-12 rounded-2xl border border-gray-800 text-center">
+        <div className="bg-[#141414] p-12 rounded-2xl border border-gray-800 text-center">
           <div className="text-5xl mb-4">🔍</div>
           <h3 className="text-white font-bold text-xl mb-2">Heç nə tapılmadı</h3>
           <p className="text-gray-500">"{query}" sorğunuza uyğun nəticə yoxdur. Başqa sözlərlə yoxlayın.</p>
@@ -106,7 +106,7 @@ function SearchResults() {
 export default function SearchPage() {
   return (
     <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
-      <div className="min-h-screen bg-[#0a1423] pt-[140px] pb-20">
+      <div className="min-h-screen bg-[#000000] pt-[140px] pb-20">
         <div className="container mx-auto px-4 lg:px-8 max-w-4xl">
           <Suspense fallback={<div className="text-white">Yüklənir...</div>}>
             <SearchResults />

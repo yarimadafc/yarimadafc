@@ -26,7 +26,7 @@ export default function ContactPage() {
           <div className="flex flex-col space-y-8">
             {/* Phone */}
             <div className="flex items-start space-x-6">
-              <div className="w-14 h-14 bg-[#152741] border border-gray-800 rounded-2xl flex items-center justify-center flex-shrink-0 text-[#d7bf7b]">
+              <div className="w-14 h-14 bg-[#141414] border border-gray-800 rounded-2xl flex items-center justify-center flex-shrink-0 text-[#d7bf7b]">
                 <Phone className="w-6 h-6" />
               </div>
               <div className="flex flex-col">
@@ -39,7 +39,7 @@ export default function ContactPage() {
 
             {/* Email */}
             <div className="flex items-start space-x-6">
-              <div className="w-14 h-14 bg-[#152741] border border-gray-800 rounded-2xl flex items-center justify-center flex-shrink-0 text-[#d7bf7b]">
+              <div className="w-14 h-14 bg-[#141414] border border-gray-800 rounded-2xl flex items-center justify-center flex-shrink-0 text-[#d7bf7b]">
                 <Mail className="w-6 h-6" />
               </div>
               <div className="flex flex-col">
@@ -52,7 +52,7 @@ export default function ContactPage() {
 
             {/* Address */}
             <div className="flex items-start space-x-6">
-              <div className="w-14 h-14 bg-[#152741] border border-gray-800 rounded-2xl flex items-center justify-center flex-shrink-0 text-[#d7bf7b]">
+              <div className="w-14 h-14 bg-[#141414] border border-gray-800 rounded-2xl flex items-center justify-center flex-shrink-0 text-[#d7bf7b]">
                 <MapPin className="w-6 h-6" />
               </div>
               <div className="flex flex-col">
@@ -71,7 +71,7 @@ export default function ContactPage() {
           initial={{ opacity: 0, x: 50 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.8, delay: 0.4 }}
-          className="bg-[#152741] p-4 md:p-6 rounded-3xl border border-gray-800 shadow-2xl w-full h-[400px] lg:h-auto overflow-hidden relative"
+          className="bg-[#141414] p-4 md:p-6 rounded-3xl border border-gray-800 shadow-2xl w-full h-[400px] lg:h-auto overflow-hidden relative"
         >
           <iframe 
             src="https://maps.google.com/maps?q=Kristal+Abşeron+1,Xırdalan&hl=az&z=15&output=embed" 

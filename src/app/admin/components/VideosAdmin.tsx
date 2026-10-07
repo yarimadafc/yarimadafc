@@ -87,22 +87,22 @@ export default function VideosAdmin() {
           <h2 className="text-2xl font-black uppercase tracking-widest text-white mb-2">Videolar İdarəetməsi</h2>
           <p className="text-gray-400 text-sm">Youtube linki əlavə etmək kifayətdir, şəkil avtomatik çəkiləcək.</p>
         </div>
-        <button onClick={() => setIsAdding(!isAdding)} className="bg-[#d7bf7b] text-[#152741] px-4 py-2 rounded-lg font-bold text-xs uppercase tracking-widest flex items-center space-x-2 hover:bg-white transition-colors">
+        <button onClick={() => setIsAdding(!isAdding)} className="bg-[#d7bf7b] text-[#141414] px-4 py-2 rounded-lg font-bold text-xs uppercase tracking-widest flex items-center space-x-2 hover:bg-white transition-colors">
           {isAdding ? <span onClick={() => { setEditingId(null); setTitle(''); setUrl(''); }}>Ləğv Et</span> : <><Plus className="w-4 h-4" /><span>Yeni Video</span></>}
         </button>
       </div>
 
       {isAdding && (
-        <form onSubmit={handleAddVideo} className="bg-[#152741] p-6 rounded-2xl border border-gray-800 mb-8 space-y-4">
+        <form onSubmit={handleAddVideo} className="bg-[#141414] p-6 rounded-2xl border border-gray-800 mb-8 space-y-4">
           <div>
             <label className="block text-gray-400 text-xs font-bold uppercase tracking-widest mb-2">Video Başlığı</label>
-            <input type="text" value={title} onChange={e => setTitle(e.target.value)} className="w-full bg-[#0d1a2d] border border-gray-700 rounded-lg p-3 text-white focus:border-[#d7bf7b] outline-none" required />
+            <input type="text" value={title} onChange={e => setTitle(e.target.value)} className="w-full bg-[#0a0a0a] border border-gray-700 rounded-lg p-3 text-white focus:border-[#d7bf7b] outline-none" required />
           </div>
           <div>
             <label className="block text-gray-400 text-xs font-bold uppercase tracking-widest mb-2">YouTube Linki</label>
-            <input type="url" value={url} onChange={e => setUrl(e.target.value)} placeholder="https://youtube.com/watch?v=..." className="w-full bg-[#0d1a2d] border border-gray-700 rounded-lg p-3 text-white focus:border-[#d7bf7b] outline-none" required />
+            <input type="url" value={url} onChange={e => setUrl(e.target.value)} placeholder="https://youtube.com/watch?v=..." className="w-full bg-[#0a0a0a] border border-gray-700 rounded-lg p-3 text-white focus:border-[#d7bf7b] outline-none" required />
           </div>
-          <button type="submit" className="w-full bg-[#d7bf7b] text-[#152741] py-3 rounded-lg font-bold text-xs uppercase tracking-widest hover:bg-white transition-colors">Yadda Saxla</button>
+          <button type="submit" className="w-full bg-[#d7bf7b] text-[#141414] py-3 rounded-lg font-bold text-xs uppercase tracking-widest hover:bg-white transition-colors">Yadda Saxla</button>
         </form>
       )}
 
@@ -111,7 +111,7 @@ export default function VideosAdmin() {
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {videos.map(v => (
-            <div key={v.id} className="bg-[#152741] border border-gray-800 rounded-2xl overflow-hidden flex flex-col">
+            <div key={v.id} className="bg-[#141414] border border-gray-800 rounded-2xl overflow-hidden flex flex-col">
               <div className="h-32 relative">
                  <img src={v.thumbnail_url} alt={v.title} className="w-full h-full object-cover" />
                  <div className="absolute inset-0 flex items-center justify-center bg-black/30">

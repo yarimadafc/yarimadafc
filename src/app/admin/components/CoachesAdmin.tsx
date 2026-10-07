@@ -122,35 +122,35 @@ export default function CoachesAdmin() {
           <h2 className="text-2xl font-black uppercase tracking-widest text-white mb-2">Məşqçilər İdarəetməsi</h2>
           <p className="text-gray-400 text-sm">Akademiya və komanda məşqçilərini idarə edin.</p>
         </div>
-        <button onClick={() => { setIsAdding(!isAdding); setEditingId(null); resetForm(); }} className="bg-[#d7bf7b] text-[#152741] px-4 py-2 rounded-lg font-bold text-xs uppercase tracking-widest flex items-center space-x-2">
+        <button onClick={() => { setIsAdding(!isAdding); setEditingId(null); resetForm(); }} className="bg-[#d7bf7b] text-[#141414] px-4 py-2 rounded-lg font-bold text-xs uppercase tracking-widest flex items-center space-x-2">
           {isAdding ? <span>Ləğv Et</span> : <><Plus className="w-4 h-4" /><span>Yeni Məşqçi</span></>}
         </button>
       </div>
 
       {isAdding && (
-        <form onSubmit={handleSave} className="bg-[#152741] p-6 rounded-2xl border border-gray-800 mb-8 grid grid-cols-1 md:grid-cols-2 gap-4">
-          <div><label className="block text-gray-400 text-xs font-bold uppercase mb-2">Ad Soyad</label><input type="text" value={name} onChange={e => setName(e.target.value)} className="w-full bg-[#0d1a2d] border border-gray-700 rounded-lg p-3 text-white" required /></div>
-          <div><label className="block text-gray-400 text-xs font-bold uppercase mb-2">Vəzifə</label><input type="text" value={role} onChange={e => setRole(e.target.value)} placeholder="Məs: Baş Məşqçi" className="w-full bg-[#0d1a2d] border border-gray-700 rounded-lg p-3 text-white" required /></div>
+        <form onSubmit={handleSave} className="bg-[#141414] p-6 rounded-2xl border border-gray-800 mb-8 grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div><label className="block text-gray-400 text-xs font-bold uppercase mb-2">Ad Soyad</label><input type="text" value={name} onChange={e => setName(e.target.value)} className="w-full bg-[#0a0a0a] border border-gray-700 rounded-lg p-3 text-white" required /></div>
+          <div><label className="block text-gray-400 text-xs font-bold uppercase mb-2">Vəzifə</label><input type="text" value={role} onChange={e => setRole(e.target.value)} placeholder="Məs: Baş Məşqçi" className="w-full bg-[#0a0a0a] border border-gray-700 rounded-lg p-3 text-white" required /></div>
           <div>
             <label className="block text-gray-400 text-xs font-bold uppercase mb-2">Aid Olduğu Komanda</label>
-            <select value={teamId} onChange={e => setTeamId(e.target.value)} className="w-full bg-[#0d1a2d] border border-gray-700 rounded-lg p-3 text-white">
+            <select value={teamId} onChange={e => setTeamId(e.target.value)} className="w-full bg-[#0a0a0a] border border-gray-700 rounded-lg p-3 text-white">
               <option value="">Heç biri / Ümumi</option>
               {teams.map(t => <option key={t.id} value={t.id}>{t.name}</option>)}
             </select>
           </div>
           <div className="md:col-span-2">
             <label className="block text-gray-400 text-xs font-bold uppercase mb-2">Haqqında (Bio)</label>
-            <textarea value={bio} onChange={e => setBio(e.target.value)} placeholder="Məşqçi haqqında məlumat..." className="w-full bg-[#0d1a2d] border border-gray-700 rounded-lg p-3 text-white h-24 custom-scrollbar" />
+            <textarea value={bio} onChange={e => setBio(e.target.value)} placeholder="Məşqçi haqqında məlumat..." className="w-full bg-[#0a0a0a] border border-gray-700 rounded-lg p-3 text-white h-24 custom-scrollbar" />
           </div>
           <div className="md:col-span-2">
             <label className="block text-gray-400 text-xs font-bold uppercase mb-2">Məşqçinin Şəkli (3:4 formatı tövsiyə olunur)</label>
             {imageUrl ? (
-              <div className="relative w-32 h-40 bg-[#0d1a2d] border border-gray-700 rounded-lg overflow-hidden group">
+              <div className="relative w-32 h-40 bg-[#0a0a0a] border border-gray-700 rounded-lg overflow-hidden group">
                 <img src={imageUrl} alt="Preview" className="w-full h-full object-cover" />
                 <button type="button" onClick={() => setImageUrl('')} className="absolute inset-0 bg-red-500/80 text-white font-bold opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">SIL</button>
               </div>
             ) : (
-              <label className={`w-full flex items-center justify-center space-x-2 bg-[#0d1a2d] border border-gray-700 rounded-lg p-4 cursor-pointer hover:border-[#d7bf7b] transition-colors ${uploadingImage ? 'opacity-50' : ''}`}>
+              <label className={`w-full flex items-center justify-center space-x-2 bg-[#0a0a0a] border border-gray-700 rounded-lg p-4 cursor-pointer hover:border-[#d7bf7b] transition-colors ${uploadingImage ? 'opacity-50' : ''}`}>
                 <UploadCloud className="w-5 h-5 text-gray-400" />
                 <span className="text-gray-400 text-xs font-bold uppercase">{uploadingImage ? 'YÜKLƏNİR...' : 'CİHAZDAN ŞƏKİL SEÇ'}</span>
                 <input 
@@ -182,14 +182,14 @@ export default function CoachesAdmin() {
             )}
           </div>
 
-          <div className="md:col-span-2"><button type="submit" className="w-full bg-[#d7bf7b] text-[#152741] py-3 rounded-lg font-bold text-xs uppercase tracking-widest">Yadda Saxla</button></div>
+          <div className="md:col-span-2"><button type="submit" className="w-full bg-[#d7bf7b] text-[#141414] py-3 rounded-lg font-bold text-xs uppercase tracking-widest">Yadda Saxla</button></div>
         </form>
       )}
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         {coaches.map(c => (
-          <div key={c.id} className="bg-[#152741] rounded-2xl border border-gray-800 p-6 flex flex-col items-center text-center">
-            <div className="w-24 h-24 rounded-full bg-[#0d1a2d] border-2 border-gray-700 mb-4 overflow-hidden">
+          <div key={c.id} className="bg-[#141414] rounded-2xl border border-gray-800 p-6 flex flex-col items-center text-center">
+            <div className="w-24 h-24 rounded-full bg-[#0a0a0a] border-2 border-gray-700 mb-4 overflow-hidden">
                <img src={c.image_url || '/Logo.JPG.jpeg'} alt={c.name} className="w-full h-full object-cover" />
             </div>
             <h3 className="text-white font-black uppercase tracking-widest text-sm mb-1">{c.name}</h3>

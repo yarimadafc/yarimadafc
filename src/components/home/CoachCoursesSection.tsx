@@ -20,7 +20,7 @@ export default function CoachCoursesSection() {
   if (courses.length === 0) return null;
 
   return (
-    <section id="courses" className="bg-[#0a1423] py-24 border-b border-gray-800 relative overflow-hidden">
+    <section id="courses" className="bg-[#000000] py-24 border-b border-gray-800 relative overflow-hidden">
       <div className="absolute top-0 right-0 w-96 h-96 bg-[#d7bf7b]/5 rounded-full blur-3xl pointer-events-none"></div>
       <div className="container mx-auto px-4 lg:px-8 relative z-10">
         <motion.div 
@@ -48,7 +48,7 @@ export default function CoachCoursesSection() {
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: i * 0.1 }}
               viewport={{ once: true }}
-              className="group cursor-pointer bg-[#152741] rounded-3xl overflow-hidden border border-gray-800 hover:border-[#d7bf7b]/50 transition-colors shadow-xl hover:shadow-2xl"
+              className="group cursor-pointer bg-[#141414] rounded-3xl overflow-hidden border border-gray-800 hover:border-[#d7bf7b]/50 transition-colors shadow-xl hover:shadow-2xl"
             >
               <div className="relative h-56 overflow-hidden">
                 <img 

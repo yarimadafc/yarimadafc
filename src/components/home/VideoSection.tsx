@@ -34,7 +34,7 @@ export default function VideoSection() {
   const smallVideos = videos.slice(1, 4);
 
   return (
-    <section className="bg-[#0d1a2d] py-20 border-b border-gray-800/50 overflow-hidden relative">
+    <section className="bg-[#0a0a0a] py-20 border-b border-gray-800/50 overflow-hidden relative">
       <div className="container mx-auto px-4 lg:px-8">
         
         {/* Header */}
@@ -76,7 +76,7 @@ export default function VideoSection() {
                      {/* Play Button Overlay */}
                      <div className="absolute bottom-4 md:bottom-6 lg:bottom-12 left-4 md:left-6 lg:left-12 right-4 flex flex-col items-start z-10">
                        <div className="w-10 h-10 md:w-14 md:h-14 lg:w-16 lg:h-16 bg-[#d7bf7b] rounded-xl flex items-center justify-center mb-3 md:mb-6 shadow-lg shadow-black/50 group-hover:bg-white transition-colors">
-                         <Play className="w-5 h-5 md:w-6 md:h-6 lg:w-8 lg:h-8 text-[#152741] fill-current ml-1" />
+                         <Play className="w-5 h-5 md:w-6 md:h-6 lg:w-8 lg:h-8 text-[#141414] fill-current ml-1" />
                        </div>
                        <h3 className="text-white font-black text-lg sm:text-xl md:text-2xl lg:text-4xl uppercase tracking-tight leading-tight max-w-2xl group-hover:text-[#d7bf7b] transition-colors drop-shadow-md line-clamp-3">
                          {mainVideo.title}
@@ -120,7 +120,7 @@ export default function VideoSection() {
                         <div className="cursor-pointer absolute inset-0 w-full h-full" onClick={() => setPlayingId(video.id)}>
                           <img src={video.thumbnail_url} alt={video.title} className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
                           <div className="absolute bottom-2 left-2 w-8 h-8 bg-[#d7bf7b] rounded-lg flex items-center justify-center shadow-md group-hover:bg-white transition-colors z-10">
-                            <Play className="w-4 h-4 text-[#152741] fill-current ml-0.5" />
+                            <Play className="w-4 h-4 text-[#141414] fill-current ml-0.5" />
                           </div>
                         </div>
                       )}

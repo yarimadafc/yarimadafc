@@ -22,7 +22,7 @@ export default function LeadershipDetailPage() {
 
   if (loading) {
     return (
-      <div className="pt-[140px] min-h-screen bg-[#0a1423] pb-20 flex justify-center">
+      <div className="pt-[140px] min-h-screen bg-[#000000] pb-20 flex justify-center">
         <div className="text-[#d7bf7b] font-bold tracking-widest uppercase animate-pulse">Yüklənir...</div>
       </div>
     );
@@ -30,7 +30,7 @@ export default function LeadershipDetailPage() {
 
   if (!person) {
     return (
-      <div className="pt-[140px] min-h-screen bg-[#0a1423] pb-20 flex flex-col items-center justify-center">
+      <div className="pt-[140px] min-h-screen bg-[#000000] pb-20 flex flex-col items-center justify-center">
         <div className="text-red-400 font-bold tracking-widest uppercase mb-4">Şəxs tapılmadı</div>
         <Link href="/club" className="text-[#d7bf7b] hover:underline">Haqqımızda səhifəsinə qayıt</Link>
       </div>
@@ -38,12 +38,12 @@ export default function LeadershipDetailPage() {
   }
 
   return (
-    <div className="pt-[140px] min-h-screen bg-[#0a1423] pb-20">
+    <div className="pt-[140px] min-h-screen bg-[#000000] pb-20">
       <div className="container mx-auto px-4 lg:px-8 mt-10">
-        <div className="bg-[#152741] rounded-3xl border border-gray-800 overflow-hidden shadow-2xl flex flex-col md:flex-row max-w-5xl mx-auto">
+        <div className="bg-[#141414] rounded-3xl border border-gray-800 overflow-hidden shadow-2xl flex flex-col md:flex-row max-w-5xl mx-auto">
           
           {/* Photo */}
-          <div className="w-full md:w-1/4 xl:w-1/5 h-[300px] md:h-[400px] relative bg-[#0d1a2d] flex-shrink-0 border-r border-gray-800">
+          <div className="w-full md:w-1/4 xl:w-1/5 h-[300px] md:h-[400px] relative bg-[#0a0a0a] flex-shrink-0 border-r border-gray-800">
             {person.image_url ? (
               <img src={person.image_url} alt={person.name} className="absolute inset-0 w-full h-full object-contain object-top pt-4 opacity-90" />
             ) : (
@@ -51,7 +51,7 @@ export default function LeadershipDetailPage() {
                  <svg className="w-24 h-24 text-gray-700" fill="currentColor" viewBox="0 0 20 20"><path fillRule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clipRule="evenodd" /></svg>
               </div>
             )}
-            <div className="absolute inset-0 bg-gradient-to-t from-[#0a1423] md:from-transparent to-transparent"></div>
+            <div className="absolute inset-0 bg-gradient-to-t from-[#000000] md:from-transparent to-transparent"></div>
           </div>
 
           {/* Details */}

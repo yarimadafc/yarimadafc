@@ -59,45 +59,45 @@ export default function TextsAdmin() {
       </div>
 
       <div className="space-y-6 max-w-2xl">
-        <div className="bg-[#152741] p-6 rounded-2xl border border-gray-800">
+        <div className="bg-[#141414] p-6 rounded-2xl border border-gray-800">
           <label className="block text-gray-400 text-xs font-bold uppercase tracking-widest mb-2">Giriş Başlığı (Sətir 1)</label>
           <div className="flex space-x-4">
             <input 
               type="text" 
               value={texts['hero_title_1'] || ''} 
               onChange={e => handleChange('hero_title_1', e.target.value)} 
-              className="flex-1 bg-[#0d1a2d] border border-gray-700 rounded-lg p-3 text-white focus:border-[#d7bf7b] outline-none" 
+              className="flex-1 bg-[#0a0a0a] border border-gray-700 rounded-lg p-3 text-white focus:border-[#d7bf7b] outline-none" 
             />
-            <button onClick={() => handleSave('hero_title_1')} disabled={saving} className="bg-[#d7bf7b] text-[#152741] px-4 rounded-lg font-bold uppercase text-xs flex items-center space-x-2">
+            <button onClick={() => handleSave('hero_title_1')} disabled={saving} className="bg-[#d7bf7b] text-[#141414] px-4 rounded-lg font-bold uppercase text-xs flex items-center space-x-2">
               <Save className="w-4 h-4" /> <span>Yadda Saxla</span>
             </button>
           </div>
         </div>
 
-        <div className="bg-[#152741] p-6 rounded-2xl border border-gray-800">
+        <div className="bg-[#141414] p-6 rounded-2xl border border-gray-800">
           <label className="block text-gray-400 text-xs font-bold uppercase tracking-widest mb-2">Giriş Başlığı (Sətir 2 - Sarı Rəng)</label>
           <div className="flex space-x-4">
             <input 
               type="text" 
               value={texts['hero_title_2'] || ''} 
               onChange={e => handleChange('hero_title_2', e.target.value)} 
-              className="flex-1 bg-[#0d1a2d] border border-gray-700 rounded-lg p-3 text-white focus:border-[#d7bf7b] outline-none" 
+              className="flex-1 bg-[#0a0a0a] border border-gray-700 rounded-lg p-3 text-white focus:border-[#d7bf7b] outline-none" 
             />
-            <button onClick={() => handleSave('hero_title_2')} disabled={saving} className="bg-[#d7bf7b] text-[#152741] px-4 rounded-lg font-bold uppercase text-xs flex items-center space-x-2">
+            <button onClick={() => handleSave('hero_title_2')} disabled={saving} className="bg-[#d7bf7b] text-[#141414] px-4 rounded-lg font-bold uppercase text-xs flex items-center space-x-2">
               <Save className="w-4 h-4" /> <span>Yadda Saxla</span>
             </button>
           </div>
         </div>
 
-        <div className="bg-[#152741] p-6 rounded-2xl border border-gray-800">
+        <div className="bg-[#141414] p-6 rounded-2xl border border-gray-800">
           <label className="block text-gray-400 text-xs font-bold uppercase tracking-widest mb-2">Giriş Alt Mətni</label>
           <div className="flex space-x-4 items-start">
             <textarea 
               value={texts['hero_subtitle'] || ''} 
               onChange={e => handleChange('hero_subtitle', e.target.value)} 
-              className="flex-1 bg-[#0d1a2d] border border-gray-700 rounded-lg p-3 text-white focus:border-[#d7bf7b] outline-none h-24" 
+              className="flex-1 bg-[#0a0a0a] border border-gray-700 rounded-lg p-3 text-white focus:border-[#d7bf7b] outline-none h-24" 
             />
-            <button onClick={() => handleSave('hero_subtitle')} disabled={saving} className="bg-[#d7bf7b] text-[#152741] px-4 py-3 rounded-lg font-bold uppercase text-xs flex items-center space-x-2 h-[50px]">
+            <button onClick={() => handleSave('hero_subtitle')} disabled={saving} className="bg-[#d7bf7b] text-[#141414] px-4 py-3 rounded-lg font-bold uppercase text-xs flex items-center space-x-2 h-[50px]">
               <Save className="w-4 h-4" /> <span>Yadda Saxla</span>
             </button>
           </div>

@@ -83,7 +83,7 @@ export default function Navbar() {
       className="fixed w-full top-0 z-50 flex flex-col"
     >
       {/* Top Bar */}
-      <div className="bg-[#0a1423]">
+      <div className="bg-[#000000]">
         <div className="container mx-auto px-4 lg:px-8 h-12 flex items-center justify-between">
           {/* Left: Phone & Slogan */}
           <div className="flex items-center justify-center sm:justify-between w-full lg:w-auto lg:space-x-6">
@@ -120,7 +120,7 @@ export default function Navbar() {
       </div>
 
       {/* Main Navbar */}
-      <div className="bg-[#0d1a2d]/95 backdrop-blur-md border-b border-gray-800 shadow-xl">
+      <div className="bg-[#0a0a0a]/95 backdrop-blur-md border-b border-gray-800 shadow-xl">
         <div className="container mx-auto px-4 lg:px-8">
           <div className="flex items-center justify-between h-20 md:h-24">
             
@@ -168,7 +168,7 @@ export default function Navbar() {
               >
                 {isSearchOpen ? <X className="w-5 h-5" /> : <Search className="w-5 h-5" />}
               </button>
-              <Link href="/contact" className="bg-[#d7bf7b] text-[#152741] hover:bg-white transition-colors font-black text-[11px] tracking-widest px-6 py-2.5 rounded-full uppercase">
+              <Link href="/contact" className="bg-[#d7bf7b] text-[#141414] hover:bg-white transition-colors font-black text-[11px] tracking-widest px-6 py-2.5 rounded-full uppercase">
                 BİZƏ QOŞUL
               </Link>
             </div>
@@ -198,7 +198,7 @@ export default function Navbar() {
               initial={{ height: 0, opacity: 0 }}
               animate={{ height: 'auto', opacity: 1 }}
               exit={{ height: 0, opacity: 0 }}
-              className="w-full bg-[#152741] border-t border-gray-800 overflow-hidden"
+              className="w-full bg-[#141414] border-t border-gray-800 overflow-hidden"
             >
               <form onSubmit={handleSearch} className="container mx-auto px-4 lg:px-8 py-4">
                 <div className="relative">
@@ -208,10 +208,10 @@ export default function Navbar() {
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
                     placeholder="Saytda axtarış..." 
-                    className="w-full bg-[#0d1a2d] text-white border border-gray-700 rounded-lg py-3 px-4 pl-12 focus:outline-none focus:border-[#d7bf7b] transition-colors"
+                    className="w-full bg-[#0a0a0a] text-white border border-gray-700 rounded-lg py-3 px-4 pl-12 focus:outline-none focus:border-[#d7bf7b] transition-colors"
                   />
                   <Search className="absolute left-4 top-3.5 w-5 h-5 text-gray-400" />
-                  <button type="submit" className="absolute right-2 top-2 bg-[#d7bf7b] text-[#152741] px-4 py-1.5 rounded-md font-bold text-sm hover:bg-white transition-colors">
+                  <button type="submit" className="absolute right-2 top-2 bg-[#d7bf7b] text-[#141414] px-4 py-1.5 rounded-md font-bold text-sm hover:bg-white transition-colors">
                     Axtar
                   </button>
                 </div>
@@ -227,7 +227,7 @@ export default function Navbar() {
               initial={{ height: 0, opacity: 0 }}
               animate={{ height: 'auto', opacity: 1 }}
               exit={{ height: 0, opacity: 0 }}
-              className="xl:hidden bg-[#0d1a2d] border-t border-gray-800 absolute w-full overflow-hidden shadow-2xl max-h-[85vh] overflow-y-auto"
+              className="xl:hidden bg-[#0a0a0a] border-t border-gray-800 absolute w-full overflow-hidden shadow-2xl max-h-[85vh] overflow-y-auto"
             >
               <div className="px-6 py-4 space-y-1">
                 <div className="flex items-center justify-center mb-6 px-2 mt-4">
@@ -253,7 +253,7 @@ export default function Navbar() {
                 ))}
                 
                 <div className="pt-6 pb-4 flex">
-                  <Link href="/contact" onClick={() => setIsOpen(false)} className="bg-[#d7bf7b] text-[#152741] w-full text-center hover:bg-white transition-colors font-black text-sm tracking-widest px-6 py-4 rounded-xl uppercase">
+                  <Link href="/contact" onClick={() => setIsOpen(false)} className="bg-[#d7bf7b] text-[#141414] w-full text-center hover:bg-white transition-colors font-black text-sm tracking-widest px-6 py-4 rounded-xl uppercase">
                     BİZƏ QOŞUL
                   </Link>
                 </div>

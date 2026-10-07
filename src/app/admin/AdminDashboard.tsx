@@ -119,10 +119,10 @@ export default function AdminDashboard() {
   ];
 
   return (
-    <div className="min-h-screen bg-[#0a1423] text-white flex flex-col md:flex-row">
+    <div className="min-h-screen bg-[#000000] text-white flex flex-col md:flex-row">
       
       {/* Sidebar */}
-      <aside className="w-full md:w-64 bg-[#152741] border-r border-gray-800 flex flex-col justify-between hidden md:flex sticky top-0 h-screen">
+      <aside className="w-full md:w-64 bg-[#141414] border-r border-gray-800 flex flex-col justify-between hidden md:flex sticky top-0 h-screen">
         <div>
           <div className="p-6 border-b border-gray-800 flex items-center space-x-4">
             <div className="w-10 h-10 rounded-full border-2 border-[#d7bf7b] overflow-hidden">
@@ -135,60 +135,60 @@ export default function AdminDashboard() {
           </div>
 
           <nav className="p-4 space-y-2">
-            <button onClick={() => setActiveTab('images')} className={`w-full flex items-center space-x-3 px-4 py-3 rounded-lg font-bold text-xs uppercase tracking-widest transition-colors ${activeTab === 'images' ? 'bg-[#d7bf7b] text-[#152741]' : 'text-gray-400 hover:text-white hover:bg-[#0d1a2d]'}`}>
+            <button onClick={() => setActiveTab('images')} className={`w-full flex items-center space-x-3 px-4 py-3 rounded-lg font-bold text-xs uppercase tracking-widest transition-colors ${activeTab === 'images' ? 'bg-[#d7bf7b] text-[#141414]' : 'text-gray-400 hover:text-white hover:bg-[#0a0a0a]'}`}>
               <ImageIcon className="w-4 h-4" />
               <span>Sayt Şəkilləri</span>
             </button>
-            <button onClick={() => setActiveTab('texts')} className={`w-full flex items-center space-x-3 px-4 py-3 rounded-lg font-bold text-xs uppercase tracking-widest transition-colors ${activeTab === 'texts' ? 'bg-[#d7bf7b] text-[#152741]' : 'text-gray-400 hover:text-white hover:bg-[#0d1a2d]'}`}>
+            <button onClick={() => setActiveTab('texts')} className={`w-full flex items-center space-x-3 px-4 py-3 rounded-lg font-bold text-xs uppercase tracking-widest transition-colors ${activeTab === 'texts' ? 'bg-[#d7bf7b] text-[#141414]' : 'text-gray-400 hover:text-white hover:bg-[#0a0a0a]'}`}>
               <FileText className="w-4 h-4" />
               <span>Sayt Yazıları</span>
             </button>
-            <button onClick={() => setActiveTab('club')} className={`w-full flex items-center space-x-3 px-4 py-3 rounded-lg font-bold text-xs uppercase tracking-widest transition-colors ${activeTab === 'club' ? 'bg-[#d7bf7b] text-[#152741]' : 'text-gray-400 hover:text-white hover:bg-[#0d1a2d]'}`}>
+            <button onClick={() => setActiveTab('club')} className={`w-full flex items-center space-x-3 px-4 py-3 rounded-lg font-bold text-xs uppercase tracking-widest transition-colors ${activeTab === 'club' ? 'bg-[#d7bf7b] text-[#141414]' : 'text-gray-400 hover:text-white hover:bg-[#0a0a0a]'}`}>
               <FileText className="w-4 h-4" />
               <span>Klub (Haqqımızda)</span>
             </button>
-            <button onClick={() => setActiveTab('leadership')} className={`w-full flex items-center space-x-3 px-4 py-3 rounded-lg font-bold text-xs uppercase tracking-widest transition-colors ${activeTab === 'leadership' ? 'bg-[#d7bf7b] text-[#152741]' : 'text-gray-400 hover:text-white hover:bg-[#0d1a2d]'}`}>
+            <button onClick={() => setActiveTab('leadership')} className={`w-full flex items-center space-x-3 px-4 py-3 rounded-lg font-bold text-xs uppercase tracking-widest transition-colors ${activeTab === 'leadership' ? 'bg-[#d7bf7b] text-[#141414]' : 'text-gray-400 hover:text-white hover:bg-[#0a0a0a]'}`}>
               <Users className="w-4 h-4" />
               <span>İdarə Heyəti</span>
             </button>
-            <button onClick={() => setActiveTab('courses')} className={`w-full flex items-center space-x-3 px-4 py-3 rounded-lg font-bold text-xs uppercase tracking-widest transition-colors ${activeTab === 'courses' ? 'bg-[#d7bf7b] text-[#152741]' : 'text-gray-400 hover:text-white hover:bg-[#0d1a2d]'}`}>
+            <button onClick={() => setActiveTab('courses')} className={`w-full flex items-center space-x-3 px-4 py-3 rounded-lg font-bold text-xs uppercase tracking-widest transition-colors ${activeTab === 'courses' ? 'bg-[#d7bf7b] text-[#141414]' : 'text-gray-400 hover:text-white hover:bg-[#0a0a0a]'}`}>
               <PlayCircle className="w-4 h-4" />
               <span>Məşqçi Kursu</span>
             </button>
-            <button onClick={() => setActiveTab('shop')} className={`w-full flex items-center space-x-3 px-4 py-3 rounded-lg font-bold text-xs uppercase tracking-widest transition-colors ${activeTab === 'shop' ? 'bg-[#d7bf7b] text-[#152741]' : 'text-gray-400 hover:text-white hover:bg-[#0d1a2d]'}`}>
+            <button onClick={() => setActiveTab('shop')} className={`w-full flex items-center space-x-3 px-4 py-3 rounded-lg font-bold text-xs uppercase tracking-widest transition-colors ${activeTab === 'shop' ? 'bg-[#d7bf7b] text-[#141414]' : 'text-gray-400 hover:text-white hover:bg-[#0a0a0a]'}`}>
               <ShoppingCart className="w-4 h-4" />
               <span>Mağaza</span>
             </button>
 
-            <button onClick={() => setActiveTab('coaches')} className={`w-full flex items-center space-x-3 px-4 py-3 rounded-lg font-bold text-xs uppercase tracking-widest transition-colors ${activeTab === 'coaches' ? 'bg-[#d7bf7b] text-[#152741]' : 'text-gray-400 hover:text-white hover:bg-[#0d1a2d]'}`}>
+            <button onClick={() => setActiveTab('coaches')} className={`w-full flex items-center space-x-3 px-4 py-3 rounded-lg font-bold text-xs uppercase tracking-widest transition-colors ${activeTab === 'coaches' ? 'bg-[#d7bf7b] text-[#141414]' : 'text-gray-400 hover:text-white hover:bg-[#0a0a0a]'}`}>
               <CheckCircle className="w-4 h-4" />
               <span>Məşqçilər</span>
             </button>
-            <button onClick={() => setActiveTab('teams')} className={`w-full flex items-center space-x-3 px-4 py-3 rounded-lg font-bold text-xs uppercase tracking-widest transition-colors ${activeTab === 'teams' ? 'bg-[#d7bf7b] text-[#152741]' : 'text-gray-400 hover:text-white hover:bg-[#0d1a2d]'}`}>
+            <button onClick={() => setActiveTab('teams')} className={`w-full flex items-center space-x-3 px-4 py-3 rounded-lg font-bold text-xs uppercase tracking-widest transition-colors ${activeTab === 'teams' ? 'bg-[#d7bf7b] text-[#141414]' : 'text-gray-400 hover:text-white hover:bg-[#0a0a0a]'}`}>
               <CheckCircle className="w-4 h-4" />
               <span>Komandalar</span>
             </button>
-            <button onClick={() => setActiveTab('news')} className={`w-full flex items-center space-x-3 px-4 py-3 rounded-lg font-bold text-xs uppercase tracking-widest transition-colors ${activeTab === 'news' ? 'bg-[#d7bf7b] text-[#152741]' : 'text-gray-400 hover:text-white hover:bg-[#0d1a2d]'}`}>
+            <button onClick={() => setActiveTab('news')} className={`w-full flex items-center space-x-3 px-4 py-3 rounded-lg font-bold text-xs uppercase tracking-widest transition-colors ${activeTab === 'news' ? 'bg-[#d7bf7b] text-[#141414]' : 'text-gray-400 hover:text-white hover:bg-[#0a0a0a]'}`}>
               <FileText className="w-4 h-4" />
               <span>Xəbərlər</span>
             </button>
-            <button onClick={() => setActiveTab('videos')} className={`w-full flex items-center space-x-3 px-4 py-3 rounded-lg font-bold text-xs uppercase tracking-widest transition-colors ${activeTab === 'videos' ? 'bg-[#d7bf7b] text-[#152741]' : 'text-gray-400 hover:text-white hover:bg-[#0d1a2d]'}`}>
+            <button onClick={() => setActiveTab('videos')} className={`w-full flex items-center space-x-3 px-4 py-3 rounded-lg font-bold text-xs uppercase tracking-widest transition-colors ${activeTab === 'videos' ? 'bg-[#d7bf7b] text-[#141414]' : 'text-gray-400 hover:text-white hover:bg-[#0a0a0a]'}`}>
               <Video className="w-4 h-4" />
               <span>Videolar</span>
             </button>
-            <button onClick={() => setActiveTab('achievements')} className={`w-full flex items-center space-x-3 px-4 py-3 rounded-lg font-bold text-xs uppercase tracking-widest transition-colors ${activeTab === 'achievements' ? 'bg-[#d7bf7b] text-[#152741]' : 'text-gray-400 hover:text-white hover:bg-[#0d1a2d]'}`}>
+            <button onClick={() => setActiveTab('achievements')} className={`w-full flex items-center space-x-3 px-4 py-3 rounded-lg font-bold text-xs uppercase tracking-widest transition-colors ${activeTab === 'achievements' ? 'bg-[#d7bf7b] text-[#141414]' : 'text-gray-400 hover:text-white hover:bg-[#0a0a0a]'}`}>
               <Trophy className="w-4 h-4" />
               <span>Nailiyyətlər</span>
             </button>
-            <button onClick={() => setActiveTab('sponsors')} className={`w-full flex items-center space-x-3 px-4 py-3 rounded-lg font-bold text-xs uppercase tracking-widest transition-colors ${activeTab === 'sponsors' ? 'bg-[#d7bf7b] text-[#152741]' : 'text-gray-400 hover:text-white hover:bg-[#0d1a2d]'}`}>
+            <button onClick={() => setActiveTab('sponsors')} className={`w-full flex items-center space-x-3 px-4 py-3 rounded-lg font-bold text-xs uppercase tracking-widest transition-colors ${activeTab === 'sponsors' ? 'bg-[#d7bf7b] text-[#141414]' : 'text-gray-400 hover:text-white hover:bg-[#0a0a0a]'}`}>
               <DollarSign className="w-4 h-4" />
               <span>Sponsorlar</span>
             </button>
-            <button onClick={() => setActiveTab('standings')} className={`w-full flex items-center space-x-3 px-4 py-3 rounded-lg font-bold text-xs uppercase tracking-widest transition-colors ${activeTab === 'standings' ? 'bg-[#d7bf7b] text-[#152741]' : 'text-gray-400 hover:text-white hover:bg-[#0d1a2d]'}`}>
+            <button onClick={() => setActiveTab('standings')} className={`w-full flex items-center space-x-3 px-4 py-3 rounded-lg font-bold text-xs uppercase tracking-widest transition-colors ${activeTab === 'standings' ? 'bg-[#d7bf7b] text-[#141414]' : 'text-gray-400 hover:text-white hover:bg-[#0a0a0a]'}`}>
               <Trophy className="w-4 h-4" />
               <span>Turnir Cədvəli</span>
             </button>
-            <button onClick={() => setActiveTab('matches')} className={`w-full flex items-center space-x-3 px-4 py-3 rounded-lg font-bold text-xs uppercase tracking-widest transition-colors ${activeTab === 'matches' ? 'bg-[#d7bf7b] text-[#152741]' : 'text-gray-400 hover:text-white hover:bg-[#0d1a2d]'}`}>
+            <button onClick={() => setActiveTab('matches')} className={`w-full flex items-center space-x-3 px-4 py-3 rounded-lg font-bold text-xs uppercase tracking-widest transition-colors ${activeTab === 'matches' ? 'bg-[#d7bf7b] text-[#141414]' : 'text-gray-400 hover:text-white hover:bg-[#0a0a0a]'}`}>
               <CheckCircle className="w-4 h-4" />
               <span>Oyunlar</span>
             </button>
@@ -196,7 +196,7 @@ export default function AdminDashboard() {
         </div>
 
         <div className="p-4 border-t border-gray-800">
-          <button onClick={handleLogout} className="w-full flex items-center justify-center space-x-2 text-gray-400 hover:text-white transition-colors text-xs font-bold uppercase tracking-widest px-4 py-3 bg-[#0d1a2d] rounded-lg">
+          <button onClick={handleLogout} className="w-full flex items-center justify-center space-x-2 text-gray-400 hover:text-white transition-colors text-xs font-bold uppercase tracking-widest px-4 py-3 bg-[#0a0a0a] rounded-lg">
             <LogOut className="w-4 h-4" />
             <span>Çıxış Et</span>
           </button>
@@ -220,19 +220,19 @@ export default function AdminDashboard() {
 
         {/* Mobile Tabs */}
         <div className="md:hidden flex overflow-x-auto space-x-2 pb-4 mb-6 scrollbar-hide">
-          <button onClick={() => setActiveTab('images')} className={`flex-shrink-0 px-4 py-2 rounded-lg font-bold text-[10px] uppercase tracking-widest transition-colors ${activeTab === 'images' ? 'bg-[#d7bf7b] text-[#152741]' : 'bg-[#152741] text-gray-400'}`}>Şəkillər</button>
-          <button onClick={() => setActiveTab('texts')} className={`flex-shrink-0 px-4 py-2 rounded-lg font-bold text-[10px] uppercase tracking-widest transition-colors ${activeTab === 'texts' ? 'bg-[#d7bf7b] text-[#152741]' : 'bg-[#152741] text-gray-400'}`}>Sayt Yazıları</button>
-          <button onClick={() => setActiveTab('club')} className={`flex-shrink-0 px-4 py-2 rounded-lg font-bold text-[10px] uppercase tracking-widest transition-colors ${activeTab === 'club' ? 'bg-[#d7bf7b] text-[#152741]' : 'bg-[#152741] text-gray-400'}`}>Klub</button>
-          <button onClick={() => setActiveTab('coaches')} className={`flex-shrink-0 px-4 py-2 rounded-lg font-bold text-[10px] uppercase tracking-widest transition-colors ${activeTab === 'coaches' ? 'bg-[#d7bf7b] text-[#152741]' : 'bg-[#152741] text-gray-400'}`}>Məşqçilər</button>
-          <button onClick={() => setActiveTab('teams')} className={`flex-shrink-0 px-4 py-2 rounded-lg font-bold text-[10px] uppercase tracking-widest transition-colors ${activeTab === 'teams' ? 'bg-[#d7bf7b] text-[#152741]' : 'bg-[#152741] text-gray-400'}`}>Komandalar</button>
-          <button onClick={() => setActiveTab('news')} className={`flex-shrink-0 px-4 py-2 rounded-lg font-bold text-[10px] uppercase tracking-widest transition-colors ${activeTab === 'news' ? 'bg-[#d7bf7b] text-[#152741]' : 'bg-[#152741] text-gray-400'}`}>Xəbərlər</button>
-          <button onClick={() => setActiveTab('videos')} className={`flex-shrink-0 px-4 py-2 rounded-lg font-bold text-[10px] uppercase tracking-widest transition-colors ${activeTab === 'videos' ? 'bg-[#d7bf7b] text-[#152741]' : 'bg-[#152741] text-gray-400'}`}>Videolar</button>
-          <button onClick={() => setActiveTab('achievements')} className={`flex-shrink-0 px-4 py-2 rounded-lg font-bold text-[10px] uppercase tracking-widest transition-colors ${activeTab === 'achievements' ? 'bg-[#d7bf7b] text-[#152741]' : 'bg-[#152741] text-gray-400'}`}>Nailiyyətlər</button>
-          <button onClick={() => setActiveTab('sponsors')} className={`flex-shrink-0 px-4 py-2 rounded-lg font-bold text-[10px] uppercase tracking-widest transition-colors ${activeTab === 'sponsors' ? 'bg-[#d7bf7b] text-[#152741]' : 'bg-[#152741] text-gray-400'}`}>Sponsorlar</button>
-          <button onClick={() => setActiveTab('standings')} className={`flex-shrink-0 px-4 py-2 rounded-lg font-bold text-[10px] uppercase tracking-widest transition-colors ${activeTab === 'standings' ? 'bg-[#d7bf7b] text-[#152741]' : 'bg-[#152741] text-gray-400'}`}>Turnir Cədvəli</button>
-          <button onClick={() => setActiveTab('matches')} className={`flex-shrink-0 px-4 py-2 rounded-lg font-bold text-[10px] uppercase tracking-widest transition-colors ${activeTab === 'matches' ? 'bg-[#d7bf7b] text-[#152741]' : 'bg-[#152741] text-gray-400'}`}>Oyunlar</button>
-          <button onClick={() => setActiveTab('shop')} className={`flex-shrink-0 px-4 py-2 rounded-lg font-bold text-[10px] uppercase tracking-widest transition-colors ${activeTab === 'shop' ? 'bg-[#d7bf7b] text-[#152741]' : 'bg-[#152741] text-gray-400'}`}>Mağaza</button>
-            <button onClick={() => setActiveTab('shop')} className={`w-full flex items-center space-x-3 px-4 py-3 rounded-lg font-bold text-xs uppercase tracking-widest transition-colors ${activeTab === 'shop' ? 'bg-[#d7bf7b] text-[#152741]' : 'text-gray-400 hover:text-white hover:bg-[#0d1a2d]'}`}>
+          <button onClick={() => setActiveTab('images')} className={`flex-shrink-0 px-4 py-2 rounded-lg font-bold text-[10px] uppercase tracking-widest transition-colors ${activeTab === 'images' ? 'bg-[#d7bf7b] text-[#141414]' : 'bg-[#141414] text-gray-400'}`}>Şəkillər</button>
+          <button onClick={() => setActiveTab('texts')} className={`flex-shrink-0 px-4 py-2 rounded-lg font-bold text-[10px] uppercase tracking-widest transition-colors ${activeTab === 'texts' ? 'bg-[#d7bf7b] text-[#141414]' : 'bg-[#141414] text-gray-400'}`}>Sayt Yazıları</button>
+          <button onClick={() => setActiveTab('club')} className={`flex-shrink-0 px-4 py-2 rounded-lg font-bold text-[10px] uppercase tracking-widest transition-colors ${activeTab === 'club' ? 'bg-[#d7bf7b] text-[#141414]' : 'bg-[#141414] text-gray-400'}`}>Klub</button>
+          <button onClick={() => setActiveTab('coaches')} className={`flex-shrink-0 px-4 py-2 rounded-lg font-bold text-[10px] uppercase tracking-widest transition-colors ${activeTab === 'coaches' ? 'bg-[#d7bf7b] text-[#141414]' : 'bg-[#141414] text-gray-400'}`}>Məşqçilər</button>
+          <button onClick={() => setActiveTab('teams')} className={`flex-shrink-0 px-4 py-2 rounded-lg font-bold text-[10px] uppercase tracking-widest transition-colors ${activeTab === 'teams' ? 'bg-[#d7bf7b] text-[#141414]' : 'bg-[#141414] text-gray-400'}`}>Komandalar</button>
+          <button onClick={() => setActiveTab('news')} className={`flex-shrink-0 px-4 py-2 rounded-lg font-bold text-[10px] uppercase tracking-widest transition-colors ${activeTab === 'news' ? 'bg-[#d7bf7b] text-[#141414]' : 'bg-[#141414] text-gray-400'}`}>Xəbərlər</button>
+          <button onClick={() => setActiveTab('videos')} className={`flex-shrink-0 px-4 py-2 rounded-lg font-bold text-[10px] uppercase tracking-widest transition-colors ${activeTab === 'videos' ? 'bg-[#d7bf7b] text-[#141414]' : 'bg-[#141414] text-gray-400'}`}>Videolar</button>
+          <button onClick={() => setActiveTab('achievements')} className={`flex-shrink-0 px-4 py-2 rounded-lg font-bold text-[10px] uppercase tracking-widest transition-colors ${activeTab === 'achievements' ? 'bg-[#d7bf7b] text-[#141414]' : 'bg-[#141414] text-gray-400'}`}>Nailiyyətlər</button>
+          <button onClick={() => setActiveTab('sponsors')} className={`flex-shrink-0 px-4 py-2 rounded-lg font-bold text-[10px] uppercase tracking-widest transition-colors ${activeTab === 'sponsors' ? 'bg-[#d7bf7b] text-[#141414]' : 'bg-[#141414] text-gray-400'}`}>Sponsorlar</button>
+          <button onClick={() => setActiveTab('standings')} className={`flex-shrink-0 px-4 py-2 rounded-lg font-bold text-[10px] uppercase tracking-widest transition-colors ${activeTab === 'standings' ? 'bg-[#d7bf7b] text-[#141414]' : 'bg-[#141414] text-gray-400'}`}>Turnir Cədvəli</button>
+          <button onClick={() => setActiveTab('matches')} className={`flex-shrink-0 px-4 py-2 rounded-lg font-bold text-[10px] uppercase tracking-widest transition-colors ${activeTab === 'matches' ? 'bg-[#d7bf7b] text-[#141414]' : 'bg-[#141414] text-gray-400'}`}>Oyunlar</button>
+          <button onClick={() => setActiveTab('shop')} className={`flex-shrink-0 px-4 py-2 rounded-lg font-bold text-[10px] uppercase tracking-widest transition-colors ${activeTab === 'shop' ? 'bg-[#d7bf7b] text-[#141414]' : 'bg-[#141414] text-gray-400'}`}>Mağaza</button>
+            <button onClick={() => setActiveTab('shop')} className={`w-full flex items-center space-x-3 px-4 py-3 rounded-lg font-bold text-xs uppercase tracking-widest transition-colors ${activeTab === 'shop' ? 'bg-[#d7bf7b] text-[#141414]' : 'text-gray-400 hover:text-white hover:bg-[#0a0a0a]'}`}>
               <ShoppingCart className="w-4 h-4" />
               <span>Mağaza</span>
             </button>
@@ -255,9 +255,9 @@ export default function AdminDashboard() {
             ) : (
               <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
                 {imageSections.map((sec) => (
-                  <div key={sec.id} className="bg-[#152741] border border-gray-800 rounded-2xl p-6 flex flex-col justify-between hover:border-[#d7bf7b]/30 transition-colors">
+                  <div key={sec.id} className="bg-[#141414] border border-gray-800 rounded-2xl p-6 flex flex-col justify-between hover:border-[#d7bf7b]/30 transition-colors">
                     
-                    <div className="w-full h-40 bg-[#0d1a2d] rounded-xl mb-4 overflow-hidden relative border border-gray-800 flex items-center justify-center">
+                    <div className="w-full h-40 bg-[#0a0a0a] rounded-xl mb-4 overflow-hidden relative border border-gray-800 flex items-center justify-center">
                       {images[sec.id] ? (
                         <img src={images[sec.id]} alt={sec.title} className="w-full h-full object-cover" />
                       ) : (
@@ -276,7 +276,7 @@ export default function AdminDashboard() {
                     </div>
                     
                     <div className="flex space-x-2">
-                      <label className={`flex-1 bg-[#0d1a2d] ${loadingSection === sec.id ? 'opacity-50 cursor-not-allowed' : 'hover:bg-[#d7bf7b] hover:text-[#152741] cursor-pointer'} text-white border border-gray-700 font-bold text-[10px] uppercase tracking-widest py-3 rounded-lg transition-all flex items-center justify-center space-x-2`}>
+                      <label className={`flex-1 bg-[#0a0a0a] ${loadingSection === sec.id ? 'opacity-50 cursor-not-allowed' : 'hover:bg-[#d7bf7b] hover:text-[#141414] cursor-pointer'} text-white border border-gray-700 font-bold text-[10px] uppercase tracking-widest py-3 rounded-lg transition-all flex items-center justify-center space-x-2`}>
                         {loadingSection === sec.id ? (
                           <span>YÜKLƏNİR...</span>
                         ) : (

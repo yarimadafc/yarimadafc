@@ -23,27 +23,27 @@ export default function CoachesPage() {
   }, []);
 
   return (
-    <div className="pt-[140px] min-h-screen bg-[#0a1423] pb-20">
+    <div className="pt-[140px] min-h-screen bg-[#000000] pb-20">
       
       {/* Header */}
-      <div className="w-full bg-[#152741] py-12 md:py-16 border-b border-gray-800 relative overflow-hidden">
+      <div className="w-full bg-[#141414] py-12 md:py-16 border-b border-gray-800 relative overflow-hidden">
       {/* Recommended Courses Banner */}
       <div className="container mx-auto px-4 lg:px-8 mt-16">
-        <div className="bg-gradient-to-r from-[#0B1221] to-[#152741] border border-[#d7bf7b]/30 rounded-2xl p-8 md:p-12 flex flex-col md:flex-row items-center justify-between shadow-2xl relative overflow-hidden">
+        <div className="bg-gradient-to-r from-[#000000] to-[#141414] border border-[#d7bf7b]/30 rounded-2xl p-8 md:p-12 flex flex-col md:flex-row items-center justify-between shadow-2xl relative overflow-hidden">
            <div className="absolute top-0 right-0 w-64 h-64 bg-[#d7bf7b]/10 blur-[80px] rounded-full"></div>
            <div className="relative z-10 md:w-2/3 mb-6 md:mb-0">
              <h2 className="text-2xl md:text-3xl font-bold text-white mb-4">Peşəkar Məşqçi Kursları</h2>
              <p className="text-gray-400 font-medium">Özünü inkişaf etdirmək və peşəkar məşqçi olmaq istəyənlər üçün hazırladığımız xüsusi kurslar və praktiki dərslərlə tanış olun.</p>
            </div>
            <div className="relative z-10 md:w-1/3 flex justify-end">
-             <Link href="/courses" className="bg-[#d7bf7b] text-[#0a1423] px-8 py-4 rounded-xl font-bold uppercase tracking-widest text-sm hover:bg-white transition-colors text-center w-full md:w-auto">
+             <Link href="/courses" className="bg-[#d7bf7b] text-[#000000] px-8 py-4 rounded-xl font-bold uppercase tracking-widest text-sm hover:bg-white transition-colors text-center w-full md:w-auto">
                Kurslara Keçid
              </Link>
            </div>
         </div>
       </div>
 
-        <div className="absolute inset-0 bg-gradient-to-t from-[#0a1423] to-transparent"></div>
+        <div className="absolute inset-0 bg-gradient-to-t from-[#000000] to-transparent"></div>
         <div className="container mx-auto px-4 lg:px-8 relative z-10 text-center">
           <motion.h1 
             initial={{ opacity: 0, y: -20 }}
@@ -64,14 +64,14 @@ export default function CoachesPage() {
           </p>
       {/* Recommended Courses Banner */}
       <div className="container mx-auto px-4 lg:px-8 mt-16">
-        <div className="bg-gradient-to-r from-[#0B1221] to-[#152741] border border-[#d7bf7b]/30 rounded-2xl p-8 md:p-12 flex flex-col md:flex-row items-center justify-between shadow-2xl relative overflow-hidden">
+        <div className="bg-gradient-to-r from-[#000000] to-[#141414] border border-[#d7bf7b]/30 rounded-2xl p-8 md:p-12 flex flex-col md:flex-row items-center justify-between shadow-2xl relative overflow-hidden">
            <div className="absolute top-0 right-0 w-64 h-64 bg-[#d7bf7b]/10 blur-[80px] rounded-full"></div>
            <div className="relative z-10 md:w-2/3 mb-6 md:mb-0">
              <h2 className="text-2xl md:text-3xl font-bold text-white mb-4">Peşəkar Məşqçi Kursları</h2>
              <p className="text-gray-400 font-medium">Özünü inkişaf etdirmək və peşəkar məşqçi olmaq istəyənlər üçün hazırladığımız xüsusi kurslar və praktiki dərslərlə tanış olun.</p>
            </div>
            <div className="relative z-10 md:w-1/3 flex justify-end">
-             <Link href="/courses" className="bg-[#d7bf7b] text-[#0a1423] px-8 py-4 rounded-xl font-bold uppercase tracking-widest text-sm hover:bg-white transition-colors text-center w-full md:w-auto">
+             <Link href="/courses" className="bg-[#d7bf7b] text-[#000000] px-8 py-4 rounded-xl font-bold uppercase tracking-widest text-sm hover:bg-white transition-colors text-center w-full md:w-auto">
                Kurslara Keçid
              </Link>
            </div>
@@ -81,14 +81,14 @@ export default function CoachesPage() {
         </div>
       {/* Recommended Courses Banner */}
       <div className="container mx-auto px-4 lg:px-8 mt-16">
-        <div className="bg-gradient-to-r from-[#0B1221] to-[#152741] border border-[#d7bf7b]/30 rounded-2xl p-8 md:p-12 flex flex-col md:flex-row items-center justify-between shadow-2xl relative overflow-hidden">
+        <div className="bg-gradient-to-r from-[#000000] to-[#141414] border border-[#d7bf7b]/30 rounded-2xl p-8 md:p-12 flex flex-col md:flex-row items-center justify-between shadow-2xl relative overflow-hidden">
            <div className="absolute top-0 right-0 w-64 h-64 bg-[#d7bf7b]/10 blur-[80px] rounded-full"></div>
            <div className="relative z-10 md:w-2/3 mb-6 md:mb-0">
              <h2 className="text-2xl md:text-3xl font-bold text-white mb-4">Peşəkar Məşqçi Kursları</h2>
              <p className="text-gray-400 font-medium">Özünü inkişaf etdirmək və peşəkar məşqçi olmaq istəyənlər üçün hazırladığımız xüsusi kurslar və praktiki dərslərlə tanış olun.</p>
            </div>
            <div className="relative z-10 md:w-1/3 flex justify-end">
-             <Link href="/courses" className="bg-[#d7bf7b] text-[#0a1423] px-8 py-4 rounded-xl font-bold uppercase tracking-widest text-sm hover:bg-white transition-colors text-center w-full md:w-auto">
+             <Link href="/courses" className="bg-[#d7bf7b] text-[#000000] px-8 py-4 rounded-xl font-bold uppercase tracking-widest text-sm hover:bg-white transition-colors text-center w-full md:w-auto">
                Kurslara Keçid
              </Link>
            </div>
@@ -107,26 +107,26 @@ export default function CoachesPage() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: i * 0.1 }}
-              className="bg-[#152741] border border-gray-800 rounded-3xl overflow-hidden hover:border-[#d7bf7b]/50 transition-all duration-300 shadow-xl group"
+              className="bg-[#141414] border border-gray-800 rounded-3xl overflow-hidden hover:border-[#d7bf7b]/50 transition-all duration-300 shadow-xl group"
             >
-              <Link href={`/coaches/${coach.id}`} className="block w-full h-72 bg-[#0d1a2d] relative overflow-hidden group-hover:opacity-90 transition-opacity">
+              <Link href={`/coaches/${coach.id}`} className="block w-full h-72 bg-[#0a0a0a] relative overflow-hidden group-hover:opacity-90 transition-opacity">
       {/* Recommended Courses Banner */}
       <div className="container mx-auto px-4 lg:px-8 mt-16">
-        <div className="bg-gradient-to-r from-[#0B1221] to-[#152741] border border-[#d7bf7b]/30 rounded-2xl p-8 md:p-12 flex flex-col md:flex-row items-center justify-between shadow-2xl relative overflow-hidden">
+        <div className="bg-gradient-to-r from-[#000000] to-[#141414] border border-[#d7bf7b]/30 rounded-2xl p-8 md:p-12 flex flex-col md:flex-row items-center justify-between shadow-2xl relative overflow-hidden">
            <div className="absolute top-0 right-0 w-64 h-64 bg-[#d7bf7b]/10 blur-[80px] rounded-full"></div>
            <div className="relative z-10 md:w-2/3 mb-6 md:mb-0">
              <h2 className="text-2xl md:text-3xl font-bold text-white mb-4">Peşəkar Məşqçi Kursları</h2>
              <p className="text-gray-400 font-medium">Özünü inkişaf etdirmək və peşəkar məşqçi olmaq istəyənlər üçün hazırladığımız xüsusi kurslar və praktiki dərslərlə tanış olun.</p>
            </div>
            <div className="relative z-10 md:w-1/3 flex justify-end">
-             <Link href="/courses" className="bg-[#d7bf7b] text-[#0a1423] px-8 py-4 rounded-xl font-bold uppercase tracking-widest text-sm hover:bg-white transition-colors text-center w-full md:w-auto">
+             <Link href="/courses" className="bg-[#d7bf7b] text-[#000000] px-8 py-4 rounded-xl font-bold uppercase tracking-widest text-sm hover:bg-white transition-colors text-center w-full md:w-auto">
                Kurslara Keçid
              </Link>
            </div>
         </div>
       </div>
 
-                <div className="absolute inset-0 bg-gradient-to-t from-[#152741] to-transparent z-10"></div>
+                <div className="absolute inset-0 bg-gradient-to-t from-[#141414] to-transparent z-10"></div>
                 <div className="absolute inset-0 flex items-center justify-center">
                   {coach.image_url ? (
                     <img src={coach.image_url} alt={coach.name} className="absolute inset-0 w-full h-full object-cover" />
@@ -135,14 +135,14 @@ export default function CoachesPage() {
                   )}
       {/* Recommended Courses Banner */}
       <div className="container mx-auto px-4 lg:px-8 mt-16">
-        <div className="bg-gradient-to-r from-[#0B1221] to-[#152741] border border-[#d7bf7b]/30 rounded-2xl p-8 md:p-12 flex flex-col md:flex-row items-center justify-between shadow-2xl relative overflow-hidden">
+        <div className="bg-gradient-to-r from-[#000000] to-[#141414] border border-[#d7bf7b]/30 rounded-2xl p-8 md:p-12 flex flex-col md:flex-row items-center justify-between shadow-2xl relative overflow-hidden">
            <div className="absolute top-0 right-0 w-64 h-64 bg-[#d7bf7b]/10 blur-[80px] rounded-full"></div>
            <div className="relative z-10 md:w-2/3 mb-6 md:mb-0">
              <h2 className="text-2xl md:text-3xl font-bold text-white mb-4">Peşəkar Məşqçi Kursları</h2>
              <p className="text-gray-400 font-medium">Özünü inkişaf etdirmək və peşəkar məşqçi olmaq istəyənlər üçün hazırladığımız xüsusi kurslar və praktiki dərslərlə tanış olun.</p>
            </div>
            <div className="relative z-10 md:w-1/3 flex justify-end">
-             <Link href="/courses" className="bg-[#d7bf7b] text-[#0a1423] px-8 py-4 rounded-xl font-bold uppercase tracking-widest text-sm hover:bg-white transition-colors text-center w-full md:w-auto">
+             <Link href="/courses" className="bg-[#d7bf7b] text-[#000000] px-8 py-4 rounded-xl font-bold uppercase tracking-widest text-sm hover:bg-white transition-colors text-center w-full md:w-auto">
                Kurslara Keçid
              </Link>
            </div>
@@ -165,14 +165,14 @@ export default function CoachesPage() {
                   
       {/* Recommended Courses Banner */}
       <div className="container mx-auto px-4 lg:px-8 mt-16">
-        <div className="bg-gradient-to-r from-[#0B1221] to-[#152741] border border-[#d7bf7b]/30 rounded-2xl p-8 md:p-12 flex flex-col md:flex-row items-center justify-between shadow-2xl relative overflow-hidden">
+        <div className="bg-gradient-to-r from-[#000000] to-[#141414] border border-[#d7bf7b]/30 rounded-2xl p-8 md:p-12 flex flex-col md:flex-row items-center justify-between shadow-2xl relative overflow-hidden">
            <div className="absolute top-0 right-0 w-64 h-64 bg-[#d7bf7b]/10 blur-[80px] rounded-full"></div>
            <div className="relative z-10 md:w-2/3 mb-6 md:mb-0">
              <h2 className="text-2xl md:text-3xl font-bold text-white mb-4">Peşəkar Məşqçi Kursları</h2>
              <p className="text-gray-400 font-medium">Özünü inkişaf etdirmək və peşəkar məşqçi olmaq istəyənlər üçün hazırladığımız xüsusi kurslar və praktiki dərslərlə tanış olun.</p>
            </div>
            <div className="relative z-10 md:w-1/3 flex justify-end">
-             <Link href="/courses" className="bg-[#d7bf7b] text-[#0a1423] px-8 py-4 rounded-xl font-bold uppercase tracking-widest text-sm hover:bg-white transition-colors text-center w-full md:w-auto">
+             <Link href="/courses" className="bg-[#d7bf7b] text-[#000000] px-8 py-4 rounded-xl font-bold uppercase tracking-widest text-sm hover:bg-white transition-colors text-center w-full md:w-auto">
                Kurslara Keçid
              </Link>
            </div>
@@ -182,14 +182,14 @@ export default function CoachesPage() {
                 </div>
       {/* Recommended Courses Banner */}
       <div className="container mx-auto px-4 lg:px-8 mt-16">
-        <div className="bg-gradient-to-r from-[#0B1221] to-[#152741] border border-[#d7bf7b]/30 rounded-2xl p-8 md:p-12 flex flex-col md:flex-row items-center justify-between shadow-2xl relative overflow-hidden">
+        <div className="bg-gradient-to-r from-[#000000] to-[#141414] border border-[#d7bf7b]/30 rounded-2xl p-8 md:p-12 flex flex-col md:flex-row items-center justify-between shadow-2xl relative overflow-hidden">
            <div className="absolute top-0 right-0 w-64 h-64 bg-[#d7bf7b]/10 blur-[80px] rounded-full"></div>
            <div className="relative z-10 md:w-2/3 mb-6 md:mb-0">
              <h2 className="text-2xl md:text-3xl font-bold text-white mb-4">Peşəkar Məşqçi Kursları</h2>
              <p className="text-gray-400 font-medium">Özünü inkişaf etdirmək və peşəkar məşqçi olmaq istəyənlər üçün hazırladığımız xüsusi kurslar və praktiki dərslərlə tanış olun.</p>
            </div>
            <div className="relative z-10 md:w-1/3 flex justify-end">
-             <Link href="/courses" className="bg-[#d7bf7b] text-[#0a1423] px-8 py-4 rounded-xl font-bold uppercase tracking-widest text-sm hover:bg-white transition-colors text-center w-full md:w-auto">
+             <Link href="/courses" className="bg-[#d7bf7b] text-[#000000] px-8 py-4 rounded-xl font-bold uppercase tracking-widest text-sm hover:bg-white transition-colors text-center w-full md:w-auto">
                Kurslara Keçid
              </Link>
            </div>
@@ -201,14 +201,14 @@ export default function CoachesPage() {
           ))}
       {/* Recommended Courses Banner */}
       <div className="container mx-auto px-4 lg:px-8 mt-16">
-        <div className="bg-gradient-to-r from-[#0B1221] to-[#152741] border border-[#d7bf7b]/30 rounded-2xl p-8 md:p-12 flex flex-col md:flex-row items-center justify-between shadow-2xl relative overflow-hidden">
+        <div className="bg-gradient-to-r from-[#000000] to-[#141414] border border-[#d7bf7b]/30 rounded-2xl p-8 md:p-12 flex flex-col md:flex-row items-center justify-between shadow-2xl relative overflow-hidden">
            <div className="absolute top-0 right-0 w-64 h-64 bg-[#d7bf7b]/10 blur-[80px] rounded-full"></div>
            <div className="relative z-10 md:w-2/3 mb-6 md:mb-0">
              <h2 className="text-2xl md:text-3xl font-bold text-white mb-4">Peşəkar Məşqçi Kursları</h2>
              <p className="text-gray-400 font-medium">Özünü inkişaf etdirmək və peşəkar məşqçi olmaq istəyənlər üçün hazırladığımız xüsusi kurslar və praktiki dərslərlə tanış olun.</p>
            </div>
            <div className="relative z-10 md:w-1/3 flex justify-end">
-             <Link href="/courses" className="bg-[#d7bf7b] text-[#0a1423] px-8 py-4 rounded-xl font-bold uppercase tracking-widest text-sm hover:bg-white transition-colors text-center w-full md:w-auto">
+             <Link href="/courses" className="bg-[#d7bf7b] text-[#000000] px-8 py-4 rounded-xl font-bold uppercase tracking-widest text-sm hover:bg-white transition-colors text-center w-full md:w-auto">
                Kurslara Keçid
              </Link>
            </div>
@@ -218,14 +218,14 @@ export default function CoachesPage() {
         </div>
       {/* Recommended Courses Banner */}
       <div className="container mx-auto px-4 lg:px-8 mt-16">
-        <div className="bg-gradient-to-r from-[#0B1221] to-[#152741] border border-[#d7bf7b]/30 rounded-2xl p-8 md:p-12 flex flex-col md:flex-row items-center justify-between shadow-2xl relative overflow-hidden">
+        <div className="bg-gradient-to-r from-[#000000] to-[#141414] border border-[#d7bf7b]/30 rounded-2xl p-8 md:p-12 flex flex-col md:flex-row items-center justify-between shadow-2xl relative overflow-hidden">
            <div className="absolute top-0 right-0 w-64 h-64 bg-[#d7bf7b]/10 blur-[80px] rounded-full"></div>
            <div className="relative z-10 md:w-2/3 mb-6 md:mb-0">
              <h2 className="text-2xl md:text-3xl font-bold text-white mb-4">Peşəkar Məşqçi Kursları</h2>
              <p className="text-gray-400 font-medium">Özünü inkişaf etdirmək və peşəkar məşqçi olmaq istəyənlər üçün hazırladığımız xüsusi kurslar və praktiki dərslərlə tanış olun.</p>
            </div>
            <div className="relative z-10 md:w-1/3 flex justify-end">
-             <Link href="/courses" className="bg-[#d7bf7b] text-[#0a1423] px-8 py-4 rounded-xl font-bold uppercase tracking-widest text-sm hover:bg-white transition-colors text-center w-full md:w-auto">
+             <Link href="/courses" className="bg-[#d7bf7b] text-[#000000] px-8 py-4 rounded-xl font-bold uppercase tracking-widest text-sm hover:bg-white transition-colors text-center w-full md:w-auto">
                Kurslara Keçid
              </Link>
            </div>
@@ -242,14 +242,14 @@ export default function CoachesPage() {
             <h2 className="text-2xl md:text-3xl font-black text-white uppercase tracking-tight">Önərilən Məşqçi Kursları</h2>
       {/* Recommended Courses Banner */}
       <div className="container mx-auto px-4 lg:px-8 mt-16">
-        <div className="bg-gradient-to-r from-[#0B1221] to-[#152741] border border-[#d7bf7b]/30 rounded-2xl p-8 md:p-12 flex flex-col md:flex-row items-center justify-between shadow-2xl relative overflow-hidden">
+        <div className="bg-gradient-to-r from-[#000000] to-[#141414] border border-[#d7bf7b]/30 rounded-2xl p-8 md:p-12 flex flex-col md:flex-row items-center justify-between shadow-2xl relative overflow-hidden">
            <div className="absolute top-0 right-0 w-64 h-64 bg-[#d7bf7b]/10 blur-[80px] rounded-full"></div>
            <div className="relative z-10 md:w-2/3 mb-6 md:mb-0">
              <h2 className="text-2xl md:text-3xl font-bold text-white mb-4">Peşəkar Məşqçi Kursları</h2>
              <p className="text-gray-400 font-medium">Özünü inkişaf etdirmək və peşəkar məşqçi olmaq istəyənlər üçün hazırladığımız xüsusi kurslar və praktiki dərslərlə tanış olun.</p>
            </div>
            <div className="relative z-10 md:w-1/3 flex justify-end">
-             <Link href="/courses" className="bg-[#d7bf7b] text-[#0a1423] px-8 py-4 rounded-xl font-bold uppercase tracking-widest text-sm hover:bg-white transition-colors text-center w-full md:w-auto">
+             <Link href="/courses" className="bg-[#d7bf7b] text-[#000000] px-8 py-4 rounded-xl font-bold uppercase tracking-widest text-sm hover:bg-white transition-colors text-center w-full md:w-auto">
                Kurslara Keçid
              </Link>
            </div>
@@ -267,7 +267,7 @@ export default function CoachesPage() {
                 viewport={{ once: true }}
                 transition={{ delay: i * 0.1, duration: 0.5 }}
               >
-                <Link href={`/courses/${course.id}`} className="block h-full group cursor-pointer bg-[#152741] rounded-3xl overflow-hidden border border-gray-800 hover:border-[#d7bf7b]/50 transition-colors shadow-xl hover:shadow-2xl flex flex-col">
+                <Link href={`/courses/${course.id}`} className="block h-full group cursor-pointer bg-[#141414] rounded-3xl overflow-hidden border border-gray-800 hover:border-[#d7bf7b]/50 transition-colors shadow-xl hover:shadow-2xl flex flex-col">
                   <div className="relative aspect-video overflow-hidden shrink-0">
                     <img 
                       src={course.image_url || '/placeholder-hero.jpg'} 
@@ -278,14 +278,14 @@ export default function CoachesPage() {
                        {course.video_url && <PlayCircle className="w-16 h-16 text-white/80 group-hover:text-[#d7bf7b] group-hover:scale-110 transition-all duration-300" />}
       {/* Recommended Courses Banner */}
       <div className="container mx-auto px-4 lg:px-8 mt-16">
-        <div className="bg-gradient-to-r from-[#0B1221] to-[#152741] border border-[#d7bf7b]/30 rounded-2xl p-8 md:p-12 flex flex-col md:flex-row items-center justify-between shadow-2xl relative overflow-hidden">
+        <div className="bg-gradient-to-r from-[#000000] to-[#141414] border border-[#d7bf7b]/30 rounded-2xl p-8 md:p-12 flex flex-col md:flex-row items-center justify-between shadow-2xl relative overflow-hidden">
            <div className="absolute top-0 right-0 w-64 h-64 bg-[#d7bf7b]/10 blur-[80px] rounded-full"></div>
            <div className="relative z-10 md:w-2/3 mb-6 md:mb-0">
              <h2 className="text-2xl md:text-3xl font-bold text-white mb-4">Peşəkar Məşqçi Kursları</h2>
              <p className="text-gray-400 font-medium">Özünü inkişaf etdirmək və peşəkar məşqçi olmaq istəyənlər üçün hazırladığımız xüsusi kurslar və praktiki dərslərlə tanış olun.</p>
            </div>
            <div className="relative z-10 md:w-1/3 flex justify-end">
-             <Link href="/courses" className="bg-[#d7bf7b] text-[#0a1423] px-8 py-4 rounded-xl font-bold uppercase tracking-widest text-sm hover:bg-white transition-colors text-center w-full md:w-auto">
+             <Link href="/courses" className="bg-[#d7bf7b] text-[#000000] px-8 py-4 rounded-xl font-bold uppercase tracking-widest text-sm hover:bg-white transition-colors text-center w-full md:w-auto">
                Kurslara Keçid
              </Link>
            </div>
@@ -295,14 +295,14 @@ export default function CoachesPage() {
                     </div>
       {/* Recommended Courses Banner */}
       <div className="container mx-auto px-4 lg:px-8 mt-16">
-        <div className="bg-gradient-to-r from-[#0B1221] to-[#152741] border border-[#d7bf7b]/30 rounded-2xl p-8 md:p-12 flex flex-col md:flex-row items-center justify-between shadow-2xl relative overflow-hidden">
+        <div className="bg-gradient-to-r from-[#000000] to-[#141414] border border-[#d7bf7b]/30 rounded-2xl p-8 md:p-12 flex flex-col md:flex-row items-center justify-between shadow-2xl relative overflow-hidden">
            <div className="absolute top-0 right-0 w-64 h-64 bg-[#d7bf7b]/10 blur-[80px] rounded-full"></div>
            <div className="relative z-10 md:w-2/3 mb-6 md:mb-0">
              <h2 className="text-2xl md:text-3xl font-bold text-white mb-4">Peşəkar Məşqçi Kursları</h2>
              <p className="text-gray-400 font-medium">Özünü inkişaf etdirmək və peşəkar məşqçi olmaq istəyənlər üçün hazırladığımız xüsusi kurslar və praktiki dərslərlə tanış olun.</p>
            </div>
            <div className="relative z-10 md:w-1/3 flex justify-end">
-             <Link href="/courses" className="bg-[#d7bf7b] text-[#0a1423] px-8 py-4 rounded-xl font-bold uppercase tracking-widest text-sm hover:bg-white transition-colors text-center w-full md:w-auto">
+             <Link href="/courses" className="bg-[#d7bf7b] text-[#000000] px-8 py-4 rounded-xl font-bold uppercase tracking-widest text-sm hover:bg-white transition-colors text-center w-full md:w-auto">
                Kurslara Keçid
              </Link>
            </div>
@@ -317,14 +317,14 @@ export default function CoachesPage() {
                       Daha Ətraflı &rarr;
       {/* Recommended Courses Banner */}
       <div className="container mx-auto px-4 lg:px-8 mt-16">
-        <div className="bg-gradient-to-r from-[#0B1221] to-[#152741] border border-[#d7bf7b]/30 rounded-2xl p-8 md:p-12 flex flex-col md:flex-row items-center justify-between shadow-2xl relative overflow-hidden">
+        <div className="bg-gradient-to-r from-[#000000] to-[#141414] border border-[#d7bf7b]/30 rounded-2xl p-8 md:p-12 flex flex-col md:flex-row items-center justify-between shadow-2xl relative overflow-hidden">
            <div className="absolute top-0 right-0 w-64 h-64 bg-[#d7bf7b]/10 blur-[80px] rounded-full"></div>
            <div className="relative z-10 md:w-2/3 mb-6 md:mb-0">
              <h2 className="text-2xl md:text-3xl font-bold text-white mb-4">Peşəkar Məşqçi Kursları</h2>
              <p className="text-gray-400 font-medium">Özünü inkişaf etdirmək və peşəkar məşqçi olmaq istəyənlər üçün hazırladığımız xüsusi kurslar və praktiki dərslərlə tanış olun.</p>
            </div>
            <div className="relative z-10 md:w-1/3 flex justify-end">
-             <Link href="/courses" className="bg-[#d7bf7b] text-[#0a1423] px-8 py-4 rounded-xl font-bold uppercase tracking-widest text-sm hover:bg-white transition-colors text-center w-full md:w-auto">
+             <Link href="/courses" className="bg-[#d7bf7b] text-[#000000] px-8 py-4 rounded-xl font-bold uppercase tracking-widest text-sm hover:bg-white transition-colors text-center w-full md:w-auto">
                Kurslara Keçid
              </Link>
            </div>
@@ -334,14 +334,14 @@ export default function CoachesPage() {
                     </div>
       {/* Recommended Courses Banner */}
       <div className="container mx-auto px-4 lg:px-8 mt-16">
-        <div className="bg-gradient-to-r from-[#0B1221] to-[#152741] border border-[#d7bf7b]/30 rounded-2xl p-8 md:p-12 flex flex-col md:flex-row items-center justify-between shadow-2xl relative overflow-hidden">
+        <div className="bg-gradient-to-r from-[#000000] to-[#141414] border border-[#d7bf7b]/30 rounded-2xl p-8 md:p-12 flex flex-col md:flex-row items-center justify-between shadow-2xl relative overflow-hidden">
            <div className="absolute top-0 right-0 w-64 h-64 bg-[#d7bf7b]/10 blur-[80px] rounded-full"></div>
            <div className="relative z-10 md:w-2/3 mb-6 md:mb-0">
              <h2 className="text-2xl md:text-3xl font-bold text-white mb-4">Peşəkar Məşqçi Kursları</h2>
              <p className="text-gray-400 font-medium">Özünü inkişaf etdirmək və peşəkar məşqçi olmaq istəyənlər üçün hazırladığımız xüsusi kurslar və praktiki dərslərlə tanış olun.</p>
            </div>
            <div className="relative z-10 md:w-1/3 flex justify-end">
-             <Link href="/courses" className="bg-[#d7bf7b] text-[#0a1423] px-8 py-4 rounded-xl font-bold uppercase tracking-widest text-sm hover:bg-white transition-colors text-center w-full md:w-auto">
+             <Link href="/courses" className="bg-[#d7bf7b] text-[#000000] px-8 py-4 rounded-xl font-bold uppercase tracking-widest text-sm hover:bg-white transition-colors text-center w-full md:w-auto">
                Kurslara Keçid
              </Link>
            </div>
@@ -354,14 +354,14 @@ export default function CoachesPage() {
             ))}
       {/* Recommended Courses Banner */}
       <div className="container mx-auto px-4 lg:px-8 mt-16">
-        <div className="bg-gradient-to-r from-[#0B1221] to-[#152741] border border-[#d7bf7b]/30 rounded-2xl p-8 md:p-12 flex flex-col md:flex-row items-center justify-between shadow-2xl relative overflow-hidden">
+        <div className="bg-gradient-to-r from-[#000000] to-[#141414] border border-[#d7bf7b]/30 rounded-2xl p-8 md:p-12 flex flex-col md:flex-row items-center justify-between shadow-2xl relative overflow-hidden">
            <div className="absolute top-0 right-0 w-64 h-64 bg-[#d7bf7b]/10 blur-[80px] rounded-full"></div>
            <div className="relative z-10 md:w-2/3 mb-6 md:mb-0">
              <h2 className="text-2xl md:text-3xl font-bold text-white mb-4">Peşəkar Məşqçi Kursları</h2>
              <p className="text-gray-400 font-medium">Özünü inkişaf etdirmək və peşəkar məşqçi olmaq istəyənlər üçün hazırladığımız xüsusi kurslar və praktiki dərslərlə tanış olun.</p>
            </div>
            <div className="relative z-10 md:w-1/3 flex justify-end">
-             <Link href="/courses" className="bg-[#d7bf7b] text-[#0a1423] px-8 py-4 rounded-xl font-bold uppercase tracking-widest text-sm hover:bg-white transition-colors text-center w-full md:w-auto">
+             <Link href="/courses" className="bg-[#d7bf7b] text-[#000000] px-8 py-4 rounded-xl font-bold uppercase tracking-widest text-sm hover:bg-white transition-colors text-center w-full md:w-auto">
                Kurslara Keçid
              </Link>
            </div>
@@ -370,19 +370,19 @@ export default function CoachesPage() {
 
           </div>
           <div className="mt-10 text-center">
-            <Link href="/courses" className="inline-block bg-[#152741] text-white border border-gray-700 hover:border-[#d7bf7b] px-8 py-3 rounded-xl font-bold uppercase tracking-widest text-xs transition-colors">
+            <Link href="/courses" className="inline-block bg-[#141414] text-white border border-gray-700 hover:border-[#d7bf7b] px-8 py-3 rounded-xl font-bold uppercase tracking-widest text-xs transition-colors">
               Bütün Kurslara Bax
             </Link>
       {/* Recommended Courses Banner */}
       <div className="container mx-auto px-4 lg:px-8 mt-16">
-        <div className="bg-gradient-to-r from-[#0B1221] to-[#152741] border border-[#d7bf7b]/30 rounded-2xl p-8 md:p-12 flex flex-col md:flex-row items-center justify-between shadow-2xl relative overflow-hidden">
+        <div className="bg-gradient-to-r from-[#000000] to-[#141414] border border-[#d7bf7b]/30 rounded-2xl p-8 md:p-12 flex flex-col md:flex-row items-center justify-between shadow-2xl relative overflow-hidden">
            <div className="absolute top-0 right-0 w-64 h-64 bg-[#d7bf7b]/10 blur-[80px] rounded-full"></div>
            <div className="relative z-10 md:w-2/3 mb-6 md:mb-0">
              <h2 className="text-2xl md:text-3xl font-bold text-white mb-4">Peşəkar Məşqçi Kursları</h2>
              <p className="text-gray-400 font-medium">Özünü inkişaf etdirmək və peşəkar məşqçi olmaq istəyənlər üçün hazırladığımız xüsusi kurslar və praktiki dərslərlə tanış olun.</p>
            </div>
            <div className="relative z-10 md:w-1/3 flex justify-end">
-             <Link href="/courses" className="bg-[#d7bf7b] text-[#0a1423] px-8 py-4 rounded-xl font-bold uppercase tracking-widest text-sm hover:bg-white transition-colors text-center w-full md:w-auto">
+             <Link href="/courses" className="bg-[#d7bf7b] text-[#000000] px-8 py-4 rounded-xl font-bold uppercase tracking-widest text-sm hover:bg-white transition-colors text-center w-full md:w-auto">
                Kurslara Keçid
              </Link>
            </div>
@@ -392,14 +392,14 @@ export default function CoachesPage() {
           </div>
       {/* Recommended Courses Banner */}
       <div className="container mx-auto px-4 lg:px-8 mt-16">
-        <div className="bg-gradient-to-r from-[#0B1221] to-[#152741] border border-[#d7bf7b]/30 rounded-2xl p-8 md:p-12 flex flex-col md:flex-row items-center justify-between shadow-2xl relative overflow-hidden">
+        <div className="bg-gradient-to-r from-[#000000] to-[#141414] border border-[#d7bf7b]/30 rounded-2xl p-8 md:p-12 flex flex-col md:flex-row items-center justify-between shadow-2xl relative overflow-hidden">
            <div className="absolute top-0 right-0 w-64 h-64 bg-[#d7bf7b]/10 blur-[80px] rounded-full"></div>
            <div className="relative z-10 md:w-2/3 mb-6 md:mb-0">
              <h2 className="text-2xl md:text-3xl font-bold text-white mb-4">Peşəkar Məşqçi Kursları</h2>
              <p className="text-gray-400 font-medium">Özünü inkişaf etdirmək və peşəkar məşqçi olmaq istəyənlər üçün hazırladığımız xüsusi kurslar və praktiki dərslərlə tanış olun.</p>
            </div>
            <div className="relative z-10 md:w-1/3 flex justify-end">
-             <Link href="/courses" className="bg-[#d7bf7b] text-[#0a1423] px-8 py-4 rounded-xl font-bold uppercase tracking-widest text-sm hover:bg-white transition-colors text-center w-full md:w-auto">
+             <Link href="/courses" className="bg-[#d7bf7b] text-[#000000] px-8 py-4 rounded-xl font-bold uppercase tracking-widest text-sm hover:bg-white transition-colors text-center w-full md:w-auto">
                Kurslara Keçid
              </Link>
            </div>
@@ -410,14 +410,14 @@ export default function CoachesPage() {
       )}
       {/* Recommended Courses Banner */}
       <div className="container mx-auto px-4 lg:px-8 mt-16">
-        <div className="bg-gradient-to-r from-[#0B1221] to-[#152741] border border-[#d7bf7b]/30 rounded-2xl p-8 md:p-12 flex flex-col md:flex-row items-center justify-between shadow-2xl relative overflow-hidden">
+        <div className="bg-gradient-to-r from-[#000000] to-[#141414] border border-[#d7bf7b]/30 rounded-2xl p-8 md:p-12 flex flex-col md:flex-row items-center justify-between shadow-2xl relative overflow-hidden">
            <div className="absolute top-0 right-0 w-64 h-64 bg-[#d7bf7b]/10 blur-[80px] rounded-full"></div>
            <div className="relative z-10 md:w-2/3 mb-6 md:mb-0">
              <h2 className="text-2xl md:text-3xl font-bold text-white mb-4">Peşəkar Məşqçi Kursları</h2>
              <p className="text-gray-400 font-medium">Özünü inkişaf etdirmək və peşəkar məşqçi olmaq istəyənlər üçün hazırladığımız xüsusi kurslar və praktiki dərslərlə tanış olun.</p>
            </div>
            <div className="relative z-10 md:w-1/3 flex justify-end">
-             <Link href="/courses" className="bg-[#d7bf7b] text-[#0a1423] px-8 py-4 rounded-xl font-bold uppercase tracking-widest text-sm hover:bg-white transition-colors text-center w-full md:w-auto">
+             <Link href="/courses" className="bg-[#d7bf7b] text-[#000000] px-8 py-4 rounded-xl font-bold uppercase tracking-widest text-sm hover:bg-white transition-colors text-center w-full md:w-auto">
                Kurslara Keçid
              </Link>
            </div>

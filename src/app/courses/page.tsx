@@ -19,9 +19,9 @@ export default function CoursesPage() {
   }, []);
 
   return (
-    <div className="pt-[140px] min-h-screen bg-[#0a1423] pb-20">
-      <div className="w-full bg-[#152741] py-12 md:py-16 border-b border-gray-800 relative overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-t from-[#0a1423] to-transparent"></div>
+    <div className="pt-[140px] min-h-screen bg-[#000000] pb-20">
+      <div className="w-full bg-[#141414] py-12 md:py-16 border-b border-gray-800 relative overflow-hidden">
+        <div className="absolute inset-0 bg-gradient-to-t from-[#000000] to-transparent"></div>
         <div className="container mx-auto px-4 lg:px-8 relative z-10 text-center">
           <motion.h1 
             initial={{ opacity: 0, y: -20 }}
@@ -57,7 +57,7 @@ export default function CoursesPage() {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: i * 0.1, duration: 0.5 }}
               >
-                <Link href={`/courses/${course.id}`} className="block h-full group cursor-pointer bg-[#152741] rounded-3xl overflow-hidden border border-gray-800 hover:border-[#d7bf7b]/50 transition-colors shadow-xl hover:shadow-2xl flex flex-col">
+                <Link href={`/courses/${course.id}`} className="block h-full group cursor-pointer bg-[#141414] rounded-3xl overflow-hidden border border-gray-800 hover:border-[#d7bf7b]/50 transition-colors shadow-xl hover:shadow-2xl flex flex-col">
                   <div className="relative aspect-video overflow-hidden shrink-0">
                     <img 
                       src={course.image_url || '/placeholder-hero.jpg'} 

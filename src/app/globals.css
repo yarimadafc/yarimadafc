@@ -85,3 +85,12 @@ h1, h2, h3, h4, h5, h6 {
 ::-webkit-scrollbar-thumb:hover {
   background: var(--accent);
 }
+
+
+/* admin-input-fix */
+input, textarea, select {
+  color: inherit;
+}
+input::placeholder, textarea::placeholder {
+  color: #9ca3af; /* gray-400 */
+}

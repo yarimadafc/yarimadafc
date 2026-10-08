@@ -92,13 +92,13 @@ export default function MatchesAndStandings() {
                            <span className="text-xl font-black text-gray-600">{nextMatch.home_team?.substring(0,3)}</span>
                         )}
                       </div>
-                      <span className="text-text-main font-black text-2xl lg:text-3xl text-center leading-tight uppercase">{nextMatch.home_team}</span>
+                      <span className="text-text-main font-black text-lg lg:text-2xl text-center leading-tight uppercase">{nextMatch.home_team}</span>
                     </div>
 
                     {/* VS */}
                     <div className="my-2 relative flex items-center justify-center w-full">
                        <div className="w-full h-px bg-gradient-to-r from-transparent via-[#1f1f1f] to-transparent absolute"></div>
-                       <span className="bg-bg-sec px-4 py-1 rounded-full text-accent font-black italic tracking-widest text-2xl lg:text-3xl relative z-10 py-2 px-6 border border-bg-border">
+                       <span className="bg-bg-sec px-4 py-1 rounded-full text-accent font-black italic tracking-widest text-xl lg:text-2xl relative z-10 py-1.5 px-5 border border-bg-border">
                          {nextMatch.status === 'finished' ? `${nextMatch.home_score} - ${nextMatch.away_score}` : 'VS'}
                        </span>
                     </div>
@@ -112,7 +112,7 @@ export default function MatchesAndStandings() {
                            <span className="text-xl font-black text-gray-600">{nextMatch.away_team?.substring(0,3)}</span>
                         )}
                       </div>
-                      <span className="text-text-sec font-black text-2xl lg:text-3xl text-center leading-tight uppercase">{nextMatch.away_team}</span>
+                      <span className="text-text-sec font-black text-lg lg:text-2xl text-center leading-tight uppercase">{nextMatch.away_team}</span>
                     </div>
                   </div>
 

@@ -43,6 +43,13 @@
 
 html {
   scroll-behavior: smooth;
+  font-size: 14px; /* Default desktop scaling */
+}
+
+@media (max-width: 768px) {
+  html {
+    font-size: 13px; /* Mobile scaling */
+  }
 }
 
 body {

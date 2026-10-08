@@ -29,7 +29,7 @@ export default function CoachesPage() {
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
-            className="text-3xl md:text-5xl font-black text-[var(--text-main)] uppercase tracking-tighter mb-4"
+            className="text-2xl md:text-4xl font-black text-[var(--text-main)] uppercase tracking-tighter mb-4"
           >
             MƏŞQÇİLƏR <span className="text-[var(--accent)]">HEYƏTİ</span>
           </motion.h1>

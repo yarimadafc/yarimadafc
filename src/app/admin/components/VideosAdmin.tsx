@@ -1,6 +1,7 @@
 'use client';
 import { useState, useEffect } from "react";
 import { supabase } from '@/lib/supabase';
+import { adminDb } from '@/lib/adminDb';
 import { Trash2, Plus, PlayCircle } from 'lucide-react';
 
 const getYoutubeId = (url: string) => {
@@ -47,14 +48,14 @@ export default function VideosAdmin() {
 
     let error;
     if (editingId) {
-      const res = await supabase.from('videos').update({ 
+      const res = await adminDb.from('videos').update({ 
         title, 
         url, 
         thumbnail_url: thumbUrl 
       }).eq('id', editingId);
       error = res.error;
     } else {
-      const res = await supabase.from('videos').insert([{ 
+      const res = await adminDb.from('videos').insert([{ 
         title, 
         url, 
         thumbnail_url: thumbUrl, 
@@ -75,7 +76,7 @@ export default function VideosAdmin() {
 
   const handleDelete = async (id: string) => {
     if (confirm('Bu videonu silmək istədiyinizə əminsiniz?')) {
-      await supabase.from('videos').delete().eq('id', id);
+      await adminDb.from('videos').delete().eq('id', id);
       fetchVideos();
     }
   };

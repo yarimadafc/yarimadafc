@@ -1,6 +1,7 @@
 'use client';
 import { useState, useEffect } from 'react';
 import { supabase } from '@/lib/supabase';
+import { adminDb } from '@/lib/adminDb';
 import { compressImage } from '@/lib/imageCompress';
 import { Trash2, Plus, Edit2, PlayCircle } from 'lucide-react';
 
@@ -59,9 +60,9 @@ export default function CoachCoursesAdmin() {
   const handleSave = async (e: React.FormEvent) => {
     e.preventDefault();
     if (editingId) {
-      await supabase.from('coach_courses').update({ title, description, video_url: videoUrl, image_url: imageUrl }).eq('id', editingId);
+      await adminDb.from('coach_courses').update({ title, description, video_url: videoUrl, image_url: imageUrl }).eq('id', editingId);
     } else {
-      await supabase.from('coach_courses').insert([{ title, description, video_url: videoUrl, image_url: imageUrl }]);
+      await adminDb.from('coach_courses').insert([{ title, description, video_url: videoUrl, image_url: imageUrl }]);
     }
     setIsAdding(false);
     resetForm();
@@ -70,7 +71,7 @@ export default function CoachCoursesAdmin() {
 
   const handleDelete = async (id: string) => {
     if (confirm('Silmək istədiyinizə əminsiniz?')) {
-      await supabase.from('coach_courses').delete().eq('id', id);
+      await adminDb.from('coach_courses').delete().eq('id', id);
       fetchCourses();
     }
   };

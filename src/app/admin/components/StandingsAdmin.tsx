@@ -1,6 +1,7 @@
 'use client';
 import { useState, useEffect } from 'react';
 import { supabase } from '@/lib/supabase';
+import { adminDb } from '@/lib/adminDb';
 import { Plus, Trash2, Edit2, ChevronRight, ArrowLeft } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 
@@ -79,10 +80,10 @@ export default function StandingsAdmin() {
     };
 
     if (editingId) {
-      await supabase.from('standings').update(payload).eq('id', editingId);
+      await adminDb.from('standings').update(payload).eq('id', editingId);
       alert('Yeniləndi!');
     } else {
-      await supabase.from('standings').insert([payload]);
+      await adminDb.from('standings').insert([payload]);
       alert('Əlavə edildi!');
     }
 
@@ -94,7 +95,7 @@ export default function StandingsAdmin() {
 
   const handleDelete = async (id: string) => {
     if (confirm('Silmək istədiyinizə əminsiniz?')) {
-      await supabase.from('standings').delete().eq('id', id);
+      await adminDb.from('standings').delete().eq('id', id);
       fetchStandings();
     }
   };

@@ -1,6 +1,7 @@
 'use client';
 import { useState, useEffect } from 'react';
 import { supabase } from '@/lib/supabase';
+import { adminDb } from '@/lib/adminDb';
 import { Plus, UploadCloud, Star } from 'lucide-react';
 import { compressImage } from '@/lib/imageCompress';
 
@@ -66,10 +67,10 @@ export default function CoachesAdmin() {
     let newId = editingId;
 
     if (editingId) {
-      await supabase.from('coaches').update(payload).eq('id', editingId);
+      await adminDb.from('coaches').update(payload).eq('id', editingId);
       alert('Yeniləndi!');
     } else {
-      const { data: insertedData } = await supabase.from('coaches').insert([payload]).select();
+      const { data: insertedData } = await adminDb.from('coaches').insert([payload]).select();
       if (insertedData && insertedData.length > 0) newId = insertedData[0].id;
       alert('Əlavə edildi!');
     }
@@ -92,7 +93,7 @@ export default function CoachesAdmin() {
       return;
     }
 
-    const { error } = await supabase.from('leadership').insert([{
+    const { error } = await adminDb.from('leadership').insert([{
       name: coach.name,
       position: coach.role || 'Məşqçi',
       image_url: coach.image_url,
@@ -106,7 +107,7 @@ export default function CoachesAdmin() {
 
   const handleDelete = async (id: string) => {
     if (confirm('Silmək istədiyinizə əminsiniz?')) {
-      await supabase.from('coaches').delete().eq('id', id);
+      await adminDb.from('coaches').delete().eq('id', id);
       fetchData();
     }
   };

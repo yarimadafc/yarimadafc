@@ -1,6 +1,7 @@
 'use client';
 import { useState, useEffect } from 'react';
 import { supabase } from '@/lib/supabase';
+import { adminDb } from '@/lib/adminDb';
 import { Save } from 'lucide-react';
 
 export default function TextsAdmin() {
@@ -38,9 +39,9 @@ export default function TextsAdmin() {
     // Check if exists
     const { data } = await supabase.from('site_images').select('id').eq('section_key', key).maybeSingle();
     if (data) {
-      await supabase.from('site_images').update({ image_url: value }).eq('section_key', key);
+      await adminDb.from('site_images').update({ image_url: value }).eq('section_key', key);
     } else {
-      await supabase.from('site_images').insert([{ section_key: key, image_url: value }]);
+      await adminDb.from('site_images').insert([{ section_key: key, image_url: value }]);
     }
     
     setSaving(false);

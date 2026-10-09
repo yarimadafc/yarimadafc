@@ -1,6 +1,7 @@
 'use client';
 import { useState, useEffect } from 'react';
 import { supabase } from '@/lib/supabase';
+import { adminDb } from '@/lib/adminDb';
 import { Plus, Trash2, Edit2, UploadCloud, Save } from 'lucide-react';
 import { compressImage } from '@/lib/imageCompress';
 
@@ -75,7 +76,7 @@ export default function TeamsAdmin() {
   const handleAddTeam = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!teamName) return;
-    await supabase.from('teams').insert([{ name: teamName }]);
+    await adminDb.from('teams').insert([{ name: teamName }]);
     setTeamName('');
     setIsAddingTeam(false);
     fetchTeams();
@@ -94,9 +95,9 @@ export default function TeamsAdmin() {
     for (const d of details) {
       const { data } = await supabase.from('site_images').select('id').eq('section_key', d.key).maybeSingle();
       if (data) {
-        await supabase.from('site_images').update({ image_url: d.val }).eq('section_key', d.key);
+        await adminDb.from('site_images').update({ image_url: d.val }).eq('section_key', d.key);
       } else {
-        await supabase.from('site_images').insert([{ section_key: d.key, image_url: d.val }]);
+        await adminDb.from('site_images').insert([{ section_key: d.key, image_url: d.val }]);
       }
     }
     
@@ -106,7 +107,7 @@ export default function TeamsAdmin() {
 
   const handleDeleteTeam = async (id: string) => {
     if (confirm('Komandanı və içindəki bütün oyunçuları silmək istədiyinizə əminsiniz?')) {
-      await supabase.from('teams').delete().eq('id', id);
+      await adminDb.from('teams').delete().eq('id', id);
       if (selectedTeamId === id) setSelectedTeamId(null);
       fetchTeams();
     }
@@ -125,7 +126,7 @@ export default function TeamsAdmin() {
   const handleSavePlayer = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!selectedTeamId || !playerName) return;
-    await supabase.from('players').insert([{ 
+    await adminDb.from('players').insert([{ 
       team_id: selectedTeamId,
       name: playerName,
       position: playerPosition,
@@ -139,7 +140,7 @@ export default function TeamsAdmin() {
 
   const handleDeletePlayer = async (id: string) => {
     if (confirm('Oyunçunu silmək istədiyinizə əminsiniz?')) {
-      await supabase.from('players').delete().eq('id', id);
+      await adminDb.from('players').delete().eq('id', id);
       if (selectedTeamId) fetchPlayers(selectedTeamId);
     }
   };

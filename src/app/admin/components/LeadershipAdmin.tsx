@@ -1,6 +1,7 @@
 'use client';
 import { useState, useEffect } from 'react';
 import { supabase } from '@/lib/supabase';
+import { adminDb } from '@/lib/adminDb';
 import { compressImage } from '@/lib/imageCompress';
 import { Trash2, Plus, Edit2 } from 'lucide-react';
 
@@ -61,9 +62,9 @@ export default function LeadershipAdmin() {
   const handleSave = async (e: React.FormEvent) => {
     e.preventDefault();
     if (editingId) {
-      await supabase.from('leadership').update({ name, position, bio, image_url: imageUrl, order_num: orderNum }).eq('id', editingId);
+      await adminDb.from('leadership').update({ name, position, bio, image_url: imageUrl, order_num: orderNum }).eq('id', editingId);
     } else {
-      await supabase.from('leadership').insert([{ name, position, bio, image_url: imageUrl, order_num: orderNum }]);
+      await adminDb.from('leadership').insert([{ name, position, bio, image_url: imageUrl, order_num: orderNum }]);
     }
     setIsAdding(false);
     resetForm();
@@ -72,7 +73,7 @@ export default function LeadershipAdmin() {
 
   const handleDelete = async (id: string) => {
     if (confirm('Silmək istədiyinizə əminsiniz?')) {
-      await supabase.from('leadership').delete().eq('id', id);
+      await adminDb.from('leadership').delete().eq('id', id);
       fetchLeaders();
     }
   };

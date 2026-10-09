@@ -1,6 +1,7 @@
 'use client';
 import { useState, useEffect } from 'react';
 import { supabase } from '@/lib/supabase';
+import { adminDb } from '@/lib/adminDb';
 import { Trash2, Plus, Edit2, X } from 'lucide-react';
 import { compressImage } from '@/lib/imageCompress';
 
@@ -115,9 +116,9 @@ export default function ShopAdmin() {
     };
 
     if (editingId) {
-      await supabase.from('products').update(payload).eq('id', editingId);
+      await adminDb.from('products').update(payload).eq('id', editingId);
     } else {
-      await supabase.from('products').insert([payload]);
+      await adminDb.from('products').insert([payload]);
     }
     
     setIsAdding(false);
@@ -127,7 +128,7 @@ export default function ShopAdmin() {
 
   const handleDelete = async (id: string) => {
     if (confirm('Silmək istədiyinizə əminsiniz?')) {
-      await supabase.from('products').delete().eq('id', id);
+      await adminDb.from('products').delete().eq('id', id);
       fetchProducts();
     }
   };

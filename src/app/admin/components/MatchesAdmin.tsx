@@ -1,6 +1,7 @@
 'use client';
 import { useState, useEffect } from 'react';
 import { supabase } from '@/lib/supabase';
+import { adminDb } from '@/lib/adminDb';
 import { compressImage } from '@/lib/imageCompress';
 import { Trash2, Plus, UploadCloud, Radio, Clock, Users, Play, Pause, Square, AlertCircle } from 'lucide-react';
 import { calculateLiveMinute, TimerStatus } from '@/lib/matchTimer';
@@ -223,10 +224,10 @@ export default function MatchesAdmin() {
     };
 
     if (editingId) {
-      await supabase.from('matches').update(payload).eq('id', editingId);
+      await adminDb.from('matches').update(payload).eq('id', editingId);
       alert('Oyun məlumatları yeniləndi!');
     } else {
-      await supabase.from('matches').insert([payload]);
+      await adminDb.from('matches').insert([payload]);
       alert('Oyun uğurla əlavə edildi!');
     }
     
@@ -237,7 +238,7 @@ export default function MatchesAdmin() {
 
   const handleDelete = async (id: string) => {
     if (confirm('Bu oyunu silmək istədiyinizə əminsiniz?')) {
-      await supabase.from('matches').delete().eq('id', id);
+      await adminDb.from('matches').delete().eq('id', id);
       fetchMatches();
     }
   };

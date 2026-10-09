@@ -3,6 +3,7 @@
 import { compressImage } from '@/lib/imageCompress';
 import { useState, useEffect } from 'react';
 import { supabase } from '@/lib/supabase';
+import { adminDb } from '@/lib/adminDb';
 import { Trash2, Plus, UploadCloud } from 'lucide-react';
 
 export default function NewsAdmin() {
@@ -71,7 +72,7 @@ export default function NewsAdmin() {
     
     let error;
     if (editingId) {
-      const res = await supabase.from('news').update({ 
+      const res = await adminDb.from('news').update({ 
         title_az: title, 
         content_az: content, 
         category: category,
@@ -79,7 +80,7 @@ export default function NewsAdmin() {
       }).eq('id', editingId);
       error = res.error;
     } else {
-      const res = await supabase.from('news').insert([{ 
+      const res = await adminDb.from('news').insert([{ 
         title_az: title, 
         content_az: content, 
         category: category,
@@ -101,7 +102,7 @@ export default function NewsAdmin() {
 
   const handleDelete = async (id: string) => {
     if (confirm('Bu xəbəri silmək istədiyinizə əminsiniz?')) {
-      await supabase.from('news').delete().eq('id', id);
+      await adminDb.from('news').delete().eq('id', id);
       fetchNews();
     }
   };

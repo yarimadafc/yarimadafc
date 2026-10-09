@@ -3,6 +3,7 @@
 import { compressImage } from '@/lib/imageCompress';
 import { useState, useEffect } from 'react';
 import { supabase } from '@/lib/supabase';
+import { adminDb } from '@/lib/adminDb';
 import { Trash2, Plus, UploadCloud } from 'lucide-react';
 
 export default function SponsorsAdmin() {
@@ -62,10 +63,10 @@ export default function SponsorsAdmin() {
     
     let error;
     if (editingId) {
-      const res = await supabase.from('sponsors').update({ name, logo_url: logoUrl }).eq('id', editingId);
+      const res = await adminDb.from('sponsors').update({ name, logo_url: logoUrl }).eq('id', editingId);
       error = res.error;
     } else {
-      const res = await supabase.from('sponsors').insert([{ name, logo_url: logoUrl }]);
+      const res = await adminDb.from('sponsors').insert([{ name, logo_url: logoUrl }]);
       error = res.error;
     }
     if (error) alert('Xəta: ' + error.message);
@@ -79,7 +80,7 @@ export default function SponsorsAdmin() {
 
   const handleDelete = async (id: string) => {
     if (confirm('Silmək istədiyinizə əminsiniz?')) {
-      await supabase.from('sponsors').delete().eq('id', id);
+      await adminDb.from('sponsors').delete().eq('id', id);
       fetchSponsors();
     }
   };

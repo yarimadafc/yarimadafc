@@ -1,7 +1,11 @@
-import { NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
+import { requireAdmin } from '@/lib/adminGuard';
 import translate from 'google-translate-api-x';
 
-export async function POST(req: Request) {
+export async function POST(req: NextRequest) {
+  const denied = await requireAdmin(req);
+  if (denied) return denied;
+
   try {
     const { text } = await req.json();
     

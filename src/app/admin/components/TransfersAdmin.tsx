@@ -1,6 +1,7 @@
 'use client';
 import { useState, useEffect } from 'react';
 import { supabase } from '@/lib/supabase';
+import { adminDb } from '@/lib/adminDb';
 import { compressImage } from '@/lib/imageCompress';
 import { Trash2, Plus, Edit2 } from 'lucide-react';
 
@@ -54,9 +55,9 @@ export default function TransfersAdmin() {
     if (!playerName) return alert('Oyunçu adı mütləqdir!');
     const payload = { player_name: playerName, from_team: fromTeam, to_team: toTeam, transfer_type: transferType, date, image_url: imageUrl };
     if (editingId) {
-      await supabase.from('transfers').update(payload).eq('id', editingId);
+      await adminDb.from('transfers').update(payload).eq('id', editingId);
     } else {
-      await supabase.from('transfers').insert([payload]);
+      await adminDb.from('transfers').insert([payload]);
     }
     setIsAdding(false);
     resetForm();
@@ -76,7 +77,7 @@ export default function TransfersAdmin() {
 
   const handleDelete = async (id: string) => {
     if (confirm('Silmək istədiyinizə əminsiniz?')) {
-      await supabase.from('transfers').delete().eq('id', id);
+      await adminDb.from('transfers').delete().eq('id', id);
       fetchTransfers();
     }
   };

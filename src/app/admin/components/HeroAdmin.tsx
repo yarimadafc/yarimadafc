@@ -1,6 +1,7 @@
 'use client';
 import { useState, useEffect } from 'react';
 import { supabase } from '@/lib/supabase';
+import { adminDb } from '@/lib/adminDb';
 import { compressImage } from '@/lib/imageCompress';
 import { Trash2, Plus, Edit2 } from 'lucide-react';
 
@@ -53,9 +54,9 @@ export default function HeroAdmin() {
     if (!imageUrl) return alert('Şəkil mütləqdir!');
     const payload = { title, subtitle, link_url: linkUrl, image_url: imageUrl, sort_order: sortOrder };
     if (editingId) {
-      await supabase.from('hero_slides').update(payload).eq('id', editingId);
+      await adminDb.from('hero_slides').update(payload).eq('id', editingId);
     } else {
-      await supabase.from('hero_slides').insert([payload]);
+      await adminDb.from('hero_slides').insert([payload]);
     }
     setIsAdding(false);
     resetForm();
@@ -74,7 +75,7 @@ export default function HeroAdmin() {
 
   const handleDelete = async (id: string) => {
     if (confirm('Silmək istədiyinizə əminsiniz?')) {
-      await supabase.from('hero_slides').delete().eq('id', id);
+      await adminDb.from('hero_slides').delete().eq('id', id);
       fetchSlides();
     }
   };

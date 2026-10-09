@@ -1,6 +1,7 @@
 'use client';
 import { useState, useEffect } from 'react';
 import { supabase } from '@/lib/supabase';
+import { adminDb } from '@/lib/adminDb';
 import { Trash2, Plus } from 'lucide-react';
 import { compressImage } from '@/lib/imageCompress';
 
@@ -64,12 +65,12 @@ export default function AchievementsAdmin() {
     
     let error;
     if (editingId) {
-      const res = await supabase.from('achievements').update({ title, count, order_num: orderNum,
+      const res = await adminDb.from('achievements').update({ title, count, order_num: orderNum,
       description,
       image_url: imageUrl }).eq('id', editingId);
       error = res.error;
     } else {
-      const res = await supabase.from('achievements').insert([{ title, count, order_num: orderNum, description, image_url: imageUrl }]);
+      const res = await adminDb.from('achievements').insert([{ title, count, order_num: orderNum, description, image_url: imageUrl }]);
       error = res.error;
     }
     
@@ -86,7 +87,7 @@ export default function AchievementsAdmin() {
 
   const handleDelete = async (id: string) => {
     if (confirm('Silmək istədiyinizə əminsiniz?')) {
-      await supabase.from('achievements').delete().eq('id', id);
+      await adminDb.from('achievements').delete().eq('id', id);
       fetchAchievements();
     }
   };

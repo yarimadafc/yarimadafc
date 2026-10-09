@@ -1,6 +1,7 @@
 'use client';
 import { useState, useEffect } from 'react';
 import { supabase } from '@/lib/supabase';
+import { adminDb } from '@/lib/adminDb';
 import { UploadCloud } from 'lucide-react';
 import { compressImage } from '@/lib/imageCompress';
 import { Save } from 'lucide-react';
@@ -48,9 +49,9 @@ export default function ClubAdmin() {
     const value = texts[key];
     const { data } = await supabase.from('site_images').select('id').eq('section_key', key).maybeSingle();
     if (data) {
-      await supabase.from('site_images').update({ image_url: value }).eq('section_key', key);
+      await adminDb.from('site_images').update({ image_url: value }).eq('section_key', key);
     } else {
-      await supabase.from('site_images').insert([{ section_key: key, image_url: value }]);
+      await adminDb.from('site_images').insert([{ section_key: key, image_url: value }]);
     }
     setSaving(false);
     alert('Yadda saxlanıldı!');
@@ -103,8 +104,8 @@ export default function ClubAdmin() {
                           handleChange('about_bg', data.url);
                           // Auto save immediately
                           await supabase.from('site_images').select('id').eq('section_key', 'about_bg').maybeSingle().then(async ({data: existing}) => {
-                            if (existing) await supabase.from('site_images').update({ image_url: data.url }).eq('section_key', 'about_bg');
-                            else await supabase.from('site_images').insert([{ section_key: 'about_bg', image_url: data.url }]);
+                            if (existing) await adminDb.from('site_images').update({ image_url: data.url }).eq('section_key', 'about_bg');
+                            else await adminDb.from('site_images').insert([{ section_key: 'about_bg', image_url: data.url }]);
                           });
                           alert('Şəkil uğurla əlavə edildi!');
                         }

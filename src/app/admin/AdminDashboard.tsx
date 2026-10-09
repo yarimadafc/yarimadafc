@@ -5,6 +5,7 @@ import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { LogOut, Image as ImageIcon, CheckCircle, UploadCloud, FileText, Video, Image, Trophy, DollarSign, LayoutDashboard, Settings, Trash2, ShoppingCart, Users, PlayCircle } from 'lucide-react';
 import { supabase } from '@/lib/supabase';
+import { adminDb } from '@/lib/adminDb';
 import NewsAdmin from './components/NewsAdmin';
 import VideosAdmin from './components/VideosAdmin';
 import HeroAdmin from './components/HeroAdmin';
@@ -70,7 +71,7 @@ export default function AdminDashboard() {
       const uploadData = await uploadRes.json();
       
       if (uploadData.url) {
-        const { error } = await supabase.from('site_images').upsert({
+        const { error } = await adminDb.from('site_images').upsert({
           section_key: sectionId,
           image_url: uploadData.url
         }, { onConflict: 'section_key' });
@@ -96,7 +97,7 @@ export default function AdminDashboard() {
     if (!confirm('Bu şəkli silmək istədiyinizə əminsiniz?')) return;
     setLoadingSection(sectionId);
     try {
-      const { error } = await supabase.from('site_images').delete().eq('section_key', sectionId);
+      const { error } = await adminDb.from('site_images').delete().eq('section_key', sectionId);
       if (!error) {
         setImages(prev => {
           const copy = { ...prev };

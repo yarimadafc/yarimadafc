@@ -1,7 +1,11 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { uploadToImgBB } from '@/lib/imgbb';
+import { requireAdmin } from '@/lib/adminGuard';
 
 export async function POST(request: NextRequest) {
+  const denied = await requireAdmin(request);
+  if (denied) return denied;
+
   try {
     const body = await request.json();
     const { image } = body;

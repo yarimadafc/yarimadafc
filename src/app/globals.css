@@ -11,6 +11,7 @@
   --color-text-main: var(--text-main);
   --color-text-sec: var(--text-sec);
   --color-accent: var(--accent);
+  --color-on-accent: var(--on-accent);
 }
 
 :root {
@@ -23,9 +24,10 @@
   --text-main: #051024;
   --text-sec: #4b5563;
   --accent: #0f2b5c; /* Gold replaced by deep blue accent in light mode */
+  --on-accent: #ffffff;
   
-  --ks-font: var(--font-albert), system-ui, sans-serif;
-  --ks-font-condensed: var(--font-alumni), system-ui, sans-serif;
+  --ks-font: 'Montserrat Variable', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  --ks-font-condensed: 'Oswald Variable', system-ui, sans-serif;
   --ks-font-mono: var(--font-jetbrains), monospace;
 }
 
@@ -39,6 +41,7 @@
   --text-main: #ffffff;
   --text-sec: #9ca3af;
   --accent: #ffffff; /* Gold replaced by white accent in dark mode */
+  --on-accent: #051024;
 }
 
 html {
@@ -113,5 +116,6 @@ input::placeholder, textarea::placeholder {
   --color-text-main: #ffffff;
   --color-text-sec: #9ca3af;
   --color-accent: #ffffff;
+  --color-on-accent: #051024;
   color-scheme: dark;
 }

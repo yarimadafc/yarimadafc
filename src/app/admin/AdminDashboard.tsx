@@ -138,60 +138,60 @@ export default function AdminDashboard() {
           </div>
 
           <nav className="p-4 space-y-2">
-            <button onClick={() => setActiveTab('images')} className={`w-full flex items-center space-x-3 px-4 py-3 rounded-lg font-bold text-xs uppercase tracking-widest transition-colors ${activeTab === 'images' ? 'bg-accent text-[#141414]' : 'text-gray-400 hover:text-white hover:bg-gray-900'}`}>
+            <button onClick={() => setActiveTab('images')} className={`w-full flex items-center space-x-3 px-4 py-3 rounded-lg font-bold text-xs uppercase tracking-widest transition-colors ${activeTab === 'images' ? 'bg-accent text-on-accent' : 'text-gray-400 hover:text-white hover:bg-gray-900'}`}>
               <ImageIcon className="w-4 h-4" />
               <span>Sayt Şəkilləri</span>
             </button>
-            <button onClick={() => setActiveTab('texts')} className={`w-full flex items-center space-x-3 px-4 py-3 rounded-lg font-bold text-xs uppercase tracking-widest transition-colors ${activeTab === 'texts' ? 'bg-accent text-[#141414]' : 'text-gray-400 hover:text-white hover:bg-gray-900'}`}>
+            <button onClick={() => setActiveTab('texts')} className={`w-full flex items-center space-x-3 px-4 py-3 rounded-lg font-bold text-xs uppercase tracking-widest transition-colors ${activeTab === 'texts' ? 'bg-accent text-on-accent' : 'text-gray-400 hover:text-white hover:bg-gray-900'}`}>
               <FileText className="w-4 h-4" />
               <span>Sayt Yazıları</span>
             </button>
-            <button onClick={() => setActiveTab('club')} className={`w-full flex items-center space-x-3 px-4 py-3 rounded-lg font-bold text-xs uppercase tracking-widest transition-colors ${activeTab === 'club' ? 'bg-accent text-[#141414]' : 'text-gray-400 hover:text-white hover:bg-gray-900'}`}>
+            <button onClick={() => setActiveTab('club')} className={`w-full flex items-center space-x-3 px-4 py-3 rounded-lg font-bold text-xs uppercase tracking-widest transition-colors ${activeTab === 'club' ? 'bg-accent text-on-accent' : 'text-gray-400 hover:text-white hover:bg-gray-900'}`}>
               <FileText className="w-4 h-4" />
               <span>Klub (Haqqımızda)</span>
             </button>
-            <button onClick={() => setActiveTab('leadership')} className={`w-full flex items-center space-x-3 px-4 py-3 rounded-lg font-bold text-xs uppercase tracking-widest transition-colors ${activeTab === 'leadership' ? 'bg-accent text-[#141414]' : 'text-gray-400 hover:text-white hover:bg-gray-900'}`}>
+            <button onClick={() => setActiveTab('leadership')} className={`w-full flex items-center space-x-3 px-4 py-3 rounded-lg font-bold text-xs uppercase tracking-widest transition-colors ${activeTab === 'leadership' ? 'bg-accent text-on-accent' : 'text-gray-400 hover:text-white hover:bg-gray-900'}`}>
               <Users className="w-4 h-4" />
               <span>İdarə Heyəti</span>
             </button>
-            <button onClick={() => setActiveTab('courses')} className={`w-full flex items-center space-x-3 px-4 py-3 rounded-lg font-bold text-xs uppercase tracking-widest transition-colors ${activeTab === 'courses' ? 'bg-accent text-[#141414]' : 'text-gray-400 hover:text-white hover:bg-gray-900'}`}>
+            <button onClick={() => setActiveTab('courses')} className={`w-full flex items-center space-x-3 px-4 py-3 rounded-lg font-bold text-xs uppercase tracking-widest transition-colors ${activeTab === 'courses' ? 'bg-accent text-on-accent' : 'text-gray-400 hover:text-white hover:bg-gray-900'}`}>
               <PlayCircle className="w-4 h-4" />
               <span>Məşqçi Kursu</span>
             </button>
-            <button onClick={() => setActiveTab('shop')} className={`w-full flex items-center space-x-3 px-4 py-3 rounded-lg font-bold text-xs uppercase tracking-widest transition-colors ${activeTab === 'shop' ? 'bg-accent text-[#141414]' : 'text-gray-400 hover:text-white hover:bg-gray-900'}`}>
+            <button onClick={() => setActiveTab('shop')} className={`w-full flex items-center space-x-3 px-4 py-3 rounded-lg font-bold text-xs uppercase tracking-widest transition-colors ${activeTab === 'shop' ? 'bg-accent text-on-accent' : 'text-gray-400 hover:text-white hover:bg-gray-900'}`}>
               <ShoppingCart className="w-4 h-4" />
               <span>Mağaza</span>
             </button>
 
-            <button onClick={() => setActiveTab('coaches')} className={`w-full flex items-center space-x-3 px-4 py-3 rounded-lg font-bold text-xs uppercase tracking-widest transition-colors ${activeTab === 'coaches' ? 'bg-accent text-[#141414]' : 'text-gray-400 hover:text-white hover:bg-gray-900'}`}>
+            <button onClick={() => setActiveTab('coaches')} className={`w-full flex items-center space-x-3 px-4 py-3 rounded-lg font-bold text-xs uppercase tracking-widest transition-colors ${activeTab === 'coaches' ? 'bg-accent text-on-accent' : 'text-gray-400 hover:text-white hover:bg-gray-900'}`}>
               <CheckCircle className="w-4 h-4" />
               <span>Məşqçilər</span>
             </button>
-            <button onClick={() => setActiveTab('teams')} className={`w-full flex items-center space-x-3 px-4 py-3 rounded-lg font-bold text-xs uppercase tracking-widest transition-colors ${activeTab === 'teams' ? 'bg-accent text-[#141414]' : 'text-gray-400 hover:text-white hover:bg-gray-900'}`}>
+            <button onClick={() => setActiveTab('teams')} className={`w-full flex items-center space-x-3 px-4 py-3 rounded-lg font-bold text-xs uppercase tracking-widest transition-colors ${activeTab === 'teams' ? 'bg-accent text-on-accent' : 'text-gray-400 hover:text-white hover:bg-gray-900'}`}>
               <CheckCircle className="w-4 h-4" />
               <span>Komandalar</span>
             </button>
-            <button onClick={() => setActiveTab('news')} className={`w-full flex items-center space-x-3 px-4 py-3 rounded-lg font-bold text-xs uppercase tracking-widest transition-colors ${activeTab === 'news' ? 'bg-accent text-[#141414]' : 'text-gray-400 hover:text-white hover:bg-gray-900'}`}>
+            <button onClick={() => setActiveTab('news')} className={`w-full flex items-center space-x-3 px-4 py-3 rounded-lg font-bold text-xs uppercase tracking-widest transition-colors ${activeTab === 'news' ? 'bg-accent text-on-accent' : 'text-gray-400 hover:text-white hover:bg-gray-900'}`}>
               <FileText className="w-4 h-4" />
               <span>Xəbərlər</span>
             </button>
-            <button onClick={() => setActiveTab('videos')} className={`w-full flex items-center space-x-3 px-4 py-3 rounded-lg font-bold text-xs uppercase tracking-widest transition-colors ${activeTab === 'videos' ? 'bg-accent text-[#141414]' : 'text-gray-400 hover:text-white hover:bg-gray-900'}`}>
+            <button onClick={() => setActiveTab('videos')} className={`w-full flex items-center space-x-3 px-4 py-3 rounded-lg font-bold text-xs uppercase tracking-widest transition-colors ${activeTab === 'videos' ? 'bg-accent text-on-accent' : 'text-gray-400 hover:text-white hover:bg-gray-900'}`}>
               <Video className="w-4 h-4" />
               <span>Videolar</span>
             </button>
-            <button onClick={() => setActiveTab('achievements')} className={`w-full flex items-center space-x-3 px-4 py-3 rounded-lg font-bold text-xs uppercase tracking-widest transition-colors ${activeTab === 'achievements' ? 'bg-accent text-[#141414]' : 'text-gray-400 hover:text-white hover:bg-gray-900'}`}>
+            <button onClick={() => setActiveTab('achievements')} className={`w-full flex items-center space-x-3 px-4 py-3 rounded-lg font-bold text-xs uppercase tracking-widest transition-colors ${activeTab === 'achievements' ? 'bg-accent text-on-accent' : 'text-gray-400 hover:text-white hover:bg-gray-900'}`}>
               <Trophy className="w-4 h-4" />
               <span>Nailiyyətlər</span>
             </button>
-            <button onClick={() => setActiveTab('sponsors')} className={`w-full flex items-center space-x-3 px-4 py-3 rounded-lg font-bold text-xs uppercase tracking-widest transition-colors ${activeTab === 'sponsors' ? 'bg-accent text-[#141414]' : 'text-gray-400 hover:text-white hover:bg-gray-900'}`}>
+            <button onClick={() => setActiveTab('sponsors')} className={`w-full flex items-center space-x-3 px-4 py-3 rounded-lg font-bold text-xs uppercase tracking-widest transition-colors ${activeTab === 'sponsors' ? 'bg-accent text-on-accent' : 'text-gray-400 hover:text-white hover:bg-gray-900'}`}>
               <DollarSign className="w-4 h-4" />
               <span>Sponsorlar</span>
             </button>
-            <button onClick={() => setActiveTab('standings')} className={`w-full flex items-center space-x-3 px-4 py-3 rounded-lg font-bold text-xs uppercase tracking-widest transition-colors ${activeTab === 'standings' ? 'bg-accent text-[#141414]' : 'text-gray-400 hover:text-white hover:bg-gray-900'}`}>
+            <button onClick={() => setActiveTab('standings')} className={`w-full flex items-center space-x-3 px-4 py-3 rounded-lg font-bold text-xs uppercase tracking-widest transition-colors ${activeTab === 'standings' ? 'bg-accent text-on-accent' : 'text-gray-400 hover:text-white hover:bg-gray-900'}`}>
               <Trophy className="w-4 h-4" />
               <span>Turnir Cədvəli</span>
             </button>
-            <button onClick={() => setActiveTab('matches')} className={`w-full flex items-center space-x-3 px-4 py-3 rounded-lg font-bold text-xs uppercase tracking-widest transition-colors ${activeTab === 'matches' ? 'bg-accent text-[#141414]' : 'text-gray-400 hover:text-white hover:bg-gray-900'}`}>
+            <button onClick={() => setActiveTab('matches')} className={`w-full flex items-center space-x-3 px-4 py-3 rounded-lg font-bold text-xs uppercase tracking-widest transition-colors ${activeTab === 'matches' ? 'bg-accent text-on-accent' : 'text-gray-400 hover:text-white hover:bg-gray-900'}`}>
               <CheckCircle className="w-4 h-4" />
               <span>Oyunlar</span>
             </button>
@@ -223,19 +223,19 @@ export default function AdminDashboard() {
 
         {/* Mobile Tabs */}
         <div className="md:hidden flex overflow-x-auto space-x-2 pb-4 mb-6 scrollbar-hide">
-          <button onClick={() => setActiveTab('images')} className={`flex-shrink-0 px-4 py-2 rounded-lg font-bold text-[10px] uppercase tracking-widest transition-colors ${activeTab === 'images' ? 'bg-accent text-[#141414]' : 'bg-gray-800 text-gray-400'}`}>Şəkillər</button>
-          <button onClick={() => setActiveTab('texts')} className={`flex-shrink-0 px-4 py-2 rounded-lg font-bold text-[10px] uppercase tracking-widest transition-colors ${activeTab === 'texts' ? 'bg-accent text-[#141414]' : 'bg-gray-800 text-gray-400'}`}>Sayt Yazıları</button>
-          <button onClick={() => setActiveTab('club')} className={`flex-shrink-0 px-4 py-2 rounded-lg font-bold text-[10px] uppercase tracking-widest transition-colors ${activeTab === 'club' ? 'bg-accent text-[#141414]' : 'bg-gray-800 text-gray-400'}`}>Klub</button>
-          <button onClick={() => setActiveTab('coaches')} className={`flex-shrink-0 px-4 py-2 rounded-lg font-bold text-[10px] uppercase tracking-widest transition-colors ${activeTab === 'coaches' ? 'bg-accent text-[#141414]' : 'bg-gray-800 text-gray-400'}`}>Məşqçilər</button>
-          <button onClick={() => setActiveTab('teams')} className={`flex-shrink-0 px-4 py-2 rounded-lg font-bold text-[10px] uppercase tracking-widest transition-colors ${activeTab === 'teams' ? 'bg-accent text-[#141414]' : 'bg-gray-800 text-gray-400'}`}>Komandalar</button>
-          <button onClick={() => setActiveTab('news')} className={`flex-shrink-0 px-4 py-2 rounded-lg font-bold text-[10px] uppercase tracking-widest transition-colors ${activeTab === 'news' ? 'bg-accent text-[#141414]' : 'bg-gray-800 text-gray-400'}`}>Xəbərlər</button>
-          <button onClick={() => setActiveTab('videos')} className={`flex-shrink-0 px-4 py-2 rounded-lg font-bold text-[10px] uppercase tracking-widest transition-colors ${activeTab === 'videos' ? 'bg-accent text-[#141414]' : 'bg-gray-800 text-gray-400'}`}>Videolar</button>
-          <button onClick={() => setActiveTab('achievements')} className={`flex-shrink-0 px-4 py-2 rounded-lg font-bold text-[10px] uppercase tracking-widest transition-colors ${activeTab === 'achievements' ? 'bg-accent text-[#141414]' : 'bg-gray-800 text-gray-400'}`}>Nailiyyətlər</button>
-          <button onClick={() => setActiveTab('sponsors')} className={`flex-shrink-0 px-4 py-2 rounded-lg font-bold text-[10px] uppercase tracking-widest transition-colors ${activeTab === 'sponsors' ? 'bg-accent text-[#141414]' : 'bg-gray-800 text-gray-400'}`}>Sponsorlar</button>
-          <button onClick={() => setActiveTab('standings')} className={`flex-shrink-0 px-4 py-2 rounded-lg font-bold text-[10px] uppercase tracking-widest transition-colors ${activeTab === 'standings' ? 'bg-accent text-[#141414]' : 'bg-gray-800 text-gray-400'}`}>Turnir Cədvəli</button>
-          <button onClick={() => setActiveTab('matches')} className={`flex-shrink-0 px-4 py-2 rounded-lg font-bold text-[10px] uppercase tracking-widest transition-colors ${activeTab === 'matches' ? 'bg-accent text-[#141414]' : 'bg-gray-800 text-gray-400'}`}>Oyunlar</button>
-          <button onClick={() => setActiveTab('shop')} className={`flex-shrink-0 px-4 py-2 rounded-lg font-bold text-[10px] uppercase tracking-widest transition-colors ${activeTab === 'shop' ? 'bg-accent text-[#141414]' : 'bg-gray-800 text-gray-400'}`}>Mağaza</button>
-            <button onClick={() => setActiveTab('shop')} className={`w-full flex items-center space-x-3 px-4 py-3 rounded-lg font-bold text-xs uppercase tracking-widest transition-colors ${activeTab === 'shop' ? 'bg-accent text-[#141414]' : 'text-gray-400 hover:text-white hover:bg-gray-900'}`}>
+          <button onClick={() => setActiveTab('images')} className={`flex-shrink-0 px-4 py-2 rounded-lg font-bold text-[10px] uppercase tracking-widest transition-colors ${activeTab === 'images' ? 'bg-accent text-on-accent' : 'bg-gray-800 text-gray-400'}`}>Şəkillər</button>
+          <button onClick={() => setActiveTab('texts')} className={`flex-shrink-0 px-4 py-2 rounded-lg font-bold text-[10px] uppercase tracking-widest transition-colors ${activeTab === 'texts' ? 'bg-accent text-on-accent' : 'bg-gray-800 text-gray-400'}`}>Sayt Yazıları</button>
+          <button onClick={() => setActiveTab('club')} className={`flex-shrink-0 px-4 py-2 rounded-lg font-bold text-[10px] uppercase tracking-widest transition-colors ${activeTab === 'club' ? 'bg-accent text-on-accent' : 'bg-gray-800 text-gray-400'}`}>Klub</button>
+          <button onClick={() => setActiveTab('coaches')} className={`flex-shrink-0 px-4 py-2 rounded-lg font-bold text-[10px] uppercase tracking-widest transition-colors ${activeTab === 'coaches' ? 'bg-accent text-on-accent' : 'bg-gray-800 text-gray-400'}`}>Məşqçilər</button>
+          <button onClick={() => setActiveTab('teams')} className={`flex-shrink-0 px-4 py-2 rounded-lg font-bold text-[10px] uppercase tracking-widest transition-colors ${activeTab === 'teams' ? 'bg-accent text-on-accent' : 'bg-gray-800 text-gray-400'}`}>Komandalar</button>
+          <button onClick={() => setActiveTab('news')} className={`flex-shrink-0 px-4 py-2 rounded-lg font-bold text-[10px] uppercase tracking-widest transition-colors ${activeTab === 'news' ? 'bg-accent text-on-accent' : 'bg-gray-800 text-gray-400'}`}>Xəbərlər</button>
+          <button onClick={() => setActiveTab('videos')} className={`flex-shrink-0 px-4 py-2 rounded-lg font-bold text-[10px] uppercase tracking-widest transition-colors ${activeTab === 'videos' ? 'bg-accent text-on-accent' : 'bg-gray-800 text-gray-400'}`}>Videolar</button>
+          <button onClick={() => setActiveTab('achievements')} className={`flex-shrink-0 px-4 py-2 rounded-lg font-bold text-[10px] uppercase tracking-widest transition-colors ${activeTab === 'achievements' ? 'bg-accent text-on-accent' : 'bg-gray-800 text-gray-400'}`}>Nailiyyətlər</button>
+          <button onClick={() => setActiveTab('sponsors')} className={`flex-shrink-0 px-4 py-2 rounded-lg font-bold text-[10px] uppercase tracking-widest transition-colors ${activeTab === 'sponsors' ? 'bg-accent text-on-accent' : 'bg-gray-800 text-gray-400'}`}>Sponsorlar</button>
+          <button onClick={() => setActiveTab('standings')} className={`flex-shrink-0 px-4 py-2 rounded-lg font-bold text-[10px] uppercase tracking-widest transition-colors ${activeTab === 'standings' ? 'bg-accent text-on-accent' : 'bg-gray-800 text-gray-400'}`}>Turnir Cədvəli</button>
+          <button onClick={() => setActiveTab('matches')} className={`flex-shrink-0 px-4 py-2 rounded-lg font-bold text-[10px] uppercase tracking-widest transition-colors ${activeTab === 'matches' ? 'bg-accent text-on-accent' : 'bg-gray-800 text-gray-400'}`}>Oyunlar</button>
+          <button onClick={() => setActiveTab('shop')} className={`flex-shrink-0 px-4 py-2 rounded-lg font-bold text-[10px] uppercase tracking-widest transition-colors ${activeTab === 'shop' ? 'bg-accent text-on-accent' : 'bg-gray-800 text-gray-400'}`}>Mağaza</button>
+            <button onClick={() => setActiveTab('shop')} className={`w-full flex items-center space-x-3 px-4 py-3 rounded-lg font-bold text-xs uppercase tracking-widest transition-colors ${activeTab === 'shop' ? 'bg-accent text-on-accent' : 'text-gray-400 hover:text-white hover:bg-gray-900'}`}>
               <ShoppingCart className="w-4 h-4" />
               <span>Mağaza</span>
             </button>
@@ -279,7 +279,7 @@ export default function AdminDashboard() {
                     </div>
                     
                     <div className="flex space-x-2">
-                      <label className={`flex-1 bg-gray-900 ${loadingSection === sec.id ? 'opacity-50 cursor-not-allowed' : 'hover:bg-accent hover:text-[#141414] cursor-pointer'} text-white border border-gray-700 font-bold text-[10px] uppercase tracking-widest py-3 rounded-lg transition-all flex items-center justify-center space-x-2`}>
+                      <label className={`flex-1 bg-gray-900 ${loadingSection === sec.id ? 'opacity-50 cursor-not-allowed' : 'hover:bg-accent hover:text-on-accent cursor-pointer'} text-white border border-gray-700 font-bold text-[10px] uppercase tracking-widest py-3 rounded-lg transition-all flex items-center justify-center space-x-2`}>
                         {loadingSection === sec.id ? (
                           <span>YÜKLƏNİR...</span>
                         ) : (

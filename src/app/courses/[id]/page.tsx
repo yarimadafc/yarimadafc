@@ -71,7 +71,7 @@ export default function CourseDetailPage() {
               </div>
             ) : course.video_url ? (
                <div className="mb-8">
-                 <a href={course.video_url} target="_blank" rel="noopener noreferrer" className="bg-accent text-[#141414] px-6 py-3 rounded-xl font-bold uppercase tracking-widest text-sm inline-block hover:bg-text-main hover:text-bg-main transition-colors">Videonu İzlə</a>
+                 <a href={course.video_url} target="_blank" rel="noopener noreferrer" className="bg-accent text-on-accent px-6 py-3 rounded-xl font-bold uppercase tracking-widest text-sm inline-block hover:bg-text-main hover:text-bg-main transition-colors">Videonu İzlə</a>
                </div>
             ) : course.image_url ? (
                <div className="w-full aspect-video rounded-2xl overflow-hidden mb-8 border border-bg-border relative bg-bg-main">

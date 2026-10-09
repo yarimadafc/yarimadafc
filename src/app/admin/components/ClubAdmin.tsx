@@ -124,7 +124,7 @@ export default function ClubAdmin() {
             <label className="block text-gray-400 text-xs font-bold uppercase tracking-widest mb-2">Paraqraf 1</label>
             <div className="flex space-x-4 items-start">
               <textarea value={texts['club_about_1']} onChange={e => handleChange('club_about_1', e.target.value)} className="flex-1 bg-gray-900 border border-gray-700 rounded-lg p-3 text-white h-24" />
-              <button onClick={() => handleSave('club_about_1')} disabled={saving} className="bg-accent text-[#141414] px-4 py-3 rounded-lg font-bold uppercase text-xs">Yadda Saxla</button>
+              <button onClick={() => handleSave('club_about_1')} disabled={saving} className="bg-accent text-on-accent px-4 py-3 rounded-lg font-bold uppercase text-xs">Yadda Saxla</button>
             </div>
           </div>
 
@@ -132,7 +132,7 @@ export default function ClubAdmin() {
             <label className="block text-gray-400 text-xs font-bold uppercase tracking-widest mb-2">Paraqraf 2</label>
             <div className="flex space-x-4 items-start">
               <textarea value={texts['club_about_2']} onChange={e => handleChange('club_about_2', e.target.value)} className="flex-1 bg-gray-900 border border-gray-700 rounded-lg p-3 text-white h-24" />
-              <button onClick={() => handleSave('club_about_2')} disabled={saving} className="bg-accent text-[#141414] px-4 py-3 rounded-lg font-bold uppercase text-xs">Yadda Saxla</button>
+              <button onClick={() => handleSave('club_about_2')} disabled={saving} className="bg-accent text-on-accent px-4 py-3 rounded-lg font-bold uppercase text-xs">Yadda Saxla</button>
             </div>
           </div>
         </div>
@@ -146,7 +146,7 @@ export default function ClubAdmin() {
               <label className="block text-gray-400 text-xs font-bold uppercase tracking-widest mb-2">{key === 'mission' ? 'Missiya' : key === 'vision' ? 'Vizyon' : 'Dəyərlər'}</label>
               <div className="flex space-x-4 items-start">
                 <textarea value={texts[`club_${key}`]} onChange={e => handleChange(`club_${key}`, e.target.value)} className="flex-1 bg-gray-900 border border-gray-700 rounded-lg p-3 text-white h-20" />
-                <button onClick={() => handleSave(`club_${key}`)} disabled={saving} className="bg-accent text-[#141414] px-4 py-3 rounded-lg font-bold uppercase text-xs">Yadda Saxla</button>
+                <button onClick={() => handleSave(`club_${key}`)} disabled={saving} className="bg-accent text-on-accent px-4 py-3 rounded-lg font-bold uppercase text-xs">Yadda Saxla</button>
               </div>
             </div>
           ))}

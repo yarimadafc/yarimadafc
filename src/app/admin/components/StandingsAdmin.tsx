@@ -139,7 +139,7 @@ export default function StandingsAdmin() {
                  <ArrowLeft className="w-4 h-4 mr-2" />
                  Siyahıya Qayıt
                </button>
-               <button onClick={() => { setIsAdding(!isAdding); setEditingId(null); resetForm(); }} className="bg-accent text-[#141414] px-4 py-2 rounded-lg font-bold text-xs uppercase tracking-widest flex items-center space-x-2">
+               <button onClick={() => { setIsAdding(!isAdding); setEditingId(null); resetForm(); }} className="bg-accent text-on-accent px-4 py-2 rounded-lg font-bold text-xs uppercase tracking-widest flex items-center space-x-2">
                  {isAdding ? <span>Ləğv Et</span> : <><Plus className="w-4 h-4" /><span>Yeni Əlavə</span></>}
                </button>
             </div>
@@ -160,7 +160,7 @@ export default function StandingsAdmin() {
                 <div className="col-span-2"><label className="block text-red-400 text-xs font-bold uppercase mb-2">Buraxdığı Top (BT)</label><input type="number" value={ga} onChange={e => setGa(Number(e.target.value))} className="w-full bg-gray-900 border border-gray-700 rounded-lg p-3 text-white" /></div>
                 <div className="col-span-2 md:col-span-4"><label className="block text-accent text-xs font-bold uppercase mb-2">Xal (Avto)</label><input type="number" value={points} readOnly className="w-full bg-gray-900/50 border border-accent/50 rounded-lg p-3 text-accent font-black cursor-not-allowed" /></div>
                 <div className="col-span-2 md:col-span-4 mt-2">
-                   <button type="submit" className="w-full bg-accent text-[#141414] py-3 rounded-lg font-bold text-xs uppercase tracking-widest">Yadda Saxla</button>
+                   <button type="submit" className="w-full bg-accent text-on-accent py-3 rounded-lg font-bold text-xs uppercase tracking-widest">Yadda Saxla</button>
                 </div>
               </form>
             )}

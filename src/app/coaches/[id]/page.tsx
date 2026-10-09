@@ -81,7 +81,7 @@ export default function CoachDetailPage() {
             </div>
 
             {coach.teams && (
-              <Link href={`/teams/${coach.team_id || coach.teams.id}`} className="inline-block bg-accent text-[#141414] px-8 py-3 rounded-full font-black uppercase text-xs tracking-widest hover:bg-text-main hover:text-bg-main transition-colors">
+              <Link href={`/teams/${coach.team_id || coach.teams.id}`} className="inline-block bg-accent text-on-accent px-8 py-3 rounded-full font-black uppercase text-xs tracking-widest hover:bg-text-main hover:text-bg-main transition-colors">
                 Komandasına Bax
               </Link>
             )}

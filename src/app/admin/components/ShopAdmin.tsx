@@ -151,7 +151,7 @@ export default function ShopAdmin() {
         </div>
         <button 
           onClick={() => { resetForm(); setIsAdding(!isAdding); }}
-          className="bg-accent text-[#141414] px-4 py-2 rounded-lg font-bold flex items-center space-x-2 uppercase text-xs"
+          className="bg-accent text-on-accent px-4 py-2 rounded-lg font-bold flex items-center space-x-2 uppercase text-xs"
         >
           <Plus className="w-4 h-4" /> <span>{isAdding ? 'Ləğv et' : 'Yeni Məhsul'}</span>
         </button>

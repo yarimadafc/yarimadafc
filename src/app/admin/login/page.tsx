@@ -78,7 +78,7 @@ export default function AdminLogin() {
           <button 
             type="submit" 
             disabled={loading}
-            className="w-full bg-accent text-[#141414] font-black uppercase tracking-widest py-3 rounded-lg hover:bg-text-main hover:text-bg-main transition-colors disabled:opacity-50"
+            className="w-full bg-accent text-on-accent font-black uppercase tracking-widest py-3 rounded-lg hover:bg-text-main hover:text-bg-main transition-colors disabled:opacity-50"
           >
             {loading ? 'Daxil olunur...' : 'Daxil Ol'}
           </button>

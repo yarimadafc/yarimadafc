@@ -91,7 +91,7 @@ export default function AcademyPage() {
                       Komanda Haqqında
                     </span>
                     <div className="w-8 h-8 rounded-full bg-bg-deep border border-bg-border flex items-center justify-center group-hover:bg-accent group-hover:border-accent transition-colors">
-                      <svg xmlns="http://www.w3.org/2000/svg" className="w-4 h-4 text-text-sec group-hover:text-[#141414] transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5l7 7-7 7" /></svg>
+                      <svg xmlns="http://www.w3.org/2000/svg" className="w-4 h-4 text-text-sec group-hover:text-on-accent transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5l7 7-7 7" /></svg>
                     </div>
                   </div>
                 </div>

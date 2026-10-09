@@ -2,9 +2,10 @@
 
 import Link from 'next/link';
 import { ArrowRight } from 'lucide-react';
-import { motion } from 'framer-motion';
 import { useEffect, useState } from 'react';
 import { supabase } from '@/lib/supabase';
+import SectionHeading from '@/components/SectionHeading';
+import { timeAgo } from '@/lib/matchUtils';
 
 export default function NewsSection() {
   const [news, setNews] = useState<any[]>([]);
@@ -17,15 +18,10 @@ export default function NewsSection() {
           .from('news')
           .select('*')
           .order('created_at', { ascending: false })
-          .limit(5); // Fetch 5 items (1 big + 4 small)
-
-        if (!error && data && data.length > 0) {
-          setNews(data);
-        } else {
-          setNews([]);
-        }
+          .limit(7);
+        setNews(!error && data ? data : []);
       } catch (err) {
-        console.error("Error fetching news:", err);
+        console.error('Error fetching news:', err);
       } finally {
         setLoading(false);
       }
@@ -33,75 +29,48 @@ export default function NewsSection() {
     fetchNews();
   }, []);
 
-  if (loading) return null;
-
   return (
-    <section className="container mx-auto px-4 lg:px-8 py-16 bg-transparent overflow-hidden relative z-10">
-      {/* Header */}
-      <motion.div 
-        initial={{ opacity: 0, x: -50 }}
-        whileInView={{ opacity: 1, x: 0 }}
-        transition={{ duration: 0.8, ease: "easeOut" }}
-        viewport={{ once: true, margin: "-100px" }}
-        className="flex justify-between items-end mb-8 border-b border-bg-border pb-4"
-      >
-        <div className="relative">
-          <div className="absolute -top-4 left-0 w-8 h-[2px] bg-accent"></div>
-          <h2 className="text-3xl font-bold text-text-main tracking-tight">Xəbərlər</h2>
-        </div>
-        <Link 
-          href="/news" 
-          className="text-text-main font-medium text-sm border-b border-transparent hover:border-white transition-colors"
-        >
-          Bütün xəbərlər
-        </Link>
-      </motion.div>
+    <section className="container mx-auto px-4 lg:px-8 py-14 md:py-20">
+      <SectionHeading title="Xəbərlər" href="/news" linkText="Bütün xəbərlər" />
 
-      {/* Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-        {news.map((item, i) => (
-          <motion.div
-            key={item.id}
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: i * 0.1, ease: "easeOut" }}
-            viewport={{ once: true, margin: "-50px" }}
-            className={i === 0 ? "lg:col-span-2" : "col-span-1"}
-          >
-            <Link href={`/news/${item.id}`} className="group flex flex-col h-full bg-bg-sec rounded-lg overflow-hidden hover:bg-bg-card transition-all duration-300">
-              {/* Image Box */}
-              <div className={`relative w-full overflow-hidden ${i === 0 ? 'aspect-video' : 'aspect-[4/3]'}`}>
-                 {item.image_url && item.image_url !== '/placeholder-news-1.jpg' ? (
-                   <img src={item.image_url} alt={item.title_az || item.title} className={`absolute inset-0 w-full h-full ${i === 0 ? 'object-cover' : 'object-cover'} group-hover:scale-105 transition-transform duration-700 ease-in-out`} />
-                 ) : (
-                   <div className="absolute inset-0 bg-bg-card group-hover:scale-105 transition-transform duration-700 ease-in-out"></div>
-                 )}
-              </div>
-              
-              {/* Content */}
-              <div className="p-4 flex flex-col flex-grow">
-                <div className="flex items-center space-x-3 mb-3">
-                  <span className="text-text-sec border border-gray-600 px-2 py-0.5 rounded text-[10px] font-medium tracking-wider uppercase">
-                    {item.category || 'Klub'}
-                  </span>
-                  <span className="text-text-sec font-medium text-[11px]">
-                    {item.date || (item.created_at ? (new Date(item.created_at).getDate().toString().padStart(2, '0') + '.' + (new Date(item.created_at).getMonth() + 1).toString().padStart(2, '0') + '.' + new Date(item.created_at).getFullYear()) : 'Yeni')}
-                  </span>
+      {loading ? (
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-5" aria-hidden>
+          {[0, 1, 2, 3].map(i => <div key={i} className={`h-72 rounded-xl bg-bg-sec animate-pulse ${i === 0 ? 'md:col-span-2' : ''}`} />)}
+        </div>
+      ) : news.length === 0 ? (
+        <div className="rounded-xl border border-bg-border bg-bg-sec py-16 text-center text-text-sec">Hələlik xəbər yoxdur.</div>
+      ) : (
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-5">
+          {news.map((item, i) => {
+            const big = i === 0;
+            return (
+              <Link
+                key={item.id}
+                href={`/news/${item.id}`}
+                className={`group flex flex-col bg-bg-sec rounded-xl overflow-hidden border border-transparent hover:border-bg-border hover:bg-bg-card transition-colors ${big ? 'md:col-span-2' : ''}`}
+              >
+                <div className={`relative w-full overflow-hidden bg-bg-card ${big ? 'aspect-[16/9] md:aspect-[2/1]' : 'aspect-[16/10]'}`}>
+                  {item.image_url && (
+                    <img src={item.image_url} alt={item.title_az || ''} loading={i < 2 ? 'eager' : 'lazy'} className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
+                  )}
                 </div>
-                
-                <h3 className={`text-text-main font-bold leading-snug mb-4 group-hover:text-accent transition-colors ${i === 0 ? 'text-lg md:text-xl' : 'text-sm'}`}>
-                  {item.title_az || item.title}
-                </h3>
-                
-                <div className="mt-auto flex justify-between items-center text-text-sec group-hover:text-accent border-t border-bg-border pt-3 pb-1">
-                  <span className="font-medium text-xs">Daha ətraflı</span>
-                  <ArrowRight className="w-4 h-4 transform group-hover:translate-x-1 transition-transform" />
+
+                <div className="p-5 flex flex-col flex-grow">
+                  <div className="flex items-center gap-3 mb-4">
+                    <span className="border border-bg-border text-text-main px-3 py-1 rounded-md text-xs font-semibold">{item.category || 'Klub'}</span>
+                    <span className="text-text-sec text-sm">{timeAgo(item.created_at)}</span>
+                  </div>
+                  <h3 className={`text-text-main font-bold leading-snug mb-5 line-clamp-3 ${big ? 'text-xl md:text-2xl' : 'text-lg'}`}>{item.title_az || item.title}</h3>
+                  <div className="mt-auto flex justify-between items-center border-t border-bg-border pt-4 text-text-main text-sm font-medium">
+                    <span>Daha ətraflı</span>
+                    <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+                  </div>
                 </div>
-              </div>
-            </Link>
-          </motion.div>
-        ))}
-      </div>
+              </Link>
+            );
+          })}
+        </div>
+      )}
     </section>
   );
 }

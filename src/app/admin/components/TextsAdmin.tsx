@@ -69,7 +69,7 @@ export default function TextsAdmin() {
               onChange={e => handleChange('hero_title_1', e.target.value)} 
               className="flex-1 bg-gray-900 border border-gray-700 rounded-lg p-3 text-white focus:border-accent outline-none" 
             />
-            <button onClick={() => handleSave('hero_title_1')} disabled={saving} className="bg-accent text-[#141414] px-4 rounded-lg font-bold uppercase text-xs flex items-center space-x-2">
+            <button onClick={() => handleSave('hero_title_1')} disabled={saving} className="bg-accent text-on-accent px-4 rounded-lg font-bold uppercase text-xs flex items-center space-x-2">
               <Save className="w-4 h-4" /> <span>Yadda Saxla</span>
             </button>
           </div>
@@ -84,7 +84,7 @@ export default function TextsAdmin() {
               onChange={e => handleChange('hero_title_2', e.target.value)} 
               className="flex-1 bg-gray-900 border border-gray-700 rounded-lg p-3 text-white focus:border-accent outline-none" 
             />
-            <button onClick={() => handleSave('hero_title_2')} disabled={saving} className="bg-accent text-[#141414] px-4 rounded-lg font-bold uppercase text-xs flex items-center space-x-2">
+            <button onClick={() => handleSave('hero_title_2')} disabled={saving} className="bg-accent text-on-accent px-4 rounded-lg font-bold uppercase text-xs flex items-center space-x-2">
               <Save className="w-4 h-4" /> <span>Yadda Saxla</span>
             </button>
           </div>
@@ -98,7 +98,7 @@ export default function TextsAdmin() {
               onChange={e => handleChange('hero_subtitle', e.target.value)} 
               className="flex-1 bg-gray-900 border border-gray-700 rounded-lg p-3 text-white focus:border-accent outline-none h-24" 
             />
-            <button onClick={() => handleSave('hero_subtitle')} disabled={saving} className="bg-accent text-[#141414] px-4 py-3 rounded-lg font-bold uppercase text-xs flex items-center space-x-2 h-[50px]">
+            <button onClick={() => handleSave('hero_subtitle')} disabled={saving} className="bg-accent text-on-accent px-4 py-3 rounded-lg font-bold uppercase text-xs flex items-center space-x-2 h-[50px]">
               <Save className="w-4 h-4" /> <span>Yadda Saxla</span>
             </button>
           </div>

@@ -88,7 +88,7 @@ export default function CoachCoursesAdmin() {
         <h2 className="text-2xl font-bold text-white">Məşqçi Kursu (Praktiki)</h2>
         <button 
           onClick={() => { resetForm(); setIsAdding(!isAdding); }}
-          className="bg-accent text-[#141414] px-4 py-2 rounded-lg font-bold flex items-center space-x-2"
+          className="bg-accent text-on-accent px-4 py-2 rounded-lg font-bold flex items-center space-x-2"
         >
           <Plus className="w-4 h-4" /> <span>{isAdding ? 'Ləğv et' : 'Yeni Dərs'}</span>
         </button>

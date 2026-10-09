@@ -88,7 +88,7 @@ export default function Page() {
                       <div className="absolute inset-0 bg-black/20 group-hover:bg-black/40 transition-colors"></div>
                       <div className="absolute inset-0 flex items-center justify-center">
                         <div className="w-12 h-12 bg-accent rounded-full flex items-center justify-center shadow-lg group-hover:bg-text-main hover:text-bg-main group-hover:scale-110 transition-all duration-300">
-                          <Play className="w-5 h-5 text-[#141414] fill-current ml-1" />
+                          <Play className="w-5 h-5 text-on-accent fill-current ml-1" />
                         </div>
                       </div>
                     </div>

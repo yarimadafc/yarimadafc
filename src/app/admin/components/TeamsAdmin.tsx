@@ -152,7 +152,7 @@ export default function TeamsAdmin() {
           <h2 className="text-2xl font-black uppercase tracking-widest text-white mb-2">Komandalar və Oyunçular</h2>
           <p className="text-gray-400 text-sm">Komandalar yaradın və tərkibini formalaşdırın.</p>
         </div>
-        <button onClick={() => setIsAddingTeam(!isAddingTeam)} className="bg-accent text-[#141414] px-4 py-2 rounded-lg font-bold text-xs uppercase tracking-widest flex items-center space-x-2">
+        <button onClick={() => setIsAddingTeam(!isAddingTeam)} className="bg-accent text-on-accent px-4 py-2 rounded-lg font-bold text-xs uppercase tracking-widest flex items-center space-x-2">
           {isAddingTeam ? <span>Ləğv Et</span> : <><Plus className="w-4 h-4" /><span>Yeni Komanda</span></>}
         </button>
       </div>
@@ -164,7 +164,7 @@ export default function TeamsAdmin() {
             <input type="text" value={teamName} onChange={e => setTeamName(e.target.value)} placeholder="Məs: U-12" className="w-full bg-gray-900 border border-gray-700 rounded-lg p-3 text-white" required />
           </div>
           <div className="flex items-end">
-             <button type="submit" className="bg-accent text-[#141414] py-3 px-6 rounded-lg font-bold text-xs uppercase tracking-widest h-[50px]">Yadda Saxla</button>
+             <button type="submit" className="bg-accent text-on-accent py-3 px-6 rounded-lg font-bold text-xs uppercase tracking-widest h-[50px]">Yadda Saxla</button>
           </div>
         </form>
       )}
@@ -240,7 +240,7 @@ export default function TeamsAdmin() {
                     <textarea value={teamDesc} onChange={e => setTeamDesc(e.target.value)} placeholder="Komanda haqqında qısa məlumat..." className="w-full bg-gray-900 border border-gray-700 rounded-lg p-3 text-white h-20" />
                   </div>
                 </div>
-                <button onClick={handleSaveTeamDetails} disabled={savingDetails} className="bg-accent text-[#141414] px-4 py-2 rounded-lg font-bold text-xs uppercase tracking-widest flex items-center space-x-2">
+                <button onClick={handleSaveTeamDetails} disabled={savingDetails} className="bg-accent text-on-accent px-4 py-2 rounded-lg font-bold text-xs uppercase tracking-widest flex items-center space-x-2">
                   <Save className="w-4 h-4" /> <span>{savingDetails ? 'Saxlanılır...' : 'Məlumatları Yadda Saxla'}</span>
                 </button>
               </div>
@@ -286,7 +286,7 @@ export default function TeamsAdmin() {
                       </label>
                     )}
                   </div>
-                  <div className="col-span-2 mt-2"><button type="submit" className="w-full bg-accent text-[#141414] py-3 rounded-lg font-bold text-xs uppercase tracking-widest">Yadda Saxla</button></div>
+                  <div className="col-span-2 mt-2"><button type="submit" className="w-full bg-accent text-on-accent py-3 rounded-lg font-bold text-xs uppercase tracking-widest">Yadda Saxla</button></div>
                 </form>
               )}
 

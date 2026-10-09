@@ -123,7 +123,7 @@ export default function CoachesAdmin() {
           <h2 className="text-2xl font-black uppercase tracking-widest text-white mb-2">Məşqçilər İdarəetməsi</h2>
           <p className="text-gray-400 text-sm">Akademiya və komanda məşqçilərini idarə edin.</p>
         </div>
-        <button onClick={() => { setIsAdding(!isAdding); setEditingId(null); resetForm(); }} className="bg-accent text-[#141414] px-4 py-2 rounded-lg font-bold text-xs uppercase tracking-widest flex items-center space-x-2">
+        <button onClick={() => { setIsAdding(!isAdding); setEditingId(null); resetForm(); }} className="bg-accent text-on-accent px-4 py-2 rounded-lg font-bold text-xs uppercase tracking-widest flex items-center space-x-2">
           {isAdding ? <span>Ləğv Et</span> : <><Plus className="w-4 h-4" /><span>Yeni Məşqçi</span></>}
         </button>
       </div>
@@ -183,7 +183,7 @@ export default function CoachesAdmin() {
             )}
           </div>
 
-          <div className="md:col-span-2"><button type="submit" className="w-full bg-accent text-[#141414] py-3 rounded-lg font-bold text-xs uppercase tracking-widest">Yadda Saxla</button></div>
+          <div className="md:col-span-2"><button type="submit" className="w-full bg-accent text-on-accent py-3 rounded-lg font-bold text-xs uppercase tracking-widest">Yadda Saxla</button></div>
         </form>
       )}
 

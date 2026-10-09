@@ -1,299 +1,237 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { Menu, X, Search } from 'lucide-react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { usePathname, useRouter } from 'next/navigation';
+import { Menu, X, Search, ChevronDown, Sun, Moon, Play } from 'lucide-react';
+import NextMatchStrip from '@/components/NextMatchStrip';
 
-const YoutubeIcon = ({ className }: { className?: string }) => (
-  <svg className={className} xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M22.54 6.42a2.78 2.78 0 0 0-1.94-2C18.88 4 12 4 12 4s-6.88 0-8.6.46a2.78 2.78 0 0 0-1.94 2A29 29 0 0 0 1 11.75a29 29 0 0 0 .46 5.33 2.78 2.78 0 0 0 1.94 2c1.72.46 8.6.46 8.6.46s6.88 0 8.6-.46a2.78 2.78 0 0 0 1.94-2 29 29 0 0 0 .46-5.33 29 29 0 0 0-.46-5.33z"></path><polygon points="9.75 15.02 15.5 11.75 9.75 8.48 9.75 15.02"></polygon></svg>
-);
+// `wide` items sit in the "Daha çox" dropdown until the screen is >= 2xl.
+const menuItems: { name: string; href: string; wide?: boolean }[] = [
+  { name: 'Xəbərlər', href: '/news' },
+  { name: 'Komandalar', href: '/teams' },
+  { name: 'Klub', href: '/club' },
+  { name: 'Akademiya', href: '/academy' },
+  { name: 'Oyunlar', href: '/matches' },
+  { name: 'Tarix', href: '/history', wide: true },
+  { name: 'Sosial media', href: '/social', wide: true },
+  { name: 'Sponsorlar', href: '/sponsors', wide: true },
+  { name: 'Biletlər', href: '/tickets' },
+  { name: 'Mağaza', href: '/shop' },
+];
 
-const InstagramIcon = ({ className }: { className?: string }) => (
-  <svg className={className} xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg>
-);
+const tvItem = { name: 'Yarımada TV', href: '/media' };
 
-const FacebookIcon = ({ className }: { className?: string }) => (
-  <svg className={className} xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path></svg>
-);
-const TiktokIcon = ({ className }: { className?: string }) => (
-  <svg className={className} xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M9 12a4 4 0 1 0 4 4V4a5 5 0 0 0 5 5"></path></svg>
-);
+const moreItems = [
+  { name: 'Məşqçilər', href: '/coaches' },
+  { name: 'Transferlər', href: '/transfers' },
+  { name: 'Məşqçi kursu', href: '/courses' },
+  { name: 'Turnir cədvəli', href: '/standings' },
+  { name: 'Əlaqə', href: '/contact' },
+];
 
-const TelegramIcon = ({ className }: { className?: string }) => (
-  <svg className={className} xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
-);
-
-
-const SunIcon = ({ className }: { className?: string }) => (
-  <svg className={className} xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>
-);
-const MoonIcon = ({ className }: { className?: string }) => (
-  <svg className={className} xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
-);
+const socials = [
+  { name: 'Instagram', href: 'https://www.instagram.com/yarimada_fk/' },
+  { name: 'Facebook', href: 'https://www.facebook.com/profile.php?id=61590640762611' },
+  { name: 'YouTube', href: 'https://www.youtube.com/@yarimada_fk' },
+  { name: 'TikTok', href: 'https://www.tiktok.com/@yarimadafk' },
+  { name: 'Telegram', href: 'https://t.me/yarimadafk' },
+];
 
 export default function Navbar() {
+  const pathname = usePathname();
+  const router = useRouter();
   const [isOpen, setIsOpen] = useState(false);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
+  const [moreOpen, setMoreOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
-  
-  const [currentTime, setCurrentTime] = useState('');
-  const [currentDate, setCurrentDate] = useState('');
-  const [mounted, setMounted] = useState(false);
-
   const [theme, setTheme] = useState('dark');
 
   useEffect(() => {
-    const savedTheme = localStorage.getItem('theme') || 'dark';
-    setTheme(savedTheme);
-    if (savedTheme === 'dark') {
-      document.documentElement.classList.add('dark');
-    } else {
-      document.documentElement.classList.remove('dark');
-    }
+    try { setTheme(localStorage.getItem('theme') || 'dark'); } catch { /* ignore */ }
   }, []);
+
+  // close overlays on navigation
+  useEffect(() => {
+    setIsOpen(false);
+    setIsSearchOpen(false);
+    setMoreOpen(false);
+  }, [pathname]);
+
+  // lock page scroll while the mobile menu is open
+  useEffect(() => {
+    document.body.style.overflow = isOpen ? 'hidden' : '';
+    return () => { document.body.style.overflow = ''; };
+  }, [isOpen]);
 
   const toggleTheme = () => {
-    const newTheme = theme === 'dark' ? 'light' : 'dark';
-    setTheme(newTheme);
-    localStorage.setItem('theme', newTheme);
-    if (newTheme === 'dark') {
-      document.documentElement.classList.add('dark');
-    } else {
-      document.documentElement.classList.remove('dark');
-    }
-  };
-
-
-  useEffect(() => {
-    setMounted(true);
-    const updateTime = () => {
-      const now = new Date();
-      setCurrentTime(now.toLocaleTimeString('az-AZ', { hour12: false, hour: '2-digit', minute: '2-digit', second: '2-digit' }));
-      const days = ['Bazar', 'Bazar ertəsi', 'Çərşənbə axşamı', 'Çərşənbə', 'Cümə axşamı', 'Cümə', 'Şənbə'];
-      const months = ['Yanvar', 'Fevral', 'Mart', 'Aprel', 'May', 'İyun', 'İyul', 'Avqust', 'Sentyabr', 'Oktyabr', 'Noyabr', 'Dekabr'];
-      setCurrentDate(`${now.getDate()} ${months[now.getMonth()]} ${now.getFullYear()} • ${days[now.getDay()]}`);
-    };
-    updateTime();
-    const timer = setInterval(updateTime, 1000);
-    return () => clearInterval(timer);
-  }, []);
-
-  const handleHomeClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
-    if (window.location.pathname === '/' || window.location.pathname) {
-      e.preventDefault();
-      window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
-    }
+    const next = theme === 'dark' ? 'light' : 'dark';
+    setTheme(next);
+    try { localStorage.setItem('theme', next); } catch { /* ignore */ }
+    document.documentElement.classList.toggle('dark', next === 'dark');
   };
 
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
-    if (searchQuery.trim()) {
-      window.location.href = `/search?q=${encodeURIComponent(searchQuery)}`;
-      setIsSearchOpen(false);
-    }
+    const q = searchQuery.trim();
+    if (!q) return;
+    router.push(`/search?q=${encodeURIComponent(q)}`);
+    setIsSearchOpen(false);
+    setIsOpen(false);
   };
 
-  const menuItems = [
-    { name: 'ANA SƏHİFƏ', href: '/' },
-    { name: 'KLUB', href: '/club' },
-    { name: 'KOMANDALAR', href: '/teams' },
-    { name: 'OYUNLAR', href: '/matches' },
-    { name: 'TURNİR CƏDVƏLİ', href: '/standings' },
-    { name: 'XƏBƏRLƏR', href: '/news' },
-    { name: 'MEDİA', href: '/media' },
-    { name: 'MƏŞQÇİLƏR', href: '/coaches' },
-    
-  ];
+  const isActive = (href: string) => (href === '/' ? pathname === '/' : pathname.startsWith(href));
+  const linkClass = (href: string) =>
+    `relative whitespace-nowrap text-[13px] 2xl:text-sm font-semibold transition-colors ${isActive(href) ? 'text-text-main' : 'text-text-sec hover:text-text-main'}`;
+
+  const ThemeIcon = theme === 'dark' ? Sun : Moon;
 
   return (
-    <motion.header 
-      initial={{ y: -100 }}
-      animate={{ y: 0 }}
-      transition={{ duration: 0.8, ease: "easeOut" }}
-      className="fixed w-full top-0 z-50 flex flex-col"
-    >
-      {/* Top Bar */}
-      <div className="bg-bg-deep">
-        <div className="container mx-auto px-4 lg:px-8 h-12 flex items-center justify-between">
-          {/* Left: Phone & Slogan */}
-          <div className="flex items-center justify-center sm:justify-between w-full lg:w-auto lg:space-x-6">
-            <a href="tel:0554477467" className="hover:text-accent transition-colors hidden sm:flex items-center text-text-sec text-sm font-bold tracking-widest whitespace-nowrap">
-              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="mr-2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>
-              055 447 74 67
-            </a>
-            
-            {mounted && currentTime && (
-              <div className="text-accent text-[10px] sm:text-xs uppercase font-bold tracking-widest sm:border-l border-bg-border sm:pl-6 flex items-center space-x-2 sm:space-x-3 text-center whitespace-nowrap">
-                <span>{currentDate}</span>
-                <span className="text-gray-600">|</span>
-                <span className="text-text-main w-[50px]">{currentTime}</span>
-              </div>
-            )}
-            
-
-          </div>
-          
-          {/* Right: Social, Language */}
-          <div className="hidden xl:flex items-center space-x-6">
-            <span className="text-accent text-xs uppercase font-bold tracking-widest border-r border-bg-border pr-6 whitespace-nowrap">
-              Gələcəyin Çempionları Burada Yetişir!
+    <>
+    <header className="fixed inset-x-0 top-0 z-50 bg-bg-main/95 backdrop-blur-md border-b border-bg-border">
+      <div className="container mx-auto px-4 lg:px-8">
+        <div className="flex items-stretch">
+          {/* Logo */}
+          <Link href="/" className="flex items-center gap-3 py-2 xl:py-3 xl:pr-8 shrink-0" aria-label="Yarımada FK - ana səhifə">
+            <span className="relative w-10 h-10 xl:w-14 xl:h-14 rounded-full overflow-hidden border-2 border-accent shrink-0">
+              <Image src="/Logo.JPG.jpeg" alt="Yarımada FK" fill sizes="56px" className="object-cover" priority />
             </span>
-            <div className="flex items-center space-x-5 text-text-sec">
-              <a href="https://www.instagram.com/yarimada_fk/" target="_blank" rel="noopener noreferrer" className="hover:text-accent transition-colors"><InstagramIcon className="w-5 h-5" /></a>
-              <a href="https://www.facebook.com/profile.php?id=61590640762611" target="_blank" rel="noopener noreferrer" className="hover:text-accent transition-colors"><FacebookIcon className="w-5 h-5" /></a>
-              <a href="https://www.youtube.com/@yarimada_fk" target="_blank" rel="noopener noreferrer" className="hover:text-accent transition-colors"><YoutubeIcon className="w-5 h-5" /></a>
-              <a href="https://www.tiktok.com/@yarimadafk" target="_blank" rel="noopener noreferrer" className="hover:text-accent transition-colors"><TiktokIcon className="w-5 h-5" /></a>
-              <a href="https://t.me/yarimadafk?fbclid=PAZXh0bgNhZW0CMTEAcGRvZgRzcnRjBmFwcF9pZAwyNTYyODEwNDA1NTgAAafK0KsTFGaHEdkdFqPvdB_YUJuYByPtPKvdfmdCKantOLunANZ5C8nrnroI0A_aem_3_m_V6XwTbX1OL0eUZhRoA" target="_blank" rel="noopener noreferrer" className="hover:text-accent transition-colors"><TelegramIcon className="w-5 h-5" /></a>
-            </div>
-          </div>
-        </div>
-      </div>
+            <span className="flex flex-col leading-none">
+              <span className="text-lg xl:text-2xl font-bold tracking-tight text-text-main whitespace-nowrap">Yarımada FK</span>
+              <span className="hidden xl:block mt-1.5 text-[10px] tracking-[0.3em] uppercase text-text-sec">Rəsmi veb sayt</span>
+            </span>
+          </Link>
 
-      {/* Main Navbar */}
-      <div className="bg-bg-main/95 backdrop-blur-md border-b border-bg-border shadow-xl">
-        <div className="container mx-auto px-4 lg:px-8">
-          <div className="flex items-center justify-between h-20 md:h-24">
-            
-            {/* Logo */}
-            <div className="flex-shrink-0">
-              <Link href="/" onClick={() => { if(window.location.pathname === '/') window.scrollTo({top: 0, behavior: 'smooth'}) }} className="flex items-center group cursor-pointer space-x-3">
-                <motion.div 
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
-                  className="relative w-10 h-10 md:w-16 md:h-16 rounded-full overflow-hidden border-2 border-accent flex-shrink-0"
-                >
-                  <Image src="/Logo.JPG.jpeg" alt="Yarımada FK" fill className="object-cover" />
-                </motion.div>
-                <div className="flex flex-col">
-                   <span className="text-text-main font-black text-base md:text-xl tracking-tighter uppercase group-hover:text-accent transition-colors whitespace-nowrap">Yarımada FK</span>
-                </div>
-              </Link>
+          {/* Desktop: two rows */}
+          <div className="hidden xl:flex flex-1 min-w-0 flex-col">
+            <div className="flex items-center justify-between gap-6 h-12 border-b border-bg-border">
+              <div className="min-w-0 flex-1"><NextMatchStrip /></div>
+              <div className="flex items-center gap-4 shrink-0 pl-4 border-l border-bg-border h-full">
+                <button onClick={toggleTheme} className="text-text-sec hover:text-text-main transition-colors p-1.5" aria-label="Rejimi dəyiş">
+                  <ThemeIcon className="w-[18px] h-[18px]" />
+                </button>
+                <Link href="/contact" className="bg-accent text-on-accent hover:opacity-90 transition-opacity font-bold text-xs px-5 py-2 rounded-full whitespace-nowrap">
+                  Bizə qoşul
+                </Link>
+              </div>
             </div>
 
-            {/* Desktop Menu */}
-            <nav className="hidden xl:flex items-center gap-4 2xl:gap-7 mx-4 min-w-0">
-              {menuItems.map((item, i) => (
-                <motion.div 
-                  key={item.name}
-                  initial={{ opacity: 0, y: -10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.3, delay: i * 0.05 }}
-                >
-                  <Link
-                    href={item.href} 
-                    className="font-bold text-[11px] 2xl:text-[13px] tracking-wider 2xl:tracking-widest whitespace-nowrap text-text-main hover:text-accent transition-colors relative group"
-                  >
+            <nav className="flex items-center justify-between h-12 gap-4" aria-label="Əsas menyu">
+              <div className="flex items-center gap-5 2xl:gap-6 min-w-0">
+                {menuItems.map(item => (
+                  <Link key={item.href} href={item.href} className={`${linkClass(item.href)} ${item.wide ? 'hidden 2xl:inline' : ''}`}>
                     {item.name}
-                    <span className="absolute -bottom-2 left-0 w-0 h-[2px] bg-accent transition-all duration-300 group-hover:w-full"></span>
+                    {isActive(item.href) && <span className="absolute -bottom-[15px] left-0 right-0 h-[2px] bg-accent" />}
                   </Link>
-                </motion.div>
-              ))}
-            </nav>
-
-            {/* Right Actions */}
-            <div className="hidden xl:flex items-center space-x-3 2xl:space-x-4 flex-shrink-0">
-              <button 
-                onClick={() => setIsSearchOpen(!isSearchOpen)}
-                className="text-text-main hover:text-accent transition-colors p-2"
-              >
+                ))}
+                <Link href={tvItem.href} className={`${linkClass(tvItem.href)} flex items-center gap-1.5`}>
+                  <Play className="w-4 h-4 fill-current" />
+                  {tvItem.name}
+                </Link>
+                <div className="relative shrink-0" onMouseEnter={() => setMoreOpen(true)} onMouseLeave={() => setMoreOpen(false)}>
+                  <button
+                    onClick={() => setMoreOpen(o => !o)}
+                    className="flex items-center gap-1 text-[13px] 2xl:text-sm font-semibold text-text-sec hover:text-text-main transition-colors whitespace-nowrap"
+                    aria-expanded={moreOpen}
+                  >
+                    Daha çox <ChevronDown className={`w-4 h-4 transition-transform ${moreOpen ? 'rotate-180' : ''}`} />
+                  </button>
+                  {moreOpen && (
+                    <div className="absolute right-0 top-full pt-3 z-50">
+                      <div className="min-w-[200px] bg-bg-sec border border-bg-border rounded-xl py-2 shadow-2xl">
+                        {menuItems.filter(i => i.wide).map(item => (
+                          <Link key={item.href} href={item.href} className="2xl:hidden block px-5 py-2.5 text-sm font-medium text-text-sec hover:text-text-main hover:bg-bg-card transition-colors">
+                            {item.name}
+                          </Link>
+                        ))}
+                        {moreItems.map(item => (
+                          <Link key={item.href} href={item.href} className="block px-5 py-2.5 text-sm font-medium text-text-sec hover:text-text-main hover:bg-bg-card transition-colors">
+                            {item.name}
+                          </Link>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+                </div>
+              </div>
+              <button onClick={() => setIsSearchOpen(o => !o)} className="text-text-main hover:text-accent transition-colors p-1.5 shrink-0 ml-2" aria-label="Axtarış">
                 {isSearchOpen ? <X className="w-5 h-5" /> : <Search className="w-5 h-5" />}
               </button>
-              <Link href="/contact" className="bg-accent text-[#141414] hover:bg-text-main hover:text-bg-main transition-colors font-black text-[11px] tracking-widest whitespace-nowrap px-5 2xl:px-6 py-2.5 rounded-full uppercase">
-                BİZƏ QOŞUL
-              </Link>
-            </div>
+            </nav>
+          </div>
 
-            {/* Mobile Menu Button */}
-            <div className="xl:hidden flex items-center space-x-3">
-              <button 
-                onClick={() => setIsSearchOpen(!isSearchOpen)}
-                className="text-text-main hover:text-accent focus:outline-none p-1"
-              >
-                {isSearchOpen ? <X className="w-5 h-5 md:w-6 md:h-6" /> : <Search className="w-5 h-5 md:w-6 md:h-6" />}
+          {/* Mobile / tablet controls */}
+          <div className="xl:hidden ml-auto flex items-center gap-1">
+            <button onClick={() => setIsSearchOpen(o => !o)} className="text-text-main p-2.5" aria-label="Axtarış">
+              {isSearchOpen ? <X className="w-5 h-5" /> : <Search className="w-5 h-5" />}
+            </button>
+            <button onClick={toggleTheme} className="text-text-main p-2.5" aria-label="Rejimi dəyiş">
+              <ThemeIcon className="w-5 h-5" />
+            </button>
+            <button onClick={() => setIsOpen(o => !o)} className="text-text-main p-2.5 -mr-2.5" aria-label={isOpen ? 'Menyunu bağla' : 'Menyunu aç'} aria-expanded={isOpen}>
+              {isOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+            </button>
+          </div>
+        </div>
+      </div>
+
+      {/* Mobile: slim next-match bar */}
+      <div className="xl:hidden h-8 border-t border-bg-border bg-bg-sec/60">
+        <NextMatchStrip compact />
+      </div>
+
+      {/* Search */}
+      {isSearchOpen && (
+        <div className="bg-bg-sec border-t border-bg-border">
+          <form onSubmit={handleSearch} className="container mx-auto px-4 lg:px-8 py-4">
+            <div className="relative">
+              <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-text-sec" />
+              <input
+                type="search"
+                autoFocus
+                value={searchQuery}
+                onChange={e => setSearchQuery(e.target.value)}
+                placeholder="Saytda axtarış..."
+                className="w-full bg-bg-main text-text-main border border-bg-border rounded-xl py-3 pl-12 pr-24 text-base focus:outline-none focus:border-accent transition-colors"
+              />
+              <button type="submit" className="absolute right-2 top-1/2 -translate-y-1/2 bg-accent text-on-accent px-4 py-1.5 rounded-lg font-bold text-sm">
+                Axtar
               </button>
-              <button
-                onClick={() => setIsOpen(!isOpen)}
-                className="text-text-main hover:text-accent focus:outline-none p-1"
-              >
-                {isOpen ? <X className="w-7 h-7 md:w-8 md:h-8" /> : <Menu className="w-7 h-7 md:w-8 md:h-8" />}
-              </button>
+            </div>
+          </form>
+        </div>
+      )}
+
+    </header>
+
+      {/* Mobile menu */}
+      {isOpen && (
+        <div className="xl:hidden fixed inset-x-0 top-[90px] bottom-0 z-40 bg-bg-main overflow-y-auto overscroll-contain border-t border-bg-border">
+          <div className="container mx-auto px-4 py-4">
+            <nav className="flex flex-col" aria-label="Mobil menyu">
+              {[...menuItems, tvItem, ...moreItems].map(item => (
+                <Link
+                  key={item.href}
+                  href={item.href}
+                  className={`flex items-center justify-between py-4 border-b border-bg-border text-lg font-semibold transition-colors ${isActive(item.href) ? 'text-text-main' : 'text-text-sec'}`}
+                >
+                  {item.name}
+                  {isActive(item.href) && <span className="w-2 h-2 rounded-full bg-accent" />}
+                </Link>
+              ))}
+            </nav>
+            <Link href="/contact" className="mt-6 block w-full text-center bg-accent text-on-accent font-bold py-4 rounded-xl">
+              Bizə qoşul
+            </Link>
+            <div className="flex flex-wrap gap-x-5 gap-y-2 justify-center mt-8 pb-8 text-sm text-text-sec">
+              {socials.map(s => (
+                <a key={s.name} href={s.href} target="_blank" rel="noopener noreferrer" className="hover:text-text-main transition-colors">{s.name}</a>
+              ))}
             </div>
           </div>
         </div>
-
-        {/* Search Input Dropdown */}
-        <AnimatePresence>
-          {isSearchOpen && (
-            <motion.div 
-              initial={{ height: 0, opacity: 0 }}
-              animate={{ height: 'auto', opacity: 1 }}
-              exit={{ height: 0, opacity: 0 }}
-              className="w-full bg-bg-sec border-t border-bg-border overflow-hidden"
-            >
-              <form onSubmit={handleSearch} className="container mx-auto px-4 lg:px-8 py-4">
-                <div className="relative">
-                  <input 
-                    type="text" 
-                    autoFocus
-                    value={searchQuery}
-                    onChange={(e) => setSearchQuery(e.target.value)}
-                    placeholder="Saytda axtarış..." 
-                    className="w-full bg-bg-main text-text-main border border-bg-border rounded-lg py-3 px-4 pl-12 focus:outline-none focus:border-accent transition-colors"
-                  />
-                  <Search className="absolute left-4 top-3.5 w-5 h-5 text-text-sec" />
-                  <button type="submit" className="absolute right-2 top-2 bg-accent text-[#141414] px-4 py-1.5 rounded-md font-bold text-sm hover:bg-text-main hover:text-bg-main transition-colors">
-                    Axtar
-                  </button>
-                </div>
-              </form>
-            </motion.div>
-          )}
-        </AnimatePresence>
-
-        {/* Mobile Menu Dropdown */}
-        <AnimatePresence>
-          {isOpen && (
-            <motion.div 
-              initial={{ height: 0, opacity: 0 }}
-              animate={{ height: 'auto', opacity: 1 }}
-              exit={{ height: 0, opacity: 0 }}
-              className="xl:hidden bg-bg-main border-t border-bg-border absolute w-full overflow-hidden shadow-2xl max-h-[85vh] overflow-y-auto"
-            >
-              <div className="px-6 py-4 space-y-1">
-                <div className="flex items-center justify-center mb-6 px-2 mt-4">
-                  <div className="flex space-x-6 text-text-sec">
-                    <a href="https://www.instagram.com/yarimada_fk/" target="_blank" rel="noopener noreferrer"><InstagramIcon className="w-6 h-6 hover:text-accent transition-colors" /></a>
-                    <a href="https://www.facebook.com/profile.php?id=61590640762611" target="_blank" rel="noopener noreferrer"><FacebookIcon className="w-6 h-6 hover:text-accent transition-colors" /></a>
-                    <a href="https://www.youtube.com/@yarimada_fk" target="_blank" rel="noopener noreferrer"><YoutubeIcon className="w-6 h-6 hover:text-accent transition-colors" /></a>
-                    <a href="https://www.tiktok.com/@yarimadafk" target="_blank" rel="noopener noreferrer"><TiktokIcon className="w-6 h-6 hover:text-accent transition-colors" /></a>
-                    <a href="https://t.me/yarimadafk?fbclid=PAZXh0bgNhZW0CMTEAcGRvZgRzcnRjBmFwcF9pZAwyNTYyODEwNDA1NTgAAafK0KsTFGaHEdkdFqPvdB_YUJuYByPtPKvdfmdCKantOLunANZ5C8nrnroI0A_aem_3_m_V6XwTbX1OL0eUZhRoA" target="_blank" rel="noopener noreferrer"><TelegramIcon className="w-6 h-6 hover:text-accent transition-colors" /></a>
-                  </div>
-                </div>
-
-                {menuItems.map((item) => (
-                  <motion.div key={item.name}>
-                    <Link
-                      href={item.href} 
-                      className="block py-3.5 font-bold text-sm tracking-widest text-text-main hover:text-accent border-b border-bg-border/50 transition-colors"
-                      onClick={(e) => { setIsOpen(false); if(item.href === '/' && window.location.pathname === '/') { window.scrollTo({top: 0, behavior: 'smooth'}) } }}
-                    >
-                      {item.name}
-                    </Link>
-                  </motion.div>
-                ))}
-                
-                <div className="pt-6 pb-4 flex">
-                  <Link href="/contact" onClick={() => setIsOpen(false)} className="bg-accent text-[#141414] w-full text-center hover:bg-text-main hover:text-bg-main transition-colors font-black text-sm tracking-widest px-6 py-4 rounded-xl uppercase">
-                    BİZƏ QOŞUL
-                  </Link>
-                </div>
-              </div>
-            </motion.div>
-          )}
-        </AnimatePresence>
-      </div>
-    </motion.header>
+      )}
+    </>
   );
 }

@@ -301,7 +301,7 @@ export default function MatchesAdmin() {
           <h2 className="text-2xl font-black uppercase tracking-widest text-white mb-2">Oyunlar və Nəticələr</h2>
           <p className="text-gray-400 text-sm">Bütün oyunları, canlı nəticələri və ana səhifədə görünəcək əsas oyunu idarə edin.</p>
         </div>
-        <button onClick={() => { setIsAdding(!isAdding); resetForm(); }} className="bg-accent text-[#141414] px-4 py-2 rounded-lg font-bold text-xs uppercase tracking-widest flex items-center space-x-2">
+        <button onClick={() => { setIsAdding(!isAdding); resetForm(); }} className="bg-accent text-on-accent px-4 py-2 rounded-lg font-bold text-xs uppercase tracking-widest flex items-center space-x-2">
           {isAdding ? <span>Ləğv Et</span> : <><Plus className="w-4 h-4" /><span>Yeni Oyun</span></>}
         </button>
       </div>
@@ -310,9 +310,9 @@ export default function MatchesAdmin() {
         <form onSubmit={handleSave} className="bg-gray-800 p-6 rounded-2xl border border-gray-700 mb-8">
           
           <div className="flex space-x-2 mb-6 border-b border-gray-700 pb-4 overflow-x-auto">
-            <button type="button" onClick={() => setActiveTab('info')} className={`px-4 py-2 rounded font-bold text-xs uppercase tracking-widest whitespace-nowrap ${activeTab === 'info' ? 'bg-accent text-[#141414]' : 'text-gray-400 hover:text-white'}`}>Əsas Məlumatlar</button>
+            <button type="button" onClick={() => setActiveTab('info')} className={`px-4 py-2 rounded font-bold text-xs uppercase tracking-widest whitespace-nowrap ${activeTab === 'info' ? 'bg-accent text-on-accent' : 'text-gray-400 hover:text-white'}`}>Əsas Məlumatlar</button>
             <button type="button" onClick={() => setActiveTab('timer')} className={`px-4 py-2 rounded font-bold text-xs uppercase tracking-widest flex items-center space-x-2 whitespace-nowrap ${activeTab === 'timer' ? 'bg-red-500 text-white' : 'text-gray-400 hover:text-red-400'}`}><Clock className="w-4 h-4"/> <span>Canlı Taymer</span></button>
-            <button type="button" onClick={() => setActiveTab('lineup')} className={`px-4 py-2 rounded font-bold text-xs uppercase tracking-widest flex items-center space-x-2 whitespace-nowrap ${activeTab === 'lineup' ? 'bg-accent text-[#141414]' : 'text-gray-400 hover:text-white'}`}><Users className="w-4 h-4"/> <span>Heyət & Hadisələr</span></button>
+            <button type="button" onClick={() => setActiveTab('lineup')} className={`px-4 py-2 rounded font-bold text-xs uppercase tracking-widest flex items-center space-x-2 whitespace-nowrap ${activeTab === 'lineup' ? 'bg-accent text-on-accent' : 'text-gray-400 hover:text-white'}`}><Users className="w-4 h-4"/> <span>Heyət & Hadisələr</span></button>
           </div>
 
           {activeTab === 'info' && (
@@ -530,7 +530,7 @@ export default function MatchesAdmin() {
           )}
 
           <div className="mt-8 pt-4 border-t border-gray-700">
-            <button type="submit" className="w-full bg-accent text-[#141414] py-4 rounded-lg font-black text-sm uppercase tracking-widest hover:bg-text-main hover:text-bg-main transition-colors shadow-lg shadow-[#d7bf7b]/20">
+            <button type="submit" className="w-full bg-accent text-on-accent py-4 rounded-lg font-black text-sm uppercase tracking-widest hover:bg-text-main hover:text-bg-main transition-colors shadow-lg shadow-[#d7bf7b]/20">
               Dəyişiklikləri Yadda Saxla
             </button>
           </div>
@@ -546,7 +546,7 @@ export default function MatchesAdmin() {
               
               <div className="flex flex-col flex-1 w-full text-center md:text-left mb-4 md:mb-0">
                 <div className="flex items-center justify-center md:justify-start space-x-2 mb-2">
-                  {m.is_hero && <span className="bg-accent text-[#141414] text-[9px] font-black uppercase tracking-widest px-2 py-0.5 rounded">Ana Səhifə</span>}
+                  {m.is_hero && <span className="bg-accent text-on-accent text-[9px] font-black uppercase tracking-widest px-2 py-0.5 rounded">Ana Səhifə</span>}
                   
                   {m.status === 'live' && <span className="bg-red-500 text-white text-[9px] font-black uppercase tracking-widest px-2 py-0.5 rounded animate-pulse">Canlı: {calculateLiveMinute(m.timer_status, m.timer_started_at, m.elapsed_seconds, m.half_1_duration, m.half_2_duration, m.extra_time_1, m.extra_time_2)}</span>}
                   {m.status === 'finished' && <span className="bg-gray-700 text-white text-[9px] font-black uppercase tracking-widest px-2 py-0.5 rounded">Bitdi</span>}

@@ -116,7 +116,7 @@ export default function NewsAdmin() {
         </div>
         <button 
           onClick={() => setIsAdding(!isAdding)} 
-          className="bg-accent text-[#141414] px-4 py-2 rounded-lg font-bold text-xs uppercase tracking-widest flex items-center space-x-2 hover:bg-text-main hover:text-bg-main transition-colors"
+          className="bg-accent text-on-accent px-4 py-2 rounded-lg font-bold text-xs uppercase tracking-widest flex items-center space-x-2 hover:bg-text-main hover:text-bg-main transition-colors"
         >
           {isAdding ? <span onClick={() => { setEditingId(null); setTitle(''); setContent(''); setImageUrl(''); }}>Ləğv Et</span> : <><Plus className="w-4 h-4" /><span>Yeni Xəbər</span></>}
         </button>
@@ -151,7 +151,7 @@ export default function NewsAdmin() {
             <label className="block text-gray-400 text-xs font-bold uppercase tracking-widest mb-2">Xəbər Mətni</label>
             <textarea value={content} onChange={e => setContent(e.target.value)} className="w-full bg-gray-900 border border-gray-700 rounded-lg p-3 text-white focus:border-accent outline-none h-32" placeholder="Mətn..." required></textarea>
           </div>
-          <button type="submit" className="w-full bg-accent text-[#141414] py-3 rounded-lg font-bold text-xs uppercase tracking-widest hover:bg-text-main hover:text-bg-main transition-colors">Yadda Saxla</button>
+          <button type="submit" className="w-full bg-accent text-on-accent py-3 rounded-lg font-bold text-xs uppercase tracking-widest hover:bg-text-main hover:text-bg-main transition-colors">Yadda Saxla</button>
         </form>
       )}
 

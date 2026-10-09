@@ -36,7 +36,11 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="az" className={`${albert.variable} ${alumni.variable} ${jetbrains.variable}`}>
+    <html lang="az" suppressHydrationWarning className={`${albert.variable} ${alumni.variable} ${jetbrains.variable}`}>
+      <head>
+        {/* Apply the saved theme before first paint (default: dark) to avoid a light-mode flash */}
+        <script dangerouslySetInnerHTML={{ __html: "try{var t=localStorage.getItem('theme')||'dark';if(t==='dark')document.documentElement.classList.add('dark')}catch(e){document.documentElement.classList.add('dark')}" }} />
+      </head>
       <body className="min-h-screen flex flex-col antialiased bg-bg-main">
         <ClientLayout>
           {children}

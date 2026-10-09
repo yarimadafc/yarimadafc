@@ -29,8 +29,8 @@ export default function StandingsPage() {
     loadStandings();
 
     async function loadResults() {
-      const { data } = await supabase.from('matches').select('*').eq('status', 'finished').order('date', { ascending: false });
-      if (data) setResults(data);
+      const { data } = await supabase.from('matches').select('*').eq('status', 'finished').order('match_date', { ascending: false });
+      if (data) setResults(data.map((m: any) => ({ ...m, date: m.match_date || m.date || '' })));
     }
     loadResults();
 

@@ -24,11 +24,11 @@ function SearchResults() {
       const searchTerm = `%${query.toLowerCase()}%`;
       const allResults: { title: string; desc: string; link: string; type: string }[] = [];
 
-      const { data: news } = await supabase.from('news').select('id, title, content').ilike('title', searchTerm);
-      if (news) news.forEach(n => allResults.push({ title: n.title, desc: n.content?.substring(0, 100) + '...', link: `/news/${n.id}`, type: 'Xəbər' }));
+      const { data: news } = await supabase.from('news').select('id, title_az, content_az').ilike('title_az', searchTerm);
+      if (news) news.forEach(n => allResults.push({ title: n.title_az, desc: (n.content_az?.substring(0, 100) || '') + '...', link: `/news/${n.id}`, type: 'Xəbər' }));
 
-      const { data: teams } = await supabase.from('teams').select('id, name, age_group').ilike('name', searchTerm);
-      if (teams) teams.forEach(t => allResults.push({ title: t.name, desc: `Yaş Qrupu: ${t.age_group}`, link: `/teams/${t.id}`, type: 'Komanda' }));
+      const { data: teams } = await supabase.from('teams').select('id, name, league').ilike('name', searchTerm);
+      if (teams) teams.forEach(t => allResults.push({ title: t.name, desc: t.league || 'Komanda', link: `/teams/${t.id}`, type: 'Komanda' }));
 
       const { data: coaches } = await supabase.from('coaches').select('id, name, role, bio').ilike('name', searchTerm);
       if (coaches) coaches.forEach(c => allResults.push({ title: c.name, desc: c.role || 'Məşqçi', link: `/coaches/${c.id}`, type: 'Məşqçi' }));

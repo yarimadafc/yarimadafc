@@ -94,3 +94,24 @@ input, textarea, select {
 input::placeholder, textarea::placeholder {
   color: #9ca3af; /* gray-400 */
 }
+
+/* Admin panel: one consistent dark navy palette (remaps Tailwind's default grays/black inside /admin) */
+.admin-theme {
+  --color-black: #030812;
+  --color-gray-900: #061226;
+  --color-gray-800: #0a1a38;
+  --color-gray-700: #17305f;
+  --color-gray-600: #254a8c;
+  --color-gray-500: #7d8aa3;
+  --color-gray-400: #a3b0c7;
+  /* @theme colors are resolved on :root, so a wrapper must redefine them explicitly */
+  --color-bg-main: #051024;
+  --color-bg-sec: #0a1f44;
+  --color-bg-deep: #030812;
+  --color-bg-card: #0d2857;
+  --color-bg-border: #1a428a;
+  --color-text-main: #ffffff;
+  --color-text-sec: #9ca3af;
+  --color-accent: #ffffff;
+  color-scheme: dark;
+}

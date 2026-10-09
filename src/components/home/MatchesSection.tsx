@@ -10,8 +10,8 @@ export default function MatchesSection() {
   useEffect(() => {
     async function fetchMatches() {
       // Get the next 4 matches
-      const { data } = await supabase.from('matches').select('*').order('date', { ascending: false }).limit(4);
-      if (data) setMatches(data);
+      const { data } = await supabase.from('matches').select('*').order('match_date', { ascending: false }).limit(4);
+      if (data) setMatches(data.map((m: any) => ({ ...m, date: m.match_date || m.date || '', time: m.match_time || m.time || '' })));
     }
     fetchMatches();
   }, []);

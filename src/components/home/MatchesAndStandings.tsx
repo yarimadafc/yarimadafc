@@ -30,9 +30,9 @@ export default function MatchesAndStandings() {
         setActiveLeague('U-6');
       }
 
-      const { data: mtData } = await supabase.from('matches').select('*').order('date', { ascending: true });
+      const { data: mtData } = await supabase.from('matches').select('*').order('match_date', { ascending: true });
       if (mtData) {
-        setAllMatches(mtData);
+        setAllMatches(mtData.map((m: any) => ({ ...m, date: m.match_date || m.date || '', time: m.match_time || m.time || '' })));
       }
     }
     fetchData();

@@ -119,13 +119,13 @@ export default function Navbar() {
         <div className="container mx-auto px-4 lg:px-8 h-12 flex items-center justify-between">
           {/* Left: Phone & Slogan */}
           <div className="flex items-center justify-center sm:justify-between w-full lg:w-auto lg:space-x-6">
-            <a href="tel:0554477467" className="hover:text-accent transition-colors hidden sm:flex items-center text-text-sec text-sm font-bold tracking-widest">
+            <a href="tel:0554477467" className="hover:text-accent transition-colors hidden sm:flex items-center text-text-sec text-sm font-bold tracking-widest whitespace-nowrap">
               <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="mr-2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>
               055 447 74 67
             </a>
             
             {mounted && currentTime && (
-              <div className="text-accent text-[10px] sm:text-xs uppercase font-bold tracking-widest sm:border-l border-bg-border sm:pl-6 flex items-center space-x-2 sm:space-x-3 text-center">
+              <div className="text-accent text-[10px] sm:text-xs uppercase font-bold tracking-widest sm:border-l border-bg-border sm:pl-6 flex items-center space-x-2 sm:space-x-3 text-center whitespace-nowrap">
                 <span>{currentDate}</span>
                 <span className="text-gray-600">|</span>
                 <span className="text-text-main w-[50px]">{currentTime}</span>
@@ -136,8 +136,8 @@ export default function Navbar() {
           </div>
           
           {/* Right: Social, Language */}
-          <div className="hidden lg:flex items-center space-x-6">
-            <span className="text-accent text-xs uppercase font-bold tracking-widest border-r border-bg-border pr-6">
+          <div className="hidden xl:flex items-center space-x-6">
+            <span className="text-accent text-xs uppercase font-bold tracking-widest border-r border-bg-border pr-6 whitespace-nowrap">
               Gələcəyin Çempionları Burada Yetişir!
             </span>
             <div className="flex items-center space-x-5 text-text-sec">
@@ -173,7 +173,7 @@ export default function Navbar() {
             </div>
 
             {/* Desktop Menu */}
-            <nav className="hidden xl:flex items-center space-x-5 2xl:space-x-7">
+            <nav className="hidden xl:flex items-center gap-4 2xl:gap-7 mx-4 min-w-0">
               {menuItems.map((item, i) => (
                 <motion.div 
                   key={item.name}
@@ -183,7 +183,7 @@ export default function Navbar() {
                 >
                   <Link
                     href={item.href} 
-                    className="font-bold text-[12px] 2xl:text-[13px] tracking-widest text-text-main hover:text-accent transition-colors relative group"
+                    className="font-bold text-[11px] 2xl:text-[13px] tracking-wider 2xl:tracking-widest whitespace-nowrap text-text-main hover:text-accent transition-colors relative group"
                   >
                     {item.name}
                     <span className="absolute -bottom-2 left-0 w-0 h-[2px] bg-accent transition-all duration-300 group-hover:w-full"></span>
@@ -193,14 +193,14 @@ export default function Navbar() {
             </nav>
 
             {/* Right Actions */}
-            <div className="hidden lg:flex items-center space-x-4">
+            <div className="hidden xl:flex items-center space-x-3 2xl:space-x-4 flex-shrink-0">
               <button 
                 onClick={() => setIsSearchOpen(!isSearchOpen)}
                 className="text-text-main hover:text-accent transition-colors p-2"
               >
                 {isSearchOpen ? <X className="w-5 h-5" /> : <Search className="w-5 h-5" />}
               </button>
-              <Link href="/contact" className="bg-accent text-[#141414] hover:bg-text-main hover:text-bg-main transition-colors font-black text-[11px] tracking-widest px-6 py-2.5 rounded-full uppercase">
+              <Link href="/contact" className="bg-accent text-[#141414] hover:bg-text-main hover:text-bg-main transition-colors font-black text-[11px] tracking-widest whitespace-nowrap px-5 2xl:px-6 py-2.5 rounded-full uppercase">
                 BİZƏ QOŞUL
               </Link>
             </div>

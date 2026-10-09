@@ -1,15 +1,26 @@
+'use client';
+import PageHero from '@/components/PageHero';
+import WhatsAppForm from '@/components/WhatsAppForm';
+
 export default function RegisterPage() {
   return (
-    <div className="pt-[180px] min-h-screen bg-bg-main pb-20 flex flex-col items-center justify-center text-center">
-      <div className="text-accent mb-6">
-        <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 22v-5"/><path d="M9 7V2"/><path d="M15 7V2"/><path d="M12 7v5"/><path d="M12 17a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z"/><path d="M19.5 10.5 22 13"/><path d="M4.5 10.5 2 13"/></svg>
+    <div className="pt-header pb-20 min-h-screen">
+      <PageHero title="Akademiyaya qeydiyyat" subtitle="Övladınızı akademiyaya yazdırmaq üçün formu doldurun. Müraciətiniz WhatsApp vasitəsilə klubumuza çatacaq və biz sizinlə əlaqə saxlayacağıq." />
+      <div className="container">
+        <div className="led-border bg-bg-sec rounded-3xl border border-bg-border p-6 md:p-10">
+          <WhatsAppForm
+            intro="Salam, akademiyaya qeydiyyat müraciəti:"
+            submitLabel="Müraciəti göndər"
+            fields={[
+              { name: 'child', label: 'Uşağın adı, soyadı', required: true },
+              { name: 'birth', label: 'Doğum tarixi', type: 'date', required: true },
+              { name: 'parent', label: 'Valideynin adı, soyadı', required: true },
+              { name: 'phone', label: 'Əlaqə nömrəsi', type: 'tel', required: true, placeholder: '050 000 00 00' },
+              { name: 'note', label: 'Əlavə qeyd', type: 'textarea' },
+            ]}
+          />
+        </div>
       </div>
-      <h1 className="text-3xl md:text-5xl font-black text-text-main uppercase tracking-tighter mb-4">
-        TEZLİKLƏ
-      </h1>
-      <p className="text-text-sec max-w-md mx-auto">
-        Qeydiyyat bölməsi hazırda yenilənir və çox yaxında istifadənizə veriləcək. Səbriniz üçün təşəkkür edirik!
-      </p>
     </div>
   );
 }

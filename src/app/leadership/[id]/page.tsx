@@ -22,7 +22,7 @@ export default function LeadershipDetailPage() {
 
   if (loading) {
     return (
-      <div className="pt-[180px] min-h-screen bg-bg-deep pb-20 flex justify-center">
+      <div className="pt-header min-h-screen bg-bg-deep pb-20 flex justify-center">
         <div className="text-accent font-bold tracking-widest uppercase animate-pulse">Yüklənir...</div>
       </div>
     );
@@ -30,7 +30,7 @@ export default function LeadershipDetailPage() {
 
   if (!person) {
     return (
-      <div className="pt-[180px] min-h-screen bg-bg-deep pb-20 flex flex-col items-center justify-center">
+      <div className="pt-header min-h-screen bg-bg-deep pb-20 flex flex-col items-center justify-center">
         <div className="text-red-400 font-bold tracking-widest uppercase mb-4">Şəxs tapılmadı</div>
         <Link href="/club" className="text-accent hover:underline">Haqqımızda səhifəsinə qayıt</Link>
       </div>
@@ -38,9 +38,9 @@ export default function LeadershipDetailPage() {
   }
 
   return (
-    <div className="pt-[180px] min-h-screen bg-bg-deep pb-20">
-      <div className="container mx-auto px-4 lg:px-8 mt-10">
-        <div className="bg-bg-sec rounded-3xl border border-bg-border overflow-hidden shadow-2xl flex flex-col md:flex-row max-w-5xl mx-auto">
+    <div className="pt-header min-h-screen bg-bg-deep pb-20">
+      <div className="container mt-10">
+        <div className="bg-bg-sec rounded-3xl border border-bg-border overflow-hidden shadow-2xl flex flex-col md:flex-row led-border">
           
           {/* Photo */}
           <div className="w-full md:w-1/4 xl:w-1/5 h-[300px] md:h-[400px] relative bg-bg-main flex-shrink-0 border-r border-bg-border">
@@ -48,7 +48,7 @@ export default function LeadershipDetailPage() {
               <img src={person.image_url} alt={person.name} className="absolute inset-0 w-full h-full object-contain object-top pt-4 opacity-90" />
             ) : (
               <div className="absolute inset-0 flex items-center justify-center">
-                 <svg className="w-24 h-24 text-gray-700" fill="currentColor" viewBox="0 0 20 20"><path fillRule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clipRule="evenodd" /></svg>
+                 <svg className="w-24 h-24 text-text-sec" fill="currentColor" viewBox="0 0 20 20"><path fillRule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clipRule="evenodd" /></svg>
               </div>
             )}
             <div className="absolute inset-0 bg-gradient-to-t from-bg-deep md:from-transparent to-transparent"></div>

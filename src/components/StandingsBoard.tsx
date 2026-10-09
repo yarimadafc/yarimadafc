@@ -4,6 +4,8 @@ import { useEffect, useMemo, useState } from 'react';
 import Link from 'next/link';
 import { supabase } from '@/lib/supabase';
 import TeamLogo from '@/components/TeamLogo';
+import Reveal from '@/components/Reveal';
+import { useLang } from '@/lib/i18n';
 import { AnyMatch, formatShortDate, isYarimada, matchStart, normalizeMatch } from '@/lib/matchUtils';
 
 interface Props {
@@ -13,6 +15,7 @@ interface Props {
 
 // League tabs + standings table + fixtures/results list (Neftçi-style).
 export default function StandingsBoard({ matchLimit = 9 }: Props) {
+  const { t } = useLang();
   const [standings, setStandings] = useState<any[]>([]);
   const [matches, setMatches] = useState<AnyMatch[]>([]);
   const [active, setActive] = useState('');
@@ -67,7 +70,7 @@ export default function StandingsBoard({ matchLimit = 9 }: Props) {
     return <div className="h-64 rounded-xl bg-bg-sec animate-pulse" aria-hidden />;
   }
   if (leagues.length === 0) {
-    return <div className="rounded-xl border border-bg-border bg-bg-sec py-14 text-center text-text-sec">Turnir məlumatı hələ əlavə olunmayıb.</div>;
+    return <div className="rounded-xl border border-bg-border bg-bg-sec py-14 text-center text-text-sec">{t('Turnir məlumatı hələ əlavə olunmayıb.')}</div>;
   }
 
   const th = 'py-4 px-1 sm:px-2 text-center font-medium';
@@ -82,7 +85,7 @@ export default function StandingsBoard({ matchLimit = 9 }: Props) {
             role="tab"
             aria-selected={active === l}
             onClick={() => setActive(l)}
-            className={`shrink-0 text-sm md:text-base font-semibold pb-2 border-b-2 transition-colors ${active === l ? 'text-text-main border-accent' : 'text-text-sec border-transparent hover:text-text-main'}`}
+            className={`shrink-0 text-sm md:text-base font-semibold pb-2 border-b-2 transition-all hover:-translate-y-0.5 ${active === l ? 'text-text-main border-accent' : 'text-text-sec border-transparent hover:text-text-main'}`}
           >
             {l}
           </button>
@@ -90,15 +93,16 @@ export default function StandingsBoard({ matchLimit = 9 }: Props) {
       </div>
 
       <div className="grid grid-cols-1 xl:grid-cols-2 gap-6">
+        <Reveal variant="left">
         {/* Standings */}
-        <div className="bg-bg-sec rounded-xl overflow-hidden">
+        <div className="bg-bg-sec rounded-xl overflow-hidden led-border">
           <table className="w-full text-xs sm:text-sm text-text-main">
             <thead className="text-text-sec">
               <tr>
                 <th className={`${th} w-8 sm:w-12`}>№</th>
-                <th className="py-4 px-1 sm:px-2 text-left font-medium">Komanda</th>
+                <th className="py-4 px-1 sm:px-2 text-left font-medium">{t('Komanda')}</th>
                 {['O', 'Q', 'B', 'M', 'VQ', 'BQ'].map(h => <th key={h} className={`${th} w-7 sm:w-10`}>{h}</th>)}
-                <th className={`${th} w-9 sm:w-12`}>Xal</th>
+                <th className={`${th} w-9 sm:w-12`}>{t('Xal')}</th>
               </tr>
             </thead>
             <tbody>
@@ -121,17 +125,19 @@ export default function StandingsBoard({ matchLimit = 9 }: Props) {
                 </tr>
               ))}
               {rows.length === 0 && (
-                <tr><td colSpan={9} className="py-12 text-center text-text-sec">Bu turnir üçün cədvəl məlumatı yoxdur.</td></tr>
+                <tr><td colSpan={9} className="py-12 text-center text-text-sec">{t('Bu turnir üçün cədvəl məlumatı yoxdur.')}</td></tr>
               )}
             </tbody>
           </table>
         </div>
 
+        </Reveal>
         {/* Fixtures / results */}
+        <Reveal variant="right">
         <div className="bg-bg-sec rounded-xl overflow-hidden self-start">
-          <div className="px-4 py-4 text-sm text-text-sec font-medium">Son / növbəti oyunlar</div>
+          <div className="px-4 py-4 text-sm text-text-sec font-medium">{t('Son / növbəti oyunlar')}</div>
           {leagueMatches.length === 0 ? (
-            <div className="py-12 text-center text-text-sec text-sm border-t border-bg-border">Bu turnir üçün oyun yoxdur.</div>
+            <div className="py-12 text-center text-text-sec text-sm border-t border-bg-border">{t('Bu turnir üçün oyun yoxdur.')}</div>
           ) : (
             leagueMatches.map(m => {
               const played = m.status === 'finished' || m.status === 'live';
@@ -159,6 +165,7 @@ export default function StandingsBoard({ matchLimit = 9 }: Props) {
             })
           )}
         </div>
+        </Reveal>
       </div>
     </div>
   );

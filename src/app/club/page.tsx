@@ -7,7 +7,7 @@ import { supabase } from '@/lib/supabase';
 import Link from 'next/link';
 
 export default function ClubPage() {
-  const [aboutBg, setAboutBg] = useState<string>('/placeholder-hero.jpg');
+  const [aboutBg, setAboutBg] = useState<string>('');
   const [clubTexts, setClubTexts] = useState<Record<string, string>>({});
   const [leadershipCoaches, setLeadershipCoaches] = useState<any[]>([]);
 
@@ -54,7 +54,7 @@ export default function ClubPage() {
   ];
 
   return (
-    <div className="pt-[180px] min-h-screen bg-bg-deep pb-20">
+    <div className="pt-header min-h-screen bg-bg-deep pb-20">
       
       {/* 1. Page Header */}
       <div className="w-full bg-bg-sec py-12 md:py-16 border-b border-bg-border relative overflow-hidden">
@@ -63,7 +63,7 @@ export default function ClubPage() {
           style={{ backgroundImage: `url(${aboutBg})` }}
         ></div>
         <div className="absolute inset-0 bg-gradient-to-t from-bg-deep to-transparent"></div>
-        <div className="container mx-auto px-4 lg:px-8 relative z-10 text-center">
+        <div className="container relative z-10 text-center">
           <motion.h1 
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -82,7 +82,7 @@ export default function ClubPage() {
       </div>
 
       {/* 2. Haqqımızda & Tarix */}
-      <div className="container mx-auto px-4 lg:px-8 mt-16 md:mt-24">
+      <div className="container mt-16 md:mt-24">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
           <motion.div 
             initial={{ opacity: 0, x: -50 }}
@@ -109,13 +109,13 @@ export default function ClubPage() {
             transition={{ duration: 0.8 }}
             className="relative h-[400px] md:h-[500px] w-full rounded-2xl overflow-hidden border border-bg-border shadow-2xl"
           >
-            <img src={aboutBg} alt="Klub Şəkli" className="absolute inset-0 w-full h-full object-cover" />
+            <img src={aboutBg || '/Logo.JPG.jpeg'} alt="Yarımada FK" className={`absolute inset-0 w-full h-full ${aboutBg ? 'object-cover' : 'object-contain p-16 bg-bg-sec'}`} />
           </motion.div>
         </div>
       </div>
 
       {/* 3. Missiya, Vizyon, Dəyərlər */}
-      <div className="container mx-auto px-4 lg:px-8 mt-24">
+      <div className="container mt-24">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {values.map((v, i) => (
             <motion.div 
@@ -137,7 +137,7 @@ export default function ClubPage() {
       </div>
 
       {/* 4. Rəhbərlik */}
-      <div className="container mx-auto px-4 lg:px-8 mt-32">
+      <div className="container mt-32">
         <motion.div 
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
@@ -148,7 +148,7 @@ export default function ClubPage() {
           <h2 className="text-2xl md:text-4xl font-black text-text-main uppercase tracking-tight">Klub Rəhbərliyi</h2>
         </motion.div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-5xl mx-auto">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {leadershipCoaches.map((person, i) => (
             <motion.div 
               key={person.id}
@@ -163,7 +163,7 @@ export default function ClubPage() {
                     <img src={person.image_url} alt={person.name} className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 opacity-80 object-top" />
                   ) : (
                     <div className="absolute inset-0 flex items-center justify-center">
-                      <svg className="w-20 h-20 text-gray-700 relative z-0" fill="currentColor" viewBox="0 0 20 20"><path fillRule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clipRule="evenodd" /></svg>
+                      <svg className="w-20 h-20 text-text-sec relative z-0" fill="currentColor" viewBox="0 0 20 20"><path fillRule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clipRule="evenodd" /></svg>
                     </div>
                   )}
                 </div>
@@ -179,7 +179,7 @@ export default function ClubPage() {
       </div>
 
       {/* 5. Nailiyyətlər (Achievements module reused or custom) */}
-      <div className="container mx-auto px-4 lg:px-8 mt-32 bg-bg-card rounded-3xl p-8 md:p-16 border border-accent/20 relative overflow-hidden">
+      <div className="container mt-32 bg-bg-card rounded-3xl p-8 md:p-16 border border-accent/20 relative overflow-hidden">
         <div className="absolute -right-20 -top-20 w-64 h-64 bg-accent/5 rounded-full blur-3xl"></div>
         <motion.div 
           initial={{ opacity: 0, y: 30 }}

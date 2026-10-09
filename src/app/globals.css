@@ -55,6 +55,9 @@ html {
   }
 }
 
+html, body { overflow-x: clip; }
+main, .page-enter { overflow-x: clip; }
+
 body {
   background-color: var(--bg-main);
   color: var(--text-main);
@@ -96,6 +99,113 @@ input, textarea, select {
 }
 input::placeholder, textarea::placeholder {
   color: #9ca3af; /* gray-400 */
+}
+
+/* ===== Layout: wide, edge-to-edge container (no narrow centered column) ===== */
+@utility container {
+  margin-inline: auto;
+  width: 100%;
+  max-width: 2200px;
+  padding-inline: clamp(1rem, 3.2vw, 4rem);
+}
+
+/* space for the fixed header (top bar + header + mobile match strip) */
+.pt-header { padding-top: 9.75rem; }
+@media (min-width: 1120px) { .pt-header { padding-top: 11rem; } }
+
+.no-scrollbar { scrollbar-width: none; }
+.no-scrollbar::-webkit-scrollbar { display: none; }
+
+/* ===== Page transition: blur + scale + fade (desktop), lighter slide on phones ===== */
+@keyframes page-in { from { opacity: 0; filter: blur(10px); transform: scale(.98); } to { opacity: 1; filter: none; transform: none; } }
+@keyframes page-in-sm { from { opacity: 0; transform: translateY(24px); } to { opacity: 1; transform: none; } }
+.page-enter { animation: page-in .55s ease-out both; }
+@media (max-width: 767px) { .page-enter { animation: page-in-sm .4s ease-out both; } }
+@media (prefers-reduced-motion: reduce) { .page-enter { animation: none; } }
+
+/* ===== LED effects ===== */
+@property --led-angle {
+  syntax: '<angle>';
+  inherits: false;
+  initial-value: 0deg;
+}
+@keyframes led-spin { to { --led-angle: 360deg; } }
+@keyframes led-slide { 0% { background-position: 0% 50%; } 100% { background-position: 200% 50%; } }
+@keyframes led-pulse { 0%, 100% { box-shadow: 0 0 0 0 color-mix(in srgb, var(--accent) 0%, transparent), 0 0 12px color-mix(in srgb, var(--accent) 18%, transparent); } 50% { box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 8%, transparent), 0 0 28px color-mix(in srgb, var(--accent) 38%, transparent); } }
+@keyframes led-text { 0%, 100% { text-shadow: 0 0 6px color-mix(in srgb, var(--accent) 30%, transparent); } 50% { text-shadow: 0 0 18px color-mix(in srgb, var(--accent) 80%, transparent), 0 0 34px color-mix(in srgb, var(--accent) 40%, transparent); } }
+@keyframes slide-down { from { transform: translateY(-100%); } to { transform: translateY(0); } }
+@keyframes fade-in { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+@keyframes hero-zoom { from { transform: scale(1.18); } to { transform: scale(1); } }
+@keyframes rise { from { opacity: 0; transform: translateY(28px); } to { opacity: 1; transform: none; } }
+@keyframes marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+@keyframes float-y { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-6px); } }
+
+@layer components {
+/* rotating light running around the border */
+.led-border { position: relative; isolation: isolate; }
+.led-border::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 1.5px;
+  background: conic-gradient(from var(--led-angle), transparent 0 62%, var(--bg-border) 74%, var(--accent) 88%, transparent 100%);
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask: linear-gradient(#000 0 0) content-box exclude, linear-gradient(#000 0 0);
+  animation: led-spin 3.6s linear infinite;
+  pointer-events: none;
+  z-index: 1;
+}
+/* same ring but only while hovering / focused (cards) */
+.led-hover::before { opacity: 0; transition: opacity .35s ease; }
+.led-hover:hover::before, .led-hover:focus-visible::before { opacity: 1; }
+
+/* glowing animated underline / bars */
+.led-bar {
+  background: linear-gradient(90deg, var(--bg-border), var(--accent), var(--bg-border));
+  background-size: 200% 100%;
+  animation: led-slide 3s linear infinite;
+}
+.led-glow { animation: led-pulse 3.2s ease-in-out infinite; }
+.led-text { animation: led-text 3s ease-in-out infinite; }
+.float-y { animation: float-y 4s ease-in-out infinite; }
+
+/* ===== Button effects ===== */
+.btn-fx {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+  transition: transform .25s cubic-bezier(.2,.8,.2,1), box-shadow .3s ease, background-color .25s ease, color .25s ease, border-color .25s ease;
+  will-change: transform;
+}
+.btn-fx::after {
+  content: '';
+  position: absolute;
+  top: 0; bottom: 0; left: -60%;
+  width: 40%;
+  background: linear-gradient(105deg, transparent, color-mix(in srgb, currentColor 35%, transparent), transparent);
+  transform: skewX(-20deg);
+  transition: left .7s ease;
+  pointer-events: none;
+  z-index: -1;
+}
+.btn-fx:hover { transform: translateY(-2px); box-shadow: 0 10px 28px -8px color-mix(in srgb, var(--accent) 55%, transparent); }
+.btn-fx:hover::after { left: 130%; }
+.btn-fx:active { transform: translateY(0) scale(.97); box-shadow: none; }
+.btn-fx:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+
+/* hover lift for cards */
+.card-fx { transition: transform .35s cubic-bezier(.2,.8,.2,1), border-color .3s ease, background-color .3s ease, box-shadow .35s ease; }
+.card-fx:hover { transform: translateY(-4px); box-shadow: 0 18px 40px -18px color-mix(in srgb, var(--accent) 40%, transparent); }
+
+@media (hover: none) {
+  .btn-fx:hover, .card-fx:hover { transform: none; box-shadow: none; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .led-border::before, .led-bar, .led-glow, .led-text, .float-y { animation: none !important; }
+  .btn-fx, .card-fx, .btn-fx::after { transition: none !important; }
+}
 }
 
 /* Admin panel: one consistent dark navy palette (remaps Tailwind's default grays/black inside /admin) */

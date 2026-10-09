@@ -4,6 +4,7 @@ import Link from 'next/link';
 
 import { useState, useEffect } from 'react';
 import { supabase } from '@/lib/supabase';
+import PageHero from '@/components/PageHero';
 
 export default function TeamsPage() {
   const [teams, setTeams] = useState<any[]>([]);
@@ -17,34 +18,13 @@ export default function TeamsPage() {
   }, []);
 
   return (
-    <div className="pt-[180px] min-h-screen bg-bg-deep pb-20">
+    <div className="pt-header min-h-screen bg-bg-deep pb-20">
       
       {/* Header */}
-      <div className="w-full bg-bg-sec py-12 md:py-16 border-b border-bg-border relative overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-t from-bg-deep to-transparent"></div>
-        <div className="container mx-auto px-4 lg:px-8 relative z-10 text-center">
-          <motion.h1 
-            initial={{ opacity: 0, y: -20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-            className="text-2xl md:text-4xl font-black text-text-main uppercase tracking-tighter mb-4 drop-shadow-lg"
-          >
-            Yarımada <span className="text-accent">Komandaları</span>
-          </motion.h1>
-          <motion.div 
-            initial={{ width: 0 }}
-            animate={{ width: 64 }}
-            transition={{ duration: 0.8, delay: 0.3 }}
-            className="h-1 bg-accent mx-auto mb-6"
-          ></motion.div>
-          <p className="text-text-sec max-w-2xl mx-auto text-sm md:text-base font-medium">
-            Klubumuzun bütün yaş qrupları üzrə komandaları və onların liqalardakı iştirakı ilə yaxından tanış olun. Gələcəyin ulduzları məhz burada formalaşır.
-          </p>
-        </div>
-      </div>
+      <PageHero title="Yarımada Komandaları" subtitle="Klubumuzun bütün yaş qrupları üzrə komandaları və onların liqalardakı iştirakı ilə yaxından tanış olun. Gələcəyin ulduzları məhz burada formalaşır." />
 
       {/* Teams Grid */}
-      <div className="container mx-auto px-4 lg:px-8 mt-16 md:mt-24">
+      <div className="container mt-16 md:mt-24">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 gap-8">
           {teams.map((team, i) => (
             <motion.div 
@@ -55,7 +35,7 @@ export default function TeamsPage() {
               transition={{ duration: 0.6, delay: i * 0.1 }}
             >
               <Link href={`/teams/${team.id}`} className="block group">
-                <div className="bg-bg-sec border border-bg-border rounded-3xl p-8 hover:border-accent/50 transition-all duration-300 shadow-xl hover:shadow-[#d7bf7b]/5 relative overflow-hidden h-full flex flex-col justify-between">
+                <div className="led-border led-hover card-fx bg-bg-sec border border-bg-border rounded-3xl p-8 shadow-xl relative overflow-hidden h-full flex flex-col justify-between">
                   <div className="absolute top-0 right-0 w-32 h-32 bg-accent/5 rounded-bl-full -mr-10 -mt-10 transition-transform duration-500 group-hover:scale-125"></div>
                   
                   <div>

@@ -4,6 +4,7 @@ import { motion } from 'framer-motion';
 import { useEffect, useState } from 'react';
 import { supabase } from '@/lib/supabase';
 import { PlayCircle } from 'lucide-react';
+import SectionHeading from '@/components/SectionHeading';
 import Link from 'next/link';
 
 export default function CoachCoursesSection() {
@@ -22,23 +23,8 @@ export default function CoachCoursesSection() {
   return (
     <section id="courses" className="bg-bg-deep py-24 border-b border-bg-border relative overflow-hidden">
       <div className="absolute top-0 right-0 w-96 h-96 bg-accent/5 rounded-full blur-3xl pointer-events-none"></div>
-      <div className="container mx-auto px-4 lg:px-8 relative z-10">
-        <motion.div 
-          initial={{ opacity: 0, y: -30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
-          viewport={{ once: true }}
-          className="flex flex-col md:flex-row justify-between items-center mb-16"
-        >
-          <div>
-            <h2 className="text-4xl md:text-5xl font-black text-text-main tracking-tighter uppercase mb-4">
-              Məşqçi <span className="text-accent">Kursu</span>
-            </h2>
-            <p className="text-text-sec font-medium max-w-2xl">
-              Praktiki dərslər və peşəkar təlimatlar vasitəsilə futbol biliklərinizi artırın.
-            </p>
-          </div>
-        </motion.div>
+      <div className="container relative z-10">
+        <SectionHeading title="Məşqçi kursu" href="/courses" linkText="Bütün kurslar" />
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {courses.map((course, i) => (
@@ -48,11 +34,11 @@ export default function CoachCoursesSection() {
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: i * 0.1 }}
               viewport={{ once: true }}
-              className="group cursor-pointer bg-bg-sec rounded-3xl overflow-hidden border border-bg-border hover:border-accent/50 transition-colors shadow-xl hover:shadow-2xl"
+              className="group led-border led-hover card-fx cursor-pointer bg-bg-sec rounded-3xl overflow-hidden border border-bg-border shadow-xl"
             >
               <div className="relative h-56 overflow-hidden">
                 <img 
-                  src={course.image_url || '/placeholder-hero.jpg'} 
+                  src={course.image_url || '/Logo.JPG.jpeg'} 
                   alt={course.title} 
                   className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
                 />

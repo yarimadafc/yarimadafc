@@ -2,6 +2,7 @@
 import { Play } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { supabase } from '@/lib/supabase';
+import PageHero from '@/components/PageHero';
 import { motion } from 'framer-motion';
 
 const getYoutubeId = (url: string) => {
@@ -30,30 +31,9 @@ export default function Page() {
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
     >
-      <div className="min-h-screen bg-bg-deep pt-[180px] pb-20">
-      <div className="w-full bg-bg-sec py-12 md:py-16 border-b border-bg-border relative overflow-hidden ">
-        <div className="absolute inset-0 bg-gradient-to-t from-bg-deep to-transparent"></div>
-        <div className="container mx-auto px-4 lg:px-8 relative z-10 text-center">
-          <motion.h1 
-            initial={{ opacity: 0, y: -20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-            className="text-2xl md:text-4xl font-black text-text-main uppercase tracking-tighter mb-4 drop-shadow-lg"
-          >
-            KLUB <span className="text-accent">MEDİASI</span>
-          </motion.h1>
-          <motion.div 
-            initial={{ width: 0 }}
-            animate={{ width: 64 }}
-            transition={{ duration: 0.8, delay: 0.3 }}
-            className="h-1 bg-accent mx-auto mb-6"
-          ></motion.div>
-          <p className="text-text-sec max-w-2xl mx-auto text-sm md:text-base font-medium">
-            Yarımada FK-nın ən maraqlı oyun anları, məşqlər və klub daxili videoları.
-          </p>
-        </div>
-      </div>
-      <div className="container mx-auto px-4 lg:px-8">
+      <div className="min-h-screen bg-bg-deep pt-header pb-20">
+      <PageHero title="Klub mediası" subtitle="Yarımada FK-nın ən maraqlı oyun anları, məşqlər və klub daxili videoları." />
+      <div className="container">
         
         {loading ? (
           <div className="h-96 border border-bg-border flex items-center justify-center rounded-2xl">
@@ -71,7 +51,7 @@ export default function Page() {
                 initial={{ opacity: 0, y: 30 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: i * 0.1 }}
-                className="bg-bg-main border border-bg-border rounded-2xl overflow-hidden shadow-lg flex flex-col"
+                className="led-border led-hover card-fx bg-bg-main border border-bg-border rounded-2xl overflow-hidden shadow-lg flex flex-col h-full"
               >
                 <div className="w-full aspect-video bg-black relative flex-shrink-0">
                   {playingId === video.id ? (

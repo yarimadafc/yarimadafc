@@ -22,7 +22,7 @@ export default function CourseDetailPage() {
 
   if (loading) {
     return (
-      <div className="pt-32 min-h-screen bg-bg-deep pb-20 flex justify-center">
+      <div className="pt-header min-h-screen bg-bg-deep pb-20 flex justify-center">
         <div className="text-accent font-bold tracking-widest uppercase animate-pulse">Yüklənir...</div>
       </div>
     );
@@ -30,7 +30,7 @@ export default function CourseDetailPage() {
 
   if (!course) {
     return (
-      <div className="pt-32 min-h-screen bg-bg-deep pb-20 flex flex-col items-center justify-center">
+      <div className="pt-header min-h-screen bg-bg-deep pb-20 flex flex-col items-center justify-center">
         <div className="text-red-400 font-bold tracking-widest uppercase mb-4">Kurs tapılmadı</div>
         <Link href="/" className="text-accent hover:underline">Ana səhifəyə qayıt</Link>
       </div>
@@ -48,9 +48,9 @@ export default function CourseDetailPage() {
   }
 
   return (
-    <div className="pt-[180px] min-h-screen bg-bg-deep pb-20">
-      <div className="container mx-auto px-4 lg:px-8 mt-10">
-        <div className="bg-bg-sec rounded-3xl border border-bg-border overflow-hidden shadow-2xl flex flex-col max-w-4xl mx-auto p-8 md:p-12 relative">
+    <div className="pt-header min-h-screen bg-bg-deep pb-20">
+      <div className="container mt-10">
+        <div className="bg-bg-sec rounded-3xl border border-bg-border overflow-hidden shadow-2xl flex flex-col p-8 md:p-12 relative led-border">
             <Link href="/" className="text-text-sec hover:text-text-main transition-colors text-[10px] font-bold uppercase tracking-widest mb-6 inline-block flex items-center">
               &larr; Geri Qayıt
             </Link>
@@ -71,7 +71,7 @@ export default function CourseDetailPage() {
               </div>
             ) : course.video_url ? (
                <div className="mb-8">
-                 <a href={course.video_url} target="_blank" rel="noopener noreferrer" className="bg-accent text-on-accent px-6 py-3 rounded-xl font-bold uppercase tracking-widest text-sm inline-block hover:bg-text-main hover:text-bg-main transition-colors">Videonu İzlə</a>
+                 <a href={course.video_url} target="_blank" rel="noopener noreferrer" className="btn-fx bg-accent text-on-accent px-6 py-3 rounded-xl font-bold uppercase tracking-widest text-sm inline-block hover:bg-text-main hover:text-bg-main transition-colors">Videonu İzlə</a>
                </div>
             ) : course.image_url ? (
                <div className="w-full aspect-video rounded-2xl overflow-hidden mb-8 border border-bg-border relative bg-bg-main">

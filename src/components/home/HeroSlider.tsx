@@ -4,22 +4,27 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
 import { ArrowLeft, ArrowRight } from 'lucide-react';
 import { supabase } from '@/lib/supabase';
+import { useLang } from '@/lib/i18n';
+import NextMatchCard from '@/components/NextMatchCard';
 
-type Slide = { id: string; image: string; title: string; subtitle?: string; href: string };
+type Slide = { id: string; image: string; title: string; subtitle?: string; href?: string; intro?: boolean; raw?: Record<string, any> };
 
-const AUTOPLAY_MS = 6000;
+const AUTOPLAY_MS = 6500;
+const INTRO_MS = 9000;
 
 export default function HeroSlider() {
+  const { t, loc } = useLang();
   const [slides, setSlides] = useState<Slide[]>([]);
   const [loading, setLoading] = useState(true);
   const [active, setActive] = useState(0);
   const [paused, setPaused] = useState(false);
-  const [fallback, setFallback] = useState({
+  const [intro, setIntro] = useState({
     bg: '',
-    title1: 'Yeni mövsüm,',
-    title2: 'yeni hədəflər',
+    title1: 'YENİ MÖVSÜM,',
+    title2: 'YENİ HƏDƏFLƏR',
     subtitle: 'Gələcəyin çempionları burada yetişir. Böyük hədəflərə doğru birlikdə addımlayırıq!',
   });
+  const [extra, setExtra] = useState<Slide[]>([]);
   const touchX = useRef<number | null>(null);
 
   useEffect(() => {
@@ -27,50 +32,45 @@ export default function HeroSlider() {
     async function load() {
       const [{ data: slideRows }, { data: newsRows }, { data: site }] = await Promise.all([
         supabase.from('hero_slides').select('*').order('sort_order', { ascending: true }).limit(6),
-        supabase.from('news').select('id, title_az, image_url, created_at').order('created_at', { ascending: false }).limit(5),
+        supabase.from('news').select('id, title_az, title_en, title_ru, image_url, created_at').order('created_at', { ascending: false }).limit(5),
         supabase.from('site_images').select('section_key, image_url').in('section_key', ['hero_bg', 'hero_title_1', 'hero_title_2', 'hero_subtitle']),
       ]);
       if (cancelled) return;
-
-      const siteMap: Record<string, string> = {};
-      (site || []).forEach((r: any) => { siteMap[r.section_key] = r.image_url; });
-      setFallback(f => ({
-        bg: siteMap.hero_bg || f.bg,
-        title1: siteMap.hero_title_1 || f.title1,
-        title2: siteMap.hero_title_2 || f.title2,
-        subtitle: siteMap.hero_subtitle || f.subtitle,
+      const map: Record<string, string> = {};
+      (site || []).forEach((r: any) => { map[r.section_key] = r.image_url; });
+      setIntro(i => ({
+        bg: map.hero_bg || i.bg,
+        title1: map.hero_title_1 || i.title1,
+        title2: map.hero_title_2 || i.title2,
+        subtitle: map.hero_subtitle || i.subtitle,
       }));
 
       let list: Slide[] = (slideRows || []).map((s: any) => ({
-        id: `s-${s.id}`,
-        image: s.image_url || '',
-        title: s.title || '',
-        subtitle: s.subtitle || '',
-        href: s.link_url || '/news',
+        id: `s-${s.id}`, image: s.image_url || '', title: s.title || '', subtitle: s.subtitle || '', href: s.link_url || '/news',
       }));
       if (list.length === 0) {
-        list = (newsRows || []).map((n: any) => ({
-          id: `n-${n.id}`,
-          image: n.image_url || '',
-          title: n.title_az || '',
-          href: `/news/${n.id}`,
-        }));
+        list = (newsRows || []).map((n: any) => ({ id: `n-${n.id}`, image: n.image_url || '', title: n.title_az || '', href: `/news/${n.id}`, raw: n }));
       }
-      setSlides(list);
+      setExtra(list);
       setLoading(false);
     }
     load();
     return () => { cancelled = true; };
   }, []);
 
+  // intro slide is always first (it keeps the editable site texts, buttons and the next-match card)
+  useEffect(() => {
+    setSlides([{ id: 'intro', intro: true, image: intro.bg, title: `${intro.title1} ${intro.title2}`.trim() }, ...extra]);
+  }, [intro, extra]);
+
   const count = slides.length;
   const go = useCallback((i: number) => count && setActive(((i % count) + count) % count), [count]);
 
   useEffect(() => {
     if (count < 2 || paused) return;
-    const t = setInterval(() => setActive(a => (a + 1) % count), AUTOPLAY_MS);
-    return () => clearInterval(t);
-  }, [count, paused]);
+    const id = setTimeout(() => setActive(a => (a + 1) % count), slides[active]?.intro ? INTRO_MS : AUTOPLAY_MS);
+    return () => clearTimeout(id);
+  }, [count, paused, active, slides]);
 
   const onTouchStart = (e: React.TouchEvent) => { touchX.current = e.touches[0].clientX; setPaused(true); };
   const onTouchEnd = (e: React.TouchEvent) => {
@@ -82,78 +82,92 @@ export default function HeroSlider() {
     setPaused(false);
   };
 
-  const frame = 'relative overflow-hidden rounded-2xl bg-bg-sec aspect-[4/5] sm:aspect-[16/10] lg:aspect-[2.2/1]';
+  const frame = 'relative overflow-hidden rounded-2xl bg-bg-sec aspect-[3/4] sm:aspect-[4/3] md:aspect-[16/10] lg:aspect-[2.2/1]';
+  const titleOf = (s: Slide) => (s.intro ? `${t(intro.title1)} ${t(intro.title2)}`.trim() : s.raw ? loc(s.raw, 'title') : s.title);
 
   return (
-    <section className="pt-[106px] xl:pt-[122px]">
-      <div className={`container mx-auto px-4 lg:px-8 ${count > 0 ? 'lg:mb-28' : ''}`}>
+    <section className="pt-header">
+      <div className={`container ${count > 1 ? 'lg:mb-28' : ''}`}>
         <div className="relative" onMouseEnter={() => setPaused(true)} onMouseLeave={() => setPaused(false)}>
           {loading ? (
             <div className={`${frame} animate-pulse`} aria-hidden />
-          ) : count === 0 ? (
-            /* Fallback hero: site background + editable texts */
-            <div className={`${frame} flex items-end lg:items-center`}>
-              {fallback.bg && <img src={fallback.bg} alt="" className="absolute inset-0 w-full h-full object-cover" />}
-              <div className="absolute inset-0 bg-gradient-to-t lg:bg-gradient-to-r from-bg-main via-bg-main/60 to-transparent" />
-              <div className="relative z-10 p-6 sm:p-10 lg:p-16 max-w-2xl">
-                <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold text-text-main tracking-tight leading-[1.1]">
-                  {fallback.title1} <span className="block">{fallback.title2}</span>
-                </h1>
-                <p className="mt-4 text-base lg:text-lg text-text-sec max-w-xl">{fallback.subtitle}</p>
-                <div className="mt-8 flex flex-col sm:flex-row gap-3">
-                  <Link href="/academy" className="bg-accent text-on-accent px-8 py-3.5 rounded-xl font-bold text-center hover:opacity-90 transition-opacity">Akademiyaya qoşul</Link>
-                  <Link href="/matches" className="border border-bg-border bg-bg-main/60 backdrop-blur text-text-main px-8 py-3.5 rounded-xl font-semibold text-center hover:border-accent transition-colors">Oyunlar cədvəli</Link>
-                </div>
-              </div>
-            </div>
           ) : (
             <>
-              <div className={frame} onTouchStart={onTouchStart} onTouchEnd={onTouchEnd}>
-                {slides.map((s, i) => (
-                  <div key={s.id} className={`absolute inset-0 transition-opacity duration-700 ${i === active ? 'opacity-100' : 'opacity-0 pointer-events-none'}`} aria-hidden={i !== active}>
-                    {s.image && <img src={s.image} alt={s.title} className="w-full h-full object-cover" loading={i === 0 ? 'eager' : 'lazy'} />}
-                    <div className="absolute inset-0 bg-gradient-to-t from-bg-main/90 via-bg-main/10 to-transparent lg:from-bg-main/40" />
-                    <Link href={s.href} className="absolute inset-0 z-10" aria-label={s.title} tabIndex={i === active ? 0 : -1} />
-                    {/* Title overlay on small screens (thumbnails carry it on desktop) */}
-                    <div className="lg:hidden absolute inset-x-0 bottom-0 z-[5] p-5 sm:p-8 pointer-events-none">
-                      <h2 className="text-xl sm:text-3xl font-extrabold text-text-main leading-tight line-clamp-3">{s.title}</h2>
-                      {s.subtitle && <p className="mt-2 text-sm text-text-sec line-clamp-2">{s.subtitle}</p>}
+              <div className={`${frame} led-border`} onTouchStart={onTouchStart} onTouchEnd={onTouchEnd}>
+                {slides.map((s, i) => {
+                  const on = i === active;
+                  return (
+                    <div key={s.id} className={`absolute inset-0 transition-opacity duration-700 ${on ? 'opacity-100 z-[1]' : 'opacity-0 pointer-events-none'}`} aria-hidden={!on}>
+                      {s.image && <img src={s.image} alt="" className={`absolute inset-0 w-full h-full object-cover ${on ? 'animate-[hero-zoom_1.8s_ease-out_both]' : ''}`} loading={i < 2 ? 'eager' : 'lazy'} />}
+
+                      {s.intro ? (
+                        <>
+                          <div className="absolute inset-0 bg-gradient-to-t lg:bg-gradient-to-r from-bg-main via-bg-main/70 to-bg-main/20" />
+                          <div className="absolute inset-0 flex flex-col lg:flex-row items-center justify-end lg:justify-between gap-6 p-5 sm:p-10 lg:p-14 xl:p-20">
+                            <div className="w-full lg:max-w-2xl text-center lg:text-left">
+                              {on && (
+                                <>
+                                  <h1 className="text-[2rem] sm:text-5xl xl:text-6xl font-black text-text-main leading-[1.1] tracking-tight drop-shadow-2xl animate-[rise_.8s_ease-out_both]">
+                                    {t(intro.title1)} <span className="block text-accent led-text">{t(intro.title2)}</span>
+                                  </h1>
+                                  <p className="mt-4 text-sm sm:text-base lg:text-lg text-text-sec max-w-xl mx-auto lg:mx-0 font-medium animate-[rise_.8s_.2s_ease-out_both]">{t(intro.subtitle)}</p>
+                                  <div className="mt-6 lg:mt-8 flex flex-col sm:flex-row gap-3 justify-center lg:justify-start animate-[rise_.8s_.4s_ease-out_both]">
+                                    <Link href="/academy" className="btn-fx led-border bg-accent text-on-accent px-8 py-3.5 rounded-xl font-black uppercase tracking-widest text-xs sm:text-sm text-center">{t('Akademiyaya qoşul')}</Link>
+                                    <Link href="/matches" className="btn-fx border border-bg-border bg-bg-deep/70 backdrop-blur text-text-main px-8 py-3.5 rounded-xl font-bold uppercase tracking-widest text-xs sm:text-sm text-center hover:border-accent">{t('Oyunlar cədvəli')}</Link>
+                                  </div>
+                                </>
+                              )}
+                            </div>
+                            <div className="hidden lg:block w-full max-w-sm shrink-0">
+                              {on && <NextMatchCard className="animate-[rise_.9s_.3s_ease-out_both]" />}
+                            </div>
+                          </div>
+                        </>
+                      ) : (
+                        <>
+                          <div className="absolute inset-0 bg-gradient-to-t from-bg-main/90 via-bg-main/10 to-transparent lg:from-bg-main/40" />
+                          {s.href && <Link href={s.href} className="absolute inset-0 z-10" aria-label={titleOf(s)} tabIndex={on ? 0 : -1} />}
+                          <div className="lg:hidden absolute inset-x-0 bottom-0 z-[5] p-5 sm:p-8 pointer-events-none">
+                            <h2 className="text-xl sm:text-3xl font-extrabold text-text-main leading-tight line-clamp-3">{titleOf(s)}</h2>
+                            {s.subtitle && <p className="mt-2 text-sm text-text-sec line-clamp-2">{s.subtitle}</p>}
+                          </div>
+                        </>
+                      )}
                     </div>
-                  </div>
-                ))}
+                  );
+                })}
               </div>
 
               {count > 1 && (
                 <>
-                  <button onClick={() => go(active - 1)} className="hidden sm:flex absolute left-3 lg:left-5 top-[38%] -translate-y-1/2 z-20 w-11 h-11 rounded-full bg-bg-main/70 backdrop-blur border border-bg-border items-center justify-center text-text-main hover:bg-bg-main transition-colors" aria-label="Əvvəlki">
+                  <button onClick={() => go(active - 1)} className="hidden sm:flex absolute left-3 lg:left-5 top-[38%] -translate-y-1/2 z-20 w-11 h-11 rounded-full bg-bg-main/70 backdrop-blur border border-bg-border items-center justify-center text-text-main hover:bg-accent hover:text-on-accent hover:scale-110 transition-all" aria-label={t('Əvvəlki')}>
                     <ArrowLeft className="w-5 h-5" />
                   </button>
-                  <button onClick={() => go(active + 1)} className="hidden sm:flex absolute right-3 lg:right-5 top-[38%] -translate-y-1/2 z-20 w-11 h-11 rounded-full bg-bg-main/70 backdrop-blur border border-bg-border items-center justify-center text-text-main hover:bg-bg-main transition-colors" aria-label="Növbəti">
+                  <button onClick={() => go(active + 1)} className="hidden sm:flex absolute right-3 lg:right-5 top-[38%] -translate-y-1/2 z-20 w-11 h-11 rounded-full bg-bg-main/70 backdrop-blur border border-bg-border items-center justify-center text-text-main hover:bg-accent hover:text-on-accent hover:scale-110 transition-all" aria-label={t('Növbəti')}>
                     <ArrowRight className="w-5 h-5" />
                   </button>
+
+                  {/* Desktop thumbnails overlapping the slide */}
+                  <div className="hidden lg:grid absolute left-1/2 -translate-x-1/2 -bottom-24 z-20 w-[82%] gap-4" style={{ gridTemplateColumns: `repeat(${count}, minmax(0, 1fr))` }}>
+                    {slides.map((s, i) => (
+                      <button key={s.id} onClick={() => go(i)} className={`text-left rounded-xl overflow-hidden bg-bg-sec border transition-all duration-300 ${i === active ? 'border-accent shadow-xl -translate-y-1 led-glow' : 'border-bg-border hover:border-text-sec hover:-translate-y-0.5'}`} aria-label={titleOf(s)}>
+                        <div className="aspect-video bg-bg-card overflow-hidden">
+                          {s.image ? <img src={s.image} alt="" className="w-full h-full object-cover" loading="lazy" /> : s.intro ? <img src="/Logo.JPG.jpeg" alt="" className="w-full h-full object-contain p-3" /> : null}
+                        </div>
+                        <p className={`p-3 text-[13px] font-semibold leading-snug line-clamp-3 min-h-[4.6em] ${i === active ? 'text-text-main' : 'text-text-sec'}`}>{titleOf(s)}</p>
+                      </button>
+                    ))}
+                  </div>
                 </>
               )}
-
-              {/* Desktop thumbnails overlapping the slide */}
-              <div className="hidden lg:grid absolute left-1/2 -translate-x-1/2 -bottom-24 z-20 w-[80%] gap-4" style={{ gridTemplateColumns: `repeat(${count}, minmax(0, 1fr))` }}>
-                {slides.map((s, i) => (
-                  <button key={s.id} onClick={() => go(i)} className={`text-left rounded-xl overflow-hidden bg-bg-sec border transition-all ${i === active ? 'border-accent shadow-xl -translate-y-1' : 'border-bg-border hover:border-text-sec'}`} aria-label={s.title}>
-                    <div className="aspect-video bg-bg-card overflow-hidden">
-                      {s.image && <img src={s.image} alt="" className="w-full h-full object-cover" loading="lazy" />}
-                    </div>
-                    <p className={`p-3 text-[13px] font-semibold leading-snug line-clamp-3 min-h-[4.6em] ${i === active ? 'text-text-main' : 'text-text-sec'}`}>{s.title}</p>
-                  </button>
-                ))}
-              </div>
             </>
           )}
         </div>
 
-        {/* Mobile / tablet: dots */}
         {count > 1 && (
           <div className="lg:hidden flex justify-center gap-2 mt-4" role="tablist">
             {slides.map((s, i) => (
-              <button key={s.id} onClick={() => go(i)} className={`h-2 rounded-full transition-all ${i === active ? 'w-6 bg-accent' : 'w-2 bg-bg-border'}`} aria-label={`Slayd ${i + 1}`} aria-selected={i === active} role="tab" />
+              <button key={s.id} onClick={() => go(i)} className={`h-2 rounded-full transition-all duration-300 ${i === active ? 'w-7 led-bar' : 'w-2 bg-bg-border'}`} aria-label={`${i + 1}`} aria-selected={i === active} role="tab" />
             ))}
           </div>
         )}

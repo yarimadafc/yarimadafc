@@ -2,6 +2,7 @@
 
 import PageTransition from '@/components/PageTransition';
 import { motion } from 'framer-motion';
+import WhatsAppForm from '@/components/WhatsAppForm';
 import { Phone, Mail, MapPin } from 'lucide-react';
 
 export default function ContactPage() {
@@ -80,6 +81,21 @@ export default function ContactPage() {
             loading="lazy" 
             referrerPolicy="no-referrer-when-downgrade"
           ></iframe>
+        </motion.div>
+
+        {/* Message form (opens WhatsApp) */}
+        <motion.div initial={{ opacity: 0, y: 40 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, delay: 0.3 }} className="lg:col-span-2 led-border bg-bg-sec rounded-3xl border border-bg-border p-6 md:p-10">
+          <h3 className="text-2xl md:text-3xl font-black text-text-main tracking-tight mb-2">Bizə yazın</h3>
+          <p className="text-text-sec mb-8">Mesajınız WhatsApp vasitəsilə birbaşa klubun nömrəsinə göndəriləcək.</p>
+          <WhatsAppForm
+            intro="Salam, saytdan əlaqə mesajı:"
+            submitLabel="WhatsApp ilə göndər"
+            fields={[
+              { name: 'name', label: 'Ad, soyad', required: true, placeholder: 'Adınızı yazın' },
+              { name: 'phone', label: 'Telefon', type: 'tel', required: true, placeholder: '050 000 00 00' },
+              { name: 'message', label: 'Mesaj', type: 'textarea', required: true, placeholder: 'Mesajınızı yazın' },
+            ]}
+          />
         </motion.div>
 
       </div>

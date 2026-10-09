@@ -5,9 +5,14 @@ import { supabase } from '@/lib/supabase';
 import { calculateLiveMinute } from '@/lib/matchTimer';
 import MatchesShell from '@/components/MatchesShell';
 import TeamLogo from '@/components/TeamLogo';
-import { AnyMatch, formatLongDate, matchStart, normalizeMatch } from '@/lib/matchUtils';
+import Reveal from '@/components/Reveal';
+import { useLang } from '@/lib/i18n';
+import { useFormat } from '@/lib/useFormat';
+import { AnyMatch, matchStart, normalizeMatch } from '@/lib/matchUtils';
 
 function MatchesList() {
+  const { t } = useLang();
+  const { longDate } = useFormat();
   const params = useSearchParams();
   const tab = params.get('tab') === 'results' ? 'results' : 'fixtures';
   const [matches, setMatches] = useState<AnyMatch[]>([]);
@@ -46,7 +51,7 @@ function MatchesList() {
           {leagues.map(l => (
             <button key={l} role="tab" aria-selected={league === l} onClick={() => setLeague(l)}
               className={`shrink-0 text-sm md:text-base font-semibold pb-2 border-b-2 transition-colors ${league === l ? 'text-text-main border-accent' : 'text-text-sec border-transparent hover:text-text-main'}`}>
-              {l}
+              {l === 'Hamısı' ? t('Hamısı') : l}
             </button>
           ))}
         </div>
@@ -56,18 +61,19 @@ function MatchesList() {
         <div className="h-48 rounded-xl bg-bg-sec animate-pulse" aria-hidden />
       ) : list.length === 0 ? (
         <div className="rounded-xl border border-bg-border bg-bg-sec py-16 text-center text-text-sec">
-          {tab === 'results' ? 'Hələlik nəticə yoxdur.' : 'Qarşıdakı oyun yoxdur.'}
+          {tab === 'results' ? t('Hələlik nəticə yoxdur.') : t('Qarşıdakı oyun yoxdur.')}
         </div>
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-5">
-          {list.map(m => {
+          {list.map((m, i) => {
             const live = m.status === 'live';
             const showScore = (m.status === 'finished' || live) && m.home_score != null && m.away_score != null;
             return (
-              <article key={m.id} className="bg-bg-sec rounded-xl border border-bg-border overflow-hidden text-center">
-                <div className="py-4 px-4 font-bold text-text-main border-b border-bg-border">{m.tournament || 'Oyun'}</div>
+              <Reveal key={m.id} delay={(i % 6) * 0.06} variant="scale">
+              <article className="led-border led-hover card-fx h-full bg-bg-sec rounded-xl border border-bg-border overflow-hidden text-center">
+                <div className="py-4 px-4 font-bold text-text-main border-b border-bg-border">{m.tournament || t('Oyun')}</div>
                 <div className="py-3 px-4 text-sm text-text-sec border-b border-bg-border">
-                  {formatLongDate(m.date)}{m.time && `, ${m.time}`}{m.stadium && `, ${m.stadium}`}
+                  {longDate(m.date)}{m.time && `, ${m.time}`}{m.stadium && `, ${m.stadium}`}
                 </div>
                 <div className="flex items-center justify-between gap-2 px-4 py-6">
                   <div className="flex flex-col items-center gap-2 w-[38%] min-w-0">
@@ -89,6 +95,7 @@ function MatchesList() {
                   </div>
                 </div>
               </article>
+              </Reveal>
             );
           })}
         </div>

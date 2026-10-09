@@ -22,10 +22,13 @@ export function matchStart(m: AnyMatch): Date | null {
 }
 
 // "17 oktyabr 2026"
-export function formatLongDate(date?: string | null): string {
+export function formatLongDate(date?: string | null, locale = 'az-AZ'): string {
   if (!date) return '';
   const [y, mo, d] = date.split('-').map(Number);
   if (!y || !mo || !d) return date;
+  if (locale !== 'az-AZ') {
+    try { return new Date(y, mo - 1, d).toLocaleDateString(locale, { day: 'numeric', month: 'long', year: 'numeric' }); } catch { /* fall through */ }
+  }
   return `${d} ${MONTHS_LOWER[mo - 1]} ${y}`;
 }
 
@@ -48,7 +51,7 @@ export function formatTime(time?: string | null): string {
 }
 
 // "7 gün : 16 saat : 19 dəq."
-export function countdownText(start: Date | null, now = Date.now()): string {
+export function countdownText(start: Date | null, now = Date.now(), u = { d: 'gün', h: 'saat', m: 'dəq.' }): string {
   if (!start) return '';
   let diff = Math.floor((start.getTime() - now) / 60000);
   if (diff <= 0) return '';
@@ -56,22 +59,25 @@ export function countdownText(start: Date | null, now = Date.now()): string {
   diff -= days * 1440;
   const hours = Math.floor(diff / 60);
   const mins = diff - hours * 60;
-  return days > 0 ? `${days} gün : ${hours} saat : ${mins} dəq.` : `${hours} saat : ${mins} dəq.`;
+  return days > 0 ? `${days} ${u.d} : ${hours} ${u.h} : ${mins} ${u.m}` : `${hours} ${u.h} : ${mins} ${u.m}`;
 }
 
-export function timeAgo(iso?: string | null): string {
+export interface AgoLabels { now: string; min: string; hour: string; day: string; month: string; year: string }
+const AGO_AZ: AgoLabels = { now: 'indicə', min: 'dəq. əvvəl', hour: 'saat əvvəl', day: 'gün əvvəl', month: 'ay əvvəl', year: 'il əvvəl' };
+
+export function timeAgo(iso?: string | null, l: AgoLabels = AGO_AZ): string {
   if (!iso) return '';
   const diffSec = Math.max(0, Math.floor((Date.now() - new Date(iso).getTime()) / 1000));
-  if (diffSec < 60) return 'indicə';
+  if (diffSec < 60) return l.now;
   const min = Math.floor(diffSec / 60);
-  if (min < 60) return `${min} dəq. əvvəl`;
+  if (min < 60) return `${min} ${l.min}`;
   const hours = Math.floor(min / 60);
-  if (hours < 24) return `${hours} saat əvvəl`;
+  if (hours < 24) return `${hours} ${l.hour}`;
   const days = Math.floor(hours / 24);
-  if (days < 30) return `${days} gün əvvəl`;
+  if (days < 30) return `${days} ${l.day}`;
   const months = Math.floor(days / 30);
-  if (months < 12) return `${months} ay əvvəl`;
-  return `${Math.floor(months / 12)} il əvvəl`;
+  if (months < 12) return `${months} ${l.month}`;
+  return `${Math.floor(months / 12)} ${l.year}`;
 }
 
 export function formatNumericDate(iso?: string | null): string {

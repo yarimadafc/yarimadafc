@@ -1,4 +1,5 @@
 'use client';
+import SectionHeading from '@/components/SectionHeading';
 
 import Link from 'next/link';
 import { Play } from 'lucide-react';
@@ -35,19 +36,10 @@ export default function VideoSection() {
 
   return (
     <section className="bg-bg-main py-20 border-b border-bg-border/50 overflow-hidden relative">
-      <div className="container mx-auto px-4 lg:px-8">
+      <div className="container">
         
         {/* Header */}
-        <motion.div 
-          initial={{ opacity: 0, x: -50 }}
-          whileInView={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.8, ease: "easeOut" }}
-          viewport={{ once: true, margin: "-100px" }}
-          className="flex flex-col items-start mb-12"
-        >
-          <div className="w-8 h-[2px] bg-accent mb-4"></div>
-          <h2 className="text-4xl font-black text-text-main tracking-tighter uppercase">VİDEOLAR</h2>
-        </motion.div>
+        <SectionHeading title="Videolar" href="/media" linkText="Bütün videolar" />
 
         <div className="flex flex-col xl:flex-row gap-6">
           
@@ -105,7 +97,7 @@ export default function VideoSection() {
                   transition={{ duration: 0.6, delay: i * 0.2, ease: "easeOut" }}
                   viewport={{ once: true, margin: "-50px" }}
                 >
-                  <div className="group flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4 pb-6 border-b border-bg-border/50 hover:bg-gray-800/10 rounded-lg transition-colors p-2">
+                  <div className="group flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4 pb-6 border-b border-bg-border/50 hover:bg-bg-card/10 rounded-lg transition-colors p-2">
                     {/* Thumb / Video */}
                     <div className="w-full sm:w-48 aspect-video bg-black rounded-xl relative overflow-hidden flex-shrink-0">
                       {playingId === video.id ? (

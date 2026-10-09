@@ -46,7 +46,7 @@ export default function QuickLinks() {
 
   return (
     <section className="bg-bg-main py-16 border-b border-bg-border/50 overflow-hidden">
-      <div className="container mx-auto px-4 lg:px-8">
+      <div className="container">
         <motion.div 
           variants={containerVariants}
           initial="hidden"
@@ -58,7 +58,7 @@ export default function QuickLinks() {
             <motion.div key={i} variants={itemVariants}>
               <Link 
                 href={link.href}
-                className="group flex flex-col sm:flex-row bg-bg-sec rounded-2xl overflow-hidden hover:transform hover:-translate-y-1 transition-all duration-300 border border-transparent hover:border-accent/30 h-full"
+                className="group led-border led-hover card-fx flex flex-col sm:flex-row bg-bg-sec rounded-2xl overflow-hidden border border-bg-border h-full"
               >
                 {/* Text Area */}
                 <div className="w-full sm:w-1/2 p-8 flex flex-col justify-between z-10">
@@ -80,7 +80,7 @@ export default function QuickLinks() {
                       className="absolute inset-0 w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 opacity-80 group-hover:opacity-100"
                     />
                   ) : (
-                    <div className="absolute inset-0 bg-gray-800/80 group-hover:scale-105 transition-transform duration-500 flex items-center justify-center text-gray-600 font-bold">
+                    <div className="absolute inset-0 bg-bg-card/80 group-hover:scale-105 transition-transform duration-500 flex items-center justify-center text-text-sec font-bold">
                        Şəkil
                     </div>
                   )}

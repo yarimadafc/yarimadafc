@@ -6,6 +6,7 @@ import { supabase } from "@/lib/supabase";
 
 import Image from 'next/image';
 import { Send, Music2, MessageCircle } from 'lucide-react';
+import { useLang } from '@/lib/i18n';
 
 const YoutubeIcon = () => (
   <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M22.54 6.42a2.78 2.78 0 0 0-1.94-2C18.88 4 12 4 12 4s-6.88 0-8.6.46a2.78 2.78 0 0 0-1.94 2A29 29 0 0 0 1 11.75a29 29 0 0 0 .46 5.33 2.78 2.78 0 0 0 1.94 2c1.72.46 8.6.46 8.6.46s6.88 0 8.6-.46a2.78 2.78 0 0 0 1.94-2 29 29 0 0 0 .46-5.33 29 29 0 0 0-.46-5.33z"></path><polygon points="9.75 15.02 15.5 11.75 9.75 8.48 9.75 15.02"></polygon></svg>
@@ -32,6 +33,7 @@ const TwitterIcon = () => (
 );
 
 export default function Footer() {
+  const { t } = useLang();
   const [sponsors, setSponsors] = useState<any[]>([]);
 
   useEffect(() => {
@@ -43,10 +45,11 @@ export default function Footer() {
   }, []);
 
   return (
-    <footer className="w-full bg-bg-main border-t border-bg-border pt-8 pb-8 overflow-hidden">
+    <footer className="w-full bg-bg-main pt-0 pb-8 overflow-hidden">
+      <div className="led-bar h-[2px] w-full mb-8" aria-hidden />
       {/* Sponsors Section - Marquee */}
       <div className="w-full border-b border-bg-border/50 pb-6 mb-10 overflow-hidden">
-        <div className="container mx-auto px-4 lg:px-8 mb-4">
+        <div className="container mb-4">
           <h3 className="text-text-sec font-bold tracking-widest text-xs uppercase flex items-center">
             <span className="w-8 h-[1px] bg-accent mr-3"></span>
             SPONSORLAR
@@ -87,7 +90,7 @@ export default function Footer() {
         </div>
       </div>
 
-      <div className="container mx-auto px-4 lg:px-8">
+      <div className="container">
         <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-5 gap-8 lg:gap-8 pt-12 border-t border-bg-border/50">
           
           {/* Logo & Slogan */}
@@ -105,28 +108,28 @@ export default function Footer() {
 
           {/* Links Col 1 */}
           <div className="flex flex-col space-y-3 md:space-y-4 col-span-1">
-            <Link href="/news" className="text-text-main font-bold text-xs md:text-sm hover:text-accent transition-colors">Xəbərlər</Link>
-            <Link href="/club" className="text-text-main font-bold text-xs md:text-sm hover:text-accent transition-colors">Haqqımızda</Link>
-            <Link href="/matches" className="text-text-main font-bold text-xs md:text-sm hover:text-accent transition-colors">Oyunlar</Link>
-            <Link href="/social" className="text-text-main font-bold text-xs md:text-sm hover:text-accent transition-colors">Sosial media</Link>
+            <Link href="/news" className="inline-block text-text-main font-bold text-xs md:text-sm hover:text-accent hover:translate-x-1 transition-all duration-300">Xəbərlər</Link>
+            <Link href="/club" className="inline-block text-text-main font-bold text-xs md:text-sm hover:text-accent hover:translate-x-1 transition-all duration-300">Haqqımızda</Link>
+            <Link href="/matches" className="inline-block text-text-main font-bold text-xs md:text-sm hover:text-accent hover:translate-x-1 transition-all duration-300">Oyunlar</Link>
+            <Link href="/social" className="inline-block text-text-main font-bold text-xs md:text-sm hover:text-accent hover:translate-x-1 transition-all duration-300">Sosial media</Link>
           </div>
 
           {/* Links Col 2 */}
           <div className="flex flex-col space-y-3 md:space-y-4 col-span-1">
-            <Link href="/teams" className="text-text-main font-bold text-xs md:text-sm hover:text-accent transition-colors">Komandalar</Link>
-            <Link href="/academy" className="text-text-main font-bold text-xs md:text-sm hover:text-accent transition-colors">Akademiya</Link>
-            <Link href="/courses" className="text-text-main font-bold text-xs md:text-sm hover:text-accent transition-colors">Məşqçi Kursu</Link>
-            <Link href="/transfers" className="text-text-main font-bold text-xs md:text-sm hover:text-accent transition-colors">Məşqçi Kursu</Link>
-            <Link href="/sponsors" className="text-text-main font-bold text-xs md:text-sm hover:text-accent transition-colors">Sponsorlar</Link>
-            <Link href="/shop" className="text-text-main font-bold text-xs md:text-sm hover:text-accent transition-colors">Mağaza</Link>
-            <Link href="/privacy" className="text-text-main font-bold text-xs md:text-sm hover:text-accent transition-colors">Məxfilik siyasəti</Link>
+            <Link href="/teams" className="inline-block text-text-main font-bold text-xs md:text-sm hover:text-accent hover:translate-x-1 transition-all duration-300">Komandalar</Link>
+            <Link href="/academy" className="inline-block text-text-main font-bold text-xs md:text-sm hover:text-accent hover:translate-x-1 transition-all duration-300">Akademiya</Link>
+            <Link href="/courses" className="inline-block text-text-main font-bold text-xs md:text-sm hover:text-accent hover:translate-x-1 transition-all duration-300">Məşqçi Kursu</Link>
+            <Link href="/transfers" className="inline-block text-text-main font-bold text-xs md:text-sm hover:text-accent hover:translate-x-1 transition-all duration-300">Transferlər</Link>
+            <Link href="/sponsors" className="inline-block text-text-main font-bold text-xs md:text-sm hover:text-accent hover:translate-x-1 transition-all duration-300">Sponsorlar</Link>
+            <Link href="/shop" className="inline-block text-text-main font-bold text-xs md:text-sm hover:text-accent hover:translate-x-1 transition-all duration-300">Mağaza</Link>
+            <Link href="/privacy" className="inline-block text-text-main font-bold text-xs md:text-sm hover:text-accent hover:translate-x-1 transition-all duration-300">Məxfilik siyasəti</Link>
           </div>
 
           {/* Contact & Address */}
           <div className="col-span-2 lg:col-span-2 grid grid-cols-1 sm:grid-cols-2 gap-8">
             <div className="flex flex-col space-y-3">
               <span className="text-accent font-bold text-xs md:text-sm tracking-widest uppercase">Əlaqə</span>
-              <a href="tel:+994504671321" className="text-text-main font-medium text-sm hover:text-accent transition-colors flex items-center space-x-2">
+              <a href="tel:+994504671321" className="text-text-main font-medium text-sm hover:text-accent hover:translate-x-1 transition-all flex items-center space-x-2">
                 <span>055 447 74 67</span> <span className="text-text-sec text-xs">(WhatsApp)</span>
               </a>
               <a href="mailto:info@yarimadafc.com" className="text-text-main font-medium text-sm hover:text-accent transition-colors">
@@ -140,19 +143,19 @@ export default function Footer() {
             <div className="flex flex-col space-y-3">
               <span className="text-accent font-bold text-xs md:text-sm tracking-widest uppercase">Sosial Media</span>
               <div className="flex flex-col space-y-2">
-                <a href="https://www.instagram.com/yarimada_fk/" target="_blank" rel="noopener noreferrer" className="text-text-main font-medium text-sm hover:text-accent transition-colors flex items-center space-x-2">
+                <a href="https://www.instagram.com/yarimada_fk/" target="_blank" rel="noopener noreferrer" className="text-text-main font-medium text-sm hover:text-accent hover:translate-x-1 transition-all flex items-center space-x-2">
                    <InstagramIcon /> <span>Instagram</span>
                 </a>
-                <a href="https://www.youtube.com/@yarimada_fk" target="_blank" rel="noopener noreferrer" className="text-text-main font-medium text-sm hover:text-accent transition-colors flex items-center space-x-2">
+                <a href="https://www.youtube.com/@yarimada_fk" target="_blank" rel="noopener noreferrer" className="text-text-main font-medium text-sm hover:text-accent hover:translate-x-1 transition-all flex items-center space-x-2">
                    <YoutubeIcon /> <span>YouTube</span>
                 </a>
-                <a href="https://www.facebook.com/profile.php?id=61590640762611" target="_blank" rel="noopener noreferrer" className="text-text-main font-medium text-sm hover:text-accent transition-colors flex items-center space-x-2">
+                <a href="https://www.facebook.com/profile.php?id=61590640762611" target="_blank" rel="noopener noreferrer" className="text-text-main font-medium text-sm hover:text-accent hover:translate-x-1 transition-all flex items-center space-x-2">
                    <FacebookIcon /> <span>Facebook</span>
                 </a>
-                <a href="https://www.tiktok.com/@yarimadafk" target="_blank" rel="noopener noreferrer" className="text-text-main font-medium text-sm hover:text-accent transition-colors flex items-center space-x-2">
+                <a href="https://www.tiktok.com/@yarimadafk" target="_blank" rel="noopener noreferrer" className="text-text-main font-medium text-sm hover:text-accent hover:translate-x-1 transition-all flex items-center space-x-2">
                    <TiktokIcon /> <span>TikTok</span>
                 </a>
-                <a href="https://t.me/yarimadafk?fbclid=PAZXh0bgNhZW0CMTEAcGRvZgRzcnRjBmFwcF9pZAwyNTYyODEwNDA1NTgAAafK0KsTFGaHEdkdFqPvdB_YUJuYByPtPKvdfmdCKantOLunANZ5C8nrnroI0A_aem_3_m_V6XwTbX1OL0eUZhRoA" target="_blank" rel="noopener noreferrer" className="text-text-main font-medium text-sm hover:text-accent transition-colors flex items-center space-x-2">
+                <a href="https://t.me/yarimadafk?fbclid=PAZXh0bgNhZW0CMTEAcGRvZgRzcnRjBmFwcF9pZAwyNTYyODEwNDA1NTgAAafK0KsTFGaHEdkdFqPvdB_YUJuYByPtPKvdfmdCKantOLunANZ5C8nrnroI0A_aem_3_m_V6XwTbX1OL0eUZhRoA" target="_blank" rel="noopener noreferrer" className="text-text-main font-medium text-sm hover:text-accent hover:translate-x-1 transition-all flex items-center space-x-2">
                    <TelegramIcon /> <span>Telegram</span>
                 </a>
               </div>
@@ -163,8 +166,8 @@ export default function Footer() {
 
         {/* Bottom Section: Socials */}
         <div className="mt-12 flex flex-col items-center justify-center pt-8 border-t border-bg-border/50">
-          <div className="text-gray-600 font-semibold text-[10px] md:text-xs">
-            © {new Date().getFullYear()} Yarımada FK. Bütün hüquqlar qorunur.
+          <div className="text-text-sec font-semibold text-[10px] md:text-xs">
+            © {new Date().getFullYear()} Yarımada FK. {t('Bütün hüquqlar qorunur.')}
           </div>
         </div>
       </div>

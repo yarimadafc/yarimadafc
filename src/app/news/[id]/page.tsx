@@ -29,7 +29,7 @@ export default function NewsArticlePage() {
 
   if (loading) {
     return (
-      <div className="pt-[180px] min-h-screen bg-bg-deep pb-20 flex justify-center">
+      <div className="pt-header min-h-screen bg-bg-deep pb-20 flex justify-center">
         <div className="text-accent font-bold tracking-widest uppercase animate-pulse">Yüklənir...</div>
       </div>
     );
@@ -37,15 +37,15 @@ export default function NewsArticlePage() {
 
   if (!news) {
     return (
-      <div className="pt-[180px] min-h-screen bg-bg-deep pb-20 flex justify-center">
+      <div className="pt-header min-h-screen bg-bg-deep pb-20 flex justify-center">
         <div className="text-red-400 font-bold tracking-widest uppercase">Xəbər tapılmadı</div>
       </div>
     );
   }
 
   return (
-    <div className="pt-[180px] min-h-screen bg-bg-deep pb-20">
-      <div className="container mx-auto px-4 lg:px-8 max-w-4xl">
+    <div className="pt-header min-h-screen bg-bg-deep pb-20">
+      <div className="container">
         
         <Link href="/news" className="text-accent text-xs font-bold uppercase tracking-widest hover:text-text-main transition-colors mb-8 inline-flex items-center">
           ← Bütün Xəbərlər
@@ -60,7 +60,7 @@ export default function NewsArticlePage() {
           <div className="flex items-center justify-between mb-6 border-b border-bg-border pb-6">
             <div className="flex items-center space-x-4">
               <span className="text-accent text-sm font-bold uppercase tracking-widest">{news.category || 'Xəbərlər'}</span>
-              <span className="w-1.5 h-1.5 rounded-full bg-gray-600"></span>
+              <span className="w-1.5 h-1.5 rounded-full bg-bg-border"></span>
               <span className="text-text-sec text-sm font-bold uppercase tracking-widest">{(new Date(news.created_at).getDate().toString().padStart(2, '0') + '.' + (new Date(news.created_at).getMonth() + 1).toString().padStart(2, '0') + '.' + new Date(news.created_at).getFullYear())}</span>
             </div>
           </div>
@@ -70,13 +70,13 @@ export default function NewsArticlePage() {
           </h1>
 
           {/* Small Image */}
-          <div className="w-full max-w-3xl mx-auto aspect-video md:h-[400px] bg-black rounded-2xl overflow-hidden mb-10 shadow-lg relative">
-            <img src={news.image_url || '/placeholder-news-1.jpg'} alt={news.title_az} className="absolute inset-0 w-full h-full object-cover" />
+          <div className="w-full aspect-video md:aspect-[21/9] bg-black rounded-2xl overflow-hidden mb-10 shadow-lg relative">
+            <img src={news.image_url || '/Logo.JPG.jpeg'} alt={news.title_az} className="absolute inset-0 w-full h-full object-cover" />
           </div>
 
           <div className="prose prose-invert max-w-none text-text-sec">
             {news.content_az?.split('\n').map((paragraph: string, idx: number) => (
-              <p key={idx} className="leading-relaxed mb-6 text-lg font-medium text-gray-200">
+              <p key={idx} className="leading-relaxed mb-6 text-lg font-medium text-text-main">
                 {paragraph}
               </p>
             ))}

@@ -6,12 +6,12 @@ export const metadata: Metadata = {
 
 export default function PrivacyPolicyPage() {
   return (
-    <div className="pt-[180px] pb-20 min-h-screen bg-bg-deep">
-      <div className="container mx-auto px-4 lg:px-8 max-w-4xl">
+    <div className="pt-header pb-20 min-h-screen bg-bg-deep">
+      <div className="container">
         <h1 className="text-4xl md:text-5xl font-black text-text-main uppercase tracking-tight mb-8">Məxfilik Siyasəti</h1>
         
         <div className="prose prose-invert max-w-none text-text-sec space-y-6">
-          <p className="text-lg font-medium text-gray-200">
+          <p className="text-lg font-medium text-text-main">
             Yarımada Futbol Klubu olaraq məxfiliyinizə hörmətlə yanaşır və şəxsi məlumatlarınızı qorumağa sadiqik. Bu səhifə, veb saytımızdan istifadə edərkən hansı məlumatların toplandığını və necə istifadə edildiyini izah edir.
           </p>
 

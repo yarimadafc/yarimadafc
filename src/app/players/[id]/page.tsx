@@ -19,12 +19,12 @@ export default function PlayerDetailPage() {
     fetchPlayer();
   }, [id]);
 
-  if (loading) return <div className="pt-[180px] min-h-screen bg-bg-main flex justify-center text-accent">Yüklənir...</div>;
-  if (!player) return <div className="pt-[180px] min-h-screen bg-bg-main flex justify-center text-red-500">Oyunçu tapılmadı</div>;
+  if (loading) return <div className="pt-header min-h-screen bg-bg-main flex justify-center text-accent">Yüklənir...</div>;
+  if (!player) return <div className="pt-header min-h-screen bg-bg-main flex justify-center text-red-500">Oyunçu tapılmadı</div>;
 
   return (
-    <div className="pt-[180px] min-h-screen bg-bg-main pb-20">
-      <div className="container mx-auto px-4 lg:px-8">
+    <div className="pt-header min-h-screen bg-bg-main pb-20">
+      <div className="container">
         
         <div className="bg-bg-sec border border-bg-border rounded-3xl overflow-hidden shadow-2xl flex flex-col md:flex-row relative">
           {/* Background Number */}
@@ -38,7 +38,7 @@ export default function PlayerDetailPage() {
               <img src={player.image_url} alt={player.name} className="w-full h-full object-cover" />
             ) : (
               <div className="w-full h-full flex items-center justify-center">
-                <svg className="w-32 h-32 text-gray-700" fill="currentColor" viewBox="0 0 20 20"><path fillRule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clipRule="evenodd" /></svg>
+                <svg className="w-32 h-32 text-text-sec" fill="currentColor" viewBox="0 0 20 20"><path fillRule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clipRule="evenodd" /></svg>
               </div>
             )}
           </div>

@@ -252,47 +252,38 @@ export default function MatchesAdmin() {
     setEditingId(null);
   };
 
-  // Timer Actions
-  const startFirstHalf = () => {
-    setTimerStatus('running_first');
-    setTimerStartedAt(new Date().toISOString());
-    setElapsedSec(0);
-    setStatus('live');
+  // Timer Actions — every action is saved to the database immediately so the site updates
+  // without having to press "save" (previously the timer only changed local state).
+  const persistTimer = async (patch: { timer_status: TimerStatus; timer_started_at: string | null; elapsed_seconds: number; status?: string }) => {
+    setTimerStatus(patch.timer_status);
+    setTimerStartedAt(patch.timer_started_at);
+    setElapsedSec(patch.elapsed_seconds);
+    if (patch.status) setStatus(patch.status as 'upcoming' | 'live' | 'finished');
+    if (!editingId) return; // new match: values are saved together with the form
+    const { error } = await adminDb.from('matches').update(patch).eq('id', editingId);
+    if (error) alert('Taymer yadda saxlanmadı: ' + error.message);
+    else fetchMatches();
   };
 
-  const startHalftime = () => {
-    setTimerStatus('halftime');
-    setTimerStartedAt(null);
-    setElapsedSec(h1 * 60); // fast forward elapsed to exact half time
-  };
+  const startFirstHalf = () =>
+    persistTimer({ timer_status: 'running_first', timer_started_at: new Date().toISOString(), elapsed_seconds: 0, status: 'live' });
 
-  const startSecondHalf = () => {
-    setTimerStatus('running_second');
-    setTimerStartedAt(new Date().toISOString());
-    setElapsedSec(h1 * 60);
-    setStatus('live');
-  };
+  const startHalftime = () =>
+    persistTimer({ timer_status: 'halftime', timer_started_at: null, elapsed_seconds: h1 * 60, status: 'live' });
 
-  const finishMatch = () => {
-    setTimerStatus('finished');
-    setTimerStartedAt(null);
-    setStatus('finished');
-  };
+  const startSecondHalf = () =>
+    persistTimer({ timer_status: 'running_second', timer_started_at: new Date().toISOString(), elapsed_seconds: h1 * 60, status: 'live' });
+
+  const finishMatch = () =>
+    persistTimer({ timer_status: 'finished', timer_started_at: null, elapsed_seconds: elapsedSec, status: 'finished' });
 
   const pauseTimer = () => {
-    if (timerStartedAt) {
-      const nowMs = Date.now();
-      const startMs = new Date(timerStartedAt).getTime();
-      setElapsedSec(prev => prev + Math.floor((nowMs - startMs) / 1000));
-    }
-    setTimerStartedAt(null);
-    setTimerStatus('stopped'); // acts as manual pause
+    const extra = timerStartedAt ? Math.floor((Date.now() - new Date(timerStartedAt).getTime()) / 1000) : 0;
+    persistTimer({ timer_status: 'stopped', timer_started_at: null, elapsed_seconds: elapsedSec + extra, status: 'live' });
   };
 
-  const resumeTimer = (currentHalf: 'running_first' | 'running_second') => {
-    setTimerStatus(currentHalf);
-    setTimerStartedAt(new Date().toISOString());
-  };
+  const resumeTimer = (currentHalf: 'running_first' | 'running_second') =>
+    persistTimer({ timer_status: currentHalf, timer_started_at: new Date().toISOString(), elapsed_seconds: elapsedSec, status: 'live' });
 
   return (
     <div>
@@ -407,7 +398,7 @@ export default function MatchesAdmin() {
                 <div className="text-6xl font-black text-white mb-6 tabular-nums">{currentDisplayMinute}</div>
                 
                 <div className="flex flex-wrap justify-center gap-4">
-                  {timerStatus === 'stopped' && (
+                  {timerStatus === 'stopped' && elapsedSec === 0 && !timerStartedAt && (
                      <button type="button" onClick={startFirstHalf} className="bg-green-600 hover:bg-green-500 text-white px-6 py-3 rounded-lg font-bold text-xs uppercase tracking-widest flex items-center space-x-2"><Play className="w-4 h-4"/><span>1-ci Hissəyə Başla</span></button>
                   )}
                   {timerStatus === 'running_first' && (
@@ -425,7 +416,7 @@ export default function MatchesAdmin() {
                   {timerStatus === 'stopped' && timerStartedAt === null && elapsedSec >= h1 * 60 && (
                      <button type="button" onClick={() => resumeTimer('running_second')} className="bg-yellow-600 hover:bg-yellow-500 text-white px-6 py-3 rounded-lg font-bold text-xs uppercase tracking-widest flex items-center space-x-2"><Play className="w-4 h-4"/><span>Davam Et (2-ci H)</span></button>
                   )}
-                  {timerStatus !== 'finished' && timerStatus !== 'stopped' && (
+                  {timerStatus !== 'finished' && (timerStatus !== 'stopped' || elapsedSec > 0) && (
                      <button type="button" onClick={finishMatch} className="bg-red-600 hover:bg-red-500 text-white px-6 py-3 rounded-lg font-bold text-xs uppercase tracking-widest flex items-center space-x-2"><Square className="w-4 h-4"/><span>Oyunu Bitir</span></button>
                   )}
                 </div>

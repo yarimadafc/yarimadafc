@@ -1056,5 +1056,61 @@ export const dictionary: Record<string, { en: string; ru: string }> = {
   "İzləməyə Başla": {
     "en": "Start watching",
     "ru": "Начать просмотр"
+  },
+  "CANLI": {
+    "en": "LIVE",
+    "ru": "LIVE"
+  },
+  "HT (Fasilə)": {
+    "en": "HT",
+    "ru": "Перерыв"
+  },
+  "Bitdi": {
+    "en": "FT",
+    "ru": "Завершён"
+  },
+  "Başlamayıb": {
+    "en": "Not started",
+    "ru": "Не начался"
+  },
+  "Qapıçı": {
+    "en": "Goalkeeper",
+    "ru": "Вратарь"
+  },
+  "Müdafiəçi": {
+    "en": "Defender",
+    "ru": "Защитник"
+  },
+  "Yarımmüdafiəçi": {
+    "en": "Midfielder",
+    "ru": "Полузащитник"
+  },
+  "Yarımüdafiəçi": {
+    "en": "Midfielder",
+    "ru": "Полузащитник"
+  },
+  "Hücumçu": {
+    "en": "Forward",
+    "ru": "Нападающий"
+  },
+  "Baş məşqçi": {
+    "en": "Head coach",
+    "ru": "Главный тренер"
+  },
+  "Akademiya Liqası": {
+    "en": "Academy League",
+    "ru": "Лига академии"
+  },
+  "Yoldaşlıq": {
+    "en": "Friendly",
+    "ru": "Товарищеский"
+  },
+  "Sezon": {
+    "en": "Season",
+    "ru": "Сезон"
+  },
+  "Məlumat Yoxdur": {
+    "en": "No data",
+    "ru": "Нет данных"
   }
 };

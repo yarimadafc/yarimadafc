@@ -148,9 +148,9 @@ export default function HeroSlider() {
                   </button>
 
                   {/* Desktop thumbnails overlapping the slide */}
-                  <div className="hidden lg:grid absolute left-1/2 -translate-x-1/2 -bottom-24 z-20 w-[82%] gap-4" style={{ gridTemplateColumns: `repeat(${count}, minmax(0, 1fr))` }}>
+                  <div className="hidden lg:flex absolute inset-x-0 -bottom-24 z-20 justify-center gap-4 px-16">
                     {slides.map((s, i) => (
-                      <button key={s.id} onClick={() => go(i)} className={`text-left rounded-xl overflow-hidden bg-bg-sec border transition-all duration-300 ${i === active ? 'border-accent shadow-xl -translate-y-1 led-glow' : 'border-bg-border hover:border-text-sec hover:-translate-y-0.5'}`} aria-label={titleOf(s)}>
+                      <button key={s.id} onClick={() => go(i)} className={`w-[min(17%,240px)] shrink text-left rounded-xl overflow-hidden bg-bg-sec border transition-all duration-300 ${i === active ? 'border-accent shadow-xl -translate-y-1 led-glow' : 'border-bg-border hover:border-text-sec hover:-translate-y-0.5'}`} aria-label={titleOf(s)}>
                         <div className="aspect-video bg-bg-card overflow-hidden">
                           {s.image ? <img src={s.image} alt="" className="w-full h-full object-cover" loading="lazy" /> : s.intro ? <img src="/Logo.JPG.jpeg" alt="" className="w-full h-full object-contain p-3" /> : null}
                         </div>

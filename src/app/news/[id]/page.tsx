@@ -38,7 +38,7 @@ export default function NewsArticlePage() {
   if (!news) {
     return (
       <div className="pt-header min-h-screen bg-bg-deep pb-20 flex justify-center">
-        <div className="text-red-400 font-bold tracking-widest uppercase">Xəbər tapılmadı</div>
+        <div className="text-text-main font-bold tracking-widest uppercase">Xəbər tapılmadı</div>
       </div>
     );
   }

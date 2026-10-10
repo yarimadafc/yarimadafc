@@ -105,21 +105,27 @@ export default function ShopAdmin() {
       return;
     }
 
+    const priceNum = parseFloat(String(price).replace(',', '.'));
+    if (isNaN(priceNum)) return alert('Qiyməti düzgün yazın (məs: 25 və ya 25.50).');
+
+    // a colour / size typed but not added with "+" used to be lost on save
+    const pendingColor = colorInput.trim();
+    const pendingSize = sizeInput.trim().toUpperCase();
     const payload = {
       title,
-      price: parseFloat(price),
+      price: priceNum,
       description,
       whatsapp_number: whatsapp,
       images,
-      colors,
-      sizes
+      colors: pendingColor && !colors.includes(pendingColor) ? [...colors, pendingColor] : colors,
+      sizes: pendingSize && !sizes.includes(pendingSize) ? [...sizes, pendingSize] : sizes,
     };
 
-    if (editingId) {
-      await adminDb.from('products').update(payload).eq('id', editingId);
-    } else {
-      await adminDb.from('products').insert([payload]);
-    }
+    const { error } = editingId
+      ? await adminDb.from('products').update(payload).eq('id', editingId)
+      : await adminDb.from('products').insert([payload]);
+    if (error) return alert('Xəta: ' + error.message);
+    setColorInput(''); setSizeInput('');
     
     setIsAdding(false);
     resetForm();

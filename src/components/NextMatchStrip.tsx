@@ -5,8 +5,8 @@ import TeamLogo from '@/components/TeamLogo';
 import { useNextMatch } from '@/lib/useNextMatch';
 import { useLang } from '@/lib/i18n';
 import { useFormat } from '@/lib/useFormat';
-import { calculateLiveMinute } from '@/lib/matchTimer';
-import { formatDashDate, formatShortDate, matchStart } from '@/lib/matchUtils';
+import LiveBadge from '@/components/LiveBadge';
+import { formatDashDate, formatShortDate, isLiveMatch, matchStart } from '@/lib/matchUtils';
 
 // Info strip: league | crests | stadium | date | time | countdown (or live score).
 export default function NextMatchStrip({ compact = false }: { compact?: boolean }) {
@@ -28,21 +28,14 @@ export default function NextMatchStrip({ compact = false }: { compact?: boolean 
   }
 
   const start = matchStart(match);
-  const isLive = match.status === 'live';
+  const isLive = isLiveMatch(match);
   const cd = now && start ? countdown(start, now) : '';
   const started = !isLive && !!start && !!now && start.getTime() <= now;
-  const liveMinute = isLive
-    ? calculateLiveMinute(match.timer_status, match.timer_started_at, match.elapsed_seconds, match.half_1_duration, match.half_2_duration, match.extra_time_1, match.extra_time_2, match.date, match.time)
-    : '';
-  const score = match.home_score != null && match.away_score != null ? `${match.home_score} - ${match.away_score}` : '';
 
   const status = isLive ? (
-    <span className="flex items-center gap-1.5 font-semibold text-red-500">
-      <span className="w-2 h-2 rounded-full bg-red-500 animate-pulse" aria-hidden />
-      {t('Canlı')} {liveMinute && `· ${liveMinute}`} {score && `· ${score}`}
-    </span>
+    <LiveBadge match={match} showScore />
   ) : started ? (
-    <span className="font-semibold text-red-500">{t('Oyun başlayıb')}</span>
+    <span className="font-bold text-white bg-red-600 rounded px-2 py-0.5 text-[11px]">{t('Oyun başlayıb')}</span>
   ) : cd ? (
     <span className="text-text-main tabular-nums">{cd}</span>
   ) : null;

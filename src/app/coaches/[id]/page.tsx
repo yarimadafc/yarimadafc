@@ -31,7 +31,7 @@ export default function CoachDetailPage() {
   if (!coach) {
     return (
       <div className="pt-header min-h-screen bg-bg-deep pb-20 flex flex-col items-center justify-center">
-        <div className="text-red-400 font-bold tracking-widest uppercase mb-4">Məşqçi tapılmadı</div>
+        <div className="text-text-main font-bold tracking-widest uppercase mb-4">Məşqçi tapılmadı</div>
         <Link href="/coaches" className="text-accent hover:underline">Məşqçilər səhifəsinə qayıt</Link>
       </div>
     );

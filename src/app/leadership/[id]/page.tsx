@@ -31,7 +31,7 @@ export default function LeadershipDetailPage() {
   if (!person) {
     return (
       <div className="pt-header min-h-screen bg-bg-deep pb-20 flex flex-col items-center justify-center">
-        <div className="text-red-400 font-bold tracking-widest uppercase mb-4">Şəxs tapılmadı</div>
+        <div className="text-text-main font-bold tracking-widest uppercase mb-4">Şəxs tapılmadı</div>
         <Link href="/club" className="text-accent hover:underline">Haqqımızda səhifəsinə qayıt</Link>
       </div>
     );

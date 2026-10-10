@@ -2,6 +2,11 @@
 // (insert/update/upsert/delete + eq + select) but runs on the server via /api/admin/db.
 type Result = { data: any; error: { message: string } | null };
 
+// Every admin write reports its outcome (shown as a toast by the dashboard), so failures are never silent.
+function notify(kind: 'success' | 'error', message: string) {
+  if (typeof window !== 'undefined') window.dispatchEvent(new CustomEvent('admin-toast', { detail: { kind, message } }));
+}
+
 class AdminQuery implements PromiseLike<Result> {
   private action: 'insert' | 'update' | 'upsert' | 'delete' = 'insert';
   private payload: unknown;
@@ -29,9 +34,11 @@ class AdminQuery implements PromiseLike<Result> {
         }),
       });
       const json = await res.json().catch(() => ({}));
-      if (!res.ok && !json.error) return { data: null, error: { message: `HTTP ${res.status}` } };
-      return { data: json.data ?? null, error: json.error ?? null };
+      const error = json.error ?? (res.ok ? null : { message: res.status === 401 ? 'Sessiya bitib, yenidən daxil olun.' : `HTTP ${res.status}` });
+      notify(error ? 'error' : 'success', error ? error.message : this.action === 'delete' ? 'Silindi' : 'Yadda saxlanıldı');
+      return { data: json.data ?? null, error };
     } catch (e: any) {
+      notify('error', e?.message || 'Şəbəkə xətası');
       return { data: null, error: { message: e?.message || 'Network error' } };
     }
   }

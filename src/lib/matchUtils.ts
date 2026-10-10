@@ -85,3 +85,15 @@ export function formatNumericDate(iso?: string | null): string {
   const d = new Date(iso);
   return `${pad(d.getDate())}.${pad(d.getMonth() + 1)}.${d.getFullYear()}`;
 }
+
+/** A match is live when the admin marked it live or its timer is running / at half-time. */
+export function isLiveMatch(m: AnyMatch): boolean {
+  return m.status === 'live' || ['running_first', 'running_second', 'halftime'].includes(m.timer_status);
+}
+
+/** Score to display: live matches default to 0-0, finished matches only show an entered score. */
+export function scoreText(m: AnyMatch): string {
+  if (isLiveMatch(m)) return `${m.home_score ?? 0} - ${m.away_score ?? 0}`;
+  if (m.status === 'finished' && m.home_score != null && m.away_score != null) return `${m.home_score} - ${m.away_score}`;
+  return '-';
+}

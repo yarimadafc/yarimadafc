@@ -120,13 +120,12 @@ export default function Navbar() {
   const linkClass = (href: string) =>
     `relative whitespace-nowrap text-[13px] 2xl:text-sm font-semibold transition-all duration-300 hover:-translate-y-px ${isActive(href) ? 'text-text-main' : 'text-text-sec hover:text-text-main'}`;
   const ThemeIcon = theme === 'dark' ? Sun : Moon;
-  const collapse = `overflow-hidden transition-all duration-300 ${scrolled ? 'max-h-0 opacity-0' : 'max-h-12 opacity-100'}`;
 
   return (
     <>
       <header ref={headerRef} className="fixed inset-x-0 top-0 z-50 bg-bg-main/95 backdrop-blur-md shadow-[0_8px_30px_-12px_rgba(0,0,0,.6)] animate-[slide-down_.8s_ease-out_both]">
         {/* Top bar: phone, date, clock | slogan, social, language */}
-        <div className={`bg-bg-deep border-b border-bg-border ${collapse}`}>
+        <div className="bg-bg-deep border-b border-bg-border">
           <div className="container flex items-center justify-between gap-4 h-9 text-[12px]">
             <div className="flex items-center gap-4 min-w-0 flex-1 text-text-sec">
               <a href="tel:0554477467" className="hidden sm:flex items-center gap-2 font-bold tracking-wider hover:text-accent transition-colors whitespace-nowrap">

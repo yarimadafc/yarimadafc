@@ -40,7 +40,7 @@ export default function TeamDetailPage() {
   }, [id]);
 
   if (loading) return <div className="pt-header min-h-screen bg-bg-deep pb-20 flex justify-center"><div className="text-accent font-bold tracking-widest uppercase animate-pulse">Yüklənir...</div></div>;
-  if (!team) return <div className="pt-header min-h-screen bg-bg-deep pb-20 flex justify-center"><div className="text-red-400 font-bold tracking-widest uppercase">Komanda tapılmadı</div></div>;
+  if (!team) return <div className="pt-header min-h-screen bg-bg-deep pb-20 flex justify-center"><div className="text-text-main font-bold tracking-widest uppercase">Komanda tapılmadı</div></div>;
   
 
   return (
@@ -51,12 +51,12 @@ export default function TeamDetailPage() {
         {teamImg ? (
           <div className="absolute inset-0 bg-cover bg-center opacity-30" style={{ backgroundImage: `url(${teamImg})` }}></div>
         ) : (
-          <div className="absolute inset-0 bg-[url('/placeholder-hero.jpg')] bg-cover bg-center opacity-10 blur-sm"></div>
+          <div className="absolute inset-0 bg-[url('/Logo.JPG.jpeg')] bg-center bg-no-repeat bg-contain opacity-[0.06] blur-sm"></div>
         )}
         <div className="absolute inset-0 bg-gradient-to-t from-bg-deep via-[#000000]/80 to-transparent"></div>
         
         <div className="container relative z-10 flex flex-col items-center">
-          <div className="w-24 h-24 md:w-32 md:h-32 rounded-full border-4 border-accent p-1 mb-6 bg-bg-deep shadow-[0_0_30px_rgba(215,191,123,0.3)]">
+          <div className="w-24 h-24 md:w-32 md:h-32 rounded-full border-4 border-accent p-1 mb-6 bg-bg-deep led-glow">
             <div className="w-full h-full rounded-full relative overflow-hidden flex items-center justify-center">
               <img src="/Logo.JPG.jpeg" alt="Logo" className="w-full h-full object-cover" />
             </div>
@@ -77,6 +77,9 @@ export default function TeamDetailPage() {
           >
             {team.league || 'Gənclər Liqası'}
           </motion.p>
+          {(teamDesc || team.description) && (
+            <p className="text-text-sec text-sm md:text-base text-center max-w-3xl -mt-4 mb-8 leading-relaxed">{teamDesc || team.description}</p>
+          )}
 
           <div className="flex flex-wrap justify-center gap-4 md:gap-8 bg-bg-main/80 backdrop-blur-md border border-bg-border rounded-2xl p-6 shadow-2xl">
             <div className="text-center px-4">
@@ -101,7 +104,7 @@ export default function TeamDetailPage() {
       <div className="container mt-20">
         <div className="flex flex-col md:flex-row items-center justify-center space-y-4 md:space-y-0 md:space-x-8 mb-10 border-b border-bg-border pb-4 text-center">
           <h2 className="text-2xl md:text-3xl font-black text-text-main uppercase tracking-tighter">Komanda Heyəti</h2>
-          <span className="text-text-sec text-sm font-bold bg-bg-sec px-4 py-1.5 rounded-full border border-bg-border">Sezon 2026/27</span>
+          <span className="text-text-sec text-sm font-bold bg-bg-sec px-4 py-1.5 rounded-full border border-bg-border">Sezon {(() => { const d = new Date(); const y = d.getMonth() >= 6 ? d.getFullYear() : d.getFullYear() - 1; return `${y}/${String(y + 1).slice(2)}`; })()}</span>
         </div>
 
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6">

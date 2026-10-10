@@ -2,13 +2,13 @@
 import { Suspense, useEffect, useMemo, useState } from 'react';
 import { useSearchParams } from 'next/navigation';
 import { supabase } from '@/lib/supabase';
-import { calculateLiveMinute } from '@/lib/matchTimer';
+import LiveBadge from '@/components/LiveBadge';
 import MatchesShell from '@/components/MatchesShell';
 import TeamLogo from '@/components/TeamLogo';
 import Reveal from '@/components/Reveal';
 import { useLang } from '@/lib/i18n';
 import { useFormat } from '@/lib/useFormat';
-import { AnyMatch, matchStart, normalizeMatch } from '@/lib/matchUtils';
+import { AnyMatch, isLiveMatch, scoreText, matchStart, normalizeMatch } from '@/lib/matchUtils';
 
 function MatchesList() {
   const { t } = useLang();
@@ -66,8 +66,7 @@ function MatchesList() {
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-5">
           {list.map((m, i) => {
-            const live = m.status === 'live';
-            const showScore = (m.status === 'finished' || live) && m.home_score != null && m.away_score != null;
+            const live = isLiveMatch(m);
             return (
               <Reveal key={m.id} delay={(i % 6) * 0.06} variant="scale">
               <article className="led-border led-hover card-fx h-full bg-bg-sec rounded-xl border border-bg-border overflow-hidden text-center">
@@ -81,13 +80,8 @@ function MatchesList() {
                     <span className="text-sm font-semibold text-text-main leading-tight line-clamp-2">{m.home_team}</span>
                   </div>
                   <div className="flex flex-col items-center gap-1">
-                    <span className="text-2xl font-extrabold text-text-main whitespace-nowrap">{showScore ? `${m.home_score} - ${m.away_score}` : '-'}</span>
-                    {live && (
-                      <span className="text-[11px] font-bold text-red-500 flex items-center gap-1.5">
-                        <span className="w-1.5 h-1.5 rounded-full bg-red-500 animate-pulse" />
-                        {calculateLiveMinute(m.timer_status, m.timer_started_at, m.elapsed_seconds, m.half_1_duration, m.half_2_duration, m.extra_time_1, m.extra_time_2, m.date, m.time)}
-                      </span>
-                    )}
+                    <span className="text-2xl font-extrabold text-text-main whitespace-nowrap">{scoreText(m)}</span>
+                    {live && <LiveBadge match={m} />}
                   </div>
                   <div className="flex flex-col items-center gap-2 w-[38%] min-w-0">
                     <TeamLogo name={m.away_team} logo={m.away_logo} size={52} />

@@ -4,8 +4,8 @@ import TeamLogo from '@/components/TeamLogo';
 import { useNextMatch } from '@/lib/useNextMatch';
 import { useLang } from '@/lib/i18n';
 import { useFormat } from '@/lib/useFormat';
-import { calculateLiveMinute } from '@/lib/matchTimer';
-import { matchStart } from '@/lib/matchUtils';
+import LiveBadge from '@/components/LiveBadge';
+import { isLiveMatch, matchStart } from '@/lib/matchUtils';
 
 // "Next match" card with the rotating LED border (restored from the previous hero).
 export default function NextMatchCard({ className = '' }: { className?: string }) {
@@ -25,11 +25,8 @@ export default function NextMatchCard({ className = '' }: { className?: string }
     );
   }
 
-  const live = match.status === 'live';
+  const live = isLiveMatch(match);
   const started = !live && (matchStart(match)?.getTime() ?? Infinity) <= Date.now();
-  const minute = live
-    ? calculateLiveMinute(match.timer_status, match.timer_started_at, match.elapsed_seconds, match.half_1_duration, match.half_2_duration, match.extra_time_1, match.extra_time_2, match.date, match.time)
-    : '';
 
   return (
     <Link href="/matches" className={`group led-border led-glow block rounded-2xl bg-bg-card/90 backdrop-blur-md p-5 sm:p-6 shadow-2xl ${className}`}>
@@ -49,13 +46,13 @@ export default function NextMatchCard({ className = '' }: { className?: string }
         <div className="flex flex-col items-center z-10">
           {live ? (
             <>
-              <span className="text-red-500 font-black text-[11px] tracking-widest mb-1 animate-pulse">{minute}</span>
+              <span className="mb-2"><LiveBadge match={match} /></span>
               <span className="bg-bg-deep border border-bg-border rounded-lg px-3 py-1 text-text-main font-black text-xl whitespace-nowrap">
-                {match.home_score ?? '-'} : {match.away_score ?? '-'}
+                {match.home_score ?? 0} : {match.away_score ?? 0}
               </span>
             </>
           ) : started ? (
-            <span className="text-red-500 font-black text-[10px] tracking-widest uppercase text-center bg-bg-deep border border-red-500/30 px-2 py-1 rounded-lg animate-pulse">{t('Oyun başlayıb')}</span>
+            <span className="text-white font-black text-[11px] tracking-widest uppercase text-center bg-red-600 px-2 py-1 rounded-lg">{t('Oyun başlayıb')}</span>
           ) : (
             <span className="w-9 h-9 rounded-full bg-bg-deep border border-bg-border flex items-center justify-center text-accent text-sm font-bold led-glow">VS</span>
           )}

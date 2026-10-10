@@ -31,7 +31,7 @@ export default function CourseDetailPage() {
   if (!course) {
     return (
       <div className="pt-header min-h-screen bg-bg-deep pb-20 flex flex-col items-center justify-center">
-        <div className="text-red-400 font-bold tracking-widest uppercase mb-4">Kurs tapılmadı</div>
+        <div className="text-text-main font-bold tracking-widest uppercase mb-4">Kurs tapılmadı</div>
         <Link href="/" className="text-accent hover:underline">Ana səhifəyə qayıt</Link>
       </div>
     );

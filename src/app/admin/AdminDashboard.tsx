@@ -175,6 +175,14 @@ export default function AdminDashboard() {
               <FileText className="w-4 h-4" />
               <span>Xəbərlər</span>
             </button>
+            <button onClick={() => setActiveTab('hero')} className={`w-full flex items-center space-x-3 px-4 py-3 rounded-lg font-bold text-xs uppercase tracking-widest transition-colors ${activeTab === 'hero' ? 'bg-accent text-on-accent' : 'text-gray-400 hover:text-white hover:bg-gray-900'}`}>
+              <LayoutDashboard className="w-4 h-4" />
+              <span>Ana Səhifə Slayderi</span>
+            </button>
+            <button onClick={() => setActiveTab('transfers')} className={`w-full flex items-center space-x-3 px-4 py-3 rounded-lg font-bold text-xs uppercase tracking-widest transition-colors ${activeTab === 'transfers' ? 'bg-accent text-on-accent' : 'text-gray-400 hover:text-white hover:bg-gray-900'}`}>
+              <Users className="w-4 h-4" />
+              <span>Transferlər</span>
+            </button>
             <button onClick={() => setActiveTab('videos')} className={`w-full flex items-center space-x-3 px-4 py-3 rounded-lg font-bold text-xs uppercase tracking-widest transition-colors ${activeTab === 'videos' ? 'bg-accent text-on-accent' : 'text-gray-400 hover:text-white hover:bg-gray-900'}`}>
               <Video className="w-4 h-4" />
               <span>Videolar</span>
@@ -229,6 +237,8 @@ export default function AdminDashboard() {
           <button onClick={() => setActiveTab('coaches')} className={`flex-shrink-0 px-4 py-2 rounded-lg font-bold text-[10px] uppercase tracking-widest transition-colors ${activeTab === 'coaches' ? 'bg-accent text-on-accent' : 'bg-gray-800 text-gray-400'}`}>Məşqçilər</button>
           <button onClick={() => setActiveTab('teams')} className={`flex-shrink-0 px-4 py-2 rounded-lg font-bold text-[10px] uppercase tracking-widest transition-colors ${activeTab === 'teams' ? 'bg-accent text-on-accent' : 'bg-gray-800 text-gray-400'}`}>Komandalar</button>
           <button onClick={() => setActiveTab('news')} className={`flex-shrink-0 px-4 py-2 rounded-lg font-bold text-[10px] uppercase tracking-widest transition-colors ${activeTab === 'news' ? 'bg-accent text-on-accent' : 'bg-gray-800 text-gray-400'}`}>Xəbərlər</button>
+          <button onClick={() => setActiveTab('hero')} className={`flex-shrink-0 px-4 py-2 rounded-lg font-bold text-[10px] uppercase tracking-widest transition-colors ${activeTab === 'hero' ? 'bg-accent text-on-accent' : 'bg-gray-800 text-gray-400'}`}>Slayder</button>
+          <button onClick={() => setActiveTab('transfers')} className={`flex-shrink-0 px-4 py-2 rounded-lg font-bold text-[10px] uppercase tracking-widest transition-colors ${activeTab === 'transfers' ? 'bg-accent text-on-accent' : 'bg-gray-800 text-gray-400'}`}>Transferlər</button>
           <button onClick={() => setActiveTab('videos')} className={`flex-shrink-0 px-4 py-2 rounded-lg font-bold text-[10px] uppercase tracking-widest transition-colors ${activeTab === 'videos' ? 'bg-accent text-on-accent' : 'bg-gray-800 text-gray-400'}`}>Videolar</button>
           <button onClick={() => setActiveTab('achievements')} className={`flex-shrink-0 px-4 py-2 rounded-lg font-bold text-[10px] uppercase tracking-widest transition-colors ${activeTab === 'achievements' ? 'bg-accent text-on-accent' : 'bg-gray-800 text-gray-400'}`}>Nailiyyətlər</button>
           <button onClick={() => setActiveTab('sponsors')} className={`flex-shrink-0 px-4 py-2 rounded-lg font-bold text-[10px] uppercase tracking-widest transition-colors ${activeTab === 'sponsors' ? 'bg-accent text-on-accent' : 'bg-gray-800 text-gray-400'}`}>Sponsorlar</button>

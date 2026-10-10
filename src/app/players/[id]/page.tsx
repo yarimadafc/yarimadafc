@@ -20,7 +20,7 @@ export default function PlayerDetailPage() {
   }, [id]);
 
   if (loading) return <div className="pt-header min-h-screen bg-bg-main flex justify-center text-accent">Yüklənir...</div>;
-  if (!player) return <div className="pt-header min-h-screen bg-bg-main flex justify-center text-red-500">Oyunçu tapılmadı</div>;
+  if (!player) return <div className="pt-header min-h-screen bg-bg-main flex justify-center text-text-main">Oyunçu tapılmadı</div>;
 
   return (
     <div className="pt-header min-h-screen bg-bg-main pb-20">

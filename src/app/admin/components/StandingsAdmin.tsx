@@ -22,6 +22,13 @@ export default function StandingsAdmin() {
   const [won, setWon] = useState<number>(0);
   const [drawn, setDrawn] = useState<number>(0);
   const [lost, setLost] = useState<number>(0);
+
+  // played and points follow wins/draws/losses automatically (3 points per win, 1 per draw); both stay editable
+  const recalc = (w: number, d: number, l: number) => {
+    setWon(w); setDrawn(d); setLost(l);
+    setPlayed(w + d + l);
+    setPoints(w * 3 + d);
+  };
   const [points, setPoints] = useState<number>(0);
   const [gf, setGf] = useState<number>(0);
   const [ga, setGa] = useState<number>(0);
@@ -153,9 +160,9 @@ export default function StandingsAdmin() {
                   <input type="text" value={teamName} onChange={e => setTeamName(e.target.value)} className="w-full bg-gray-900 border border-gray-700 rounded-lg p-3 text-white" required />
                 </div>
                 <div><label className="block text-gray-400 text-xs font-bold uppercase mb-2">Oyun (Avto)</label><input type="number" value={played} readOnly className="w-full bg-gray-900/50 border border-gray-700 rounded-lg p-3 text-gray-400 cursor-not-allowed" /></div>
-                <div><label className="block text-gray-400 text-xs font-bold uppercase mb-2">Qələbə</label><input type="number" value={won} onChange={e => setWon(Number(e.target.value))} className="w-full bg-gray-900 border border-gray-700 rounded-lg p-3 text-white" /></div>
-                <div><label className="block text-gray-400 text-xs font-bold uppercase mb-2">Heç-Heçə</label><input type="number" value={drawn} onChange={e => setDrawn(Number(e.target.value))} className="w-full bg-gray-900 border border-gray-700 rounded-lg p-3 text-white" /></div>
-                <div><label className="block text-gray-400 text-xs font-bold uppercase mb-2">Məğlubiyyət</label><input type="number" value={lost} onChange={e => setLost(Number(e.target.value))} className="w-full bg-gray-900 border border-gray-700 rounded-lg p-3 text-white" /></div>
+                <div><label className="block text-gray-400 text-xs font-bold uppercase mb-2">Qələbə</label><input type="number" value={won} onChange={e => recalc(Number(e.target.value), drawn, lost)} className="w-full bg-gray-900 border border-gray-700 rounded-lg p-3 text-white" /></div>
+                <div><label className="block text-gray-400 text-xs font-bold uppercase mb-2">Heç-Heçə</label><input type="number" value={drawn} onChange={e => recalc(won, Number(e.target.value), lost)} className="w-full bg-gray-900 border border-gray-700 rounded-lg p-3 text-white" /></div>
+                <div><label className="block text-gray-400 text-xs font-bold uppercase mb-2">Məğlubiyyət</label><input type="number" value={lost} onChange={e => recalc(won, drawn, Number(e.target.value))} className="w-full bg-gray-900 border border-gray-700 rounded-lg p-3 text-white" /></div>
                 <div className="col-span-2"><label className="block text-green-400 text-xs font-bold uppercase mb-2">Vurduğu Qol (VQ)</label><input type="number" value={gf} onChange={e => setGf(Number(e.target.value))} className="w-full bg-gray-900 border border-gray-700 rounded-lg p-3 text-white" /></div>
                 <div className="col-span-2"><label className="block text-red-400 text-xs font-bold uppercase mb-2">Buraxdığı Top (BT)</label><input type="number" value={ga} onChange={e => setGa(Number(e.target.value))} className="w-full bg-gray-900 border border-gray-700 rounded-lg p-3 text-white" /></div>
                 <div className="col-span-2 md:col-span-4"><label className="block text-accent text-xs font-bold uppercase mb-2">Xal (Avto)</label><input type="number" value={points} readOnly className="w-full bg-gray-900/50 border border-accent/50 rounded-lg p-3 text-accent font-black cursor-not-allowed" /></div>

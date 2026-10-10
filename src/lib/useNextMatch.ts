@@ -1,7 +1,7 @@
 'use client';
 import { useEffect, useState } from 'react';
 import { supabase } from '@/lib/supabase';
-import { AnyMatch, matchStart, normalizeMatch } from '@/lib/matchUtils';
+import { AnyMatch, isLiveMatch, matchStart, normalizeMatch } from '@/lib/matchUtils';
 
 const GRACE_MS = 3 * 60 * 60 * 1000; // keep a match "current" for 3h after kick-off
 
@@ -27,7 +27,7 @@ export function useNextMatch() {
         return !s || s.getTime() + GRACE_MS >= now;
       };
       const pick =
-        rows.find(m => m.status === 'live') ||
+        rows.find(isLiveMatch) ||
         rows.find(m => m.is_hero && current(m)) ||
         rows.find(current) ||
         null;
@@ -35,7 +35,9 @@ export function useNextMatch() {
       setLoading(false);
     }
     load();
-    return () => { cancelled = true; };
+    // refresh so admin changes (start / score / finish) appear without reloading the page
+    const id = setInterval(load, 20000);
+    return () => { cancelled = true; clearInterval(id); };
   }, []);
 
   return { match, loading };

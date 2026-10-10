@@ -23,7 +23,7 @@
 --   public.players, public.coaches, public.teams, public.matches, public.standings,
 --   public.news, public.transfers, public.videos, public.hero_slides, public.products,
 --   public.sponsors, public.achievements, public.coach_courses, public.leadership,
---   public.site_images
+--   public.site_images, public.translations
 -- cascade;
 
 -- ---------------------------------------------------------------------------
@@ -207,6 +207,14 @@ create table public.site_images (
   created_at  timestamptz not null default now()
 );
 
+-- Stored EN/RU translations of admin-entered text (filled automatically on save)
+create table public.translations (
+  source     text primary key,
+  en         text,
+  ru         text,
+  updated_at timestamptz not null default now()
+);
+
 -- ---------------------------------------------------------------------------
 -- Row Level Security: public read-only, no public writes
 -- ---------------------------------------------------------------------------
@@ -217,7 +225,7 @@ begin
   foreach t in array array[
     'teams', 'players', 'coaches', 'leadership', 'matches', 'standings', 'news',
     'transfers', 'videos', 'hero_slides', 'products', 'sponsors', 'achievements',
-    'coach_courses', 'site_images'
+    'coach_courses', 'site_images', 'translations'
   ]
   loop
     execute format('alter table public.%I enable row level security', t);

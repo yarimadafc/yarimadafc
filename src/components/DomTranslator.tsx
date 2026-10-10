@@ -18,6 +18,20 @@ const memo = new Map<string, string>(); // `${lang}\0${text}` -> translation (''
 const waiting = new Map<string, Set<Text>>();
 let timer: ReturnType<typeof setTimeout> | null = null;
 let currentLang: Lang = 'az';
+const stored = new Map<string, string>(); // admin content translated on save: `${lang}\0${source}`
+const storedLoaded = new Set<string>();
+
+async function loadStored(lang: Lang): Promise<boolean> {
+  if (lang === 'az' || storedLoaded.has(lang)) return false;
+  storedLoaded.add(lang);
+  try {
+    const res = await fetch(`/api/translate-public?lang=${lang}`);
+    if (!res.ok) return false;
+    const json = await res.json();
+    Object.entries(json.translations || {}).forEach(([k, v]) => stored.set(`${lang}\0${k}`, v as string));
+    return true;
+  } catch { return false; }
+}
 const STORE_KEY = 'trcache.v1';
 
 try {
@@ -77,6 +91,8 @@ function translate(value: string, lang: Lang, node?: Text): string | null {
   if (!key) return null;
   const hit = dictionary[key]?.[lang as 'en' | 'ru'];
   if (hit) return value.replace(key, hit);
+  const saved = stored.get(`${lang}\0${key}`);
+  if (saved) return value.replace(key, saved);
   if (lang === 'az' || !worthTranslating(key)) return null;
   const remote = memo.get(`${lang}\0${key}`);
   if (remote) return value.replace(key, remote);
@@ -133,6 +149,7 @@ export default function DomTranslator() {
     if (pathname.startsWith('/admin')) return;
     currentLang = lang;
     walk(document.body, lang);
+    loadStored(lang).then(changed => { if (changed && currentLang === lang) walk(document.body, lang); });
     const observer = new MutationObserver(mutations => {
       for (const m of mutations) {
         if (m.type === 'characterData') processText(m.target as Text, lang);

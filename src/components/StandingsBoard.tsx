@@ -6,7 +6,7 @@ import { supabase } from '@/lib/supabase';
 import TeamLogo from '@/components/TeamLogo';
 import Reveal from '@/components/Reveal';
 import { useLang } from '@/lib/i18n';
-import { AnyMatch, formatShortDate, isYarimada, matchStart, normalizeMatch } from '@/lib/matchUtils';
+import { isLiveMatch, scoreText, AnyMatch, formatShortDate, isYarimada, matchStart, normalizeMatch } from '@/lib/matchUtils';
 
 interface Props {
   /** Max rows in the fixtures/results list (home page shows fewer). */
@@ -140,7 +140,7 @@ export default function StandingsBoard({ matchLimit = 9 }: Props) {
             <div className="py-12 text-center text-text-sec text-sm border-t border-bg-border">{t('Bu turnir üçün oyun yoxdur.')}</div>
           ) : (
             leagueMatches.map(m => {
-              const played = m.status === 'finished' || m.status === 'live';
+              const played = m.status === 'finished' || isLiveMatch(m);
               return (
                 <Link href="/matches" key={m.id} className="flex items-center gap-3 px-4 py-3 border-t border-bg-border text-sm hover:bg-bg-card transition-colors">
                   <div className="w-14 shrink-0 text-text-sec text-xs leading-tight">
@@ -153,7 +153,7 @@ export default function StandingsBoard({ matchLimit = 9 }: Props) {
                       <TeamLogo name={m.home_team} logo={m.home_logo} size={22} />
                     </span>
                     <span className="font-bold text-text-main text-center min-w-[3rem]">
-                      {played && m.home_score != null && m.away_score != null ? `${m.home_score} - ${m.away_score}` : '-'}
+                      {scoreText(m)}
                     </span>
                     <span className="flex items-center gap-2 min-w-0 font-semibold text-text-main">
                       <TeamLogo name={m.away_team} logo={m.away_logo} size={22} />

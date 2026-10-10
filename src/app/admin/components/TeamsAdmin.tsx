@@ -12,6 +12,7 @@ export default function TeamsAdmin() {
   // Team adding state
   const [isAddingTeam, setIsAddingTeam] = useState(false);
   const [teamName, setTeamName] = useState('');
+  const [teamLeague, setTeamLeague] = useState('');
 
   // Player managing state
   const [selectedTeamId, setSelectedTeamId] = useState<string | null>(null);
@@ -23,6 +24,7 @@ export default function TeamsAdmin() {
   
   // Team details states
   const [teamPos, setTeamPos] = useState('');
+  const [detailsLeague, setDetailsLeague] = useState('');
   const [teamDesc, setTeamDesc] = useState('');
   const [teamImg, setTeamImg] = useState('');
   const [uploadingTeamImg, setUploadingTeamImg] = useState(false);
@@ -31,6 +33,7 @@ export default function TeamsAdmin() {
   const [playerPosition, setPlayerPosition] = useState('');
   const [playerNumber, setPlayerNumber] = useState('');
   const [playerImage, setPlayerImage] = useState('');
+  const [playerBirth, setPlayerBirth] = useState('');
   const [uploadingPlayerImg, setUploadingPlayerImg] = useState(false);
 
   useEffect(() => {
@@ -56,6 +59,7 @@ export default function TeamsAdmin() {
     
     // Load team extra details from site_images
     setTeamPos(''); setTeamDesc(''); setTeamImg('');
+    setDetailsLeague(teams.find(t => t.id === teamId)?.league || '');
     const keys = [`team_${teamId}_pos`, `team_${teamId}_desc`, `team_${teamId}_img`];
     const { data } = await supabase.from('site_images').select('section_key, image_url').in('section_key', keys);
     if (data) {
@@ -76,8 +80,9 @@ export default function TeamsAdmin() {
   const handleAddTeam = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!teamName) return;
-    await adminDb.from('teams').insert([{ name: teamName }]);
-    setTeamName('');
+    const { error } = await adminDb.from('teams').insert([{ name: teamName, league: teamLeague || null }]);
+    if (error) return alert('Xəta: ' + error.message);
+    setTeamName(''); setTeamLeague('');
     setIsAddingTeam(false);
     fetchTeams();
   };
@@ -85,6 +90,8 @@ export default function TeamsAdmin() {
   const handleSaveTeamDetails = async () => {
     if (!selectedTeamId) return;
     setSavingDetails(true);
+    const { error: leagueError } = await adminDb.from('teams').update({ league: detailsLeague || null, description: teamDesc || null }).eq('id', selectedTeamId);
+    if (leagueError) { setSavingDetails(false); return alert('Xəta: ' + leagueError.message); }
     
     const details = [
       { key: `team_${selectedTeamId}_pos`, val: teamPos },
@@ -102,6 +109,7 @@ export default function TeamsAdmin() {
     }
     
     setSavingDetails(false);
+    fetchTeams();
     alert('Komanda məlumatları yadda saxlanıldı!');
   };
 
@@ -120,19 +128,27 @@ export default function TeamsAdmin() {
     setPlayerPosition(p.position || '');
     setPlayerNumber(p.jersey_number ? p.jersey_number.toString() : '');
     setPlayerImage(p.image_url || '');
+    setPlayerBirth(p.birth_date || '');
     setIsAddingPlayer(true);
   };
 
   const handleSavePlayer = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!selectedTeamId || !playerName) return;
-    await adminDb.from('players').insert([{ 
+    const payload = {
       team_id: selectedTeamId,
       name: playerName,
-      position: playerPosition,
+      position: playerPosition || null,
       jersey_number: parseInt(playerNumber) || null,
-      image_url: playerImage
-    }]);
+      image_url: playerImage || null,
+      birth_date: playerBirth || null,
+    };
+    // editing used to insert a duplicate player instead of updating
+    const { error } = editingPlayerId
+      ? await adminDb.from('players').update(payload).eq('id', editingPlayerId)
+      : await adminDb.from('players').insert([payload]);
+    if (error) return alert('Xəta: ' + error.message);
+    setEditingPlayerId(null); setPlayerBirth('');
     setPlayerName(''); setPlayerPosition(''); setPlayerNumber(''); setPlayerImage('');
     setIsAddingPlayer(false);
     fetchPlayers(selectedTeamId);
@@ -162,6 +178,10 @@ export default function TeamsAdmin() {
           <div className="flex-1">
             <label className="block text-gray-400 text-xs font-bold uppercase mb-2">Komanda Adı</label>
             <input type="text" value={teamName} onChange={e => setTeamName(e.target.value)} placeholder="Məs: U-12" className="w-full bg-gray-900 border border-gray-700 rounded-lg p-3 text-white" required />
+          </div>
+          <div className="flex-1">
+            <label className="block text-gray-400 text-xs font-bold uppercase mb-2">Liqa / Turnir</label>
+            <input type="text" value={teamLeague} onChange={e => setTeamLeague(e.target.value)} placeholder="Məs: Gənclər Liqası" className="w-full bg-gray-900 border border-gray-700 rounded-lg p-3 text-white" />
           </div>
           <div className="flex items-end">
              <button type="submit" className="bg-accent text-on-accent py-3 px-6 rounded-lg font-bold text-xs uppercase tracking-widest h-[50px]">Yadda Saxla</button>
@@ -200,6 +220,10 @@ export default function TeamsAdmin() {
                 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
                   <div>
+                    <label className="block text-gray-400 text-xs font-bold uppercase mb-2">Liqa / Turnir</label>
+                    <input type="text" value={detailsLeague} onChange={e => setDetailsLeague(e.target.value)} placeholder="Məs: Gənclər Liqası" className="w-full bg-gray-900 border border-gray-700 rounded-lg p-3 text-white" />
+                  </div>
+                  <div>
                     <label className="block text-gray-400 text-xs font-bold uppercase mb-2">Cari Mövqe</label>
                     <input type="text" value={teamPos} onChange={e => setTeamPos(e.target.value)} placeholder="Məs: 3-cü yer" className="w-full bg-gray-900 border border-gray-700 rounded-lg p-3 text-white" />
                   </div>
@@ -226,8 +250,8 @@ export default function TeamsAdmin() {
                                 const base64 = await compressImage(e.target.files[0]);
                                 const res = await fetch('/api/upload', { method: 'POST', body: JSON.stringify({ image: base64 }) });
                                 const data = await res.json();
-                                if (data.url) setTeamImg(data.url);
-                              } catch (err) {}
+                                if (data.url) setTeamImg(data.url); else alert('Şəkil yüklənmədi: ' + (data.error || res.status));
+                              } catch (err) { alert('Şəkil yüklənmədi. Yenidən cəhd edin.'); }
                               setUploadingTeamImg(false);
                             }
                           }} 
@@ -247,7 +271,7 @@ export default function TeamsAdmin() {
 
               <div className="flex justify-between items-center mb-4">
                 <h3 className="text-white font-bold uppercase tracking-widest text-sm">Oyunçular</h3>
-                <button onClick={() => { setIsAddingPlayer(!isAddingPlayer); setEditingPlayerId(null); setPlayerName(""); setPlayerPosition(""); setPlayerNumber(""); setPlayerImage(""); }} className="text-accent hover:text-white transition-colors text-xs font-bold uppercase flex items-center">
+                <button onClick={() => { setIsAddingPlayer(!isAddingPlayer); setEditingPlayerId(null); setPlayerName(""); setPlayerPosition(""); setPlayerNumber(""); setPlayerImage(""); setPlayerBirth(""); }} className="text-accent hover:text-white transition-colors text-xs font-bold uppercase flex items-center">
                   <Plus className="w-3 h-3 mr-1" /> Oyunçu Əlavə Et
                 </button>
               </div>
@@ -257,6 +281,7 @@ export default function TeamsAdmin() {
                   <div className="col-span-2 md:col-span-1"><label className="block text-gray-400 text-xs font-bold uppercase mb-2">Ad Soyad</label><input type="text" value={playerName} onChange={e => setPlayerName(e.target.value)} className="w-full bg-gray-900 border border-gray-700 rounded-lg p-3 text-white" required /></div>
                   <div className="col-span-2 md:col-span-1"><label className="block text-gray-400 text-xs font-bold uppercase mb-2">Mövqe</label><input type="text" value={playerPosition} onChange={e => setPlayerPosition(e.target.value)} placeholder="Məs: Hücumçu" className="w-full bg-gray-900 border border-gray-700 rounded-lg p-3 text-white" /></div>
                   <div className="col-span-2 md:col-span-1"><label className="block text-gray-400 text-xs font-bold uppercase mb-2">Nömrə</label><input type="number" value={playerNumber} onChange={e => setPlayerNumber(e.target.value)} className="w-full bg-gray-900 border border-gray-700 rounded-lg p-3 text-white" /></div>
+                  <div className="col-span-2 md:col-span-1"><label className="block text-gray-400 text-xs font-bold uppercase mb-2">Doğum tarixi</label><input type="date" value={playerBirth} onChange={e => setPlayerBirth(e.target.value)} className="w-full bg-gray-900 border border-gray-700 rounded-lg p-3 text-white" /></div>
                   <div className="col-span-2 md:col-span-1">
                     <label className="block text-gray-400 text-xs font-bold uppercase mb-2">Oyunçu Şəkli</label>
                     {playerImage ? (
@@ -277,8 +302,8 @@ export default function TeamsAdmin() {
                                 const base64 = await compressImage(e.target.files[0]);
                                 const res = await fetch('/api/upload', { method: 'POST', body: JSON.stringify({ image: base64 }) });
                                 const data = await res.json();
-                                if (data.url) setPlayerImage(data.url);
-                              } catch (err) {}
+                                if (data.url) setPlayerImage(data.url); else alert('Şəkil yüklənmədi: ' + (data.error || res.status));
+                              } catch (err) { alert('Şəkil yüklənmədi. Yenidən cəhd edin.'); }
                               setUploadingPlayerImg(false);
                             }
                           }} 
@@ -294,7 +319,7 @@ export default function TeamsAdmin() {
                 {players.map(p => (
                   <div key={p.id} className="bg-gray-800 border border-gray-700 rounded-xl p-4 flex items-center relative">
                     <div className="w-12 h-12 rounded-full bg-gray-900 overflow-hidden mr-4 border border-gray-700 shrink-0">
-                      <img src={p.image_url || '/placeholder-player.jpg'} alt={p.name} className="w-full h-full object-cover" />
+                      <img src={p.image_url || '/Logo.JPG.jpeg'} alt={p.name} className="w-full h-full object-cover" />
                     </div>
                     <div>
                       <h4 className="text-white font-black text-sm uppercase tracking-wide leading-tight mb-1">{p.name}</h4>

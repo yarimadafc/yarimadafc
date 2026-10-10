@@ -7,7 +7,7 @@ import TeamLogo from '@/components/TeamLogo';
 import Reveal from '@/components/Reveal';
 import { useLang } from '@/lib/i18n';
 import { useFormat } from '@/lib/useFormat';
-import { AnyMatch, matchStart, normalizeMatch } from '@/lib/matchUtils';
+import { isLiveMatch, scoreText, AnyMatch, matchStart, normalizeMatch } from '@/lib/matchUtils';
 
 // Two latest results + the next two fixtures, oldest -> newest.
 function pickMatches(rows: AnyMatch[]): AnyMatch[] {
@@ -45,7 +45,7 @@ export default function MatchesSection() {
         {loading ? null : matches.length > 0 ? (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-5">
             {matches.map((m, i) => {
-              const played = m.status === 'finished' || m.status === 'live';
+              const played = m.status === 'finished' || isLiveMatch(m);
               return (
                 <Reveal key={m.id} delay={i * 0.1} variant="scale">
                 <Link href="/matches" className="group led-border led-hover card-fx h-full bg-bg-main rounded-xl border border-bg-border flex flex-col text-center overflow-hidden">
@@ -59,7 +59,7 @@ export default function MatchesSection() {
                       <span className="text-text-main text-sm font-medium leading-tight w-full line-clamp-2">{m.home_team}</span>
                     </div>
                     <span className={`font-extrabold text-text-main whitespace-nowrap ${played ? 'text-2xl' : 'text-xl text-text-sec'}`}>
-                      {played && m.home_score != null && m.away_score != null ? `${m.home_score} - ${m.away_score}` : '-'}
+                      {scoreText(m)}
                     </span>
                     <div className="flex flex-col items-center gap-2 w-[38%] min-w-0">
                       <TeamLogo name={m.away_team} logo={m.away_logo} size={44} />

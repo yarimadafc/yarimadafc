@@ -21,7 +21,7 @@ const esc = (v: string) => v.replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt
 const FROM = () => process.env.RESEND_FROM || 'Yarımada FK <no-reply@yarimadafc.com>';
 
 /** Sends the code with Resend (https://resend.com/docs/api-reference/emails/send-email). */
-export async function sendResetEmail(to: string, code: string, name?: string | null): Promise<{ ok: boolean; error?: string }> {
+export async function sendResetEmail(to: string, code: string, name?: string | null): Promise<{ ok: boolean; id?: string; error?: string }> {
   const key = process.env.RESEND_API_KEY;
   if (!key) return { ok: false, error: 'RESEND_API_KEY is not configured' };
   const hello = name ? `Salam, ${name.slice(0, 80)}!` : 'Salam!';
@@ -48,7 +48,8 @@ export async function sendResetEmail(to: string, code: string, name?: string | n
       signal: AbortSignal.timeout(10_000),
     });
     if (!res.ok) return { ok: false, error: `Resend ${res.status}: ${(await res.text()).slice(0, 300)}` };
-    return { ok: true };
+    const json = await res.json().catch(() => ({}));
+    return { ok: true, id: json.id };
   } catch (e) {
     return { ok: false, error: (e as Error).message };
   }

@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { clientIp, memberAdminDb, tooManyRequests } from '@/lib/memberServer';
+import { clientIp, findMemberByEmail, memberAdminDb, tooManyRequests } from '@/lib/memberServer';
 import { validEmail } from '@/lib/memberValidation';
 
 // Accounts created while "Confirm email" was on in Supabase can not log in until confirmed.
@@ -13,8 +13,8 @@ export async function POST(request: NextRequest) {
   const db = memberAdminDb();
   if (!db) return NextResponse.json({ ok: false }, { status: 503 });
 
-  const { data: profile } = await db.from('member_profiles').select('user_id').eq('email', email.trim().toLowerCase()).maybeSingle();
-  if (!profile?.user_id) return NextResponse.json({ ok: false });
+  const profile = await findMemberByEmail(db, email.trim().toLowerCase());
+  if (!profile) return NextResponse.json({ ok: false });
   const { error } = await db.auth.admin.updateUserById(profile.user_id, { email_confirm: true });
   return NextResponse.json({ ok: !error });
 }

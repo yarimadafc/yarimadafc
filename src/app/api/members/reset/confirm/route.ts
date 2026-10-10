@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { clientIp, memberAdminDb, tooManyRequests } from '@/lib/memberServer';
+import { clientIp, findMemberByEmail, memberAdminDb, tooManyRequests } from '@/lib/memberServer';
 import { validEmail } from '@/lib/memberValidation';
 import { MAX_CODE_ATTEMPTS, hashCode, sameHash } from '@/lib/resetCode';
 
@@ -20,8 +20,8 @@ export async function POST(request: NextRequest) {
   const db = memberAdminDb();
   if (!db) return NextResponse.json({ error: 'Xəta baş verdi. Yenidən cəhd edin.' }, { status: 503 });
 
-  const { data: member } = await db.from('member_profiles').select('user_id').eq('email', email).maybeSingle();
-  if (!member?.user_id) return NextResponse.json({ error: WRONG }, { status: 400 });
+  const member = await findMemberByEmail(db, email);
+  if (!member) return NextResponse.json({ error: WRONG }, { status: 400 });
 
   const { data: row } = await db.from('password_reset_codes')
     .select('id, code_hash, expires_at, attempts')

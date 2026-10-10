@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { clientIp, memberAdminDb, tooManyRequests } from '@/lib/memberServer';
+import { clientIp, findMemberByEmail, maskEmail, memberAdminDb, tooManyRequests } from '@/lib/memberServer';
 import { validEmail } from '@/lib/memberValidation';
 import { CODE_TTL_MIN, hashCode, newCode, sendResetEmail } from '@/lib/resetCode';
 
@@ -20,13 +20,19 @@ export async function POST(request: NextRequest) {
   if (!db) return NextResponse.json({ error: 'Xəta baş verdi. Yenidən cəhd edin.' }, { status: 503 });
 
   const addr = email.trim().toLowerCase();
-  const { data: member } = await db.from('member_profiles').select('user_id, first_name').eq('email', addr).maybeSingle();
-  if (!member?.user_id) return done;
+  const member = await findMemberByEmail(db, addr);
+  if (!member) {
+    console.log(`password reset: no site account for ${maskEmail(addr)} (nothing sent)`);
+    return done;
+  }
 
   // at most 3 codes per account in 15 minutes
   const since = new Date(Date.now() - 15 * 60_000).toISOString();
   const { count } = await db.from('password_reset_codes').select('id', { count: 'exact', head: true }).eq('user_id', member.user_id).gte('created_at', since);
-  if ((count ?? 0) >= 3) return done;
+  if ((count ?? 0) >= 3) {
+    console.log(`password reset: limit reached for ${maskEmail(addr)} (3 codes / 15 min)`);
+    return done;
+  }
 
   const code = newCode();
   const now = new Date();
@@ -41,6 +47,7 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: 'Xəta baş verdi. Yenidən cəhd edin.' }, { status: 500 });
   }
   const sent = await sendResetEmail(addr, code, member.first_name);
-  if (!sent.ok) console.error('password reset: email not sent:', sent.error);
+  if (!sent.ok) console.error(`password reset: email to ${maskEmail(addr)} NOT sent:`, sent.error);
+  else console.log(`password reset: code sent to ${maskEmail(addr)} (resend id ${sent.id})`);
   return done;
 }

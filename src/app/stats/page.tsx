@@ -8,7 +8,7 @@ import PageHero from '@/components/PageHero';
 import Reveal from '@/components/Reveal';
 import TeamLogo from '@/components/TeamLogo';
 import { useLang } from '@/lib/i18n';
-import { formatShortDate } from '@/lib/matchUtils';
+import { formatShortDate, teamKey } from '@/lib/matchUtils';
 import { buildPlayerStats, byAssists, byGoals, seasonOf, PlayerStat } from '@/lib/playerStats';
 import { PlayerInfo, usePlayerStatsData } from '@/lib/usePlayerStats';
 import { useOrderedTeams } from '@/lib/teamOrder';
@@ -79,10 +79,15 @@ function StatsView() {
   const [sort, setSort] = useState<SortKey>('goals');
 
   // team filter in the admin's team order (U-13 first by default)
-  const teams = useMemo(() => [...new Set([
-    ...matches.map(m => m.tournament),
-    ...playerList.filter(p => p.teams?.name && Object.keys(p).some(k => k.startsWith('stat_') && Number(p[k]) > 0)).map(p => p.teams!.name),
-  ].filter(Boolean))].sort(compareNames) as string[], [matches, playerList, compareNames]);
+  // (one pill per team even when its name is written in different letter case)
+  const teams = useMemo(() => {
+    const names = new Map<string, string>();
+    [
+      ...playerList.filter(p => p.teams?.name && Object.keys(p).some(k => k.startsWith('stat_') && Number(p[k]) > 0)).map(p => p.teams!.name),
+      ...matches.map(m => m.tournament),
+    ].forEach(n => { if (n && !names.has(teamKey(n))) names.set(teamKey(n), n); });
+    return [...names.values()].sort(compareNames) as string[];
+  }, [matches, playerList, compareNames]);
   const seasons = useMemo(() => [...new Set(matches.map(m => seasonOf(m.match_date || m.date)).filter(Boolean))].sort().reverse() as string[], [matches]);
   const stats = useMemo(() => buildPlayerStats(matches, { team: team || undefined, season: season || undefined }, playerList), [matches, team, season, playerList]);
 

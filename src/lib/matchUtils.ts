@@ -9,6 +9,10 @@ export function normalizeMatch(m: AnyMatch): AnyMatch {
   return { ...m, date: m.match_date || m.date || '', time: String(m.match_time || m.time || '').slice(0, 5) };
 }
 
+/** Team / tournament names are typed by hand ("YARIMADA FK U-12" vs "Yarımada FK U-12"): compare them case-insensitively. */
+export const teamKey = (name?: string | null) => String(name || '').trim().replace(/\s+/g, ' ').toLocaleLowerCase('az');
+export const sameTeam = (a?: string | null, b?: string | null) => teamKey(a) === teamKey(b);
+
 export function isYarimada(name?: string | null): boolean {
   return !!name && /yar[ıiIİ]mada/i.test(name);
 }

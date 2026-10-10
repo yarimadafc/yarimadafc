@@ -1,4 +1,4 @@
-import { isYarimada, type AnyMatch } from '@/lib/matchUtils';
+import { isYarimada, sameTeam, type AnyMatch } from '@/lib/matchUtils';
 
 // Player statistics are derived from the match line-ups the admin fills in
 // (matches.yarimada_lineup: one entry per player with goals / assists / minutes),
@@ -83,7 +83,7 @@ export function buildPlayerStats(matches: AnyMatch[], filter: { team?: string; s
   for (const m of matches) {
     if (!counted(m)) continue;
     const date = m.match_date || m.date || null;
-    if (filter.team && (m.tournament || '') !== filter.team) continue;
+    if (filter.team && !sameTeam(m.tournament, filter.team)) continue;
     if (filter.season && seasonOf(date) !== filter.season) continue;
     const lineup: LineupEntry[] = Array.isArray(m.yarimada_lineup) ? m.yarimada_lineup : [];
     const homeIsUs = isYarimada(m.home_team) || !isYarimada(m.away_team);
@@ -110,7 +110,7 @@ export function buildPlayerStats(matches: AnyMatch[], filter: { team?: string; s
       s.minutes += minutes;
       if (p.events?.includes('yellow_card')) s.yellow += 1;
       if (p.events?.includes('red_card')) s.red += 1;
-      if (m.tournament && !s.teams.includes(m.tournament)) s.teams.push(m.tournament);
+      if (m.tournament && !s.teams.some(t => sameTeam(t, m.tournament))) s.teams.push(m.tournament);
       s.matches.push({ matchId: m.id, date, opponent, opponentLogo, score, goals, assists, minutes, starter: !!p.is_starting });
     }
   }
@@ -129,14 +129,14 @@ function addManualStats(map: Map<string, PlayerStat>, players: ManualStatsPlayer
     const n = (f: ManualStatField) => Math.max(0, Number(p[f]) || 0);
     if (!p?.name || MANUAL_STAT_FIELDS.every(f => n(f) === 0)) continue;
     const teamName = p.teams?.name || '';
-    if (team && teamName.trim().toLocaleLowerCase('az') !== team.trim().toLocaleLowerCase('az')) continue;
+    if (team && !sameTeam(teamName, team)) continue;
     let s = map.get(p.id) || map.get(nameKey(p.name));
     if (!s) {
       s = { key: p.id, playerId: p.id, name: p.name, number: p.jersey_number != null ? String(p.jersey_number) : null, position: p.position || null, teams: [], games: 0, starts: 0, goals: 0, assists: 0, minutes: 0, yellow: 0, red: 0, matches: [] };
       map.set(p.id, s);
     }
     if (!s.playerId) s.playerId = p.id;
-    if (teamName && !s.teams.includes(teamName)) s.teams.push(teamName);
+    if (teamName && !s.teams.some(t => sameTeam(t, teamName))) s.teams.push(teamName);
     s.games += n('stat_games');
     s.starts += n('stat_starts');
     s.goals += n('stat_goals');

@@ -5,6 +5,7 @@ import { adminDb } from '@/lib/adminDb';
 import { sortTeams } from '@/lib/teamOrder';
 import { uploadFromInput } from '@/lib/uploadImage';
 import { LOGO_PREFIX, normalizeTeamName, teamLogoKey } from '@/lib/teamLogos';
+import { sameTeam } from '@/lib/matchUtils';
 import { Plus, Trash2, Edit2, ChevronRight, ArrowLeft, UploadCloud } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 
@@ -135,7 +136,8 @@ export default function StandingsAdmin() {
     setGf(0); setGa(0);
   };
   
-  const activeStandings = activeLeague ? standings.filter(s => s.tournament_name === activeLeague) : [];
+  // case-insensitive: rows saved as "Yarımada FK U-12" belong to the team "YARIMADA FK U-12" too
+  const activeStandings = activeLeague ? standings.filter(s => sameTeam(s.tournament_name, activeLeague)) : [];
 
   return (
     <div>

@@ -6,7 +6,7 @@ import { supabase } from '@/lib/supabase';
 import TeamLogo from '@/components/TeamLogo';
 import Reveal from '@/components/Reveal';
 import { useLang } from '@/lib/i18n';
-import { isLiveMatch, scoreText, AnyMatch, formatShortDate, isYarimada, matchStart, normalizeMatch } from '@/lib/matchUtils';
+import { isLiveMatch, scoreText, AnyMatch, formatShortDate, isYarimada, matchStart, normalizeMatch, teamKey } from '@/lib/matchUtils';
 import { useSyncVersion } from '@/lib/siteSync';
 import { useOrderedTeams } from '@/lib/teamOrder';
 
@@ -22,7 +22,7 @@ export default function StandingsBoard({ matchLimit = 9 }: Props) {
   const [matches, setMatches] = useState<AnyMatch[]>([]);
   const [picked, setPicked] = useState('');
   const [loading, setLoading] = useState(true);
-  const { compareNames, loading: teamsLoading } = useOrderedTeams('id, name, sort_order');
+  const { teams, compareNames, loading: teamsLoading } = useOrderedTeams('id, name, sort_order');
 
   const sync = useSyncVersion();
   useEffect(() => {
@@ -41,16 +41,22 @@ export default function StandingsBoard({ matchLimit = 9 }: Props) {
     return () => { cancelled = true; };
   }, [sync]);
 
+  // One tab per team. Names are typed by hand in several places (team "YARIMADA FK U-12", standings
+  // "Yarımada FK U-12"), so they are grouped case-insensitively; the label is the team's own name.
+  const leagueOf = (name?: string | null) => teamKey(name || 'Ümumi');
   const leagues = useMemo(() => {
-    const set = new Set<string>();
-    standings.forEach(s => set.add(s.tournament_name || 'Ümumi'));
-    matches.forEach(m => set.add(m.tournament || 'Ümumi'));
-    // same order as the admin's team list (U-13 first by default), left to right
-    return Array.from(set).sort(compareNames);
-  }, [standings, matches, compareNames]);
+    const labels = new Map<string, string>();
+    teams.forEach(t => labels.set(teamKey(t.name), t.name));
+    const keys = new Set<string>();
+    standings.forEach(s => keys.add(leagueOf(s.tournament_name)));
+    matches.forEach(m => keys.add(leagueOf(m.tournament)));
+    const label = (k: string) => labels.get(k) || standings.find(s => leagueOf(s.tournament_name) === k)?.tournament_name || matches.find(m => leagueOf(m.tournament) === k)?.tournament || 'Ümumi';
+    // same order as the admin's team list, left to right
+    return [...keys].map(k => ({ key: k, label: label(k) })).sort((a, b) => compareNames(a.label, b.label));
+  }, [standings, matches, teams, compareNames]);
 
   // until a tab is clicked, the first team in the order is shown
-  const active = leagues.includes(picked) ? picked : leagues[0] || '';
+  const active = leagues.some(l => l.key === picked) ? picked : leagues[0]?.key || '';
   const setActive = setPicked;
 
   const logos = useMemo(() => {
@@ -63,11 +69,15 @@ export default function StandingsBoard({ matchLimit = 9 }: Props) {
   }, [matches]);
 
   const rows = standings
-    .filter(s => (s.tournament_name || 'Ümumi') === active)
-    .sort((a, b) => (b.points ?? 0) - (a.points ?? 0) || ((b.gf ?? 0) - (b.ga ?? 0)) - ((a.gf ?? 0) - (a.ga ?? 0)));
+    .filter(s => leagueOf(s.tournament_name) === active)
+    // points, goal difference, goals scored, then name
+    .sort((a, b) => (b.points ?? 0) - (a.points ?? 0)
+      || ((b.gf ?? 0) - (b.ga ?? 0)) - ((a.gf ?? 0) - (a.ga ?? 0))
+      || (b.gf ?? 0) - (a.gf ?? 0)
+      || String(a.team_name).localeCompare(String(b.team_name), 'az'));
 
   const leagueMatches = matches
-    .filter(m => (m.tournament || 'Ümumi') === active)
+    .filter(m => leagueOf(m.tournament) === active)
     .sort((a, b) => (matchStart(a)?.getTime() ?? 0) - (matchStart(b)?.getTime() ?? 0))
     .slice(-matchLimit);
 
@@ -86,13 +96,13 @@ export default function StandingsBoard({ matchLimit = 9 }: Props) {
       <div className="flex gap-6 md:gap-8 overflow-x-auto pb-3 mb-6 -mx-4 px-4 lg:mx-0 lg:px-0 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden" role="tablist">
         {leagues.map(l => (
           <button
-            key={l}
+            key={l.key}
             role="tab"
-            aria-selected={active === l}
-            onClick={() => setActive(l)}
-            className={`shrink-0 text-sm md:text-base font-semibold pb-2 border-b-2 transition-all hover:-translate-y-0.5 ${active === l ? 'text-text-main border-accent' : 'text-text-sec border-transparent hover:text-text-main'}`}
+            aria-selected={active === l.key}
+            onClick={() => setActive(l.key)}
+            className={`shrink-0 text-sm md:text-base font-semibold pb-2 border-b-2 transition-all hover:-translate-y-0.5 ${active === l.key ? 'text-text-main border-accent' : 'text-text-sec border-transparent hover:text-text-main'}`}
           >
-            {l}
+            {l.label}
           </button>
         ))}
       </div>

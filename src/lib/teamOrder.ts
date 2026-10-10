@@ -3,6 +3,7 @@
 import { useEffect, useMemo, useState } from 'react';
 import { supabase } from '@/lib/supabase';
 import { useSyncVersion } from '@/lib/siteSync';
+import { teamKey } from '@/lib/matchUtils';
 
 // One team order for the whole site: the admin's order (teams.sort_order), and until the admin sets one,
 // the oldest age group first (U-13, U-12, U-11 ...). Matches and standings refer to a team by its name
@@ -24,14 +25,12 @@ export function sortTeams<T extends TeamLike>(teams: T[]): T[] {
   return [...teams].sort((a, b) => (a.sort_order ?? 0) - (b.sort_order ?? 0) || byAge(a.name, b.name));
 }
 
-const key = (name: string) => name.trim().toLocaleLowerCase('az');
-
 /** Comparator for team names in the given team order; names that are not a team go last (by age). */
 export function teamNameComparator(ordered: TeamLike[]) {
-  const rank = new Map(ordered.map((t, i) => [key(t.name), i]));
+  const rank = new Map(ordered.map((t, i) => [teamKey(t.name), i]));
   return (a: string, b: string) => {
-    const ra = rank.get(key(a)) ?? Infinity;
-    const rb = rank.get(key(b)) ?? Infinity;
+    const ra = rank.get(teamKey(a)) ?? Infinity;
+    const rb = rank.get(teamKey(b)) ?? Infinity;
     return ra === rb ? byAge(a, b) : ra - rb;
   };
 }

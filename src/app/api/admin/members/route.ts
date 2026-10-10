@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { createClient } from '@supabase/supabase-js';
 import { requireAdmin } from '@/lib/adminGuard';
+import { broadcast, memberTopic } from '@/lib/siteSyncServer';
 
 // Admin-only access to the registered site members. Needs SUPABASE_SERVICE_ROLE_KEY
 // (profiles are protected by RLS and deleting an account needs the Auth admin API).
@@ -36,5 +37,7 @@ export async function DELETE(request: NextRequest) {
   // deleting the Auth user also removes the profile (on delete cascade)
   const { error } = await db.auth.admin.deleteUser(id);
   if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+  // sign the member out right away on any page they have open
+  await broadcast(memberTopic(id), 'account-deleted', {});
   return NextResponse.json({ ok: true });
 }

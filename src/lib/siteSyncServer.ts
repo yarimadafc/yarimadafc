@@ -1,8 +1,11 @@
-// Server side of the admin -> site sync: sends a Supabase Realtime broadcast that every open page
-// of the public site listens to (see lib/siteSync.tsx). Uses the REST endpoint, so no socket is kept.
+// Server side of the admin -> site sync: sends a Supabase Realtime broadcast that open pages
+// of the public site listen to (see lib/siteSync.tsx). Uses the REST endpoint, so no socket is kept.
 export const SYNC_TOPIC = 'site-sync';
 
-export async function broadcastSiteChange(table: string): Promise<void> {
+/** Personal channel of one member (see components/AccountWatcher.tsx). */
+export const memberTopic = (userId: string) => `member-${userId}`;
+
+export async function broadcast(topic: string, event: string, payload: Record<string, unknown>): Promise<void> {
   const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
   const key = process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
   if (!url || !key || !url.startsWith('http')) return;
@@ -10,8 +13,12 @@ export async function broadcastSiteChange(table: string): Promise<void> {
     await fetch(`${url}/realtime/v1/api/broadcast`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json', apikey: key, Authorization: `Bearer ${key}` },
-      body: JSON.stringify({ messages: [{ topic: SYNC_TOPIC, event: 'changed', payload: { table, at: Date.now() }, private: false }] }),
+      body: JSON.stringify({ messages: [{ topic, event, payload: { ...payload, at: Date.now() }, private: false }] }),
       signal: AbortSignal.timeout(5000),
     });
-  } catch { /* the site still refreshes on focus / interval */ }
+  } catch { /* clients also re-check on focus */ }
+}
+
+export function broadcastSiteChange(table: string): Promise<void> {
+  return broadcast(SYNC_TOPIC, 'changed', { table });
 }

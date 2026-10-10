@@ -1488,5 +1488,17 @@ export const dictionary: Record<string, { en: string; ru: string }> = {
   "Email xidməti hələ qurulmayıb. Klubla əlaqə saxlayın.": {
     "en": "Email service is not set up yet. Please contact the club.",
     "ru": "Почтовый сервис ещё не настроен. Свяжитесь с клубом."
+  },
+  "Hesabınız silindi": {
+    "en": "Your account was deleted",
+    "ru": "Ваш аккаунт удалён"
+  },
+  "Hesabınız klub tərəfindən silindiyi üçün sistemdən çıxış edildi. Suallarınız varsa, bizimlə əlaqə saxlayın.": {
+    "en": "Your account was deleted by the club, so you have been signed out. Please contact us if you have any questions.",
+    "ru": "Ваш аккаунт был удалён клубом, поэтому вы вышли из системы. Если есть вопросы, свяжитесь с нами."
+  },
+  "Bağla": {
+    "en": "Close",
+    "ru": "Закрыть"
   }
 };

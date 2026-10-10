@@ -7,6 +7,7 @@ import Footer from './Footer';
 import { LanguageProvider } from '@/lib/i18n';
 import DomTranslator from './DomTranslator';
 import SiteTracker from './SiteTracker';
+import AccountWatcher from './AccountWatcher';
 import { SiteSyncProvider } from '@/lib/siteSync';
 
 export default function ClientLayout({ children }: { children: React.ReactNode }) {
@@ -46,6 +47,7 @@ export default function ClientLayout({ children }: { children: React.ReactNode }
       </SiteSyncProvider>
       <DomTranslator />
       <SiteTracker />
+      {!isAdminPath && <AccountWatcher />}
     </LanguageProvider>
   );
 }

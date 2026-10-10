@@ -1,7 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { supabase } from "@/lib/supabase";
 
 import Image from 'next/image';
@@ -33,6 +33,62 @@ const TwitterIcon = () => (
   <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M22 4s-.7 2.1-2 3.4c1.6 10-9.4 17.3-18 11.6 2.2.1 4.4-.6 6-2C3 15.5.5 9.6 3 5c2.2 2.6 5.6 4.1 9 4-.9-4.2 4-6.6 7-3.8 1.1 0 3-1.2 3-1.2z"></path></svg>
 );
 
+const FALLBACK_SPONSORS = ['SOCAR', 'PALMS SPORTS', 'KAPPA', 'ADQ', 'SEA BREEZE'];
+
+// Endless sponsor strip. One "set" is repeated until it is wider than the screen, and the strip holds two
+// identical sets that slide by exactly one set's width, so it never has an empty gap — even with a single sponsor.
+function SponsorMarquee({ sponsors }: { sponsors: any[] }) {
+  const wrapRef = useRef<HTMLDivElement>(null);
+  const setRef = useRef<HTMLDivElement>(null);
+  const [repeat, setRepeat] = useState(1);
+  const [unit, setUnit] = useState(0); // width of one set, for a constant scroll speed
+  const items: { key: string; node: React.ReactNode }[] = sponsors.length > 0
+    ? sponsors.map(s => ({
+        key: s.id,
+        node: s.logo_url
+          ? <img src={s.logo_url} alt={s.name} className="h-10 md:h-14 w-auto max-w-[220px] object-contain grayscale hover:grayscale-0 transition-all duration-300" />
+          : <span className="text-text-main/70 hover:text-text-main transition-colors text-lg font-black uppercase tracking-widest">{s.name}</span>,
+      }))
+    : FALLBACK_SPONSORS.map(n => ({ key: n, node: <span className="text-text-main text-base font-bold uppercase tracking-widest">{n}</span> }));
+  const signature = items.map(i => i.key).join('|');
+
+  useEffect(() => {
+    const wrap = wrapRef.current, set = setRef.current;
+    if (!wrap || !set) return;
+    const measure = () => {
+      const one = set.scrollWidth / repeat; // width of a single pass over the sponsors
+      if (!one) return;
+      const need = Math.max(1, Math.ceil(wrap.clientWidth / one));
+      setRepeat(r => (r === need ? r : need));
+      setUnit(one * need);
+    };
+    measure();
+    const ro = new ResizeObserver(measure);
+    ro.observe(wrap);
+    set.querySelectorAll('img').forEach(img => img.addEventListener('load', measure));
+    return () => ro.disconnect();
+  }, [signature, repeat]);
+
+  const renderSet = (id: string) => (
+    <div ref={id === 'a' ? setRef : undefined} className="flex shrink-0 items-center gap-16 pr-16" aria-hidden={id === 'b'}>
+      {Array.from({ length: repeat }).flatMap((_, r) =>
+        items.map(i => <div key={`${id}-${r}-${i.key}`} className="shrink-0 flex items-center">{i.node}</div>))}
+    </div>
+  );
+
+  return (
+    <div ref={wrapRef} className="relative w-full overflow-hidden whitespace-nowrap">
+      <div
+        className="flex w-max hover:[animation-play-state:paused]"
+        style={{ animation: `marquee ${Math.max(12, unit / 70)}s linear infinite` }}
+      >
+        {renderSet('a')}
+        {renderSet('b')}
+      </div>
+    </div>
+  );
+}
+
 export default function Footer() {
   const { t } = useLang();
   const [sponsors, setSponsors] = useState<any[]>([]);
@@ -41,7 +97,7 @@ export default function Footer() {
   useEffect(() => {
     async function fetchSponsors() {
       const { data } = await supabase.from('sponsors').select('*').order('created_at', { ascending: true });
-      if (data && data.length > 0) setSponsors(data);
+      if (data) setSponsors(data);
     }
     fetchSponsors();
   }, [sync]);
@@ -57,39 +113,7 @@ export default function Footer() {
             SPONSORLAR
           </h3>
         </div>
-        <div className="relative w-full flex whitespace-nowrap transition-all duration-500 overflow-hidden">
-          {/* We duplicate the content to make an infinite marquee loop */}
-          <div className="flex animate-[marquee_25s_linear_infinite] items-center space-x-16 px-8 min-w-max">
-            {sponsors.length > 0 ? (
-              <>
-                {[...Array(10)].map((_, i) => (
-                  <div key={`s1-group-${i}`} className="flex items-center space-x-16 shrink-0">
-                    {sponsors.map(s => (
-                      <div key={`s1-${i}-${s.id}`} className="text-text-main text-lg font-black uppercase tracking-widest flex items-center shrink-0">
-                        {s.logo_url ? <img src={s.logo_url} alt={s.name} className="h-10 md:h-14 object-contain grayscale hover:grayscale-0 transition-all duration-300" /> : <span className="text-text-main/70 hover:text-text-main transition-colors">{s.name}</span>}
-                      </div>
-                    ))}
-                  </div>
-                ))}
-              </>
-            ) : (
-              <>
-                <div className="text-text-main text-lg font-black uppercase tracking-widest shrink-0">SOCAR</div>
-                <div className="text-text-main text-base font-bold uppercase tracking-widest shrink-0">PALMS SPORTS</div>
-                <div className="text-text-main text-base font-bold uppercase tracking-widest shrink-0">KAPPA</div>
-                <div className="text-text-main text-base font-bold uppercase tracking-widest shrink-0">ADQ</div>
-                <div className="text-text-main text-base font-bold uppercase tracking-widest shrink-0">SEA BREEZE</div>
-                
-                {/* Duplicates for seamless loop */}
-                <div className="text-text-main text-lg font-black uppercase tracking-widest shrink-0">SOCAR</div>
-                <div className="text-text-main text-base font-bold uppercase tracking-widest shrink-0">PALMS SPORTS</div>
-                <div className="text-text-main text-base font-bold uppercase tracking-widest shrink-0">KAPPA</div>
-                <div className="text-text-main text-base font-bold uppercase tracking-widest shrink-0">ADQ</div>
-                <div className="text-text-main text-base font-bold uppercase tracking-widest shrink-0">SEA BREEZE</div>
-              </>
-            )}
-          </div>
-        </div>
+        <SponsorMarquee sponsors={sponsors} />
       </div>
 
       <div className="container">

@@ -1228,5 +1228,205 @@ export const dictionary: Record<string, { en: string; ru: string }> = {
   "Oyunlar üzrə statistika": {
     "en": "Match-by-match statistics",
     "ru": "Статистика по матчам"
+  },
+  "Hesabım": {
+    "en": "My account",
+    "ru": "Мой аккаунт"
+  },
+  "Daxil ol": {
+    "en": "Log in",
+    "ru": "Войти"
+  },
+  "Hesab yaradın: akademiya və klub xəbərləri üçün şəxsi kabinetinizə daxil olun.": {
+    "en": "Create an account to get your personal cabinet for the academy and club news.",
+    "ru": "Создайте аккаунт и получите личный кабинет для академии и новостей клуба."
+  },
+  "Qeydiyyat tamamlandı. Emailinizə göndərilən təsdiq linkinə klikləyin, sonra daxil olun.": {
+    "en": "Registration complete. Click the confirmation link sent to your email, then log in.",
+    "ru": "Регистрация завершена. Перейдите по ссылке подтверждения из письма и затем войдите."
+  },
+  "Ad": {
+    "en": "First name",
+    "ru": "Имя"
+  },
+  "Soyad": {
+    "en": "Last name",
+    "ru": "Фамилия"
+  },
+  "Cins": {
+    "en": "Gender",
+    "ru": "Пол"
+  },
+  "Kişi": {
+    "en": "Male",
+    "ru": "Мужской"
+  },
+  "Qadın": {
+    "en": "Female",
+    "ru": "Женский"
+  },
+  "Telefon nömrəsi": {
+    "en": "Phone number",
+    "ru": "Номер телефона"
+  },
+  "Email": {
+    "en": "Email",
+    "ru": "Эл. почта"
+  },
+  "Parol": {
+    "en": "Password",
+    "ru": "Пароль"
+  },
+  "Parolu təkrarlayın": {
+    "en": "Repeat password",
+    "ru": "Повторите пароль"
+  },
+  "Ən azı 6 simvol": {
+    "en": "At least 6 characters",
+    "ru": "Не менее 6 символов"
+  },
+  "Gözləyin...": {
+    "en": "Please wait...",
+    "ru": "Подождите..."
+  },
+  "Qeydiyyatdan keç": {
+    "en": "Sign up",
+    "ru": "Зарегистрироваться"
+  },
+  "Artıq hesabınız var?": {
+    "en": "Already have an account?",
+    "ru": "Уже есть аккаунт?"
+  },
+  "Daxil olun": {
+    "en": "Log in",
+    "ru": "Войдите"
+  },
+  "Hesabınız yoxdur?": {
+    "en": "Don't have an account?",
+    "ru": "Нет аккаунта?"
+  },
+  "Qeydiyyatdan keçin": {
+    "en": "Sign up",
+    "ru": "Зарегистрируйтесь"
+  },
+  "Parolu unutdum": {
+    "en": "Forgot password",
+    "ru": "Забыли пароль"
+  },
+  "Şəxsi kabinetinizə daxil olun.": {
+    "en": "Log in to your personal cabinet.",
+    "ru": "Войдите в личный кабинет."
+  },
+  "Çıxış": {
+    "en": "Log out",
+    "ru": "Выйти"
+  },
+  "Şəxsi məlumatlar": {
+    "en": "Personal details",
+    "ru": "Личные данные"
+  },
+  "yaş": {
+    "en": "years old",
+    "ru": "лет"
+  },
+  "Yadda saxla": {
+    "en": "Save",
+    "ru": "Сохранить"
+  },
+  "Parolu dəyiş": {
+    "en": "Change password",
+    "ru": "Сменить пароль"
+  },
+  "Yeni parol": {
+    "en": "New password",
+    "ru": "Новый пароль"
+  },
+  "Adınızı yazın.": {
+    "en": "Enter your first name.",
+    "ru": "Введите имя."
+  },
+  "Soyadınızı yazın.": {
+    "en": "Enter your last name.",
+    "ru": "Введите фамилию."
+  },
+  "Cinsi seçin.": {
+    "en": "Select your gender.",
+    "ru": "Выберите пол."
+  },
+  "Doğum tarixini seçin.": {
+    "en": "Select your date of birth.",
+    "ru": "Выберите дату рождения."
+  },
+  "Doğum tarixi düzgün deyil.": {
+    "en": "The date of birth is not valid.",
+    "ru": "Дата рождения указана неверно."
+  },
+  "Telefon nömrəsini düzgün yazın.": {
+    "en": "Enter a valid phone number.",
+    "ru": "Введите корректный номер телефона."
+  },
+  "Email düzgün deyil.": {
+    "en": "The email is not valid.",
+    "ru": "Неверный адрес эл. почты."
+  },
+  "Parol ən azı 6 simvol olmalıdır.": {
+    "en": "The password must be at least 6 characters.",
+    "ru": "Пароль должен содержать не менее 6 символов."
+  },
+  "Parollar eyni deyil.": {
+    "en": "The passwords do not match.",
+    "ru": "Пароли не совпадают."
+  },
+  "Məxfilik siyasəti ilə razılaşmalısınız.": {
+    "en": "You must accept the privacy policy.",
+    "ru": "Необходимо принять политику конфиденциальности."
+  },
+  "Bu email artıq qeydiyyatdan keçib. Daxil olun.": {
+    "en": "This email is already registered. Please log in.",
+    "ru": "Этот адрес уже зарегистрирован. Войдите."
+  },
+  "Email və ya parol yanlışdır.": {
+    "en": "Incorrect email or password.",
+    "ru": "Неверная почта или пароль."
+  },
+  "Çox sayda cəhd. Bir az sonra yenidən cəhd edin.": {
+    "en": "Too many attempts. Try again later.",
+    "ru": "Слишком много попыток. Повторите позже."
+  },
+  "Email təsdiqlənməyib.": {
+    "en": "Email is not confirmed.",
+    "ru": "Почта не подтверждена."
+  },
+  "Şəbəkə xətası. İnternetinizi yoxlayın.": {
+    "en": "Network error. Check your connection.",
+    "ru": "Ошибка сети. Проверьте соединение."
+  },
+  "Xəta baş verdi. Yenidən cəhd edin.": {
+    "en": "Something went wrong. Please try again.",
+    "ru": "Произошла ошибка. Повторите попытку."
+  },
+  "Email və parolu yazın.": {
+    "en": "Enter your email and password.",
+    "ru": "Введите почту и пароль."
+  },
+  "Əvvəlcə email ünvanınızı yazın.": {
+    "en": "Enter your email address first.",
+    "ru": "Сначала введите адрес эл. почты."
+  },
+  "Parolu yeniləmək üçün link emailinizə göndərildi.": {
+    "en": "A password reset link was sent to your email.",
+    "ru": "Ссылка для сброса пароля отправлена на вашу почту."
+  },
+  "Məlumatlar yadda saxlanıldı.": {
+    "en": "Details saved.",
+    "ru": "Данные сохранены."
+  },
+  "Parol dəyişdirildi.": {
+    "en": "Password changed.",
+    "ru": "Пароль изменён."
+  },
+  "Şəxsi məlumatlarımın emalına razıyam.": {
+    "en": "I agree to the processing of my personal data.",
+    "ru": "Я согласен(на) на обработку моих персональных данных."
   }
 };

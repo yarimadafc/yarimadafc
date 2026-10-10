@@ -20,6 +20,7 @@ import SponsorsAdmin from './components/SponsorsAdmin';
 import ShopAdmin from './components/ShopAdmin';
 import LeadershipAdmin from './components/LeadershipAdmin';
 import CoachCoursesAdmin from './components/CoachCoursesAdmin';
+import MembersAdmin from './components/MembersAdmin';
 
 export default function AdminDashboard() {
   const router = useRouter();
@@ -118,7 +119,8 @@ export default function AdminDashboard() {
               <Users className="w-4 h-4" />
               <span>İdarə Heyəti</span>
             </button>
-            <button onClick={() => setActiveTab('courses')} className={`w-full flex items-center space-x-3 px-4 py-3 rounded-lg font-bold text-xs uppercase tracking-widest transition-colors ${activeTab === 'courses' ? 'bg-accent text-on-accent' : 'text-gray-400 hover:text-white hover:bg-gray-900'}`}>
+            <button onClick={() => setActiveTab('members')} className={`flex-shrink-0 px-4 py-2 rounded-lg font-bold text-[10px] uppercase tracking-widest transition-colors ${activeTab === 'members' ? 'bg-accent text-on-accent' : 'bg-gray-800 text-gray-400'}`}>Üzvlər</button>
+          <button onClick={() => setActiveTab('courses')} className={`w-full flex items-center space-x-3 px-4 py-3 rounded-lg font-bold text-xs uppercase tracking-widest transition-colors ${activeTab === 'courses' ? 'bg-accent text-on-accent' : 'text-gray-400 hover:text-white hover:bg-gray-900'}`}>
               <PlayCircle className="w-4 h-4" />
               <span>Məşqçi Kursu</span>
             </button>
@@ -166,6 +168,10 @@ export default function AdminDashboard() {
             <button onClick={() => setActiveTab('matches')} className={`w-full flex items-center space-x-3 px-4 py-3 rounded-lg font-bold text-xs uppercase tracking-widest transition-colors ${activeTab === 'matches' ? 'bg-accent text-on-accent' : 'text-gray-400 hover:text-white hover:bg-gray-900'}`}>
               <CheckCircle className="w-4 h-4" />
               <span>Oyunlar</span>
+            </button>
+            <button onClick={() => setActiveTab('members')} className={`w-full flex items-center space-x-3 px-4 py-3 rounded-lg font-bold text-xs uppercase tracking-widest transition-colors ${activeTab === 'members' ? 'bg-accent text-on-accent' : 'text-gray-400 hover:text-white hover:bg-gray-900'}`}>
+              <Users className="w-4 h-4" />
+              <span>Üzvlər</span>
             </button>
           </nav>
         </div>
@@ -297,6 +303,7 @@ export default function AdminDashboard() {
           {activeTab === 'standings' && <StandingsAdmin />}
           {activeTab === 'matches' && <MatchesAdmin />}
         {activeTab === 'shop' && <ShopAdmin />}
+        {activeTab === 'members' && <MembersAdmin />}
 
       </main>
     </div>

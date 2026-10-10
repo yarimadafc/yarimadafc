@@ -4,11 +4,12 @@ import { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { usePathname, useRouter } from 'next/navigation';
-import { Menu, X, Search, ChevronDown, Sun, Moon, Phone } from 'lucide-react';
+import { Menu, X, Search, ChevronDown, Sun, Moon, Phone, User } from 'lucide-react';
 import NextMatchStrip from '@/components/NextMatchStrip';
 import LanguageSwitcher from '@/components/LanguageSwitcher';
 import { SocialLinks } from '@/components/SocialIcons';
 import { useLang } from '@/lib/i18n';
+import { useMember } from '@/lib/member';
 
 type Link_ = { name: string; href: string };
 type Item = Link_ & { children?: Link_[] };
@@ -62,6 +63,9 @@ export default function Navbar() {
   const pathname = usePathname();
   const router = useRouter();
   const { t, locale } = useLang();
+  const { user } = useMember();
+  const joinHref = user ? '/account' : '/join';
+  const joinLabel = user ? 'Hesabım' : 'Bizə qoşul';
   const headerRef = useRef<HTMLElement>(null);
   const [headerH, setHeaderH] = useState(120);
   const [isOpen, setIsOpen] = useState(false);
@@ -194,8 +198,13 @@ export default function Navbar() {
                   <button onClick={toggleTheme} className="text-text-sec hover:text-text-main hover:rotate-45 transition-all duration-300 p-1.5" aria-label={t('Rejimi dəyiş')}>
                     <ThemeIcon className="w-[18px] h-[18px]" />
                   </button>
-                  <Link href="/contact" className="btn-fx led-border bg-accent text-on-accent font-bold text-xs px-5 py-2 rounded-full whitespace-nowrap">
-                    {t('Bizə qoşul')}
+                  {!user && (
+                    <Link href="/login" className="flex items-center gap-1.5 text-xs font-semibold text-text-sec hover:text-text-main transition-colors whitespace-nowrap">
+                      <User className="w-4 h-4" /> {t('Daxil ol')}
+                    </Link>
+                  )}
+                  <Link href={joinHref} className="btn-fx led-border bg-accent text-on-accent font-bold text-xs px-5 py-2 rounded-full whitespace-nowrap">
+                    {t(joinLabel)}
                   </Link>
                 </div>
               </div>
@@ -310,7 +319,8 @@ export default function Navbar() {
                 </div>
               ))}
             </nav>
-            <Link href="/contact" className="btn-fx led-border mt-6 block w-full text-center bg-accent text-on-accent font-bold py-4 rounded-xl">{t('Bizə qoşul')}</Link>
+            <Link href={joinHref} className="btn-fx led-border mt-6 block w-full text-center bg-accent text-on-accent font-bold py-4 rounded-xl">{t(joinLabel)}</Link>
+            {!user && <Link href="/login" className="mt-3 block w-full text-center border border-bg-border text-text-main font-semibold py-3.5 rounded-xl">{t('Daxil ol')}</Link>}
             <div className="flex flex-col items-center gap-5 mt-8 pb-10">
               <a href="tel:0554477467" className="flex items-center gap-2 text-text-sec font-bold tracking-wider"><Phone className="w-4 h-4" /> 055 447 74 67</a>
               <SocialLinks iconClass="w-6 h-6" gap="gap-7" />

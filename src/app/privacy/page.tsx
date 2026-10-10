@@ -21,6 +21,7 @@ export default function PrivacyPolicyPage() {
           </p>
           <ul className="list-disc pl-5 space-y-2">
             <li><strong>Şəxsi Məlumatlar:</strong> Akademiyaya və ya tədbirlərə qeydiyyatdan keçərkən təqdim etdiyiniz ad, soyad, əlaqə nömrəsi və e-poçt ünvanı.</li>
+            <li><strong>Hesab Məlumatları:</strong> Saytda hesab yaradarkən daxil etdiyiniz ad, soyad, cins, doğum tarixi, telefon nömrəsi və e-poçt ünvanı. Parolunuz şifrələnmiş şəkildə saxlanılır və klub əməkdaşlarına görünmür. Hesabınızı istənilən vaxt silməyi bizdən tələb edə bilərsiniz.</li>
             <li><strong>Texniki Məlumatlar:</strong> İP ünvanınız, brauzer növü, cihaz məlumatları və saytda keçirdiyiniz vaxt (analitik məqsədlər üçün).</li>
           </ul>
 

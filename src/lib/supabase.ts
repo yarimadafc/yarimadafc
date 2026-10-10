@@ -42,7 +42,11 @@ function createSafeClient(): SupabaseClient {
         getUser: async () => ({ data: { user: null }, error: null }),
         getSession: async () => ({ data: { session: null }, error: null }),
         signInWithPassword: async () => ({ data: {}, error: null }),
-        signOut: async () => ({ error: null })
+        signOut: async () => ({ error: null }),
+        signUp: async () => ({ data: { user: null, session: null }, error: null }),
+        updateUser: async () => ({ data: { user: null }, error: null }),
+        resetPasswordForEmail: async () => ({ data: {}, error: null }),
+        onAuthStateChange: () => ({ data: { subscription: { unsubscribe: () => {} } } })
       },
       storage: {
         from: () => ({

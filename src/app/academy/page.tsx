@@ -23,7 +23,11 @@ export default function AcademyPage() {
     <div className="pt-header min-h-screen bg-bg-deep pb-20">
       
       {/* Header */}
-      <PageHero title="Yarımada akademiyası" subtitle="Akademiyamızın bütün komandaları haqqında məlumatlar, məşqçi heyəti və oyunçularla tanış olun." />
+      <PageHero title="Yarımada akademiyası" subtitle="Akademiyamızın bütün komandaları haqqında məlumatlar, məşqçi heyəti və oyunçularla tanış olun.">
+        <Link href="/register" className="btn-fx led-border mt-6 inline-flex items-center gap-2 bg-accent text-on-accent font-bold px-7 py-3.5 rounded-xl">
+          Akademiyaya müraciət et →
+        </Link>
+      </PageHero>
 
       {/* Teams Grid */}
       <div className="container mt-16 md:mt-24">

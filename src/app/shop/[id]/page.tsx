@@ -6,6 +6,7 @@ import Link from 'next/link';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import { useSyncVersion } from '@/lib/siteSync';
+import { trackEvent } from '@/lib/track';
 
 export default function ProductDetail({ params }: { params: Promise<{ id: string }> }) {
   const resolvedParams = use(params);
@@ -158,6 +159,7 @@ export default function ProductDetail({ params }: { params: Promise<{ id: string
 
               <a 
                 href={`https://wa.me/${product.whatsapp_number}?text=Salam, mən mağazadan bu məhsulu sifariş vermək istəyirəm: ${encodeURIComponent(product.title)}`}
+                onClick={() => trackEvent('order', { label: product.title })}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="btn-fx w-full bg-[#25D366] hover:bg-[#1ebd5c] text-text-main py-4 rounded-xl font-black text-sm uppercase tracking-widest flex items-center justify-center transition-all shadow-lg hover:shadow-[#25D366]/20"

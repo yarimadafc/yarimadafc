@@ -1,6 +1,7 @@
 'use client';
 import PageHero from '@/components/PageHero';
 import WhatsAppForm from '@/components/WhatsAppForm';
+import { ACADEMY_WHATSAPP } from '@/lib/contact';
 
 export default function RegisterPage() {
   return (
@@ -11,6 +12,7 @@ export default function RegisterPage() {
           <WhatsAppForm
             intro="Salam, akademiyaya qeydiyyat müraciəti:"
             submitLabel="Müraciəti göndər"
+            phone={ACADEMY_WHATSAPP}
             fields={[
               { name: 'child', label: 'Uşağın adı, soyadı', required: true },
               { name: 'birth', label: 'Doğum tarixi', type: 'date', required: true },

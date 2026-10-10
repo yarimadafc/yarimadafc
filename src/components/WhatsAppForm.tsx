@@ -2,6 +2,7 @@
 import { useState } from 'react';
 import { Send } from 'lucide-react';
 import { useLang } from '@/lib/i18n';
+import { CLUB_WHATSAPP } from '@/lib/contact';
 
 export interface Field {
   name: string;
@@ -23,7 +24,7 @@ interface Props {
 const inputCls = 'w-full bg-bg-main text-text-main border border-bg-border rounded-xl px-4 py-3 text-base focus:outline-none focus:border-accent focus:shadow-[0_0_0_3px_color-mix(in_srgb,var(--accent)_18%,transparent)] transition-all placeholder:text-text-sec/70';
 
 // Static-site friendly form: composes the message and opens WhatsApp chat with the club.
-export default function WhatsAppForm({ fields, intro, submitLabel, phone = '994554477467' }: Props) {
+export default function WhatsAppForm({ fields, intro, submitLabel, phone = CLUB_WHATSAPP }: Props) {
   const { t } = useLang();
   const [values, setValues] = useState<Record<string, string>>({});
 

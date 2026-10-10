@@ -38,16 +38,29 @@ export default function JoinPage() {
     if (problem) return setError(problem);
 
     setBusy(true);
-    const { data, error: err } = await supabase.auth.signUp({
-      email: v.email.trim().toLowerCase(),
-      password: v.password,
-      options: {
-        data: {
-          first_name: v.first_name.trim(), last_name: v.last_name.trim(), gender: v.gender,
-          birth_date: v.birth_date, phone: normalizePhone(v.phone),
-        },
-      },
-    });
+    const email = v.email.trim().toLowerCase();
+    const profile = { first_name: v.first_name.trim(), last_name: v.last_name.trim(), gender: v.gender, birth_date: v.birth_date, phone: normalizePhone(v.phone) };
+
+    // 1) server sign-up: account is created already confirmed (no confirmation email needed)
+    const res = await fetch('/api/members/signup', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ ...profile, email, password: v.password, website: v.website }),
+    }).catch(() => null);
+    const json = res ? await res.json().catch(() => ({})) : {};
+    if (res?.ok) {
+      const { error: loginErr } = await supabase.auth.signInWithPassword({ email, password: v.password });
+      setBusy(false);
+      if (loginErr) return setError(authErrorText(loginErr.message));
+      return router.push('/account');
+    }
+    if (res && res.status !== 503) {
+      setBusy(false);
+      return setError(json.error || 'Xəta baş verdi. Yenidən cəhd edin.');
+    }
+
+    // 2) fallback (server key missing): normal Supabase sign-up
+    const { data, error: err } = await supabase.auth.signUp({ email, password: v.password, options: { data: profile } });
     setBusy(false);
     if (err) return setError(authErrorText(err.message));
     if (data.user && data.user.identities?.length === 0) return setError('Bu email artıq qeydiyyatdan keçib. Daxil olun.');

@@ -2,7 +2,7 @@
 import { useEffect, useMemo, useState } from 'react';
 import { Download, Trash2, Search, RefreshCw } from 'lucide-react';
 import { toast } from '@/lib/adminDb';
-import { ageFromBirth } from '@/lib/member';
+import { ageFromBirth } from '@/lib/memberValidation';
 
 interface Member {
   user_id: string; email: string; first_name: string | null; last_name: string | null;

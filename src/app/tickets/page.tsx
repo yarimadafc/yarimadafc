@@ -8,7 +8,7 @@ import { useFormat } from '@/lib/useFormat';
 import { AnyMatch, matchStart, normalizeMatch } from '@/lib/matchUtils';
 import { useSyncVersion } from '@/lib/siteSync';
 
-const WHATSAPP = '994554477467';
+import { CLUB_WHATSAPP as WHATSAPP } from '@/lib/contact';
 
 export default function TicketsPage() {
   const { longDate } = useFormat();

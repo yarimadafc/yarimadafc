@@ -5,6 +5,15 @@ import { supabase } from '@/lib/supabase';
 import PageHero from '@/components/PageHero';
 import { useSyncVersion } from '@/lib/siteSync';
 
+// incoming = green, outgoing = red, loan = amber (the badge used to be plain white in dark mode)
+const typeColor = (type?: string | null) => {
+  const v = (type || '').toLocaleLowerCase('az');
+  if (v.includes('gələn')) return 'bg-emerald-600';
+  if (v.includes('gedən')) return 'bg-red-600';
+  if (v.includes('icarə')) return 'bg-amber-500';
+  return 'bg-blue-600';
+};
+
 export default function TransfersPage() {
   const [transfers, setTransfers] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
@@ -38,7 +47,7 @@ export default function TransfersPage() {
                 transition={{ duration: 0.5, delay: i * 0.1 }}
                 className="led-border led-hover card-fx bg-bg-sec rounded-xl border border-bg-border overflow-hidden shadow-lg p-6 flex flex-col items-center relative h-full"
               >
-                <div className="absolute top-4 left-4 text-[10px] font-bold text-bg-main bg-accent px-2 py-1 rounded uppercase tracking-widest">
+                <div className={`absolute top-4 left-4 text-[10px] font-bold text-white px-2.5 py-1 rounded-full uppercase tracking-widest shadow ${typeColor(t.transfer_type)}`}>
                   {t.transfer_type}
                 </div>
                 

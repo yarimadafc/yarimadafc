@@ -46,7 +46,7 @@ function SponsorMarquee({ sponsors }: { sponsors: any[] }) {
     ? sponsors.map(s => ({
         key: s.id,
         node: s.logo_url
-          ? <img src={s.logo_url} alt={s.name} className="h-10 md:h-14 w-auto max-w-[220px] object-contain grayscale hover:grayscale-0 transition-all duration-300" />
+          ? <img src={s.logo_url} alt={s.name} className="h-10 md:h-14 w-auto max-w-[220px] object-contain transition-transform duration-300 hover:scale-105" />
           : <span className="text-text-main/70 hover:text-text-main transition-colors text-lg font-black uppercase tracking-widest">{s.name}</span>,
       }))
     : FALLBACK_SPONSORS.map(n => ({ key: n, node: <span className="text-text-main text-base font-bold uppercase tracking-widest">{n}</span> }));

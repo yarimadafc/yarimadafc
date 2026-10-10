@@ -8,7 +8,7 @@ import LiveBadge from '@/components/LiveBadge';
 import { isLiveMatch, matchStart } from '@/lib/matchUtils';
 
 // "Next match" card with the rotating LED border (restored from the previous hero).
-export default function NextMatchCard({ className = '' }: { className?: string }) {
+export default function NextMatchCard({ className = '', compact = false }: { className?: string; compact?: boolean }) {
   const { match, loading } = useNextMatch();
   const { t } = useLang();
   const { longDate } = useFormat();
@@ -29,16 +29,16 @@ export default function NextMatchCard({ className = '' }: { className?: string }
   const started = !live && (matchStart(match)?.getTime() ?? Infinity) <= Date.now();
 
   return (
-    <Link href="/matches" className={`group led-border led-glow block rounded-2xl bg-bg-card/90 backdrop-blur-md p-5 sm:p-6 shadow-2xl ${className}`}>
-      <div className="flex justify-between items-center mb-6 gap-3">
+    <Link href="/matches" className={`group led-border led-glow block rounded-2xl bg-bg-card/90 backdrop-blur-md shadow-2xl ${compact ? 'p-4' : 'p-5 sm:p-6'} ${className}`}>
+      <div className={`flex justify-between items-center gap-3 ${compact ? 'mb-3' : 'mb-6'}`}>
         <span className="text-accent text-[10px] font-bold uppercase tracking-widest px-2 py-1 bg-accent/10 rounded border border-accent/20 whitespace-nowrap">{t('Növbəti oyun')}</span>
         <span className="text-text-sec text-[11px] font-medium truncate">{match.tournament}</span>
       </div>
 
-      <div className="relative flex items-center justify-between mb-7">
-        <div className="flex flex-col items-center gap-3 w-[36%]">
-          <div className="w-16 h-16 rounded-full border border-bg-border bg-bg-main flex items-center justify-center overflow-hidden float-y">
-            <TeamLogo name={match.home_team} logo={match.home_logo} size={52} />
+      <div className={`relative flex items-center justify-between ${compact ? 'mb-3' : 'mb-7'}`}>
+        <div className={`flex flex-col items-center w-[36%] ${compact ? 'gap-1.5' : 'gap-3'}`}>
+          <div className={`rounded-full border border-bg-border bg-bg-main flex items-center justify-center overflow-hidden float-y ${compact ? 'w-12 h-12' : 'w-16 h-16'}`}>
+            <TeamLogo name={match.home_team} logo={match.home_logo} size={compact ? 40 : 52} />
           </div>
           <span className="font-bold text-text-main text-xs text-center line-clamp-2">{match.home_team}</span>
         </div>
@@ -58,15 +58,15 @@ export default function NextMatchCard({ className = '' }: { className?: string }
           )}
         </div>
 
-        <div className="flex flex-col items-center gap-3 w-[36%]">
-          <div className="w-16 h-16 rounded-full border border-bg-border bg-bg-main flex items-center justify-center overflow-hidden float-y" style={{ animationDelay: '.6s' }}>
-            <TeamLogo name={match.away_team} logo={match.away_logo} size={52} />
+        <div className={`flex flex-col items-center w-[36%] ${compact ? 'gap-1.5' : 'gap-3'}`}>
+          <div className={`rounded-full border border-bg-border bg-bg-main flex items-center justify-center overflow-hidden float-y ${compact ? 'w-12 h-12' : 'w-16 h-16'}`} style={{ animationDelay: '.6s' }}>
+            <TeamLogo name={match.away_team} logo={match.away_logo} size={compact ? 40 : 52} />
           </div>
           <span className="font-bold text-text-main text-xs text-center line-clamp-2">{match.away_team}</span>
         </div>
       </div>
 
-      <div className="bg-bg-deep rounded-lg p-3 flex justify-between items-center gap-3 border border-bg-border">
+      <div className={`bg-bg-deep rounded-lg flex justify-between items-center gap-3 border border-bg-border ${compact ? 'px-3 py-2' : 'p-3'}`}>
         <div className="min-w-0">
           <div className="text-text-sec text-[10px] uppercase tracking-widest mb-0.5">{t('Tarix / Saat')}</div>
           <div className="text-text-main text-xs font-bold truncate">{match.date && match.time ? `${longDate(match.date)} • ${match.time}` : t('Məlumat yoxdur')}</div>

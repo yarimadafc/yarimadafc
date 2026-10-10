@@ -134,6 +134,16 @@ export default function Navbar() {
     document.documentElement.classList.toggle('dark', next === 'dark');
   };
 
+  // Logo: on the home page glide back to the top; elsewhere open home (it starts at the top)
+  const goHome = (e: React.MouseEvent) => {
+    setIsOpen(false);
+    if (pathname === '/') {
+      e.preventDefault();
+      const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      window.scrollTo({ top: 0, behavior: reduce ? 'auto' : 'smooth' });
+    }
+  };
+
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
     const q = searchQuery.trim();
@@ -180,7 +190,7 @@ export default function Navbar() {
         <div className="container">
           <div className="flex items-stretch">
             {/* Logo */}
-            <Link href="/" className="flex items-center gap-3 py-2 xl:py-3 xl:pr-8 shrink-0 group" aria-label="Yarımada FK">
+            <Link href="/" onClick={goHome} className="flex items-center gap-3 py-2 xl:py-3 xl:pr-8 shrink-0 group" aria-label="Yarımada FK">
               <span className="relative w-10 h-10 xl:w-14 xl:h-14 rounded-full overflow-hidden border-2 border-accent shrink-0 transition-transform duration-500 group-hover:rotate-[360deg] led-glow">
                 <Image src="/Logo.JPG.jpeg" alt="Yarımada FK" fill sizes="56px" className="object-cover" priority />
               </span>

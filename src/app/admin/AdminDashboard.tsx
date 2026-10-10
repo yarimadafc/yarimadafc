@@ -2,7 +2,7 @@
 import { uploadImage } from '@/lib/uploadImage';
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import { LogOut, Image as ImageIcon, CheckCircle, UploadCloud, FileText, Video, Image, Trophy, DollarSign, LayoutDashboard, Settings, Trash2, ShoppingCart, Users, PlayCircle } from 'lucide-react';
+import { LogOut, BarChart3, Image as ImageIcon, CheckCircle, UploadCloud, FileText, Video, Image, Trophy, DollarSign, LayoutDashboard, Settings, Trash2, ShoppingCart, Users, PlayCircle } from 'lucide-react';
 import { supabase } from '@/lib/supabase';
 import { adminDb } from '@/lib/adminDb';
 import NewsAdmin from './components/NewsAdmin';
@@ -21,10 +21,11 @@ import ShopAdmin from './components/ShopAdmin';
 import LeadershipAdmin from './components/LeadershipAdmin';
 import CoachCoursesAdmin from './components/CoachCoursesAdmin';
 import MembersAdmin from './components/MembersAdmin';
+import AnalyticsAdmin from './components/AnalyticsAdmin';
 
 export default function AdminDashboard() {
   const router = useRouter();
-  const [activeTab, setActiveTab] = useState('images');
+  const [activeTab, setActiveTab] = useState('analytics');
   const [loadingSection, setLoadingSection] = useState<string | null>(null);
   const [images, setImages] = useState<Record<string, string>>({});
   const [isFetching, setIsFetching] = useState(true);
@@ -103,6 +104,10 @@ export default function AdminDashboard() {
           </div>
 
           <nav className="p-4 space-y-2">
+            <button onClick={() => setActiveTab('analytics')} className={`w-full flex items-center space-x-3 px-4 py-3 rounded-lg font-bold text-xs uppercase tracking-widest transition-colors ${activeTab === 'analytics' ? 'bg-accent text-on-accent' : 'text-gray-400 hover:text-white hover:bg-gray-900'}`}>
+              <BarChart3 className="w-4 h-4" />
+              <span>Statistika</span>
+            </button>
             <button onClick={() => setActiveTab('images')} className={`w-full flex items-center space-x-3 px-4 py-3 rounded-lg font-bold text-xs uppercase tracking-widest transition-colors ${activeTab === 'images' ? 'bg-accent text-on-accent' : 'text-gray-400 hover:text-white hover:bg-gray-900'}`}>
               <ImageIcon className="w-4 h-4" />
               <span>Sayt Şəkilləri</span>
@@ -201,6 +206,7 @@ export default function AdminDashboard() {
 
         {/* Mobile Tabs */}
         <div className="md:hidden flex overflow-x-auto space-x-2 pb-4 mb-6 scrollbar-hide">
+          <button onClick={() => setActiveTab('analytics')} className={`flex-shrink-0 px-4 py-2 rounded-lg font-bold text-[10px] uppercase tracking-widest transition-colors ${activeTab === 'analytics' ? 'bg-accent text-on-accent' : 'bg-gray-800 text-gray-400'}`}>Statistika</button>
           <button onClick={() => setActiveTab('images')} className={`flex-shrink-0 px-4 py-2 rounded-lg font-bold text-[10px] uppercase tracking-widest transition-colors ${activeTab === 'images' ? 'bg-accent text-on-accent' : 'bg-gray-800 text-gray-400'}`}>Şəkillər</button>
           <button onClick={() => setActiveTab('texts')} className={`flex-shrink-0 px-4 py-2 rounded-lg font-bold text-[10px] uppercase tracking-widest transition-colors ${activeTab === 'texts' ? 'bg-accent text-on-accent' : 'bg-gray-800 text-gray-400'}`}>Sayt Yazıları</button>
           <button onClick={() => setActiveTab('club')} className={`flex-shrink-0 px-4 py-2 rounded-lg font-bold text-[10px] uppercase tracking-widest transition-colors ${activeTab === 'club' ? 'bg-accent text-on-accent' : 'bg-gray-800 text-gray-400'}`}>Klub</button>
@@ -304,6 +310,7 @@ export default function AdminDashboard() {
           {activeTab === 'matches' && <MatchesAdmin />}
         {activeTab === 'shop' && <ShopAdmin />}
         {activeTab === 'members' && <MembersAdmin />}
+        {activeTab === 'analytics' && <AnalyticsAdmin />}
 
       </main>
     </div>

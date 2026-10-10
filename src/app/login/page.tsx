@@ -24,7 +24,15 @@ function LoginForm() {
     setError(''); setInfo('');
     if (!validEmail(email) || !password) return setError('Email və parolu yazın.');
     setBusy(true);
-    const { error: err } = await supabase.auth.signInWithPassword({ email: email.trim().toLowerCase(), password });
+    const addr = email.trim().toLowerCase();
+    let { error: err } = await supabase.auth.signInWithPassword({ email: addr, password });
+    // account from the time email confirmation was on: confirm it and try once more
+    if (err && /not confirmed/i.test(err.message)) {
+      const res = await fetch('/api/members/confirm', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ email: addr }) }).catch(() => null);
+      if (res?.ok && (await res.json().catch(() => ({}))).ok) {
+        ({ error: err } = await supabase.auth.signInWithPassword({ email: addr, password }));
+      }
+    }
     setBusy(false);
     if (err) return setError(authErrorText(err.message));
     router.push('/account');

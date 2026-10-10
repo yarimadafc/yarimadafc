@@ -6,6 +6,7 @@ import PageHero from '@/components/PageHero';
 import Link from 'next/link';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { useSyncVersion } from '@/lib/siteSync';
+import { trackEvent } from '@/lib/track';
 
 export default function ShopPage() {
   const [products, setProducts] = useState<any[]>([]);
@@ -117,6 +118,7 @@ export default function ShopPage() {
                         <span className="text-2xl font-black text-accent">{p.price} ₼</span>
                         <a 
                           href={`https://wa.me/${p.whatsapp_number}?text=Salam, mən mağazadan bu məhsulu sifariş vermək istəyirəm: ${encodeURIComponent(p.title)}`}
+                          onClick={() => trackEvent('order', { label: p.title })}
                           target="_blank"
                           rel="noopener noreferrer"
                           className="btn-fx bg-[#25D366] text-text-main py-2 px-4 rounded-xl hover:bg-[#128C7E] transition-colors shadow-lg shadow-[#25D366]/20 flex items-center space-x-2 font-bold text-xs uppercase tracking-widest"

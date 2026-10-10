@@ -44,3 +44,30 @@ export function useNextMatch() {
 
   return { match, loading };
 }
+
+/** Most recent finished match (for the "last result" card). */
+export function useLastResult() {
+  const [match, setMatch] = useState<AnyMatch | null>(null);
+  const [loading, setLoading] = useState(true);
+  const sync = useSyncVersion();
+
+  useEffect(() => {
+    let cancelled = false;
+    (async () => {
+      const { data } = await supabase
+        .from('matches')
+        .select('*')
+        .eq('status', 'finished')
+        .order('match_date', { ascending: false })
+        .limit(10);
+      if (cancelled) return;
+      const rows = (data || []).map(normalizeMatch);
+      rows.sort((a, b) => (matchStart(b)?.getTime() ?? 0) - (matchStart(a)?.getTime() ?? 0));
+      setMatch(rows[0] || null);
+      setLoading(false);
+    })();
+    return () => { cancelled = true; };
+  }, [sync]);
+
+  return { match, loading };
+}

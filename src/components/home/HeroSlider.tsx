@@ -6,6 +6,7 @@ import { ArrowLeft, ArrowRight } from 'lucide-react';
 import { supabase } from '@/lib/supabase';
 import { useLang } from '@/lib/i18n';
 import NextMatchCard from '@/components/NextMatchCard';
+import LastResultCard from '@/components/LastResultCard';
 import { useSyncVersion } from '@/lib/siteSync';
 
 type Slide = { id: string; image: string; title: string; subtitle?: string; href?: string; intro?: boolean; raw?: Record<string, any> };
@@ -146,14 +147,15 @@ export default function HeroSlider() {
                                   </h1>
                                   <p className="mt-4 text-sm sm:text-base lg:text-lg text-text-sec max-w-xl mx-auto lg:mx-0 font-medium animate-[rise_.8s_.2s_ease-out_both]">{t(intro.subtitle)}</p>
                                   <div className="mt-6 lg:mt-8 flex flex-col sm:flex-row gap-3 justify-center lg:justify-start animate-[rise_.8s_.4s_ease-out_both]">
-                                    <Link href="/academy" className="btn-fx led-border bg-accent text-on-accent px-8 py-3.5 rounded-xl font-black uppercase tracking-widest text-xs sm:text-sm text-center">{t('Akademiyaya qoşul')}</Link>
+                                    <Link href="/register" className="btn-fx led-border bg-accent text-on-accent px-8 py-3.5 rounded-xl font-black uppercase tracking-widest text-xs sm:text-sm text-center">{t('Akademiyaya qoşul')}</Link>
                                     <Link href="/matches" className="btn-fx border border-bg-border bg-bg-deep/70 backdrop-blur text-text-main px-8 py-3.5 rounded-xl font-bold uppercase tracking-widest text-xs sm:text-sm text-center hover:border-accent">{t('Oyunlar cədvəli')}</Link>
                                   </div>
                                 </>
                               )}
                             </div>
-                            <div className="hidden lg:block w-full max-w-sm shrink-0">
-                              {on && <NextMatchCard className="animate-[rise_.9s_.3s_ease-out_both]" />}
+                            <div className="hidden lg:flex flex-col gap-3 w-full max-w-sm shrink-0">
+                              {on && <NextMatchCard compact className="animate-[rise_.9s_.3s_ease-out_both]" />}
+                              {on && <LastResultCard className="animate-[rise_.9s_.45s_ease-out_both]" />}
                             </div>
                           </div>
                         </>
@@ -197,6 +199,14 @@ export default function HeroSlider() {
             </>
           )}
         </div>
+
+        {/* phones / tablets: next match + last result under the slider (the slide itself is too small for them) */}
+        {!loading && (
+          <div className="lg:hidden grid grid-cols-1 sm:grid-cols-2 gap-3 mt-4">
+            <NextMatchCard />
+            <LastResultCard />
+          </div>
+        )}
 
         {count > 1 && (
           <div className="lg:hidden flex justify-center gap-2 mt-4" role="tablist">

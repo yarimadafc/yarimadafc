@@ -8,6 +8,7 @@ import Image from 'next/image';
 import { Send, Music2, MessageCircle } from 'lucide-react';
 import { useLang } from '@/lib/i18n';
 import { useSyncVersion } from '@/lib/siteSync';
+import { CONTACT_DEFAULTS, telHref, useSiteTexts } from '@/lib/siteTexts';
 
 const YoutubeIcon = () => (
   <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M22.54 6.42a2.78 2.78 0 0 0-1.94-2C18.88 4 12 4 12 4s-6.88 0-8.6.46a2.78 2.78 0 0 0-1.94 2A29 29 0 0 0 1 11.75a29 29 0 0 0 .46 5.33 2.78 2.78 0 0 0 1.94 2c1.72.46 8.6.46 8.6.46s6.88 0 8.6-.46a2.78 2.78 0 0 0 1.94-2 29 29 0 0 0 .46-5.33 29 29 0 0 0-.46-5.33z"></path><polygon points="9.75 15.02 15.5 11.75 9.75 8.48 9.75 15.02"></polygon></svg>
@@ -92,6 +93,7 @@ function SponsorMarquee({ sponsors }: { sponsors: any[] }) {
 export default function Footer() {
   const { t } = useLang();
   const [sponsors, setSponsors] = useState<any[]>([]);
+  const contact = useSiteTexts(CONTACT_DEFAULTS);
 
   const sync = useSyncVersion();
   useEffect(() => {
@@ -159,15 +161,14 @@ export default function Footer() {
           <div className="col-span-2 lg:col-span-2 grid grid-cols-1 sm:grid-cols-2 gap-8">
             <div className="flex flex-col space-y-3">
               <span className="text-accent font-bold text-xs md:text-sm tracking-widest uppercase">Əlaqə</span>
-              <a href="tel:+994504671321" className="text-text-main font-medium text-sm hover:text-accent hover:translate-x-1 transition-all flex items-center space-x-2">
-                <span>055 447 74 67</span> <span className="text-text-sec text-xs">(WhatsApp)</span>
+              <a href={telHref(contact.contact_phone)} className="text-text-main font-medium text-sm hover:text-accent hover:translate-x-1 transition-all flex items-center space-x-2">
+                <span>{contact.contact_phone}</span> <span className="text-text-sec text-xs">(WhatsApp)</span>
               </a>
-              <a href="mailto:info@yarimadafc.com" className="text-text-main font-medium text-sm hover:text-accent transition-colors">
-                info@yarimadafc.com
+              <a href={`mailto:${contact.contact_email}`} className="text-text-main font-medium text-sm hover:text-accent transition-colors">
+                {contact.contact_email}
               </a>
-              <p className="text-text-sec font-medium text-xs leading-relaxed mt-2">
-                Kristal Abşeron 1,<br />
-                Xırdalan şəhəri
+              <p className="text-text-sec font-medium text-xs leading-relaxed mt-2 whitespace-pre-line">
+                {contact.contact_address}
               </p>
             </div>
             <div className="flex flex-col space-y-3">

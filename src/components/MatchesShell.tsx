@@ -15,7 +15,7 @@ export default function MatchesShell({ active, children }: { active: 'fixtures' 
     <div className="pt-header pb-20 min-h-screen">
       <div className="container">
         <span className="block w-14 h-[3px] led-bar rounded-full mb-4" aria-hidden />
-        <h1 className="text-3xl md:text-5xl font-extrabold tracking-tight text-text-main mb-8 md:mb-10">{t('Matçlar')}</h1>
+        <h1 className="text-3xl md:text-4xl font-extrabold tracking-tight text-text-main mb-8 md:mb-10">{t('Matçlar')}</h1>
 
         <div className="flex flex-col lg:flex-row gap-6 lg:gap-10">
           <nav aria-label="Matches" className="lg:w-72 xl:w-80 shrink-0">

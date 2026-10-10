@@ -46,7 +46,7 @@ export default function Page() {
             <p className="text-text-sec font-bold text-xl uppercase tracking-widest">Hələ video əlavə edilməyib</p>
           </div>
         ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
             {videos.map((video, i) => (
               <motion.div
                 key={video.id}
@@ -69,16 +69,16 @@ export default function Page() {
                       <img src={video.thumbnail_url} alt={video.title} className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
                       <div className="absolute inset-0 bg-black/20 group-hover:bg-black/40 transition-colors"></div>
                       <div className="absolute inset-0 flex items-center justify-center">
-                        <div className="w-12 h-12 bg-accent rounded-full flex items-center justify-center shadow-lg group-hover:bg-text-main hover:text-bg-main group-hover:scale-110 transition-all duration-300">
-                          <Play className="w-5 h-5 text-on-accent fill-current ml-1" />
+                        <div className="w-10 h-10 bg-accent rounded-full flex items-center justify-center shadow-lg group-hover:bg-text-main hover:text-bg-main group-hover:scale-110 transition-all duration-300">
+                          <Play className="w-4 h-4 text-on-accent fill-current ml-0.5" />
                         </div>
                       </div>
                     </div>
                   )}
                 </div>
                 
-                <div className="p-5 flex flex-col justify-between flex-grow">
-                  <h3 className="text-text-main font-bold text-lg mb-3 line-clamp-2 leading-tight cursor-pointer hover:text-accent transition-colors" onClick={() => { if(playingId !== video.id) setPlayingId(video.id); }}>
+                <div className="p-4 flex flex-col justify-between flex-grow">
+                  <h3 className="text-text-main font-bold text-sm md:text-base mb-3 line-clamp-2 leading-tight cursor-pointer hover:text-accent transition-colors" onClick={() => { if(playingId !== video.id) setPlayingId(video.id); }}>
                     {video.title}
                   </h3>
                   <span className="text-accent font-bold text-xs uppercase tracking-widest border-t border-bg-border pt-4 mt-auto">

@@ -37,13 +37,13 @@ export default function VideoSection() {
   const smallVideos = videos.slice(1, 4);
 
   return (
-    <section className="bg-bg-main py-20 border-b border-bg-border/50 overflow-hidden relative">
+    <section className="bg-bg-main py-14 md:py-16 border-b border-bg-border/50 overflow-hidden relative">
       <div className="container">
         
         {/* Header */}
         <SectionHeading title="Videolar" href="/media" linkText="Bütün videolar" />
 
-        <div className="flex flex-col xl:flex-row gap-6">
+        <div className="flex flex-col lg:flex-row gap-6 lg:items-start">
           
           {/* Main Video */}
           <motion.div 
@@ -51,7 +51,7 @@ export default function VideoSection() {
             whileInView={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.8, ease: "easeOut" }}
             viewport={{ once: true, margin: "-100px" }}
-            className="flex-grow xl:w-2/3"
+            className="w-full lg:w-[58%] xl:w-[55%] shrink-0"
           >
             <div className="group relative rounded-2xl overflow-hidden block bg-black">
               <div className="w-full aspect-video relative">
@@ -68,14 +68,14 @@ export default function VideoSection() {
                      <img src={mainVideo.thumbnail_url} alt={mainVideo.title} className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
                      
                      {/* Play Button Overlay */}
-                     <div className="absolute bottom-4 md:bottom-6 lg:bottom-12 left-4 md:left-6 lg:left-12 right-4 flex flex-col items-start z-10">
-                       <div className="w-10 h-10 md:w-14 md:h-14 lg:w-16 lg:h-16 bg-accent rounded-xl flex items-center justify-center mb-3 md:mb-6 shadow-lg shadow-black/50 group-hover:bg-text-main hover:text-bg-main transition-colors">
-                         <Play className="w-5 h-5 md:w-6 md:h-6 lg:w-8 lg:h-8 text-on-accent fill-current ml-1" />
+                     <div className="absolute bottom-4 md:bottom-6 left-4 md:left-6 right-4 flex flex-col items-start z-10">
+                       <div className="w-10 h-10 md:w-12 md:h-12 bg-accent rounded-xl flex items-center justify-center mb-3 md:mb-4 shadow-lg shadow-black/50 group-hover:bg-text-main hover:text-bg-main transition-colors">
+                         <Play className="w-5 h-5 md:w-6 md:h-6 text-on-accent fill-current ml-1" />
                        </div>
-                       <h3 className="text-text-main font-black text-lg sm:text-xl md:text-2xl lg:text-4xl uppercase tracking-tight leading-tight max-w-2xl group-hover:text-accent transition-colors drop-shadow-md line-clamp-3">
+                       <h3 className="text-text-main font-black text-base sm:text-lg md:text-xl lg:text-2xl uppercase tracking-tight leading-tight max-w-2xl group-hover:text-accent transition-colors drop-shadow-md line-clamp-3">
                          {mainVideo.title}
                        </h3>
-                       <span className="text-text-sec font-medium text-xs sm:text-sm mt-2 md:mt-4 drop-shadow-md">
+                       <span className="text-text-sec font-medium text-xs sm:text-sm mt-2 drop-shadow-md">
                          {(new Date(mainVideo.published_date || mainVideo.created_at).getDate().toString().padStart(2, '0') + '.' + (new Date(mainVideo.published_date || mainVideo.created_at).getMonth() + 1).toString().padStart(2, '0') + '.' + new Date(mainVideo.published_date || mainVideo.created_at).getFullYear())}
                        </span>
                      </div>
@@ -89,8 +89,8 @@ export default function VideoSection() {
           </motion.div>
 
           {/* Video List & Button */}
-          <div className="xl:w-1/3 flex flex-col justify-between">
-            <div className="flex flex-col gap-6">
+          <div className="flex-1 min-w-0 flex flex-col justify-between">
+            <div className="flex flex-col gap-3">
               {smallVideos.map((video, i) => (
                 <motion.div
                   key={video.id}
@@ -99,9 +99,9 @@ export default function VideoSection() {
                   transition={{ duration: 0.6, delay: i * 0.2, ease: "easeOut" }}
                   viewport={{ once: true, margin: "-50px" }}
                 >
-                  <div className="group flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4 pb-6 border-b border-bg-border/50 hover:bg-bg-card/10 rounded-lg transition-colors p-2">
+                  <div className="group flex flex-col sm:flex-row space-y-3 sm:space-y-0 sm:space-x-4 pb-3 border-b border-bg-border/50 hover:bg-bg-card/10 rounded-lg transition-colors p-2">
                     {/* Thumb / Video */}
-                    <div className="w-full sm:w-48 aspect-video bg-black rounded-xl relative overflow-hidden flex-shrink-0">
+                    <div className="w-full sm:w-40 aspect-video bg-black rounded-xl relative overflow-hidden flex-shrink-0">
                       {playingId === video.id ? (
                          <iframe 
                            src={`https://www.youtube.com/embed/${getYoutubeId(video.url)}?autoplay=1`} 
@@ -122,7 +122,7 @@ export default function VideoSection() {
                     
                     {/* Info */}
                     <div className="flex flex-col justify-center cursor-pointer" onClick={() => { if(playingId !== video.id) setPlayingId(video.id); }}>
-                      <h4 className="text-text-main font-bold text-sm lg:text-base leading-tight mb-2 group-hover:text-accent transition-colors uppercase line-clamp-3">
+                      <h4 className="text-text-main font-bold text-sm leading-tight mb-2 group-hover:text-accent transition-colors uppercase line-clamp-3">
                         {video.title}
                       </h4>
                       <span className="text-text-sec font-medium text-xs">
@@ -140,7 +140,7 @@ export default function VideoSection() {
               whileInView={{ opacity: 1 }}
               transition={{ delay: 0.8 }}
               viewport={{ once: true }}
-              className="mt-8 flex justify-end"
+              className="mt-6 flex justify-end"
             >
               <Link href="/media" className="text-text-main font-bold text-sm tracking-widest border-b-2 border-accent pb-1 hover:text-accent transition-colors uppercase">
                 Bütün videolar

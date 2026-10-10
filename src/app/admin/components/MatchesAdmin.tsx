@@ -2,6 +2,7 @@
 import { useState, useEffect } from 'react';
 import { supabase } from '@/lib/supabase';
 import { adminDb, toast } from '@/lib/adminDb';
+import { sortTeams } from '@/lib/teamOrder';
 import { uploadFromInput } from '@/lib/uploadImage';
 import { teamLogoKey } from '@/lib/teamLogos';
 import { isYarimada } from '@/lib/matchUtils';
@@ -105,15 +106,9 @@ export default function MatchesAdmin() {
   };
 
   const fetchTeams = async () => {
-    const { data } = await supabase.from('teams').select('id, name');
-    if (data) {
-      const sorted = [...data].sort((a, b) => {
-        const numA = parseInt(a.name.replace(/\D/g, '')) || 0;
-        const numB = parseInt(b.name.replace(/\D/g, '')) || 0;
-        return numA - numB;
-      });
-      setTeams(sorted);
-    }
+    // '*' + client sort: the admin's team order (works before the sort_order column exists, too)
+    const { data } = await supabase.from('teams').select('*');
+    if (data) setTeams(sortTeams(data));
   };
 
   const syncLineup = async () => {

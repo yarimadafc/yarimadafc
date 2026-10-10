@@ -9,18 +9,37 @@ import { useLang } from '@/lib/i18n';
 import { useFormat } from '@/lib/useFormat';
 import { isLiveMatch, scoreText, AnyMatch, matchStart, normalizeMatch } from '@/lib/matchUtils';
 import { useSyncVersion } from '@/lib/siteSync';
+import { ageOf } from '@/lib/teamOrder';
+
+const byStart = (a: AnyMatch, b: AnyMatch) => (matchStart(a)?.getTime() ?? 0) - (matchStart(b)?.getTime() ?? 0);
 
 // Two latest results + the next two fixtures, oldest -> newest.
-function pickMatches(rows: AnyMatch[]): AnyMatch[] {
-  const sorted = [...rows].sort((a, b) => (matchStart(a)?.getTime() ?? 0) - (matchStart(b)?.getTime() ?? 0));
+function pickMatches(rows: AnyMatch[], count = 4): AnyMatch[] {
+  const sorted = [...rows].sort(byStart);
   const finished = sorted.filter(m => m.status === 'finished');
   const upcoming = sorted.filter(m => m.status !== 'finished');
-  const picked = [...finished.slice(-2), ...upcoming.slice(0, 2)];
-  if (picked.length < 4) {
+  const half = Math.ceil(count / 2);
+  const picked = [...finished.slice(-half), ...upcoming.slice(0, count - half)];
+  if (picked.length < count) {
     const extra = sorted.filter(m => !picked.includes(m));
-    picked.push(...extra.slice(-(4 - picked.length)));
+    picked.push(...extra.slice(-(count - picked.length)));
   }
-  return picked.sort((a, b) => (matchStart(a)?.getTime() ?? 0) - (matchStart(b)?.getTime() ?? 0)).slice(0, 4);
+  return picked.sort(byStart).slice(0, count);
+}
+
+// The home page mainly shows the U-13 and U-12 teams: last result + next game of each
+// (other teams only fill the row when those two have no games yet).
+const FEATURED_AGES = [13, 12];
+
+function pickFeatured(rows: AnyMatch[]): AnyMatch[] {
+  const picked: AnyMatch[] = [];
+  for (const age of FEATURED_AGES) {
+    picked.push(...pickMatches(rows.filter(m => ageOf(m.tournament) === age), 2));
+  }
+  if (picked.length < 4) {
+    picked.push(...pickMatches(rows.filter(m => !picked.includes(m)), 4 - picked.length));
+  }
+  return picked.slice(0, 4);
 }
 
 export default function MatchesSection() {
@@ -32,8 +51,8 @@ export default function MatchesSection() {
   const sync = useSyncVersion();
   useEffect(() => {
     async function fetchMatches() {
-      const { data } = await supabase.from('matches').select('*').order('match_date', { ascending: false }).limit(40);
-      setMatches(pickMatches((data || []).map(normalizeMatch)));
+      const { data } = await supabase.from('matches').select('*').order('match_date', { ascending: false }).limit(80);
+      setMatches(pickFeatured((data || []).map(normalizeMatch)));
       setLoading(false);
     }
     fetchMatches();

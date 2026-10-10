@@ -10,7 +10,8 @@ import TeamLogo from '@/components/TeamLogo';
 import { useLang } from '@/lib/i18n';
 import { formatShortDate } from '@/lib/matchUtils';
 import { buildPlayerStats, byAssists, byGoals, seasonOf, PlayerStat } from '@/lib/playerStats';
-import { byTeamNumber, PlayerInfo, usePlayerStatsData } from '@/lib/usePlayerStats';
+import { PlayerInfo, usePlayerStatsData } from '@/lib/usePlayerStats';
+import { useOrderedTeams } from '@/lib/teamOrder';
 
 type Tab = 'goals' | 'assists' | 'all';
 type SortKey = 'games' | 'starts' | 'goals' | 'assists' | 'minutes';
@@ -70,15 +71,20 @@ function StatsView() {
   const pathname = usePathname();
   const params = useSearchParams();
   const tab = (TABS.some(x => x.id === params.get('tab')) ? params.get('tab') : 'goals') as Tab;
-  const { matches, players, loading } = usePlayerStatsData();
+  const { matches, players, playerList, loading } = usePlayerStatsData();
+  const { compareNames } = useOrderedTeams('id, name, sort_order');
   const [team, setTeam] = useState('');
   const [season, setSeason] = useState('');
   const [open, setOpen] = useState<string | null>(null);
   const [sort, setSort] = useState<SortKey>('goals');
 
-  const teams = useMemo(() => [...new Set(matches.map(m => m.tournament).filter(Boolean))].sort(byTeamNumber) as string[], [matches]);
+  // team filter in the admin's team order (U-13 first by default)
+  const teams = useMemo(() => [...new Set([
+    ...matches.map(m => m.tournament),
+    ...playerList.filter(p => p.teams?.name && Object.keys(p).some(k => k.startsWith('stat_') && Number(p[k]) > 0)).map(p => p.teams!.name),
+  ].filter(Boolean))].sort(compareNames) as string[], [matches, playerList, compareNames]);
   const seasons = useMemo(() => [...new Set(matches.map(m => seasonOf(m.match_date || m.date)).filter(Boolean))].sort().reverse() as string[], [matches]);
-  const stats = useMemo(() => buildPlayerStats(matches, { team: team || undefined, season: season || undefined }), [matches, team, season]);
+  const stats = useMemo(() => buildPlayerStats(matches, { team: team || undefined, season: season || undefined }, playerList), [matches, team, season, playerList]);
 
   const list = useMemo(() => {
     if (tab === 'goals') return stats.filter(s => s.goals > 0).sort(byGoals);
@@ -90,7 +96,8 @@ function StatsView() {
     goals: stats.reduce((n, s) => n + s.goals, 0),
     assists: stats.reduce((n, s) => n + s.assists, 0),
     players: stats.length,
-    games: new Set(stats.flatMap(s => s.matches.map(m => m.matchId))).size,
+    // played matches, or the largest per-player game count when admin-entered games exceed them
+    games: Math.max(new Set(stats.flatMap(s => s.matches.map(m => m.matchId))).size, ...stats.map(s => s.games), 0),
   }), [stats]);
 
   const setTab = (id: Tab) => { setOpen(null); router.replace(`${pathname}?tab=${id}`, { scroll: false }); };

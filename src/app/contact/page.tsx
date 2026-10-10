@@ -4,8 +4,11 @@ import PageTransition from '@/components/PageTransition';
 import { motion } from 'framer-motion';
 import WhatsAppForm from '@/components/WhatsAppForm';
 import { Phone, Mail, MapPin } from 'lucide-react';
+import { CONTACT_DEFAULTS, telHref, useSiteTexts } from '@/lib/siteTexts';
 
 export default function ContactPage() {
+  // phone / e-mail / address: admin -> Sayt Yazıları -> Əlaqə Məlumatları
+  const contact = useSiteTexts(CONTACT_DEFAULTS);
   return (
     <PageTransition title="Əlaqə">
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-24">
@@ -32,8 +35,8 @@ export default function ContactPage() {
               </div>
               <div className="flex flex-col">
                 <span className="text-text-sec font-bold text-xs uppercase tracking-widest mb-1">Telefon</span>
-                <a href="tel:0554477467" className="text-text-main font-bold text-xl hover:text-accent transition-colors">
-                  055 447 74 67
+                <a href={telHref(contact.contact_phone)} className="text-text-main font-bold text-xl hover:text-accent transition-colors">
+                  {contact.contact_phone}
                 </a>
               </div>
             </div>
@@ -45,8 +48,8 @@ export default function ContactPage() {
               </div>
               <div className="flex flex-col">
                 <span className="text-text-sec font-bold text-xs uppercase tracking-widest mb-1">E-poçt</span>
-                <a href="mailto:info@yarimadafc.com" className="text-text-main font-bold text-xl hover:text-accent transition-colors">
-                  info@yarimadafc.com
+                <a href={`mailto:${contact.contact_email}`} className="text-text-main font-bold text-xl hover:text-accent transition-colors break-all">
+                  {contact.contact_email}
                 </a>
               </div>
             </div>
@@ -58,9 +61,8 @@ export default function ContactPage() {
               </div>
               <div className="flex flex-col">
                 <span className="text-text-sec font-bold text-xs uppercase tracking-widest mb-1">Ünvan</span>
-                <p className="text-text-main font-medium text-lg leading-relaxed">
-                  Kristal Abşeron 1,<br />
-                  Xırdalan şəhəri
+                <p className="text-text-main font-medium text-lg leading-relaxed whitespace-pre-line">
+                  {contact.contact_address}
                 </p>
               </div>
             </div>
@@ -75,7 +77,7 @@ export default function ContactPage() {
           className="bg-bg-sec p-4 md:p-6 rounded-3xl border border-bg-border shadow-2xl w-full h-[400px] lg:h-auto overflow-hidden relative"
         >
           <iframe 
-            src="https://maps.google.com/maps?q=Kristal+Abşeron+1,Xırdalan&hl=az&z=15&output=embed" 
+            src={`https://maps.google.com/maps?q=${encodeURIComponent(contact.contact_address.replace(/\s+/g, ' '))}&hl=az&z=15&output=embed`} 
             className="absolute inset-0 w-full h-full rounded-2xl border-0" 
             allowFullScreen={false} 
             loading="lazy" 

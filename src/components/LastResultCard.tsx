@@ -22,7 +22,7 @@ export default function LastResultCard({ className = '' }: { className?: string 
   return (
     <Link href="/matches?tab=results" className={`group block rounded-2xl border border-bg-border bg-bg-card/90 backdrop-blur-md p-4 shadow-xl hover:border-accent transition-colors ${className}`}>
       <div className="flex items-center justify-between gap-2 mb-3">
-        <span className="text-text-sec text-[10px] font-bold uppercase tracking-widest">{t('Son oyun')}</span>
+        <span className="text-text-sec text-[10px] font-bold uppercase tracking-widest truncate">{t('Son oyun')}{match.tournament ? ` · ${match.tournament}` : ''}</span>
         <span className="flex items-center gap-2 min-w-0">
           {outcome && <span className={`text-white text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full ${outcome.cls}`}>{t(outcome.label)}</span>}
           <span className="text-text-sec text-[11px] truncate">{longDate(match.date)}</span>

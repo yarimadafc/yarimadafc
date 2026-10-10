@@ -5,7 +5,17 @@ import { adminDb } from '@/lib/adminDb';
 import { uploadFromInput } from '@/lib/uploadImage';
 import { Trash2, Plus, Edit2 } from 'lucide-react';
 
-export default function LeadershipAdmin() {
+// "leadership" = Klub rəhbərliyi, "staff" = Klub heyəti. Both are rows of the leadership table (group_type);
+// rows saved before the split have no group_type and belong to the leadership.
+export type PeopleGroup = 'leadership' | 'staff';
+const GROUPS: Record<PeopleGroup, { title: string; positionHint: string; add: string }> = {
+  leadership: { title: 'Klub Rəhbərliyi', positionHint: 'Vəzifə (Məs: Prezident)', add: 'Yeni Rəhbər' },
+  staff: { title: 'Klub Heyəti', positionHint: 'Vəzifə (Məs: Menecer, Həkim, Analitik)', add: 'Yeni Heyət Üzvü' },
+};
+export const groupOf = (row: { group_type?: string | null }): PeopleGroup => (row.group_type === 'staff' ? 'staff' : 'leadership');
+
+export default function LeadershipAdmin({ group = 'leadership' }: { group?: PeopleGroup }) {
+  const meta = GROUPS[group];
   const [leaders, setLeaders] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [isAdding, setIsAdding] = useState(false);
@@ -20,13 +30,16 @@ export default function LeadershipAdmin() {
   const [editingId, setEditingId] = useState<string | null>(null);
 
   useEffect(() => {
+    setIsAdding(false);
+    resetForm();
     fetchLeaders();
-  }, []);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [group]);
 
   const fetchLeaders = async () => {
     setLoading(true);
     const { data } = await supabase.from('leadership').select('*').order('order_num', { ascending: true });
-    if (data) setLeaders(data);
+    if (data) setLeaders(data.filter(L => groupOf(L) === group));
     setLoading(false);
   };
 
@@ -50,7 +63,7 @@ export default function LeadershipAdmin() {
   const handleSave = async (e: React.FormEvent) => {
     e.preventDefault();
     if (saving || uploading) return;
-    const payload = { name, position, bio, image_url: imageUrl || null, order_num: orderNum };
+    const payload = { name, position, bio, image_url: imageUrl || null, order_num: orderNum, group_type: group };
     setSaving(true);
     const { error } = editingId
       ? await adminDb.from('leadership').update(payload).eq('id', editingId)
@@ -78,12 +91,15 @@ export default function LeadershipAdmin() {
   return (
     <div className="p-6">
       <div className="flex justify-between items-center mb-8">
-        <h2 className="text-2xl font-bold text-white">Komanda Rəhbərliyi</h2>
+        <div>
+          <h2 className="text-2xl font-bold text-white">{meta.title}</h2>
+          <p className="text-gray-400 text-sm mt-1">Saytda Klub səhifəsinin «{meta.title}» bölməsində görünür.</p>
+        </div>
         <button 
           onClick={() => { resetForm(); setIsAdding(!isAdding); }}
           className="bg-accent text-on-accent px-4 py-2 rounded-lg font-bold flex items-center space-x-2"
         >
-          <Plus className="w-4 h-4" /> <span>{isAdding ? 'Ləğv et' : 'Yeni Şəxs'}</span>
+          <Plus className="w-4 h-4" /> <span>{isAdding ? 'Ləğv et' : meta.add}</span>
         </button>
       </div>
 
@@ -95,7 +111,7 @@ export default function LeadershipAdmin() {
               <input type="text" value={name} onChange={e => setName(e.target.value)} className="w-full bg-gray-900 border border-gray-700 rounded p-3 text-white" required />
             </div>
             <div>
-              <label className="block text-gray-400 text-xs font-bold uppercase mb-2">Vəzifə (Məs: Prezident)</label>
+              <label className="block text-gray-400 text-xs font-bold uppercase mb-2">{meta.positionHint}</label>
               <input type="text" value={position} onChange={e => setPosition(e.target.value)} className="w-full bg-gray-900 border border-gray-700 rounded p-3 text-white" required />
             </div>
             <div className="md:col-span-2">
@@ -128,6 +144,9 @@ export default function LeadershipAdmin() {
         </form>
       )}
 
+      {leaders.length === 0 && !isAdding && (
+        <div className="text-center text-gray-400 py-10 bg-gray-800 rounded-2xl border border-gray-700">Hələ heç kim əlavə olunmayıb.</div>
+      )}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {leaders.map(L => (
           <div key={L.id} className="bg-black p-4 rounded-xl border border-gray-700 flex flex-col items-center text-center">

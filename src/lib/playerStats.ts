@@ -2,7 +2,21 @@ import { isYarimada, type AnyMatch } from '@/lib/matchUtils';
 
 // Player statistics are derived from the match line-ups the admin fills in
 // (matches.yarimada_lineup: one entry per player with goals / assists / minutes),
-// so no extra table is needed and the numbers always match the published games.
+// so the numbers always match the published games. On top of that the admin can add numbers per
+// player (players.stat_* — admin -> Komandalar -> Heyət statistikası), e.g. games before the site existed.
+
+export const MANUAL_STAT_FIELDS = ['stat_games', 'stat_starts', 'stat_goals', 'stat_assists', 'stat_minutes', 'stat_yellow', 'stat_red'] as const;
+export type ManualStatField = typeof MANUAL_STAT_FIELDS[number];
+
+/** A players row (select '*, teams(name)'); stat_* columns may be missing before the SQL update. */
+export interface ManualStatsPlayer {
+  id: string;
+  name: string;
+  jersey_number?: number | null;
+  position?: string | null;
+  teams?: { name?: string | null } | null;
+  [field: string]: unknown;
+}
 
 export interface LineupEntry {
   id: string;            // players.id, or "manual_..." for a name typed in by hand
@@ -64,7 +78,7 @@ export function seasonOf(date?: string | null): string | null {
 
 const counted = (m: AnyMatch) => m.status === 'finished' || m.status === 'live';
 
-export function buildPlayerStats(matches: AnyMatch[], filter: { team?: string; season?: string } = {}): PlayerStat[] {
+export function buildPlayerStats(matches: AnyMatch[], filter: { team?: string; season?: string } = {}, manual: ManualStatsPlayer[] = []): PlayerStat[] {
   const map = new Map<string, PlayerStat>();
   for (const m of matches) {
     if (!counted(m)) continue;
@@ -100,9 +114,37 @@ export function buildPlayerStats(matches: AnyMatch[], filter: { team?: string; s
       s.matches.push({ matchId: m.id, date, opponent, opponentLogo, score, goals, assists, minutes, starter: !!p.is_starting });
     }
   }
+  // admin-entered extras have no date, so they count for "all seasons" only
+  if (!filter.season) addManualStats(map, manual, filter.team);
+
   const list = [...map.values()];
   list.forEach(s => s.matches.sort((a, b) => (b.date || '').localeCompare(a.date || '')));
   return list;
+}
+
+const nameKey = (name: string) => `name:${name.trim().toLocaleLowerCase('az')}`;
+
+function addManualStats(map: Map<string, PlayerStat>, players: ManualStatsPlayer[], team?: string) {
+  for (const p of players) {
+    const n = (f: ManualStatField) => Math.max(0, Number(p[f]) || 0);
+    if (!p?.name || MANUAL_STAT_FIELDS.every(f => n(f) === 0)) continue;
+    const teamName = p.teams?.name || '';
+    if (team && teamName.trim().toLocaleLowerCase('az') !== team.trim().toLocaleLowerCase('az')) continue;
+    let s = map.get(p.id) || map.get(nameKey(p.name));
+    if (!s) {
+      s = { key: p.id, playerId: p.id, name: p.name, number: p.jersey_number != null ? String(p.jersey_number) : null, position: p.position || null, teams: [], games: 0, starts: 0, goals: 0, assists: 0, minutes: 0, yellow: 0, red: 0, matches: [] };
+      map.set(p.id, s);
+    }
+    if (!s.playerId) s.playerId = p.id;
+    if (teamName && !s.teams.includes(teamName)) s.teams.push(teamName);
+    s.games += n('stat_games');
+    s.starts += n('stat_starts');
+    s.goals += n('stat_goals');
+    s.assists += n('stat_assists');
+    s.minutes += n('stat_minutes');
+    s.yellow += n('stat_yellow');
+    s.red += n('stat_red');
+  }
 }
 
 export const byGoals = (a: PlayerStat, b: PlayerStat) => b.goals - a.goals || b.assists - a.assists || a.games - b.games || a.name.localeCompare(b.name);

@@ -34,7 +34,7 @@ export default async function AchievementDetail({ params }: { params: Promise<{ 
             
             <div className="text-center md:text-left flex-1">
               <div className="text-text-sec font-bold uppercase tracking-widest text-xs mb-2">Nailiyyət Dəyəri</div>
-              <h1 className="text-6xl md:text-7xl font-black text-text-main mb-4 drop-shadow-xl tabular-nums">{item.count}</h1>
+              <h1 className="text-5xl md:text-6xl font-black text-text-main mb-4 drop-shadow-xl tabular-nums">{item.count}</h1>
               <h2 className="text-2xl md:text-3xl font-black text-accent uppercase tracking-wider mb-6 leading-tight">{item.title}</h2>
               
               <div className="w-16 h-1 bg-bg-border mx-auto md:mx-0 mb-6"></div>

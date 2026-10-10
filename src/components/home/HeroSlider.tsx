@@ -14,8 +14,9 @@ type Slide = { id: string; image: string; title: string; subtitle?: string; href
 const AUTOPLAY_MS = 6500;
 const INTRO_MS = 9000;
 
-// Fades in only once the image is decoded, then runs the slow zoom on the GPU — starting the animation
-// while the file was still downloading/decoding is what made it freeze and jump.
+// Fades in only once the image is decoded, then runs the slow zoom — starting the animation while the file
+// was still downloading/decoding is what made it freeze and jump. No permanent will-change / translateZ:
+// a layer kept on the GPU is rasterised at reduced resolution and made the photo look soft.
 function HeroImage({ src, active, priority }: { src: string; active: boolean; priority: boolean }) {
   const [ready, setReady] = useState(false);
   const ref = useRef<HTMLImageElement>(null);
@@ -39,7 +40,6 @@ function HeroImage({ src, active, priority }: { src: string; active: boolean; pr
       {...(priority ? { fetchPriority: 'high' as const } : {})}
       onLoad={e => { const img = e.currentTarget; (img.decode ? img.decode().catch(() => {}) : Promise.resolve()).then(() => setReady(true)); }}
       onError={() => setReady(true)}
-      style={{ willChange: active ? 'transform, opacity' : undefined }}
       className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-500 ${ready ? 'opacity-100' : 'opacity-0'} ${active && ready ? 'animate-[hero-zoom_2.4s_cubic-bezier(.2,.6,.2,1)_both]' : ''}`}
     />
   );
@@ -142,10 +142,10 @@ export default function HeroSlider() {
                             <div className="w-full lg:max-w-2xl text-center lg:text-left">
                               {on && (
                                 <>
-                                  <h1 className="text-[2rem] sm:text-5xl xl:text-6xl font-black text-text-main leading-[1.1] tracking-tight drop-shadow-2xl animate-[rise_.8s_ease-out_both]">
+                                  <h1 className="text-[1.75rem] sm:text-4xl xl:text-5xl font-black text-text-main leading-[1.1] tracking-tight drop-shadow-2xl animate-[rise_.8s_ease-out_both]">
                                     {t(intro.title1)} <span className="block text-accent led-text">{t(intro.title2)}</span>
                                   </h1>
-                                  <p className="mt-4 text-sm sm:text-base lg:text-lg text-text-sec max-w-xl mx-auto lg:mx-0 font-medium animate-[rise_.8s_.2s_ease-out_both]">{t(intro.subtitle)}</p>
+                                  <p className="mt-4 text-sm sm:text-base text-text-sec max-w-xl mx-auto lg:mx-0 font-medium animate-[rise_.8s_.2s_ease-out_both]">{t(intro.subtitle)}</p>
                                   <div className="mt-6 lg:mt-8 flex flex-col sm:flex-row gap-3 justify-center lg:justify-start animate-[rise_.8s_.4s_ease-out_both]">
                                     <Link href="/register" className="btn-fx led-border bg-accent text-on-accent px-8 py-3.5 rounded-xl font-black uppercase tracking-widest text-xs sm:text-sm text-center">{t('Akademiyaya qoşul')}</Link>
                                     <Link href="/matches" className="btn-fx border border-bg-border bg-bg-deep/70 backdrop-blur text-text-main px-8 py-3.5 rounded-xl font-bold uppercase tracking-widest text-xs sm:text-sm text-center hover:border-accent">{t('Oyunlar cədvəli')}</Link>

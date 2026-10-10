@@ -2,6 +2,7 @@
 import { useState, useEffect } from 'react';
 import { supabase } from '@/lib/supabase';
 import { adminDb, toast } from '@/lib/adminDb';
+import { sortTeams } from '@/lib/teamOrder';
 import { Plus, UploadCloud, Star } from 'lucide-react';
 import { uploadFromInput } from '@/lib/uploadImage';
 
@@ -30,10 +31,10 @@ export default function CoachesAdmin() {
   const fetchData = async () => {
     const [{ data: cData }, { data: tData }] = await Promise.all([
       supabase.from('coaches').select('*, teams(name)').order('created_at', { ascending: false }),
-      supabase.from('teams').select('id, name'),
+      supabase.from('teams').select('*'),
     ]);
     if (cData) setCoaches(cData);
-    if (tData) setTeams(tData);
+    if (tData) setTeams(sortTeams(tData));
     setLoading(false);
   };
 

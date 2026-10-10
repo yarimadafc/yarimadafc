@@ -36,8 +36,11 @@ function SearchResults() {
       const { data: courses } = await supabase.from('coach_courses').select('id, title, description').ilike('title', searchTerm);
       if (courses) courses.forEach(c => allResults.push({ title: c.title, desc: c.description?.substring(0, 100) || '', link: `/courses/${c.id}`, type: 'Kurs' }));
 
-      const { data: leaders } = await supabase.from('leadership').select('id, name, position').ilike('name', searchTerm);
-      if (leaders) leaders.forEach(l => allResults.push({ title: l.name, desc: l.position || 'Klub Rəhbərliyi', link: '/club', type: 'Rəhbərlik' }));
+      const { data: leaders } = await supabase.from('leadership').select('*').ilike('name', searchTerm);
+      if (leaders) leaders.forEach(l => {
+        const staff = l.group_type === 'staff';
+        allResults.push({ title: l.name, desc: l.position || (staff ? 'Klub Heyəti' : 'Klub Rəhbərliyi'), link: `/leadership/${l.id}`, type: staff ? 'Heyət' : 'Rəhbərlik' });
+      });
 
       const pages = [
         { title: 'Ana Səhifə', link: '/', terms: ['ana', 'home', 'əsas'] },

@@ -9,6 +9,9 @@
 --   * The admin panel writes through /api/admin/db, which uses
 --     SUPABASE_SERVICE_ROLE_KEY (service_role bypasses RLS).
 --
+-- Existing database? Run the dated files in this folder instead (they only add what is missing),
+-- e.g. 2026-10-10_admin_upgrades.sql.
+--
 -- Columns are derived from the site code (src/app/admin/components/* and the
 -- public pages). Safe to re-run: existing tables are kept (only missing ones
 -- are created) and the read-only policies are re-applied.
@@ -35,6 +38,7 @@ create table if not exists public.teams (
   league      text,
   age_group   text,
   description text,
+  sort_order  integer not null default 0,       -- admin order (Komandalar -> arrows)
   created_at  timestamptz not null default now()
 );
 
@@ -46,6 +50,14 @@ create table if not exists public.players (
   jersey_number integer,
   image_url     text,
   birth_date    date,
+  -- admin-entered statistics, added on top of the numbers from match line-ups
+  stat_games    integer not null default 0,
+  stat_starts   integer not null default 0,
+  stat_goals    integer not null default 0,
+  stat_assists  integer not null default 0,
+  stat_minutes  integer not null default 0,
+  stat_yellow   integer not null default 0,
+  stat_red      integer not null default 0,
   created_at    timestamptz not null default now()
 );
 create index if not exists players_team_id_idx on public.players(team_id);
@@ -69,6 +81,7 @@ create table if not exists public.leadership (
   bio        text,
   image_url  text,
   order_num  integer not null default 0,
+  group_type text not null default 'leadership', -- leadership (Klub rəhbərliyi) | staff (Klub heyəti)
   created_at timestamptz not null default now()
 );
 
@@ -98,6 +111,11 @@ create table if not exists public.matches (
   -- line-ups (arrays of player objects)
   yarimada_lineup   jsonb not null default '[]'::jsonb,
   away_lineup       jsonb not null default '[]'::jsonb,
+  -- tickets page
+  ticket_enabled    boolean not null default true,
+  ticket_price      text,
+  ticket_note       text,
+  ticket_url        text,
   -- legacy columns: a few public pages (standings page, home "matches" blocks)
   -- still query "date"/"time". Kept nullable so those queries do not error.
   date              text,

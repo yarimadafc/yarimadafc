@@ -24,7 +24,7 @@ export default function AchievementsAdmin() {
 
   const fetchAchievements = async () => {
     setLoading(true);
-    const { data } = await supabase.from('achievements').select('*').order('created_at', { ascending: false });
+    const { data } = await supabase.from('achievements').select('*').order('order_num', { ascending: true });
     if (data) setAchievements(data);
     setLoading(false);
   };

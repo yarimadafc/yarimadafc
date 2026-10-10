@@ -1,53 +1,81 @@
 'use client';
 import { motion } from 'framer-motion';
-import Image from 'next/image';
 
 import { useState, useEffect } from 'react';
 import { supabase } from '@/lib/supabase';
 import Link from 'next/link';
 import { useSyncVersion } from '@/lib/siteSync';
 
+function PeopleSection({ eyebrow, title, people }: { eyebrow: string; title: string; people: any[] }) {
+  if (people.length === 0) return null;
+  return (
+    <div className="container mt-24 md:mt-28">
+      <motion.div initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }} className="text-center mb-12">
+        <span className="text-accent font-bold tracking-widest text-sm uppercase mb-2 block">{eyebrow}</span>
+        <h2 className="text-2xl md:text-3xl font-black text-text-main uppercase tracking-tight">{title}</h2>
+      </motion.div>
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+        {people.map((person, i) => (
+          <motion.div key={person.id} initial={{ opacity: 0, scale: 0.9 }} whileInView={{ opacity: 1, scale: 1 }} viewport={{ once: true }} transition={{ duration: 0.5, delay: (i % 4) * 0.1 }}>
+            <Link href={`/leadership/${person.id}`} className="bg-bg-sec rounded-2xl overflow-hidden border border-bg-border flex flex-col items-center text-center shadow-2xl group h-full hover:border-accent transition-colors">
+              <div className="w-full h-56 bg-bg-deep relative overflow-hidden border-b border-bg-border">
+                {person.image_url ? (
+                  <img src={person.image_url} alt={person.name} className="absolute inset-0 w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-700" />
+                ) : (
+                  <div className="absolute inset-0 flex items-center justify-center">
+                    <svg className="w-16 h-16 text-text-sec relative z-0" fill="currentColor" viewBox="0 0 20 20"><path fillRule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clipRule="evenodd" /></svg>
+                  </div>
+                )}
+              </div>
+              <div className="p-6 w-full flex-grow flex flex-col">
+                <h3 className="text-lg font-black text-text-main uppercase tracking-wider mb-1 group-hover:text-accent transition-colors">{person.name}</h3>
+                <p className="text-accent font-bold text-xs uppercase tracking-widest mb-3">{person.position}</p>
+                {person.bio && <p className="text-text-sec text-xs leading-relaxed text-justify mt-auto line-clamp-3">{person.bio}</p>}
+              </div>
+            </Link>
+          </motion.div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
 export default function ClubPage() {
   const [aboutBg, setAboutBg] = useState<string>('');
   const [clubTexts, setClubTexts] = useState<Record<string, string>>({});
-  const [leadershipCoaches, setLeadershipCoaches] = useState<any[]>([]);
+  const [people, setPeople] = useState<any[]>([]);
+  const [achievements, setAchievements] = useState<any[]>([]);
 
   const sync = useSyncVersion();
   useEffect(() => {
-    async function loadAboutImage() {
+    async function load() {
       try {
         const keys = [
-          'about_bg', 'club_about_1', 'club_about_2',
+          'about_bg', 'club_about_1', 'club_about_2', 'club_about_title',
           'club_mission', 'club_vision', 'club_values',
-          'leadership_coach_ids'
+          'club_achievements_title', 'club_achievements_text',
         ];
-        const { data: allData } = await supabase.from('site_images').select('section_key, image_url').in('section_key', keys);
-        if (allData) {
-          const map: Record<string, string> = {};
-          let lsIds: string[] = [];
-          
-          allData.forEach(item => {
-            if (item.section_key === 'leadership_coach_ids') {
-              lsIds = item.image_url.split(',').filter(Boolean);
-            } else {
-              map[item.section_key] = item.image_url;
-            }
-          });
-          
-          setClubTexts(map);
-          if (map['about_bg']) setAboutBg(map['about_bg']);
-          
-          const { data: lData } = await supabase.from('leadership').select('*').order('order_num', { ascending: true });
-          if (lData) setLeadershipCoaches(lData);
-        }
+        const [{ data: texts }, { data: lData }, { data: aData }] = await Promise.all([
+          supabase.from('site_images').select('section_key, image_url').in('section_key', keys),
+          supabase.from('leadership').select('*').order('order_num', { ascending: true }),
+          supabase.from('achievements').select('*').order('order_num', { ascending: true }),
+        ]);
+        const map: Record<string, string> = {};
+        (texts || []).forEach(item => { if (item.image_url) map[item.section_key] = item.image_url; });
+        setClubTexts(map);
+        setAboutBg(map['about_bg'] || '');
+        setPeople(lData || []);
+        setAchievements(aData || []);
       } catch (err) {
         console.error('Failed to load club page data', err);
       }
     }
-    loadAboutImage();
+    load();
   }, [sync]);
 
-  
+  // admin -> Klub Rəhbərliyi / Klub Heyəti (rows without group_type are leadership)
+  const leadership = people.filter(p => p.group_type !== 'staff');
+  const staff = people.filter(p => p.group_type === 'staff');
 
   const values = [
     { title: 'MİSSİYAMIZ', desc: clubTexts['club_mission'] || 'Uşaq və gənclərə sağlam həyat tərzini aşılamaq, onlarda daxili intizam, liderlik və kollektivdə işləmək bacarıqlarını inkişaf etdirmək.' },
@@ -94,8 +122,8 @@ export default function ClubPage() {
             className="space-y-6"
           >
             <span className="text-accent font-bold tracking-widest text-sm uppercase">Haqqımızda</span>
-            <h2 className="text-3xl md:text-4xl font-black text-text-main uppercase tracking-tight leading-tight">
-              Gələcəyin Çempionları <br /> Burada Yetişir
+            <h2 className="text-2xl md:text-3xl font-black text-text-main uppercase tracking-tight leading-tight whitespace-pre-line">
+              {clubTexts['club_about_title'] || 'Gələcəyin Çempionları\nBurada Yetişir'}
             </h2>
             <p className="text-text-sec leading-relaxed font-medium">
               {clubTexts['club_about_1'] || 'Yarımada Futbol Klubu uşaq və gənclər futbolunun inkişafı, onlarda idmana sevgi yaratmaq məqsədilə təsis edilmişdir. Yarandığı gündən etibarən klubumuz qısa zamanda böyük uğurlara imza atmış və bir çox istedadlı gəncləri üzə çıxarmışdır.'}
@@ -138,47 +166,9 @@ export default function ClubPage() {
         </div>
       </div>
 
-      {/* 4. Rəhbərlik */}
-      <div className="container mt-32">
-        <motion.div 
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          viewport={{ once: true }}
-          className="text-center mb-16"
-        >
-          <span className="text-accent font-bold tracking-widest text-sm uppercase mb-2 block">İdarə Heyəti</span>
-          <h2 className="text-2xl md:text-4xl font-black text-text-main uppercase tracking-tight">Klub Rəhbərliyi</h2>
-        </motion.div>
-
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {leadershipCoaches.map((person, i) => (
-            <motion.div 
-              key={person.id}
-              initial={{ opacity: 0, scale: 0.9 }}
-              whileInView={{ opacity: 1, scale: 1 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: i * 0.2 }}
-            >
-              <Link href={`/leadership/${person.id}`} className="bg-bg-sec rounded-2xl overflow-hidden border border-bg-border flex flex-col items-center text-center shadow-2xl group h-full block hover:border-accent transition-colors">
-                <div className="w-full h-64 bg-bg-deep relative overflow-hidden border-b border-bg-border">
-                  {person.image_url ? (
-                    <img src={person.image_url} alt={person.name} className="absolute inset-0 w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-700" />
-                  ) : (
-                    <div className="absolute inset-0 flex items-center justify-center">
-                      <svg className="w-20 h-20 text-text-sec relative z-0" fill="currentColor" viewBox="0 0 20 20"><path fillRule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clipRule="evenodd" /></svg>
-                    </div>
-                  )}
-                </div>
-                <div className="p-8 w-full flex-grow flex flex-col">
-                  <h3 className="text-xl font-black text-text-main uppercase tracking-widest mb-1 group-hover:text-accent transition-colors">{person.name}</h3>
-                  <p className="text-accent font-bold text-xs uppercase tracking-widest mb-4">{person.position}</p>
-                  {person.bio && <p className="text-text-sec text-xs leading-relaxed text-justify mt-auto line-clamp-3">{person.bio}</p>}
-                </div>
-              </Link>
-            </motion.div>
-          ))}
-        </div>
-      </div>
+      {/* 4. Klub rəhbərliyi + klub heyəti */}
+      <PeopleSection eyebrow="Rəhbərlik" title="Klub Rəhbərliyi" people={leadership} />
+      <PeopleSection eyebrow="Heyət" title="Klub Heyəti" people={staff} />
 
       {/* 5. Nailiyyətlər (Achievements module reused or custom) */}
       <div className="container mt-32 bg-bg-card rounded-3xl p-8 md:p-16 border border-accent/20 relative overflow-hidden">
@@ -189,28 +179,21 @@ export default function ClubPage() {
           viewport={{ once: true }}
           className="relative z-10"
         >
-          <h2 className="text-2xl md:text-4xl font-black text-text-main uppercase tracking-tight mb-6">Uğurlarımız & Nailiyyətlər</h2>
+          <h2 className="text-2xl md:text-3xl font-black text-text-main uppercase tracking-tight mb-6">{clubTexts['club_achievements_title'] || 'Uğurlarımız & Nailiyyətlər'}</h2>
           <p className="text-text-sec max-w-2xl font-medium leading-relaxed mb-8">
-            Kısa zaman ərzində qazandığımız medallar, kuboklar və çempionluqlar klubumuzun inkişafının və məşqçilərimizin zəhmətinin bariz nümunəsidir. Uşaq futbolunda yeni standartlar müəyyən etməkdə davam edirik.
+            {clubTexts['club_achievements_text'] || 'Qısa zaman ərzində qazandığımız medallar, kuboklar və çempionluqlar klubumuzun inkişafının və məşqçilərimizin zəhmətinin bariz nümunəsidir. Uşaq futbolunda yeni standartlar müəyyən etməkdə davam edirik.'}
           </p>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
-            <div className="bg-bg-deep border border-bg-border p-6 rounded-xl text-center">
-              <div className="text-4xl font-black text-accent mb-2">15+</div>
-              <div className="text-text-sec text-xs font-bold uppercase tracking-widest">Kubok</div>
+          {/* admin -> Nailiyyətlər (the same list as on the home and history pages) */}
+          {achievements.length > 0 && (
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
+              {achievements.map(a => (
+                <div key={a.id} className="bg-bg-deep border border-bg-border p-5 rounded-xl text-center">
+                  <div className="text-3xl font-black text-accent mb-2">{a.count}</div>
+                  <div className="text-text-sec text-xs font-bold uppercase tracking-widest">{a.title}</div>
+                </div>
+              ))}
             </div>
-            <div className="bg-bg-deep border border-bg-border p-6 rounded-xl text-center">
-              <div className="text-4xl font-black text-accent mb-2">200+</div>
-              <div className="text-text-sec text-xs font-bold uppercase tracking-widest">Oyunçu</div>
-            </div>
-            <div className="bg-bg-deep border border-bg-border p-6 rounded-xl text-center">
-              <div className="text-4xl font-black text-accent mb-2">5</div>
-              <div className="text-text-sec text-xs font-bold uppercase tracking-widest">Yaş Qrupu</div>
-            </div>
-            <div className="bg-bg-deep border border-bg-border p-6 rounded-xl text-center">
-              <div className="text-4xl font-black text-accent mb-2">8+</div>
-              <div className="text-text-sec text-xs font-bold uppercase tracking-widest">Məşqçi</div>
-            </div>
-          </div>
+          )}
         </motion.div>
       </div>
 

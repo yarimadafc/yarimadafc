@@ -8,6 +8,7 @@ import Reveal from '@/components/Reveal';
 import { useLang } from '@/lib/i18n';
 import { isLiveMatch, scoreText, AnyMatch, formatShortDate, isYarimada, matchStart, normalizeMatch } from '@/lib/matchUtils';
 import { useSyncVersion } from '@/lib/siteSync';
+import { useOrderedTeams } from '@/lib/teamOrder';
 
 interface Props {
   /** Max rows in the fixtures/results list (home page shows fewer). */
@@ -19,8 +20,9 @@ export default function StandingsBoard({ matchLimit = 9 }: Props) {
   const { t } = useLang();
   const [standings, setStandings] = useState<any[]>([]);
   const [matches, setMatches] = useState<AnyMatch[]>([]);
-  const [active, setActive] = useState('');
+  const [picked, setPicked] = useState('');
   const [loading, setLoading] = useState(true);
+  const { compareNames, loading: teamsLoading } = useOrderedTeams('id, name, sort_order');
 
   const sync = useSyncVersion();
   useEffect(() => {
@@ -43,12 +45,13 @@ export default function StandingsBoard({ matchLimit = 9 }: Props) {
     const set = new Set<string>();
     standings.forEach(s => set.add(s.tournament_name || 'Ümumi'));
     matches.forEach(m => set.add(m.tournament || 'Ümumi'));
-    return Array.from(set).sort();
-  }, [standings, matches]);
+    // same order as the admin's team list (U-13 first by default), left to right
+    return Array.from(set).sort(compareNames);
+  }, [standings, matches, compareNames]);
 
-  useEffect(() => {
-    if (!active && leagues.length) setActive(leagues[0]);
-  }, [leagues, active]);
+  // until a tab is clicked, the first team in the order is shown
+  const active = leagues.includes(picked) ? picked : leagues[0] || '';
+  const setActive = setPicked;
 
   const logos = useMemo(() => {
     const map: Record<string, string> = {};
@@ -68,7 +71,7 @@ export default function StandingsBoard({ matchLimit = 9 }: Props) {
     .sort((a, b) => (matchStart(a)?.getTime() ?? 0) - (matchStart(b)?.getTime() ?? 0))
     .slice(-matchLimit);
 
-  if (loading) {
+  if (loading || teamsLoading) {
     return <div className="h-64 rounded-xl bg-bg-sec animate-pulse" aria-hidden />;
   }
   if (leagues.length === 0) {

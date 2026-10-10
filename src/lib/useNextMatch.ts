@@ -3,6 +3,9 @@ import { useEffect, useState } from 'react';
 import { supabase } from '@/lib/supabase';
 import { AnyMatch, isLiveMatch, matchStart, normalizeMatch } from '@/lib/matchUtils';
 import { useSyncVersion } from '@/lib/siteSync';
+import { ageOf } from '@/lib/teamOrder';
+
+const FEATURED_AGES = [13, 12];
 
 const GRACE_MS = 3 * 60 * 60 * 1000; // keep a match "current" for 3h after kick-off
 
@@ -45,7 +48,7 @@ export function useNextMatch() {
   return { match, loading };
 }
 
-/** Most recent finished match (for the "last result" card). */
+/** Most recent finished match (for the "last result" card) — the U-13 / U-12 teams first, as on the rest of the home page. */
 export function useLastResult() {
   const [match, setMatch] = useState<AnyMatch | null>(null);
   const [loading, setLoading] = useState(true);
@@ -59,11 +62,11 @@ export function useLastResult() {
         .select('*')
         .eq('status', 'finished')
         .order('match_date', { ascending: false })
-        .limit(10);
+        .limit(30);
       if (cancelled) return;
       const rows = (data || []).map(normalizeMatch);
       rows.sort((a, b) => (matchStart(b)?.getTime() ?? 0) - (matchStart(a)?.getTime() ?? 0));
-      setMatch(rows[0] || null);
+      setMatch(rows.find(m => FEATURED_AGES.includes(ageOf(m.tournament) ?? -1)) || rows[0] || null);
       setLoading(false);
     })();
     return () => { cancelled = true; };

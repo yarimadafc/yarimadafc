@@ -8,7 +8,7 @@ export default function PrivacyPolicyPage() {
   return (
     <div className="pt-header pb-20 min-h-screen bg-bg-deep">
       <div className="container">
-        <h1 className="text-4xl md:text-5xl font-black text-text-main uppercase tracking-tight mb-8">Məxfilik Siyasəti</h1>
+        <h1 className="text-4xl md:text-4xl font-black text-text-main uppercase tracking-tight mb-8">Məxfilik Siyasəti</h1>
         
         <div className="prose prose-invert max-w-none text-text-sec space-y-6">
           <p className="text-lg font-medium text-text-main">

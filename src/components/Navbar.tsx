@@ -10,6 +10,7 @@ import LanguageSwitcher from '@/components/LanguageSwitcher';
 import { SocialLinks } from '@/components/SocialIcons';
 import { useLang } from '@/lib/i18n';
 import { signOutMember, useMember } from '@/lib/member';
+import { CONTACT_DEFAULTS, telHref, useSiteTexts } from '@/lib/siteTexts';
 
 type Link_ = { name: string; href: string };
 type Item = Link_ & { children?: Link_[] };
@@ -64,6 +65,7 @@ export default function Navbar() {
   const router = useRouter();
   const { t, locale } = useLang();
   const { user } = useMember();
+  const { contact_phone: phone } = useSiteTexts(CONTACT_DEFAULTS);
   const joinHref = user ? '/account' : '/join';
   const joinLabel = user ? 'Hesabım' : 'Bizə qoşul';
   const logout = async () => {
@@ -174,8 +176,8 @@ export default function Navbar() {
         <div className="bg-bg-deep border-b border-bg-border">
           <div className="container flex items-center justify-between gap-4 h-9 text-[12px]">
             <div className="flex items-center gap-4 min-w-0 flex-1 text-text-sec">
-              <a href="tel:0554477467" className="hidden sm:flex items-center gap-2 font-bold tracking-wider hover:text-accent transition-colors whitespace-nowrap">
-                <Phone className="w-3.5 h-3.5" /> 055 447 74 67
+              <a href={telHref(phone)} className="hidden sm:flex items-center gap-2 font-bold tracking-wider hover:text-accent transition-colors whitespace-nowrap">
+                <Phone className="w-3.5 h-3.5" /> {phone}
               </a>
               <span className="hidden sm:block w-px h-4 bg-bg-border" />
               <span className="flex items-center gap-2 text-accent font-semibold min-w-0 flex-1 whitespace-nowrap overflow-hidden" suppressHydrationWarning>
@@ -185,7 +187,6 @@ export default function Navbar() {
               </span>
             </div>
             <div className="flex items-center gap-4 shrink-0">
-              <span className="hidden 2xl:block text-accent font-semibold tracking-wide pr-4 border-r border-bg-border">{t('Gələcəyin çempionları burada yetişir!')}</span>
               <SocialLinks className="hidden xl:flex" iconClass="w-4 h-4" gap="gap-4" />
               <LanguageSwitcher />
             </div>
@@ -347,7 +348,7 @@ export default function Navbar() {
               </button>
             )}
             <div className="flex flex-col items-center gap-5 mt-8 pb-10">
-              <a href="tel:0554477467" className="flex items-center gap-2 text-text-sec font-bold tracking-wider"><Phone className="w-4 h-4" /> 055 447 74 67</a>
+              <a href={telHref(phone)} className="flex items-center gap-2 text-text-sec font-bold tracking-wider"><Phone className="w-4 h-4" /> {phone}</a>
               <SocialLinks iconClass="w-6 h-6" gap="gap-7" />
               <LanguageSwitcher />
             </div>

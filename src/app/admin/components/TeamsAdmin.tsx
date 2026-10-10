@@ -2,7 +2,9 @@
 import { useState, useEffect } from 'react';
 import { supabase } from '@/lib/supabase';
 import { adminDb, toast } from '@/lib/adminDb';
-import { Plus, Trash2, Edit2, UploadCloud, Save } from 'lucide-react';
+import { Plus, Trash2, Edit2, UploadCloud, Save, ChevronUp, ChevronDown } from 'lucide-react';
+import { sortTeams } from '@/lib/teamOrder';
+import SquadStatsAdmin from './SquadStatsAdmin';
 import { uploadFromInput } from '@/lib/uploadImage';
 
 export default function TeamsAdmin() {
@@ -42,9 +44,26 @@ export default function TeamsAdmin() {
 
   const fetchTeams = async () => {
     setLoading(true);
-    const { data } = await supabase.from('teams').select('*').order('created_at', { ascending: false });
-    if (data) setTeams(data);
+    const { data } = await supabase.from('teams').select('*');
+    if (data) setTeams(sortTeams(data));
     setLoading(false);
+  };
+
+  // Up / down arrows: the order is saved as teams.sort_order (1, 2, 3 ...) and the public site
+  // (teams, academy, standings tabs, statistics filters, admin lists) uses the same order.
+  const [savingOrder, setSavingOrder] = useState(false);
+  const moveTeam = async (index: number, dir: -1 | 1) => {
+    const target = index + dir;
+    if (savingOrder || target < 0 || target >= teams.length) return;
+    const next = [...teams];
+    [next[index], next[target]] = [next[target], next[index]];
+    const changed = next.map((t, i) => ({ ...t, sort_order: i + 1 })).filter((t, i) => teams.find(x => x.id === t.id)?.sort_order !== i + 1);
+    setTeams(next.map((t, i) => ({ ...t, sort_order: i + 1 })));
+    setSavingOrder(true);
+    const results = await Promise.all(changed.map(t => adminDb.from('teams').update({ sort_order: t.sort_order }).eq('id', t.id).silent()));
+    setSavingOrder(false);
+    if (results.some(r => r.error)) return fetchTeams();
+    toast('success', 'Komandaların sırası yadda saxlanıldı');
   };
 
   const fetchPlayers = async (teamId: string) => {
@@ -71,16 +90,12 @@ export default function TeamsAdmin() {
     }
   };
   
-  const ignoreThisFunction = (teamId: string) => {
-    setSelectedTeamId(teamId);
-    fetchPlayers(teamId);
-    setIsAddingPlayer(false);
-  };
 
   const handleAddTeam = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!teamName) return;
-    const { error } = await adminDb.from('teams').insert([{ name: teamName, league: teamLeague || null }]);
+    const sortOrder = teams.reduce((n, t) => Math.max(n, t.sort_order || 0), 0) + 1;
+    const { error } = await adminDb.from('teams').insert([{ name: teamName, league: teamLeague || null, sort_order: sortOrder }]);
     if (error) return;
     setTeamName(''); setTeamLeague('');
     setIsAddingTeam(false);
@@ -184,18 +199,30 @@ export default function TeamsAdmin() {
         
         {/* Teams List */}
         <div className="w-full md:w-1/3">
-          <h3 className="text-white font-bold uppercase tracking-widest text-sm mb-4">Komandalar</h3>
+          <h3 className="text-white font-bold uppercase tracking-widest text-sm mb-1">Komandalar</h3>
+          <p className="text-gray-500 text-[11px] mb-4">Oxlarla sıranı dəyişin — saytda hər yerdə bu sıra ilə görünür.</p>
           <div className="space-y-3">
-            {teams.map(t => (
+            {teams.map((t, i) => (
               <div 
                 key={t.id} 
                 className={`bg-gray-800 border ${selectedTeamId === t.id ? 'border-accent' : 'border-gray-700'} p-4 rounded-xl flex justify-between items-center cursor-pointer hover:border-accent/50 transition-colors`}
                 onClick={() => handleSelectTeam(t.id)}
               >
-                <span className={`font-black uppercase tracking-widest text-sm ${selectedTeamId === t.id ? 'text-accent' : 'text-white'}`}>{t.name}</span>
-                <button onClick={(e) => { e.stopPropagation(); handleDeleteTeam(t.id); }} className="text-gray-400 hover:text-red-400 transition-colors p-2">
-                  <Trash2 className="w-4 h-4" />
-                </button>
+                <span className="flex items-center gap-3 min-w-0">
+                  <span className="text-gray-500 text-xs font-bold w-5 text-center">{i + 1}</span>
+                  <span className={`font-black uppercase tracking-widest text-sm truncate ${selectedTeamId === t.id ? 'text-accent' : 'text-white'}`}>{t.name}</span>
+                </span>
+                <span className="flex items-center shrink-0">
+                  <button onClick={(e) => { e.stopPropagation(); moveTeam(i, -1); }} disabled={i === 0 || savingOrder} className="text-gray-400 hover:text-white disabled:opacity-20 p-1.5" aria-label="Yuxarı" title="Yuxarı">
+                    <ChevronUp className="w-4 h-4" />
+                  </button>
+                  <button onClick={(e) => { e.stopPropagation(); moveTeam(i, 1); }} disabled={i === teams.length - 1 || savingOrder} className="text-gray-400 hover:text-white disabled:opacity-20 p-1.5" aria-label="Aşağı" title="Aşağı">
+                    <ChevronDown className="w-4 h-4" />
+                  </button>
+                  <button onClick={(e) => { e.stopPropagation(); handleDeleteTeam(t.id); }} className="text-gray-400 hover:text-red-400 transition-colors p-1.5 ml-1" aria-label="Sil">
+                    <Trash2 className="w-4 h-4" />
+                  </button>
+                </span>
               </div>
             ))}
             {teams.length === 0 && <div className="text-gray-400 text-center py-4">Heç bir komanda yoxdur.</div>}
@@ -320,6 +347,8 @@ export default function TeamsAdmin() {
                 ))}
                 {players.length === 0 && !isAddingPlayer && <div className="col-span-full text-center text-gray-400 py-10 bg-gray-800 rounded-2xl border border-gray-700">Bu komandada oyunçu yoxdur.</div>}
               </div>
+
+              <SquadStatsAdmin teamId={selectedTeamId} players={players} onSaved={() => fetchPlayers(selectedTeamId)} />
             </>
           ) : (
              <div className="flex justify-center items-center h-full min-h-[200px] border-2 border-dashed border-gray-700 rounded-2xl text-gray-400 font-bold uppercase text-xs tracking-widest">

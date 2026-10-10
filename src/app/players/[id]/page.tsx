@@ -15,13 +15,13 @@ export default function PlayerDetailPage() {
   const [player, setPlayer] = useState<any>(null);
   const [loading, setLoading] = useState(true);
   const [photoBroken, setPhotoBroken] = useState(false);
-  const { matches } = usePlayerStatsData();
+  const { matches, playerList } = usePlayerStatsData();
   const stat = useMemo(() => {
     if (!player) return null;
-    const all = buildPlayerStats(matches);
+    const all = buildPlayerStats(matches, {}, playerList);
     const lower = player.name.trim().toLocaleLowerCase('az');
     return all.find(s => s.playerId === player.id) || all.find(s => !s.playerId && s.name.trim().toLocaleLowerCase('az') === lower) || null;
-  }, [matches, player]);
+  }, [matches, player, playerList]);
 
   const sync = useSyncVersion();
   useEffect(() => {
@@ -42,7 +42,7 @@ export default function PlayerDetailPage() {
         
         <div className="bg-bg-sec border border-bg-border rounded-3xl overflow-hidden shadow-2xl flex flex-col md:flex-row relative">
           {/* Background Number */}
-          <div className="absolute top-0 right-10 text-[200px] font-black text-bg-deep opacity-30 select-none z-0 leading-none">
+          <div className="absolute top-0 right-10 text-[140px] font-black text-bg-deep opacity-30 select-none z-0 leading-none">
             {player.jersey_number || ''}
           </div>
 
@@ -63,8 +63,8 @@ export default function PlayerDetailPage() {
               {player.teams?.name || 'Komanda'}
             </div>
             
-            <h1 className="text-4xl md:text-6xl font-black text-text-main uppercase tracking-tighter mb-2">{player.name}</h1>
-            <h2 className="text-xl md:text-2xl font-bold text-accent uppercase tracking-widest mb-10">{player.position}</h2>
+            <h1 className="text-3xl md:text-5xl font-black text-text-main uppercase tracking-tighter mb-2">{player.name}</h1>
+            <h2 className="text-lg md:text-xl font-bold text-accent uppercase tracking-widest mb-10">{player.position}</h2>
 
             <div className="grid grid-cols-2 md:grid-cols-3 gap-4 md:gap-6">
               <div className="bg-bg-main border border-bg-border p-4 rounded-xl text-center">

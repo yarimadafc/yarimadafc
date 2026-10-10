@@ -4,9 +4,11 @@ import Link from 'next/link';
 import { useParams } from 'next/navigation';
 import MatchesAndStandings from '@/components/home/MatchesAndStandings';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { supabase } from '@/lib/supabase';
 import { useSyncVersion } from '@/lib/siteSync';
+import { buildPlayerStats, type PlayerStat } from '@/lib/playerStats';
+import { usePlayerStatsData } from '@/lib/usePlayerStats';
 
 export default function TeamDetailPage() {
   const params = useParams();
@@ -17,6 +19,14 @@ export default function TeamDetailPage() {
   const [teamDesc, setTeamDesc] = useState('');
   const [players, setPlayers] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
+  // squad statistics (match line-ups + admin extras), same numbers as the Statistika page
+  const { matches, playerList } = usePlayerStatsData();
+  const statOf = useMemo(() => {
+    const all = buildPlayerStats(matches, {}, playerList);
+    const byId = new Map(all.filter(s => s.playerId).map(s => [s.playerId!, s]));
+    const byName = new Map(all.filter(s => !s.playerId).map(s => [s.name.trim().toLocaleLowerCase('az'), s]));
+    return (p: any): PlayerStat | null => byId.get(p.id) || byName.get(String(p.name || '').trim().toLocaleLowerCase('az')) || null;
+  }, [matches, playerList]);
 
   const sync = useSyncVersion();
   useEffect(() => {
@@ -136,6 +146,16 @@ export default function TeamDetailPage() {
                 <div className="p-4 md:p-6 text-center border-t border-bg-border bg-gradient-to-t from-bg-deep to-bg-sec">
                   <h3 className="text-text-main font-bold text-sm md:text-base uppercase tracking-wider mb-1 truncate">{player.name}</h3>
                   <p className="text-accent text-[10px] md:text-xs font-bold uppercase tracking-widest">{player.position}</p>
+                  {(() => {
+                    const st = statOf(player);
+                    return (
+                      <div className="mt-3 grid grid-cols-3 gap-1 text-[10px] uppercase tracking-wider text-text-sec">
+                        <span><b className="block text-text-main text-sm">{st?.games ?? 0}</b>Oyun</span>
+                        <span><b className="block text-text-main text-sm">{st?.goals ?? 0}</b>Qol</span>
+                        <span><b className="block text-text-main text-sm">{st?.assists ?? 0}</b>Assist</span>
+                      </div>
+                    );
+                  })()}
                 </div>
               </div>
 </Link>

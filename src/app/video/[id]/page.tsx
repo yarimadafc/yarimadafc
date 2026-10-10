@@ -32,7 +32,7 @@ export default function VideoDetailPage({ params }: { params: Promise<{ id: stri
       <PageHero title={loading ? '...' : video?.title || 'Video tapılmadı'} />
       <div className="container">
         {yt ? (
-          <div className="led-border rounded-2xl overflow-hidden bg-black aspect-video w-full">
+          <div className="led-border rounded-2xl overflow-hidden bg-black aspect-video w-full max-w-5xl mx-auto">
             <iframe src={`https://www.youtube.com/embed/${yt}`} title={video.title} className="w-full h-full border-0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowFullScreen />
           </div>
         ) : !loading && (

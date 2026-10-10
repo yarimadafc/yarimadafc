@@ -81,7 +81,7 @@ export default function TransfersAdmin() {
         <h2 className="text-2xl font-bold text-white">Transferlər</h2>
         <button 
           onClick={() => { resetForm(); setIsAdding(!isAdding); }}
-          className="bg-accent text-white px-4 py-2 rounded-lg font-bold flex items-center space-x-2"
+          className="bg-accent text-on-accent px-4 py-2 rounded-lg font-bold flex items-center space-x-2"
         >
           <Plus className="w-4 h-4" /> <span>{isAdding ? 'Ləğv et' : 'Yeni Transfer'}</span>
         </button>
@@ -147,9 +147,9 @@ export default function TransfersAdmin() {
                </div>
             </div>
             <div className="p-4 flex-1 flex justify-between items-center text-sm">
-               <div className="text-gray-400 text-center w-5/12 truncate">{t.fromTeam || 'Məlum deyil'}</div>
+               <div className="text-gray-400 text-center w-5/12 truncate">{t.from_team || 'Məlum deyil'}</div>
                <div className="text-gray-600 w-2/12 text-center">→</div>
-               <div className="text-white font-bold text-center w-5/12 truncate">{t.toTeam || 'Yarımada FK'}</div>
+               <div className="text-white font-bold text-center w-5/12 truncate">{t.to_team || 'Yarımada FK'}</div>
             </div>
             <div className="p-4 border-t border-gray-700 flex justify-end space-x-2">
               <button onClick={() => handleEdit(t)} className="p-2 bg-blue-600/20 text-blue-400 rounded-lg"><Edit2 className="w-4 h-4" /></button>

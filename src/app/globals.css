@@ -146,7 +146,7 @@ input::placeholder, textarea::placeholder {
 @keyframes led-text { 0%, 100% { text-shadow: 0 0 6px color-mix(in srgb, var(--led) 30%, transparent); } 50% { text-shadow: 0 0 16px color-mix(in srgb, var(--led) 70%, transparent), 0 0 30px color-mix(in srgb, var(--led-hi) 35%, transparent); } }
 @keyframes slide-down { from { transform: translateY(-100%); } to { transform: translateY(0); } }
 @keyframes fade-in { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
-@keyframes hero-zoom { from { transform: scale(1.08) translateZ(0); } to { transform: scale(1) translateZ(0); } }
+@keyframes hero-zoom { from { transform: scale(1.05); } to { transform: none; } }
 @keyframes rise { from { opacity: 0; transform: translateY(28px); } to { opacity: 1; transform: none; } }
 @keyframes marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
 @keyframes float-y { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-6px); } }

@@ -64,7 +64,7 @@ export default function QuickLinks() {
               >
                 {/* Text Area */}
                 <div className="w-full sm:w-1/2 p-8 flex flex-col justify-between z-10">
-                  <h3 className="text-text-main font-black text-2xl lg:text-3xl tracking-tight leading-tight drop-shadow-md">
+                  <h3 className="text-text-main font-black text-xl lg:text-2xl tracking-tight leading-tight drop-shadow-md">
                     {link.title}
                   </h3>
                   <div className="mt-8 flex items-center space-x-4 text-accent">
@@ -74,7 +74,7 @@ export default function QuickLinks() {
                 </div>
 
                 {/* Image Box */}
-                <div className="w-full sm:w-1/2 min-h-[200px] sm:min-h-[250px] bg-bg-deep relative overflow-hidden">
+                <div className="w-full sm:w-1/2 min-h-[170px] sm:min-h-[210px] bg-bg-deep relative overflow-hidden">
                   {images[link.key] ? (
                     <img 
                       src={images[link.key]} 

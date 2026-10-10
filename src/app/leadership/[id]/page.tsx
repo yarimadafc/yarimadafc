@@ -59,7 +59,7 @@ export default function LeadershipDetailPage() {
           {/* Details */}
           <div className="w-full p-8 md:p-10 relative z-10 -mt-10 md:mt-0">
             <Link href="/club" className="text-text-sec hover:text-text-main transition-colors text-[10px] font-bold uppercase tracking-widest mb-6 inline-block flex items-center">
-              &larr; Klub Rəhbərliyinə Qayıt
+              &larr; {person.group_type === 'staff' ? 'Klub Heyətinə Qayıt' : 'Klub Rəhbərliyinə Qayıt'}
             </Link>
             
             <h1 className="text-3xl md:text-4xl font-black text-text-main uppercase tracking-tighter mb-2">{person.name}</h1>

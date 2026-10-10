@@ -2,22 +2,12 @@
 import { motion } from 'framer-motion';
 import Link from 'next/link';
 
-import { useState, useEffect } from 'react';
-import { supabase } from '@/lib/supabase';
 import PageHero from '@/components/PageHero';
-import { useSyncVersion } from '@/lib/siteSync';
+import { useOrderedTeams } from '@/lib/teamOrder';
 
 export default function AcademyPage() {
-  const [teams, setTeams] = useState<any[]>([]);
-
-  const sync = useSyncVersion();
-  useEffect(() => {
-    async function loadTeams() {
-      const { data } = await supabase.from('teams').select('*, coaches(name), players(id)').order('created_at', { ascending: false });
-      if (data) setTeams(data);
-    }
-    loadTeams();
-  }, [sync]);
+  // admin order (Komandalar -> arrows), same as everywhere else on the site
+  const { teams } = useOrderedTeams<any>('*, coaches(name), players(id)');
 
   return (
     <div className="pt-header min-h-screen bg-bg-deep pb-20">
@@ -46,7 +36,7 @@ export default function AcademyPage() {
                   
                   <div>
                     <div className="flex items-center justify-between mb-8">
-                      <h2 className="text-3xl md:text-4xl font-black text-text-main uppercase tracking-tighter">{team.name}</h2>
+                      <h2 className="text-2xl md:text-3xl font-black text-text-main uppercase tracking-tighter">{team.name}</h2>
                       <div className="w-12 h-12 rounded-full border-2 border-accent p-1 flex items-center justify-center">
                         <div className="w-full h-full bg-bg-deep rounded-full flex items-center justify-center relative overflow-hidden">
                           <img src="/Logo.JPG.jpeg" alt="Yarımada FK" className="w-full h-full object-cover" />

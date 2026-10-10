@@ -15,10 +15,10 @@ export default function SectionHeading({ title, href, linkText, center = false, 
   const { t } = useLang();
   return (
     <Reveal variant="left">
-      <div className={`flex gap-4 mb-8 md:mb-10 ${center ? 'flex-col items-center text-center' : 'items-end justify-between'}`}>
+      <div className={`flex gap-4 mb-6 md:mb-8 ${center ? 'flex-col items-center text-center' : 'items-end justify-between'}`}>
         <div className={center ? 'flex flex-col items-center' : ''}>
           <span className="block w-14 h-[3px] led-bar mb-4 rounded-full" aria-hidden />
-          <Tag className="text-3xl md:text-5xl font-extrabold tracking-tight text-text-main leading-tight">{t(title)}</Tag>
+          <Tag className="text-2xl md:text-4xl font-extrabold tracking-tight text-text-main leading-tight">{t(title)}</Tag>
         </div>
         {href && linkText && (
           <Link href={href} className="btn-fx shrink-0 text-sm font-semibold text-text-main border-b-2 border-accent pb-1 whitespace-nowrap hover:text-accent">

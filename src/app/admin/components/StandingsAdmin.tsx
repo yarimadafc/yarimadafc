@@ -2,6 +2,7 @@
 import { useState, useEffect } from 'react';
 import { supabase } from '@/lib/supabase';
 import { adminDb } from '@/lib/adminDb';
+import { sortTeams } from '@/lib/teamOrder';
 import { uploadFromInput } from '@/lib/uploadImage';
 import { LOGO_PREFIX, normalizeTeamName, teamLogoKey } from '@/lib/teamLogos';
 import { Plus, Trash2, Edit2, ChevronRight, ArrowLeft, UploadCloud } from 'lucide-react';
@@ -68,15 +69,9 @@ export default function StandingsAdmin() {
   };
 
   const fetchTeams = async () => {
-    const { data } = await supabase.from('teams').select('name').order('name', { ascending: true });
-    if (data) {
-      const sorted = [...data].sort((a, b) => {
-        const numA = parseInt(a.name.replace(/\D/g, '')) || 0;
-        const numB = parseInt(b.name.replace(/\D/g, '')) || 0;
-        return numA - numB;
-      });
-      setTeams(sorted);
-    }
+    // '*' + client sort: the admin's team order (works before the sort_order column exists, too)
+    const { data } = await supabase.from('teams').select('*');
+    if (data) setTeams(sortTeams(data));
   };
 
   const fetchStandings = async () => {

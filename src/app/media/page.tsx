@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import { supabase } from '@/lib/supabase';
 import PageHero from '@/components/PageHero';
 import { motion } from 'framer-motion';
+import { useSyncVersion } from '@/lib/siteSync';
 
 const getYoutubeId = (url: string) => {
   const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/;
@@ -16,6 +17,7 @@ export default function Page() {
   const [loading, setLoading] = useState(true);
   const [playingId, setPlayingId] = useState<string | null>(null);
 
+  const sync = useSyncVersion();
   useEffect(() => {
     async function loadVideos() {
       const { data } = await supabase.from('videos').select('*').order('created_at', { ascending: false });
@@ -23,7 +25,7 @@ export default function Page() {
       setLoading(false);
     }
     loadVideos();
-  }, []);
+  }, [sync]);
 
   return (
     <motion.div

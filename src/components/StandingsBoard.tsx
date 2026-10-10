@@ -7,6 +7,7 @@ import TeamLogo from '@/components/TeamLogo';
 import Reveal from '@/components/Reveal';
 import { useLang } from '@/lib/i18n';
 import { isLiveMatch, scoreText, AnyMatch, formatShortDate, isYarimada, matchStart, normalizeMatch } from '@/lib/matchUtils';
+import { useSyncVersion } from '@/lib/siteSync';
 
 interface Props {
   /** Max rows in the fixtures/results list (home page shows fewer). */
@@ -21,6 +22,7 @@ export default function StandingsBoard({ matchLimit = 9 }: Props) {
   const [active, setActive] = useState('');
   const [loading, setLoading] = useState(true);
 
+  const sync = useSyncVersion();
   useEffect(() => {
     let cancelled = false;
     async function load() {
@@ -35,7 +37,7 @@ export default function StandingsBoard({ matchLimit = 9 }: Props) {
     }
     load();
     return () => { cancelled = true; };
-  }, []);
+  }, [sync]);
 
   const leagues = useMemo(() => {
     const set = new Set<string>();

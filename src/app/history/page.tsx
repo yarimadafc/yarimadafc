@@ -5,6 +5,7 @@ import { supabase } from '@/lib/supabase';
 import PageHero from '@/components/PageHero';
 import Reveal from '@/components/Reveal';
 import { useLang } from '@/lib/i18n';
+import { useSyncVersion } from '@/lib/siteSync';
 
 const ABOUT_1 = 'Yarımada Futbol Klubu uşaq və gənclər futbolunun inkişafı, onlarda idmana sevgi yaratmaq məqsədilə təsis edilmişdir. Yarandığı gündən etibarən klubumuz qısa zamanda böyük uğurlara imza atmış və bir çox istedadlı gəncləri üzə çıxarmışdır.';
 const ABOUT_2 = 'Bizim üçün hər bir uşaq gələcəyin ulduzudur. Mütəxəssis məşqçilərimiz tərəfindən tətbiq olunan xüsusi inkişaf proqramları ilə futbolçularımızın həm fiziki, həm də psixoloji cəhətdən tam hazırlıqlı olmasını təmin edirik.';
@@ -14,6 +15,7 @@ export default function HistoryPage() {
   const [texts, setTexts] = useState<Record<string, string>>({});
   const [achievements, setAchievements] = useState<any[]>([]);
 
+  const sync = useSyncVersion();
   useEffect(() => {
     async function load() {
       const [{ data: t }, { data: a }] = await Promise.all([
@@ -26,7 +28,7 @@ export default function HistoryPage() {
       setAchievements(a || []);
     }
     load();
-  }, []);
+  }, [sync]);
 
   return (
     <div className="pt-header pb-20 min-h-screen">

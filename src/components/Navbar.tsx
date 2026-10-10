@@ -10,28 +10,51 @@ import LanguageSwitcher from '@/components/LanguageSwitcher';
 import { SocialLinks } from '@/components/SocialIcons';
 import { useLang } from '@/lib/i18n';
 
-type Item = { name: string; href: string; wide?: boolean };
+type Link_ = { name: string; href: string };
+type Item = Link_ & { children?: Link_[] };
 
-// `wide` items move into the "Daha çox" dropdown on smaller desktops.
+// Every page is reachable from the top menu: related pages are grouped under their section
+// (hover on desktop, listed under the section on mobile) instead of a generic "More" menu.
 const menuItems: Item[] = [
   { name: 'Xəbərlər', href: '/news' },
+  {
+    name: 'Klub', href: '/club', children: [
+      { name: 'Klub haqqında', href: '/club' },
+      { name: 'Tarix', href: '/history' },
+      { name: 'Transferlər', href: '/transfers' },
+      { name: 'Sponsorlar', href: '/sponsors' },
+      { name: 'Biletlər', href: '/tickets' },
+    ],
+  },
   { name: 'Komandalar', href: '/teams' },
-  { name: 'Klub', href: '/club' },
-  { name: 'Akademiya', href: '/academy' },
-  { name: 'Oyunlar', href: '/matches' },
-  { name: 'Turnir cədvəli', href: '/standings' },
+  {
+    name: 'Akademiya', href: '/academy', children: [
+      { name: 'Akademiya', href: '/academy' },
+      { name: 'Məşqçilər', href: '/coaches' },
+      { name: 'Məşqçi kursu', href: '/courses' },
+    ],
+  },
+  {
+    name: 'Oyunlar', href: '/matches', children: [
+      { name: 'Təqvim', href: '/matches' },
+      { name: 'Nəticələr', href: '/matches?tab=results' },
+      { name: 'Turnir cədvəli', href: '/standings' },
+    ],
+  },
+  {
+    name: 'Statistika', href: '/stats', children: [
+      { name: 'Ən çox qol vuranlar', href: '/stats?tab=goals' },
+      { name: 'Ən çox assist edənlər', href: '/stats?tab=assists' },
+      { name: 'Bütün futbolçular', href: '/stats?tab=all' },
+    ],
+  },
+  {
+    name: 'Media', href: '/media', children: [
+      { name: 'Foto və video', href: '/media' },
+      { name: 'Sosial media', href: '/social' },
+    ],
+  },
   { name: 'Mağaza', href: '/shop' },
-  { name: 'Media', href: '/media', wide: true },
-  { name: 'Məşqçilər', href: '/coaches', wide: true },
-  { name: 'Tarix', href: '/history', wide: true },
-  { name: 'Sosial media', href: '/social', wide: true },
-  { name: 'Sponsorlar', href: '/sponsors', wide: true },
-  { name: 'Biletlər', href: '/tickets', wide: true },
-];
-
-const moreItems: Item[] = [
-  { name: 'Transferlər', href: '/transfers' },
-  { name: 'Məşqçi kursu', href: '/courses' },
   { name: 'Əlaqə', href: '/contact' },
 ];
 
@@ -43,7 +66,7 @@ export default function Navbar() {
   const [headerH, setHeaderH] = useState(120);
   const [isOpen, setIsOpen] = useState(false);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
-  const [moreOpen, setMoreOpen] = useState(false);
+  const [openMenu, setOpenMenu] = useState<string | null>(null);
   const [searchQuery, setSearchQuery] = useState('');
   const [theme, setTheme] = useState('dark');
   const [scrolled, setScrolled] = useState(false);
@@ -92,7 +115,7 @@ export default function Navbar() {
   useEffect(() => {
     setIsOpen(false);
     setIsSearchOpen(false);
-    setMoreOpen(false);
+    setOpenMenu(null);
   }, [pathname]);
 
   useEffect(() => {
@@ -116,7 +139,11 @@ export default function Navbar() {
     setIsOpen(false);
   };
 
-  const isActive = (href: string) => (href === '/' ? pathname === '/' : pathname.startsWith(href));
+  const isActive = (href: string) => {
+    const path = href.split('?')[0];
+    return path === '/' ? pathname === '/' : pathname.startsWith(path);
+  };
+  const itemActive = (item: Item) => isActive(item.href) || !!item.children?.some(c => isActive(c.href));
   const linkClass = (href: string) =>
     `relative whitespace-nowrap text-[13px] 2xl:text-sm font-semibold transition-all duration-300 hover:-translate-y-px ${isActive(href) ? 'text-text-main' : 'text-text-sec hover:text-text-main'}`;
   const ThemeIcon = theme === 'dark' ? Sun : Moon;
@@ -173,33 +200,44 @@ export default function Navbar() {
                 </div>
               </div>
 
-              <nav className="flex items-center justify-between h-12 gap-4" aria-label="Main">
-                <div className="flex items-center gap-5 2xl:gap-6 min-w-0">
+              <nav className="relative flex items-center justify-center h-12" aria-label="Main">
+                <ul className="flex items-center justify-center gap-5 2xl:gap-8 min-w-0 pr-10">
                   {menuItems.map(item => (
-                    <Link key={item.href} href={item.href} className={`${linkClass(item.href)} ${item.wide ? 'hidden 2xl:inline' : ''}`}>
-                      {t(item.name)}
-                      <span className={`absolute -bottom-[15px] left-0 right-0 h-[2px] led-bar origin-left transition-transform duration-300 ${isActive(item.href) ? 'scale-x-100' : 'scale-x-0'}`} />
-                    </Link>
-                  ))}
-                  <div className="relative shrink-0" onMouseEnter={() => setMoreOpen(true)} onMouseLeave={() => setMoreOpen(false)}>
-                    <button onClick={() => setMoreOpen(o => !o)} className="flex items-center gap-1 text-[13px] 2xl:text-sm font-semibold text-text-sec hover:text-text-main transition-colors whitespace-nowrap" aria-expanded={moreOpen}>
-                      {t('Daha çox')} <ChevronDown className={`w-4 h-4 transition-transform ${moreOpen ? 'rotate-180' : ''}`} />
-                    </button>
-                    {moreOpen && (
-                      <div className="absolute right-0 top-full pt-3 z-50">
-                        <div className="min-w-[210px] bg-bg-sec border border-bg-border rounded-xl py-2 shadow-2xl animate-[fade-in_.2s_ease-out_both]">
-                          {menuItems.filter(i => i.wide).map(item => (
-                            <Link key={item.href} href={item.href} className="2xl:hidden block px-5 py-2.5 text-sm font-medium text-text-sec hover:text-text-main hover:bg-bg-card hover:pl-6 transition-all">{t(item.name)}</Link>
-                          ))}
-                          {moreItems.map(item => (
-                            <Link key={item.href} href={item.href} className="block px-5 py-2.5 text-sm font-medium text-text-sec hover:text-text-main hover:bg-bg-card hover:pl-6 transition-all">{t(item.name)}</Link>
-                          ))}
+                    <li
+                      key={item.name}
+                      className="relative"
+                      onMouseEnter={() => item.children && setOpenMenu(item.name)}
+                      onMouseLeave={() => item.children && setOpenMenu(null)}
+                    >
+                      <span className="flex items-center gap-1">
+                        <Link href={item.href} className={linkClass(item.href)} aria-current={itemActive(item) ? 'page' : undefined}>
+                          <span className={itemActive(item) ? 'text-text-main' : ''}>{t(item.name)}</span>
+                          <span className={`absolute -bottom-[15px] left-0 right-0 h-[2px] led-bar origin-left transition-transform duration-300 ${itemActive(item) ? 'scale-x-100' : 'scale-x-0'}`} />
+                        </Link>
+                        {item.children && (
+                          <button
+                            onClick={() => setOpenMenu(o => (o === item.name ? null : item.name))}
+                            className="text-text-sec hover:text-text-main transition-colors"
+                            aria-expanded={openMenu === item.name}
+                            aria-label={`${t(item.name)} — ${t('alt menyu')}`}
+                          >
+                            <ChevronDown className={`w-3.5 h-3.5 transition-transform ${openMenu === item.name ? 'rotate-180' : ''}`} />
+                          </button>
+                        )}
+                      </span>
+                      {item.children && openMenu === item.name && (
+                        <div className="absolute left-1/2 -translate-x-1/2 top-full pt-3 z-50">
+                          <div className="min-w-[220px] bg-bg-sec border border-bg-border rounded-xl py-2 shadow-2xl animate-[fade-in_.2s_ease-out_both]">
+                            {item.children.map(c => (
+                              <Link key={c.href} href={c.href} className="block px-5 py-2.5 text-sm font-medium text-text-sec hover:text-text-main hover:bg-bg-card hover:pl-6 transition-all whitespace-nowrap">{t(c.name)}</Link>
+                            ))}
+                          </div>
                         </div>
-                      </div>
-                    )}
-                  </div>
-                </div>
-                <button onClick={() => setIsSearchOpen(o => !o)} className="text-text-main hover:text-accent hover:scale-110 transition-all p-1.5 shrink-0 ml-2" aria-label={t('Axtarış')}>
+                      )}
+                    </li>
+                  ))}
+                </ul>
+                <button onClick={() => setIsSearchOpen(o => !o)} className="absolute right-0 top-1/2 -translate-y-1/2 text-text-main hover:text-accent hover:scale-110 transition-all p-1.5" aria-label={t('Axtarış')}>
                   {isSearchOpen ? <X className="w-5 h-5" /> : <Search className="w-5 h-5" />}
                 </button>
               </nav>
@@ -253,16 +291,23 @@ export default function Navbar() {
         <div className="xl:hidden fixed inset-x-0 bottom-0 z-40 bg-bg-main overflow-y-auto overscroll-contain border-t border-bg-border animate-[fade-in_.25s_ease-out_both]" style={{ top: headerH }}>
           <div className="container py-4">
             <nav className="flex flex-col" aria-label="Mobile">
-              {[...menuItems, ...moreItems].map((item, i) => (
-                <Link
-                  key={item.href}
-                  href={item.href}
-                  style={{ animationDelay: `${i * 30}ms` }}
-                  className={`flex items-center justify-between py-4 border-b border-bg-border text-lg font-semibold animate-[fade-in_.4s_ease-out_both] ${isActive(item.href) ? 'text-text-main' : 'text-text-sec'}`}
-                >
-                  {t(item.name)}
-                  {isActive(item.href) && <span className="w-2 h-2 rounded-full bg-accent led-glow" />}
-                </Link>
+              {menuItems.map((item, i) => (
+                <div key={item.name} style={{ animationDelay: `${i * 30}ms` }} className="border-b border-bg-border animate-[fade-in_.4s_ease-out_both]">
+                  <Link
+                    href={item.href}
+                    className={`flex items-center justify-between py-4 text-lg font-semibold ${itemActive(item) ? 'text-text-main' : 'text-text-sec'}`}
+                  >
+                    {t(item.name)}
+                    {itemActive(item) && <span className="w-2 h-2 rounded-full bg-accent led-glow" />}
+                  </Link>
+                  {item.children && (
+                    <div className="grid grid-cols-2 gap-x-4 pb-4 -mt-1">
+                      {item.children.filter(c => c.href !== item.href).map(c => (
+                        <Link key={c.href} href={c.href} className="py-1.5 text-sm text-text-sec hover:text-text-main">{t(c.name)}</Link>
+                      ))}
+                    </div>
+                  )}
+                </div>
               ))}
             </nav>
             <Link href="/contact" className="btn-fx led-border mt-6 block w-full text-center bg-accent text-on-accent font-bold py-4 rounded-xl">{t('Bizə qoşul')}</Link>

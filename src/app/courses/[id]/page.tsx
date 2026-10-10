@@ -4,6 +4,7 @@ import { useParams } from 'next/navigation';
 import { useState, useEffect } from 'react';
 import { supabase } from '@/lib/supabase';
 import Link from 'next/link';
+import { useSyncVersion } from '@/lib/siteSync';
 
 export default function CourseDetailPage() {
   const params = useParams();
@@ -11,6 +12,7 @@ export default function CourseDetailPage() {
   const [course, setCourse] = useState<any>(null);
   const [loading, setLoading] = useState(true);
 
+  const sync = useSyncVersion();
   useEffect(() => {
     async function loadCourse() {
       const { data } = await supabase.from('coach_courses').select('*').eq('id', id).maybeSingle();
@@ -18,7 +20,7 @@ export default function CourseDetailPage() {
       setLoading(false);
     }
     loadCourse();
-  }, [id]);
+  }, [id, sync]);
 
   if (loading) {
     return (

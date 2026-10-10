@@ -5,11 +5,13 @@ import { supabase } from '@/lib/supabase';
 import PageHero from '@/components/PageHero';
 import Link from 'next/link';
 import { PlayCircle } from 'lucide-react';
+import { useSyncVersion } from '@/lib/siteSync';
 
 export default function CoursesPage() {
   const [courses, setCourses] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
 
+  const sync = useSyncVersion();
   useEffect(() => {
     async function loadCourses() {
       const { data } = await supabase.from('coach_courses').select('*').order('created_at', { ascending: false });
@@ -17,7 +19,7 @@ export default function CoursesPage() {
       setLoading(false);
     }
     loadCourses();
-  }, []);
+  }, [sync]);
 
   return (
     <div className="pt-header min-h-screen bg-bg-deep pb-20">

@@ -2,6 +2,7 @@
 import { useEffect, useState } from 'react';
 import { supabase } from '@/lib/supabase';
 import { AnyMatch, isLiveMatch, matchStart, normalizeMatch } from '@/lib/matchUtils';
+import { useSyncVersion } from '@/lib/siteSync';
 
 const GRACE_MS = 3 * 60 * 60 * 1000; // keep a match "current" for 3h after kick-off
 
@@ -9,6 +10,7 @@ const GRACE_MS = 3 * 60 * 60 * 1000; // keep a match "current" for 3h after kick
 export function useNextMatch() {
   const [match, setMatch] = useState<AnyMatch | null>(null);
   const [loading, setLoading] = useState(true);
+  const sync = useSyncVersion();
 
   useEffect(() => {
     let cancelled = false;
@@ -38,7 +40,7 @@ export function useNextMatch() {
     // refresh so admin changes (start / score / finish) appear without reloading the page
     const id = setInterval(load, 20000);
     return () => { cancelled = true; clearInterval(id); };
-  }, []);
+  }, [sync]);
 
   return { match, loading };
 }

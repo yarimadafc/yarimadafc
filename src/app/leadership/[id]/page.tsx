@@ -4,6 +4,7 @@ import { useParams } from 'next/navigation';
 import { useState, useEffect } from 'react';
 import { supabase } from '@/lib/supabase';
 import Link from 'next/link';
+import { useSyncVersion } from '@/lib/siteSync';
 
 export default function LeadershipDetailPage() {
   const params = useParams();
@@ -11,6 +12,7 @@ export default function LeadershipDetailPage() {
   const [person, setPerson] = useState<any>(null);
   const [loading, setLoading] = useState(true);
 
+  const sync = useSyncVersion();
   useEffect(() => {
     async function loadPerson() {
       const { data } = await supabase.from('leadership').select('*').eq('id', id).maybeSingle();
@@ -18,7 +20,7 @@ export default function LeadershipDetailPage() {
       setLoading(false);
     }
     loadPerson();
-  }, [id]);
+  }, [id, sync]);
 
   if (loading) {
     return (
@@ -45,7 +47,7 @@ export default function LeadershipDetailPage() {
           {/* Photo */}
           <div className="w-full md:w-1/4 xl:w-1/5 h-[300px] md:h-[400px] relative bg-bg-main flex-shrink-0 border-r border-bg-border">
             {person.image_url ? (
-              <img src={person.image_url} alt={person.name} className="absolute inset-0 w-full h-full object-contain object-top pt-4 opacity-90" />
+              <img src={person.image_url} alt={person.name} className="absolute inset-0 w-full h-full object-cover object-top" />
             ) : (
               <div className="absolute inset-0 flex items-center justify-center">
                  <svg className="w-24 h-24 text-text-sec" fill="currentColor" viewBox="0 0 20 20"><path fillRule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clipRule="evenodd" /></svg>

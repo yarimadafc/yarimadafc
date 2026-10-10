@@ -9,6 +9,7 @@ import Reveal from '@/components/Reveal';
 import { useLang } from '@/lib/i18n';
 import { useFormat } from '@/lib/useFormat';
 import { AnyMatch, isLiveMatch, scoreText, matchStart, normalizeMatch } from '@/lib/matchUtils';
+import { useSyncVersion } from '@/lib/siteSync';
 
 function MatchesList() {
   const { t } = useLang();
@@ -25,6 +26,7 @@ function MatchesList() {
     return () => clearInterval(t);
   }, []);
 
+  const sync = useSyncVersion();
   useEffect(() => {
     async function load() {
       const { data } = await supabase.from('matches').select('*').order('match_date', { ascending: true });
@@ -32,7 +34,7 @@ function MatchesList() {
       setLoading(false);
     }
     load();
-  }, []);
+  }, [sync]);
 
   const leagues = useMemo(() => ['Hamısı', ...Array.from(new Set(matches.map(m => m.tournament || 'Oyun'))).sort()], [matches]);
 

@@ -5,10 +5,12 @@ import { ArrowRight } from 'lucide-react';
 import { motion, Variants } from 'framer-motion';
 import { useEffect, useState } from 'react';
 import { supabase } from '@/lib/supabase';
+import { useSyncVersion } from '@/lib/siteSync';
 
 export default function QuickLinks() {
   const [images, setImages] = useState<Record<string, string>>({});
 
+  const sync = useSyncVersion();
   useEffect(() => {
     async function loadImages() {
       const keys = ['quick_shop', 'quick_academy'];
@@ -20,7 +22,7 @@ export default function QuickLinks() {
       }
     }
     loadImages();
-  }, []);
+  }, [sync]);
 
   const links = [
     { title: 'Yarımada Shop', href: '/shop', key: 'quick_shop' },

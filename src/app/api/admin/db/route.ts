@@ -1,7 +1,8 @@
-import { NextRequest, NextResponse } from 'next/server';
+import { NextRequest, NextResponse, after } from 'next/server';
 import { createClient } from '@supabase/supabase-js';
 import { requireAdmin } from '@/lib/adminGuard';
 import { collectTexts, translateAndStore } from '@/lib/contentTranslate';
+import { broadcastSiteChange } from '@/lib/siteSyncServer';
 
 const ALLOWED_TABLES = new Set([
   'achievements', 'coach_courses', 'coaches', 'hero_slides', 'leadership', 'matches',
@@ -47,17 +48,18 @@ export async function POST(request: NextRequest) {
 
     if (error) return NextResponse.json({ data: null, error: { message: error.message } });
 
-    // Store EN/RU translations of the saved text (bounded so saving never hangs).
-    let translated = 0;
-    if (action !== 'delete') {
-      const texts = collectTexts(table, payload, eqFilters);
-      translated = await Promise.race([
-        translateAndStore(texts),
-        new Promise<number>(resolve => setTimeout(() => resolve(0), 9000)),
-      ]);
-    }
-    return NextResponse.json({ data: data ?? null, error: null, translated });
+    // Respond immediately; notifying open sites and storing EN/RU translations happen after the
+    // response (translation used to block the save for up to 9 s and froze the admin panel).
+    const texts = action === 'delete' ? [] : collectTexts(table, payload, eqFilters);
+    after(async () => {
+      await broadcastSiteChange(table);
+      if (texts.length && (await translateAndStore(texts)) > 0) await broadcastSiteChange('translations');
+    });
+    return NextResponse.json({ data: data ?? null, error: null });
   } catch {
     return NextResponse.json({ error: { message: 'Request failed' } }, { status: 500 });
   }
 }
+
+// Leaves room for the post-response translation work.
+export const maxDuration = 60;

@@ -3,11 +3,13 @@ import { useEffect, useState } from 'react';
 import { supabase } from '@/lib/supabase';
 import PageHero from '@/components/PageHero';
 import Reveal from '@/components/Reveal';
+import { useSyncVersion } from '@/lib/siteSync';
 
 export default function SponsorsPage() {
   const [sponsors, setSponsors] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
 
+  const sync = useSyncVersion();
   useEffect(() => {
     async function load() {
       const { data } = await supabase.from('sponsors').select('*').order('created_at', { ascending: true });
@@ -15,7 +17,7 @@ export default function SponsorsPage() {
       setLoading(false);
     }
     load();
-  }, []);
+  }, [sync]);
 
   return (
     <div className="pt-header pb-20 min-h-screen">

@@ -7,6 +7,7 @@ import { supabase } from "@/lib/supabase";
 import Image from 'next/image';
 import { Send, Music2, MessageCircle } from 'lucide-react';
 import { useLang } from '@/lib/i18n';
+import { useSyncVersion } from '@/lib/siteSync';
 
 const YoutubeIcon = () => (
   <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M22.54 6.42a2.78 2.78 0 0 0-1.94-2C18.88 4 12 4 12 4s-6.88 0-8.6.46a2.78 2.78 0 0 0-1.94 2A29 29 0 0 0 1 11.75a29 29 0 0 0 .46 5.33 2.78 2.78 0 0 0 1.94 2c1.72.46 8.6.46 8.6.46s6.88 0 8.6-.46a2.78 2.78 0 0 0 1.94-2 29 29 0 0 0 .46-5.33 29 29 0 0 0-.46-5.33z"></path><polygon points="9.75 15.02 15.5 11.75 9.75 8.48 9.75 15.02"></polygon></svg>
@@ -36,13 +37,14 @@ export default function Footer() {
   const { t } = useLang();
   const [sponsors, setSponsors] = useState<any[]>([]);
 
+  const sync = useSyncVersion();
   useEffect(() => {
     async function fetchSponsors() {
       const { data } = await supabase.from('sponsors').select('*').order('created_at', { ascending: true });
       if (data && data.length > 0) setSponsors(data);
     }
     fetchSponsors();
-  }, []);
+  }, [sync]);
 
   return (
     <footer className="w-full bg-bg-main pt-0 pb-8 overflow-hidden">
@@ -94,15 +96,18 @@ export default function Footer() {
         <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-5 gap-8 lg:gap-8 pt-12 border-t border-bg-border/50">
           
           {/* Logo & Slogan */}
-          <div className="col-span-2 lg:col-span-1 flex flex-col items-start md:items-center lg:items-start space-y-4">
-            <Link href="/" className="flex items-center space-x-3">
-               <div className="relative w-16 h-16 md:w-20 md:h-20 rounded-full overflow-hidden border-2 border-accent">
-                 <Image src="/Logo.JPG.jpeg" alt="Yarımada FK" fill className="object-cover" />
+          <div className="col-span-2 lg:col-span-1 flex flex-col items-start md:items-center lg:items-start gap-5">
+            <Link href="/" className="flex items-center gap-4 group" aria-label="Yarımada FK">
+               <div className="relative w-16 h-16 md:w-20 md:h-20 rounded-full overflow-hidden border-2 border-accent shrink-0 led-glow">
+                 <Image src="/Logo.JPG.jpeg" alt="Yarımada FK" fill sizes="80px" className="object-cover" />
                </div>
-               
+               <span className="flex flex-col leading-none">
+                 <span className="text-xl md:text-2xl font-extrabold tracking-tight text-text-main">Yarımada FK</span>
+                 <span className="mt-1.5 text-[10px] font-semibold tracking-[0.25em] uppercase text-text-sec">{t('Uşaq futbol akademiyası')}</span>
+               </span>
             </Link>
-            <p className="text-text-sec font-medium text-xs md:text-sm italic pl-2 md:text-center lg:text-left">
-              "Gələcəyin çempionları<br />burada yetişir!"
+            <p className="max-w-xs text-text-sec text-sm leading-relaxed md:text-center lg:text-left">
+              {t('Xırdalanda uşaq və yeniyetmələr üçün futbol akademiyası. Yaş qruplarına uyğun məşqlər, təcrübəli məşqçilər və rəsmi turnirlərdə oyun təcrübəsi.')}
             </p>
           </div>
 
@@ -111,6 +116,7 @@ export default function Footer() {
             <Link href="/news" className="inline-block text-text-main font-bold text-xs md:text-sm hover:text-accent hover:translate-x-1 transition-all duration-300">Xəbərlər</Link>
             <Link href="/club" className="inline-block text-text-main font-bold text-xs md:text-sm hover:text-accent hover:translate-x-1 transition-all duration-300">Haqqımızda</Link>
             <Link href="/matches" className="inline-block text-text-main font-bold text-xs md:text-sm hover:text-accent hover:translate-x-1 transition-all duration-300">Oyunlar</Link>
+            <Link href="/stats" className="inline-block text-text-main font-bold text-xs md:text-sm hover:text-accent hover:translate-x-1 transition-all duration-300">Statistika</Link>
             <Link href="/social" className="inline-block text-text-main font-bold text-xs md:text-sm hover:text-accent hover:translate-x-1 transition-all duration-300">Sosial media</Link>
           </div>
 

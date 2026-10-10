@@ -3,8 +3,18 @@
 type Result = { data: any; error: { message: string } | null };
 
 // Every admin write reports its outcome (shown as a toast by the dashboard), so failures are never silent.
-function notify(kind: 'success' | 'error', message: string) {
+export function toast(kind: 'success' | 'error', message: string) {
   if (typeof window !== 'undefined') window.dispatchEvent(new CustomEvent('admin-toast', { detail: { kind, message } }));
+}
+
+// Tells public-site tabs open in this browser to reload their data right away
+// (other devices are notified by the server through Supabase Realtime, see lib/siteSync.ts).
+function broadcastChange(table: string) {
+  try {
+    const ch = new BroadcastChannel('yarimada-sync');
+    ch.postMessage({ table, at: Date.now() });
+    ch.close();
+  } catch { /* unsupported browser */ }
 }
 
 class AdminQuery implements PromiseLike<Result> {
@@ -13,6 +23,7 @@ class AdminQuery implements PromiseLike<Result> {
   private options: unknown;
   private filters: [string, unknown][] = [];
   private returning = false;
+  private quiet = false;
 
   constructor(private table: string) {}
 
@@ -22,6 +33,8 @@ class AdminQuery implements PromiseLike<Result> {
   delete() { this.action = 'delete'; return this; }
   eq(column: string, value: unknown) { this.filters.push([column, value]); return this; }
   select() { this.returning = true; return this; }
+  /** Skip the success toast (errors are still shown) — for multi-step saves that toast once at the end. */
+  silent() { this.quiet = true; return this; }
 
   private async run(): Promise<Result> {
     try {
@@ -35,10 +48,14 @@ class AdminQuery implements PromiseLike<Result> {
       });
       const json = await res.json().catch(() => ({}));
       const error = json.error ?? (res.ok ? null : { message: res.status === 401 ? 'Sessiya bitib, yenidən daxil olun.' : `HTTP ${res.status}` });
-      notify(error ? 'error' : 'success', error ? error.message : this.action === 'delete' ? 'Silindi' : 'Yadda saxlanıldı');
+      if (error) toast('error', error.message);
+      else {
+        if (!this.quiet) toast('success', this.action === 'delete' ? 'Silindi' : 'Yadda saxlanıldı');
+        broadcastChange(this.table);
+      }
       return { data: json.data ?? null, error };
     } catch (e: any) {
-      notify('error', e?.message || 'Şəbəkə xətası');
+      toast('error', e?.message || 'Şəbəkə xətası');
       return { data: null, error: { message: e?.message || 'Network error' } };
     }
   }

@@ -1,9 +1,12 @@
 'use client';
 import { useState, useEffect } from 'react';
 import { supabase } from '@/lib/supabase';
-import { adminDb } from '@/lib/adminDb';
-import { compressImage } from '@/lib/imageCompress';
-import { Trash2, Plus, UploadCloud, Radio, Clock, Users, Play, Pause, Square, AlertCircle } from 'lucide-react';
+import { adminDb, toast } from '@/lib/adminDb';
+import { uploadFromInput } from '@/lib/uploadImage';
+import { teamLogoKey } from '@/lib/teamLogos';
+import { isYarimada } from '@/lib/matchUtils';
+import { entryGoals, entryPlayed } from '@/lib/playerStats';
+import { Trash2, Plus, UploadCloud, Radio, Clock, Users, Play, Pause, Square, AlertCircle, Minus } from 'lucide-react';
 import { calculateLiveMinute, TimerStatus } from '@/lib/matchTimer';
 
 export default function MatchesAdmin() {
@@ -51,6 +54,7 @@ export default function MatchesAdmin() {
 
   const [uploadingHomeLogo, setUploadingHomeLogo] = useState(false);
   const [uploadingAwayLogo, setUploadingAwayLogo] = useState(false);
+  const [saving, setSaving] = useState(false);
 
   // Real-time minute display for the admin panel
   const [currentDisplayMinute, setCurrentDisplayMinute] = useState<string>('');
@@ -67,9 +71,12 @@ export default function MatchesAdmin() {
             setYarimadaLineup(data.map(p => ({
               id: p.id,
               name: p.name,
-              number: p.number,
+              number: p.jersey_number ?? '',
               position: p.position,
               is_starting: true, // Defaulting to starting
+              played: true,
+              goals: 0,
+              assists: 0,
               events: []
             })));
           }
@@ -110,17 +117,20 @@ export default function MatchesAdmin() {
   };
 
   const syncLineup = async () => {
-    if (!selectedTeamIdForLineup) return alert('Zəhmət olmasa komandanı seçin');
+    if (!selectedTeamIdForLineup) return toast('error', 'Zəhmət olmasa komandanı seçin');
     if (confirm('Mövcud heyət silinəcək və komandanın oyunçuları bura kopyalanacaq. Davam edilsin?')) {
       const { data } = await supabase.from('players').select('*').eq('team_id', selectedTeamIdForLineup);
       if (data) {
         const mapped = data.map(p => ({
           id: p.id,
           name: p.name,
-          number: p.number,
+          number: p.jersey_number ?? '',
           position: p.position,
           is_starting: false,
-          events: [] // e.g. ['yellow_card', 'red_card', 'goal', 'injury']
+          played: false,
+          goals: 0,
+          assists: 0,
+          events: [] // e.g. ['yellow_card', 'red_card', 'injury']
         }));
         setYarimadaLineup(mapped);
       }
@@ -130,38 +140,37 @@ export default function MatchesAdmin() {
   const toggleEvent = (playerId: string, event: string) => {
     setYarimadaLineup(prev => prev.map(p => {
       if (p.id !== playerId) return p;
-      const hasEvent = p.events.includes(event);
-      return { ...p, events: hasEvent ? p.events.filter((e: string) => e !== event) : [...p.events, event] };
+      const events = p.events || [];
+      const hasEvent = events.includes(event);
+      return { ...p, events: hasEvent ? events.filter((e: string) => e !== event) : [...events, event] };
     }));
   };
 
-  const handleLogoUpload = async (e: React.ChangeEvent<HTMLInputElement>, isHome: boolean) => {
-    const file = e.target.files?.[0];
-    if (!file) return;
-    
-    if (isHome) setUploadingHomeLogo(true);
-    else setUploadingAwayLogo(true);
+  // goals / assists / minutes per player — the source of the public player statistics
+  const updatePlayer = (index: number, patch: Record<string, any>) => {
+    setYarimadaLineup(prev => prev.map((p, i) => {
+      if (i !== index) return p;
+      const next = { ...p, ...patch };
+      if ('goals' in patch) next.events = (next.events || []).filter((e: string) => e !== 'goal');
+      // scoring or assisting means the player played
+      if ((next.goals > 0 || next.assists > 0 || next.minutes > 0) && patch.played === undefined) next.played = true;
+      return next;
+    }));
+  };
+  const step = (index: number, field: 'goals' | 'assists', delta: number) => {
+    const p = yarimadaLineup[index];
+    const current = field === 'goals' ? entryGoals(p) : Number(p.assists) || 0;
+    updatePlayer(index, { [field]: Math.max(0, current + delta) });
+  };
+  const lineupGoals = yarimadaLineup.reduce((sum, p) => sum + (entryPlayed(p) ? entryGoals(p) : 0), 0);
+  const ourScore = isYarimada(homeTeam) ? homeScore : isYarimada(awayTeam) ? awayScore : '';
 
-    try {
-      const base64 = await compressImage(file);
-      const uploadRes = await fetch('/api/upload', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ image: base64 })
-      });
-      if (!uploadRes.ok) throw new Error('Upload failed');
-      const uploadData = await uploadRes.json();
-      
-      if (uploadData.url) {
-        if (isHome) setHomeLogo(uploadData.url);
-        else setAwayLogo(uploadData.url);
-      }
-    } catch (err) {
-      alert('Loqo yüklənərkən xəta baş verdi');
-    }
-    
-    if (isHome) setUploadingHomeLogo(false);
-    else setUploadingAwayLogo(false);
+  const handleLogoUpload = async (e: React.ChangeEvent<HTMLInputElement>, isHome: boolean) => {
+    const setUploading = isHome ? setUploadingHomeLogo : setUploadingAwayLogo;
+    setUploading(true);
+    const url = await uploadFromInput(e);
+    if (url) (isHome ? setHomeLogo : setAwayLogo)(url);
+    setUploading(false);
   };
 
   const handleEdit = (m: any) => {
@@ -196,7 +205,7 @@ export default function MatchesAdmin() {
 
   const handleSave = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!homeTeam || !awayTeam) return alert('Komandaların adını qeyd edin.');
+    if (!homeTeam || !awayTeam) return toast('error', 'Komandaların adını qeyd edin.');
 
     const payload = {
       tournament: tournament || null,
@@ -223,14 +232,21 @@ export default function MatchesAdmin() {
       away_lineup: awayLineup
     };
 
-    if (editingId) {
-      await adminDb.from('matches').update(payload).eq('id', editingId);
-      alert('Oyun məlumatları yeniləndi!');
-    } else {
-      await adminDb.from('matches').insert([payload]);
-      alert('Oyun uğurla əlavə edildi!');
+    if (saving || uploadingHomeLogo || uploadingAwayLogo) return;
+    setSaving(true);
+    const { error } = editingId
+      ? await adminDb.from('matches').update(payload).eq('id', editingId)
+      : await adminDb.from('matches').insert([payload]);
+    if (!error) {
+      // remember each opponent's logo so it also shows in the standings and other fixtures
+      const logos = [[homeTeam, homeLogo], [awayTeam, awayLogo]]
+        .filter(([name, url]) => name && url && !isYarimada(name))
+        .map(([name, url]) => ({ section_key: teamLogoKey(name), image_url: url }));
+      if (logos.length) await adminDb.from('site_images').upsert(logos, { onConflict: 'section_key' }).silent();
     }
-    
+    setSaving(false);
+    if (error) return;
+
     setIsAdding(false);
     resetForm();
     fetchMatches();
@@ -261,8 +277,7 @@ export default function MatchesAdmin() {
     if (patch.status) setStatus(patch.status as 'upcoming' | 'live' | 'finished');
     if (!editingId) return; // new match: values are saved together with the form
     const { error } = await adminDb.from('matches').update(patch).eq('id', editingId);
-    if (error) alert('Taymer yadda saxlanmadı: ' + error.message);
-    else fetchMatches();
+    if (!error) fetchMatches();
   };
 
   const startFirstHalf = () =>
@@ -337,7 +352,7 @@ export default function MatchesAdmin() {
                 <div className="bg-black p-3 rounded-lg border border-gray-700">
                   <label className="block text-gray-400 text-xs font-bold uppercase mb-2">Ev Sahibi Loqosu</label>
                   <div className="flex items-center space-x-3">
-                    {homeLogo && <img src={homeLogo} alt="Home" className="w-10 h-10 object-contain bg-white rounded p-1" />}
+                    {homeLogo && <img src={homeLogo} alt="Home" className="w-10 h-10 object-contain bg-white rounded-full p-1" />}
                     <label className="cursor-pointer bg-gray-800 border border-gray-700 hover:border-accent px-4 py-2 rounded text-xs font-bold text-white uppercase transition-colors">
                       {uploadingHomeLogo ? 'Yüklənir...' : 'Cihazdan Seç'}
                       <input type="file" accept="image/*" onChange={e => handleLogoUpload(e, true)} className="hidden" />
@@ -348,7 +363,7 @@ export default function MatchesAdmin() {
                 <div className="bg-black p-3 rounded-lg border border-gray-700">
                   <label className="block text-gray-400 text-xs font-bold uppercase mb-2">Qonaq Loqosu</label>
                   <div className="flex items-center space-x-3">
-                    {awayLogo && <img src={awayLogo} alt="Away" className="w-10 h-10 object-contain bg-white rounded p-1" />}
+                    {awayLogo && <img src={awayLogo} alt="Away" className="w-10 h-10 object-contain bg-white rounded-full p-1" />}
                     <label className="cursor-pointer bg-gray-800 border border-gray-700 hover:border-accent px-4 py-2 rounded text-xs font-bold text-white uppercase transition-colors">
                       {uploadingAwayLogo ? 'Yüklənir...' : 'Cihazdan Seç'}
                       <input type="file" accept="image/*" onChange={e => handleLogoUpload(e, false)} className="hidden" />
@@ -469,7 +484,7 @@ export default function MatchesAdmin() {
                 <input type="number" value={newPlayerNumber} onChange={e => setNewPlayerNumber(e.target.value)} placeholder="Nömrə..." className="w-full md:w-24 bg-gray-900 border border-gray-700 rounded-lg p-3 text-white outline-none" />
                 <button type="button" onClick={() => {
                   if(newPlayerName && newPlayerNumber) {
-                    setYarimadaLineup([...yarimadaLineup, { id: 'manual_'+Date.now(), name: newPlayerName, number: newPlayerNumber, position: 'Oyunçu', is_starting: true, events: [] }]);
+                    setYarimadaLineup([...yarimadaLineup, { id: 'manual_'+Date.now(), name: newPlayerName, number: newPlayerNumber, position: 'Oyunçu', is_starting: true, played: true, goals: 0, assists: 0, events: [] }]);
                     setNewPlayerName(''); setNewPlayerNumber('');
                   }
                 }} className="bg-green-600 hover:bg-green-500 text-white px-6 py-3 rounded-lg font-bold text-xs uppercase tracking-widest transition-colors whitespace-nowrap">
@@ -479,50 +494,72 @@ export default function MatchesAdmin() {
 
               {yarimadaLineup.length > 0 && (
                 <div className="bg-black rounded-xl border border-gray-700 overflow-hidden mb-8">
-                  <table className="w-full text-left text-sm text-gray-400">
-                    <thead className="text-xs text-gray-400 uppercase bg-gray-900">
+                  <div className="flex flex-wrap items-center justify-between gap-2 px-4 py-3 bg-gray-900 border-b border-gray-700 text-xs">
+                    <span className="text-gray-400 font-bold uppercase tracking-widest">Oyunçu statistikası (saytdakı “Statistika” bölməsi buradan hesablanır)</span>
+                    <span className={`font-bold ${ourScore !== '' && Number(ourScore) !== lineupGoals ? 'text-yellow-400' : 'text-green-400'}`}>
+                      Qollar cəmi: {lineupGoals}{ourScore !== '' ? ` / Hesab: ${ourScore}` : ''}
+                    </span>
+                  </div>
+                  <div className="overflow-x-auto">
+                  <table className="w-full min-w-[760px] text-left text-sm text-gray-400">
+                    <thead className="text-[10px] text-gray-400 uppercase bg-gray-900">
                       <tr>
-                        <th className="px-4 py-3">№</th>
-                        <th className="px-4 py-3">Oyunçu</th>
-                        <th className="px-4 py-3 text-center">İlk 11</th>
-                        <th className="px-4 py-3 text-right">Hadisələr</th>
+                        <th className="px-3 py-3">№</th>
+                        <th className="px-3 py-3">Oyunçu</th>
+                        <th className="px-3 py-3 text-center">Oynadı</th>
+                        <th className="px-3 py-3 text-center">İlk 11</th>
+                        <th className="px-3 py-3 text-center">Qol</th>
+                        <th className="px-3 py-3 text-center">Assist</th>
+                        <th className="px-3 py-3 text-center">Dəqiqə</th>
+                        <th className="px-3 py-3 text-right">Hadisələr</th>
                       </tr>
                     </thead>
                     <tbody>
-                      {yarimadaLineup.map((p, index) => (
-                        <tr key={p.id || index} className="border-b border-gray-700/50 hover:bg-gray-800/50">
-                          <td className="px-4 py-3 text-white font-bold">{p.number}</td>
-                          <td className="px-4 py-3 font-medium text-white">{p.name} <span className="text-gray-400 text-[10px] ml-2 uppercase">({p.position})</span></td>
-                          <td className="px-4 py-3 text-center">
-                            <input 
-                              type="checkbox" 
-                              checked={p.is_starting} 
-                              onChange={e => {
-                                const newL = [...yarimadaLineup];
-                                newL[index].is_starting = e.target.checked;
-                                setYarimadaLineup(newL);
-                              }} 
-                              className="w-4 h-4 accent-[#d7bf7b] rounded bg-gray-700 border-gray-600"
-                            />
-                          </td>
-                          <td className="px-4 py-3 text-right space-x-2">
-                            <button type="button" onClick={() => toggleEvent(p.id, 'goal')} className={`p-1.5 rounded-full ${p.events.includes('goal') ? 'bg-green-500/20 text-green-400 border border-green-500' : 'bg-gray-800 hover:bg-gray-700'} transition-colors`} title="Qol"></button>
-                            <button type="button" onClick={() => toggleEvent(p.id, 'yellow_card')} className={`p-1.5 rounded-full ${p.events.includes('yellow_card') ? 'bg-yellow-500/20 border border-yellow-500' : 'bg-gray-800 hover:bg-gray-700'} transition-colors`} title="Sarı Vərəqə">🟨</button>
-                            <button type="button" onClick={() => toggleEvent(p.id, 'red_card')} className={`p-1.5 rounded-full ${p.events.includes('red_card') ? 'bg-red-500/20 border border-red-500' : 'bg-gray-800 hover:bg-gray-700'} transition-colors`} title="Qırmızı Vərəqə">🟥</button>
-                            <button type="button" onClick={() => toggleEvent(p.id, 'injury')} className={`p-1.5 rounded-full ${p.events.includes('injury') ? 'bg-blue-500/20 border border-blue-500' : 'bg-gray-800 hover:bg-gray-700'} transition-colors`} title="Zədə">🩹</button>
-                          </td>
-                        </tr>
-                      ))}
+                      {yarimadaLineup.map((p, index) => {
+                        const played = entryPlayed(p);
+                        const events: string[] = p.events || [];
+                        const counter = (field: 'goals' | 'assists', value: number) => (
+                          <div className="inline-flex items-center gap-1">
+                            <button type="button" onClick={() => step(index, field, -1)} disabled={value === 0} className="w-7 h-7 rounded-full bg-gray-800 hover:bg-gray-700 disabled:opacity-30 flex items-center justify-center" aria-label="Azalt"><Minus className="w-3 h-3" /></button>
+                            <span className={`w-6 text-center font-black tabular-nums ${value > 0 ? 'text-white' : 'text-gray-600'}`}>{value}</span>
+                            <button type="button" onClick={() => step(index, field, 1)} className="w-7 h-7 rounded-full bg-gray-800 hover:bg-green-600 flex items-center justify-center" aria-label="Artır"><Plus className="w-3 h-3" /></button>
+                          </div>
+                        );
+                        return (
+                          <tr key={p.id || index} className={`border-b border-gray-700/50 hover:bg-gray-800/50 ${played ? '' : 'opacity-50'}`}>
+                            <td className="px-3 py-2 text-white font-bold">{p.number}</td>
+                            <td className="px-3 py-2 font-medium text-white whitespace-nowrap">{p.name} <span className="text-gray-400 text-[10px] ml-1 uppercase">({p.position || 'Oyunçu'})</span></td>
+                            <td className="px-3 py-2 text-center">
+                              <input type="checkbox" checked={played} onChange={e => updatePlayer(index, { played: e.target.checked })} className="w-4 h-4 accent-green-500" />
+                            </td>
+                            <td className="px-3 py-2 text-center">
+                              <input type="checkbox" checked={!!p.is_starting} onChange={e => updatePlayer(index, { is_starting: e.target.checked, ...(e.target.checked ? { played: true } : {}) })} className="w-4 h-4 accent-[#d7bf7b]" />
+                            </td>
+                            <td className="px-3 py-2 text-center">{counter('goals', entryGoals(p))}</td>
+                            <td className="px-3 py-2 text-center">{counter('assists', Number(p.assists) || 0)}</td>
+                            <td className="px-3 py-2 text-center">
+                              <input type="number" min={0} max={130} value={p.minutes ?? ''} onChange={e => updatePlayer(index, { minutes: e.target.value === '' ? null : Math.max(0, Number(e.target.value)) })} placeholder="—" className="w-16 bg-gray-900 border border-gray-700 rounded p-1.5 text-white text-center" />
+                            </td>
+                            <td className="px-3 py-2 text-right space-x-1 whitespace-nowrap">
+                              <button type="button" onClick={() => toggleEvent(p.id, 'yellow_card')} className={`p-1.5 rounded-full ${events.includes('yellow_card') ? 'bg-yellow-500/20 border border-yellow-500' : 'bg-gray-800 hover:bg-gray-700'} transition-colors`} title="Sarı Vərəqə">🟨</button>
+                              <button type="button" onClick={() => toggleEvent(p.id, 'red_card')} className={`p-1.5 rounded-full ${events.includes('red_card') ? 'bg-red-500/20 border border-red-500' : 'bg-gray-800 hover:bg-gray-700'} transition-colors`} title="Qırmızı Vərəqə">🟥</button>
+                              <button type="button" onClick={() => toggleEvent(p.id, 'injury')} className={`p-1.5 rounded-full ${events.includes('injury') ? 'bg-blue-500/20 border border-blue-500' : 'bg-gray-800 hover:bg-gray-700'} transition-colors`} title="Zədə">🩹</button>
+                              <button type="button" onClick={() => setYarimadaLineup(prev => prev.filter((_, i) => i !== index))} className="p-1.5 rounded-full bg-gray-800 hover:bg-red-600 text-gray-400 hover:text-white transition-colors" title="Heyətdən çıxar"><Trash2 className="w-3.5 h-3.5" /></button>
+                            </td>
+                          </tr>
+                        );
+                      })}
                     </tbody>
                   </table>
+                  </div>
                 </div>
               )}
             </div>
           )}
 
           <div className="mt-8 pt-4 border-t border-gray-700">
-            <button type="submit" className="w-full bg-accent text-on-accent py-4 rounded-lg font-black text-sm uppercase tracking-widest hover:bg-text-main hover:text-bg-main transition-colors shadow-lg shadow-[#d7bf7b]/20">
-              Dəyişiklikləri Yadda Saxla
+            <button type="submit" disabled={saving || uploadingHomeLogo || uploadingAwayLogo} className="w-full bg-accent text-on-accent py-4 rounded-lg font-black text-sm uppercase tracking-widest hover:bg-text-main hover:text-bg-main transition-colors shadow-lg disabled:opacity-60">
+              {saving ? 'Saxlanılır...' : uploadingHomeLogo || uploadingAwayLogo ? 'Loqo yüklənir...' : 'Dəyişiklikləri Yadda Saxla'}
             </button>
           </div>
         </form>

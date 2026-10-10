@@ -1,9 +1,9 @@
 'use client';
 import { useState, useEffect } from 'react';
 import { supabase } from '@/lib/supabase';
-import { adminDb } from '@/lib/adminDb';
+import { adminDb, toast } from '@/lib/adminDb';
 import { Trash2, Plus, Edit2, X } from 'lucide-react';
-import { compressImage } from '@/lib/imageCompress';
+import { uploadFromInput } from '@/lib/uploadImage';
 
 export default function ShopAdmin() {
   const [products, setProducts] = useState<any[]>([]);
@@ -39,29 +39,14 @@ export default function ShopAdmin() {
   };
 
   const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    try {
-      if (!e.target.files || e.target.files.length === 0) return;
-      if (images.length >= 5) {
-        alert("Maksimum 5 şəkil əlavə edə bilərsiniz!");
-        return;
-      }
-      setUploading(true);
-      const file = e.target.files[0];
-      const base64 = await compressImage(file);
-      const res = await fetch('/api/upload', { 
-        method: 'POST', 
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ image: base64 })
-      });
-      const data = await res.json();
-      if (data.url) {
-        setImages([...images, data.url]);
-      }
-    } catch (error) {
-      console.error('Upload error:', error);
-    } finally {
-      setUploading(false);
+    if (images.length >= 5) {
+      e.target.value = '';
+      return toast('error', 'Maksimum 5 şəkil əlavə edə bilərsiniz!');
     }
+    setUploading(true);
+    const url = await uploadFromInput(e);
+    if (url) setImages(prev => [...prev, url]);
+    setUploading(false);
   };
 
   const removeImage = (idx: number) => {
@@ -101,12 +86,12 @@ export default function ShopAdmin() {
   const handleSave = async (e: React.FormEvent) => {
     e.preventDefault();
     if (images.length === 0) {
-      alert('Ən azı 1 şəkil əlavə edilməlidir!');
+      toast('error', 'Ən azı 1 şəkil əlavə edilməlidir!');
       return;
     }
 
     const priceNum = parseFloat(String(price).replace(',', '.'));
-    if (isNaN(priceNum)) return alert('Qiyməti düzgün yazın (məs: 25 və ya 25.50).');
+    if (isNaN(priceNum)) return toast('error', 'Qiyməti düzgün yazın (məs: 25 və ya 25.50).');
 
     // a colour / size typed but not added with "+" used to be lost on save
     const pendingColor = colorInput.trim();
@@ -124,7 +109,7 @@ export default function ShopAdmin() {
     const { error } = editingId
       ? await adminDb.from('products').update(payload).eq('id', editingId)
       : await adminDb.from('products').insert([payload]);
-    if (error) return alert('Xəta: ' + error.message);
+    if (error) return;
     setColorInput(''); setSizeInput('');
     
     setIsAdding(false);

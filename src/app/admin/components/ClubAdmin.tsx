@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react';
 import { supabase } from '@/lib/supabase';
 import { adminDb } from '@/lib/adminDb';
 import { UploadCloud } from 'lucide-react';
-import { compressImage } from '@/lib/imageCompress';
+import { uploadFromInput } from '@/lib/uploadImage';
 import { Save } from 'lucide-react';
 
 export default function ClubAdmin() {
@@ -47,14 +47,8 @@ export default function ClubAdmin() {
   const handleSave = async (key: string) => {
     setSaving(true);
     const value = texts[key];
-    const { data } = await supabase.from('site_images').select('id').eq('section_key', key).maybeSingle();
-    if (data) {
-      await adminDb.from('site_images').update({ image_url: value }).eq('section_key', key);
-    } else {
-      await adminDb.from('site_images').insert([{ section_key: key, image_url: value }]);
-    }
+    await adminDb.from('site_images').upsert({ section_key: key, image_url: value }, { onConflict: 'section_key' });
     setSaving(false);
-    alert('Yadda saxlanıldı!');
   };
 
   if (loading) return <div className="text-accent font-bold uppercase tracking-widest animate-pulse">Yüklənir...</div>;
@@ -90,31 +84,14 @@ export default function ClubAdmin() {
                   className="hidden" 
                   disabled={uploadingImage}
                   onChange={async (e) => {
-                    if (e.target.files && e.target.files[0]) {
-                      setUploadingImage(true);
-                      try {
-                        const base64 = await compressImage(e.target.files[0]);
-                        const res = await fetch('/api/upload', {
-                          method: 'POST',
-                          headers: { 'Content-Type': 'application/json' },
-                          body: JSON.stringify({ image: base64 })
-                        });
-                        const data = await res.json();
-                        if (data.url) {
-                          handleChange('about_bg', data.url);
-                          // Auto save immediately
-                          await supabase.from('site_images').select('id').eq('section_key', 'about_bg').maybeSingle().then(async ({data: existing}) => {
-                            if (existing) await adminDb.from('site_images').update({ image_url: data.url }).eq('section_key', 'about_bg');
-                            else await adminDb.from('site_images').insert([{ section_key: 'about_bg', image_url: data.url }]);
-                          });
-                          alert('Şəkil uğurla əlavə edildi!');
-                        }
-                      } catch (err) {
-                        alert('Xəta baş verdi');
-                      }
-                      setUploadingImage(false);
+                    setUploadingImage(true);
+                    const url = await uploadFromInput(e);
+                    if (url) {
+                      handleChange('about_bg', url);
+                      await adminDb.from('site_images').upsert({ section_key: 'about_bg', image_url: url }, { onConflict: 'section_key' });
                     }
-                  }} 
+                    setUploadingImage(false);
+                  }}
                 />
               </label>
             )}

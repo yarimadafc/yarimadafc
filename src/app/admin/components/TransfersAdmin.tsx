@@ -1,8 +1,8 @@
 'use client';
 import { useState, useEffect } from 'react';
 import { supabase } from '@/lib/supabase';
-import { adminDb } from '@/lib/adminDb';
-import { compressImage } from '@/lib/imageCompress';
+import { adminDb, toast } from '@/lib/adminDb';
+import { uploadFromInput } from '@/lib/uploadImage';
 import { Trash2, Plus, Edit2 } from 'lucide-react';
 
 export default function TransfersAdmin() {
@@ -31,28 +31,15 @@ export default function TransfersAdmin() {
   };
 
   const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    try {
-      if (!e.target.files || e.target.files.length === 0) return;
-      setUploading(true);
-      const file = e.target.files[0];
-      const base64 = await compressImage(file);
-      const res = await fetch('/api/upload', { 
-        method: 'POST', 
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ image: base64 }) 
-      });
-      const data = await res.json();
-      if (data.url) setImageUrl(data.url);
-    } catch (error) {
-      console.error('Upload error:', error);
-    } finally {
-      setUploading(false);
-    }
+    setUploading(true);
+    const url = await uploadFromInput(e);
+    if (url) setImageUrl(url);
+    setUploading(false);
   };
 
   const handleSave = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!playerName) return alert('Oyunçu adı mütləqdir!');
+    if (!playerName) return toast('error', 'Oyunçu adı mütləqdir!');
     const payload = { player_name: playerName, from_team: fromTeam, to_team: toTeam, transfer_type: transferType, date, image_url: imageUrl };
     if (editingId) {
       await adminDb.from('transfers').update(payload).eq('id', editingId);

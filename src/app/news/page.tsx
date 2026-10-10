@@ -7,6 +7,7 @@ import { ArrowRight } from 'lucide-react';
 import PageHero from '@/components/PageHero';
 import { useLang } from '@/lib/i18n';
 import { useFormat } from '@/lib/useFormat';
+import { useSyncVersion } from '@/lib/siteSync';
 
 export default function NewsPage() {
   const { loc } = useLang();
@@ -15,6 +16,7 @@ export default function NewsPage() {
   const [loading, setLoading] = useState(true);
   const [activeCategory, setActiveCategory] = useState<string>('Bütün');
 
+  const sync = useSyncVersion();
   useEffect(() => {
     async function loadNews() {
       const { data } = await supabase.from('news').select('*').order('created_at', { ascending: false });
@@ -22,7 +24,7 @@ export default function NewsPage() {
       setLoading(false);
     }
     loadNews();
-  }, []);
+  }, [sync]);
 
   const categories = ['Bütün', ...Array.from(new Set(news.map(n => n.category).filter(Boolean)))];
 

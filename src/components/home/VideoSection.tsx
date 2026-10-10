@@ -6,6 +6,7 @@ import { Play } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { useEffect, useState } from 'react';
 import { supabase } from '@/lib/supabase';
+import { useSyncVersion } from '@/lib/siteSync';
 
 const getYoutubeId = (url: string) => {
   const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/;
@@ -18,6 +19,7 @@ export default function VideoSection() {
   const [loading, setLoading] = useState(true);
   const [playingId, setPlayingId] = useState<string | null>(null);
 
+  const sync = useSyncVersion();
   useEffect(() => {
     async function loadVideos() {
       const { data } = await supabase.from('videos').select('*').order('created_at', { ascending: false }).limit(4);
@@ -27,7 +29,7 @@ export default function VideoSection() {
       setLoading(false);
     }
     loadVideos();
-  }, []);
+  }, [sync]);
 
   if (loading || videos.length === 0) return null;
 

@@ -35,17 +35,8 @@ export default function TextsAdmin() {
   const handleSave = async (key: string) => {
     setSaving(true);
     const value = texts[key];
-    
-    // Check if exists
-    const { data } = await supabase.from('site_images').select('id').eq('section_key', key).maybeSingle();
-    if (data) {
-      await adminDb.from('site_images').update({ image_url: value }).eq('section_key', key);
-    } else {
-      await adminDb.from('site_images').insert([{ section_key: key, image_url: value }]);
-    }
-    
+    await adminDb.from('site_images').upsert({ section_key: key, image_url: value }, { onConflict: 'section_key' });
     setSaving(false);
-    alert('Yadda saxlanıldı!');
   };
 
   if (loading) return <div className="text-accent font-bold uppercase tracking-widest animate-pulse">Yüklənir...</div>;

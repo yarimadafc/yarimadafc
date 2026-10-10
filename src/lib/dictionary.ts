@@ -1112,5 +1112,121 @@ export const dictionary: Record<string, { en: string; ru: string }> = {
   "Məlumat Yoxdur": {
     "en": "No data",
     "ru": "Нет данных"
+  },
+  "Klub haqqında": {
+    "en": "About the club",
+    "ru": "О клубе"
+  },
+  "Statistika": {
+    "en": "Statistics",
+    "ru": "Статистика"
+  },
+  "Ən çox qol vuranlar": {
+    "en": "Top scorers",
+    "ru": "Лучшие бомбардиры"
+  },
+  "Ən çox assist edənlər": {
+    "en": "Top assists",
+    "ru": "Лучшие ассистенты"
+  },
+  "Bütün futbolçular": {
+    "en": "All players",
+    "ru": "Все игроки"
+  },
+  "Foto və video": {
+    "en": "Photos & videos",
+    "ru": "Фото и видео"
+  },
+  "alt menyu": {
+    "en": "submenu",
+    "ru": "подменю"
+  },
+  "Futbolçu Statistikası": {
+    "en": "Player Statistics",
+    "ru": "Статистика игроков"
+  },
+  "Akademiya futbolçularının oyun, qol, assist və dəqiqə göstəriciləri. Statistika keçirilmiş oyunların heyət məlumatlarından avtomatik hesablanır.": {
+    "en": "Appearances, goals, assists and minutes of our academy players. Calculated automatically from the line-ups of played matches.",
+    "ru": "Матчи, голы, передачи и минуты игроков академии. Рассчитывается автоматически по составам сыгранных матчей."
+  },
+  "Bütün komandalar": {
+    "en": "All teams",
+    "ru": "Все команды"
+  },
+  "Mövsüm": {
+    "en": "Season",
+    "ru": "Сезон"
+  },
+  "Bütün mövsümlər": {
+    "en": "All seasons",
+    "ru": "Все сезоны"
+  },
+  "Assist": {
+    "en": "Assists",
+    "ru": "Передачи"
+  },
+  "Futbolçu": {
+    "en": "Player",
+    "ru": "Игрок"
+  },
+  "İlk 11": {
+    "en": "Starts",
+    "ru": "В старте"
+  },
+  "Dəq.": {
+    "en": "Min",
+    "ru": "Мин"
+  },
+  "Dəqiqə": {
+    "en": "Minutes",
+    "ru": "Минуты"
+  },
+  "Rəqib": {
+    "en": "Opponent",
+    "ru": "Соперник"
+  },
+  "Hesab": {
+    "en": "Score",
+    "ru": "Счёт"
+  },
+  "Q": {
+    "en": "G",
+    "ru": "Г"
+  },
+  "A": {
+    "en": "A",
+    "ru": "П"
+  },
+  "qol": {
+    "en": "goals",
+    "ru": "голов"
+  },
+  "assist": {
+    "en": "assists",
+    "ru": "передач"
+  },
+  "oyun": {
+    "en": "matches",
+    "ru": "матчей"
+  },
+  "Futbolçunun profili": {
+    "en": "Player profile",
+    "ru": "Профиль игрока"
+  },
+  "Seçilmiş filtr üzrə statistika hələ yoxdur. Oyunlar bitdikdən sonra heyət məlumatları əsasında burada görünəcək.": {
+    "en": "No statistics for this filter yet. They will appear here once matches are played and line-ups are entered.",
+    "ru": "По выбранному фильтру статистики пока нет. Она появится после сыгранных матчей и заполненных составов."
+  },
+  "Uşaq futbol akademiyası": {
+    "en": "Youth football academy",
+    "ru": "Детская футбольная академия"
+  },
+  "Xırdalanda uşaq və yeniyetmələr üçün futbol akademiyası. Yaş qruplarına uyğun məşqlər, təcrübəli məşqçilər və rəsmi turnirlərdə oyun təcrübəsi.": {
+    "en": "A football academy for children and teenagers in Khirdalan. Age-appropriate training, experienced coaches and match experience in official tournaments.",
+    "ru": "Футбольная академия для детей и подростков в Хырдалане. Тренировки по возрастным группам, опытные тренеры и игровая практика в официальных турнирах."
+  },
+  "Oyunlar üzrə statistika": {
+    "en": "Match-by-match statistics",
+    "ru": "Статистика по матчам"
   }
 };

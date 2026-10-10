@@ -25,7 +25,13 @@
   --text-sec: #4b5563;
   --accent: #0f2b5c; /* Gold replaced by deep blue accent in light mode */
   --on-accent: #ffffff;
-  
+
+  /* LED light colours (own tokens, so the light theme gets a bright blue light instead of muddy navy) */
+  --led: #1d5bff;
+  --led-hi: #22b8ff;
+  --led-track: #d6e2f7;
+  --led-glow: 45%;
+
   --ks-font: 'Montserrat Variable', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
   --ks-font-condensed: 'Oswald Variable', system-ui, sans-serif;
   --ks-font-mono: var(--font-jetbrains), monospace;
@@ -42,6 +48,11 @@
   --text-sec: #9ca3af;
   --accent: #ffffff; /* Gold replaced by white accent in dark mode */
   --on-accent: #051024;
+
+  --led: #ffffff;
+  --led-hi: #9cc3ff;
+  --led-track: var(--bg-border);
+  --led-glow: 38%;
 }
 
 html {
@@ -131,8 +142,8 @@ input::placeholder, textarea::placeholder {
 }
 @keyframes led-spin { to { --led-angle: 360deg; } }
 @keyframes led-slide { 0% { background-position: 0% 50%; } 100% { background-position: 200% 50%; } }
-@keyframes led-pulse { 0%, 100% { box-shadow: 0 0 0 0 color-mix(in srgb, var(--accent) 0%, transparent), 0 0 12px color-mix(in srgb, var(--accent) 18%, transparent); } 50% { box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 8%, transparent), 0 0 28px color-mix(in srgb, var(--accent) 38%, transparent); } }
-@keyframes led-text { 0%, 100% { text-shadow: 0 0 6px color-mix(in srgb, var(--accent) 30%, transparent); } 50% { text-shadow: 0 0 18px color-mix(in srgb, var(--accent) 80%, transparent), 0 0 34px color-mix(in srgb, var(--accent) 40%, transparent); } }
+@keyframes led-pulse { 0%, 100% { box-shadow: 0 0 0 0 transparent, 0 0 12px color-mix(in srgb, var(--led) calc(var(--led-glow) / 2), transparent); } 50% { box-shadow: 0 0 0 3px color-mix(in srgb, var(--led) 12%, transparent), 0 0 28px color-mix(in srgb, var(--led) var(--led-glow), transparent); } }
+@keyframes led-text { 0%, 100% { text-shadow: 0 0 6px color-mix(in srgb, var(--led) 30%, transparent); } 50% { text-shadow: 0 0 16px color-mix(in srgb, var(--led) 70%, transparent), 0 0 30px color-mix(in srgb, var(--led-hi) 35%, transparent); } }
 @keyframes slide-down { from { transform: translateY(-100%); } to { transform: translateY(0); } }
 @keyframes fade-in { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
 @keyframes hero-zoom { from { transform: scale(1.18); } to { transform: scale(1); } }
@@ -149,7 +160,7 @@ input::placeholder, textarea::placeholder {
   inset: 0;
   border-radius: inherit;
   padding: 1.5px;
-  background: conic-gradient(from var(--led-angle), transparent 0 62%, var(--bg-border) 74%, var(--accent) 88%, transparent 100%);
+  background: conic-gradient(from var(--led-angle), transparent 0 58%, var(--led-track) 70%, var(--led) 84%, var(--led-hi) 92%, transparent 100%);
   -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
   -webkit-mask-composite: xor;
   mask: linear-gradient(#000 0 0) content-box exclude, linear-gradient(#000 0 0);
@@ -163,11 +174,14 @@ input::placeholder, textarea::placeholder {
 
 /* glowing animated underline / bars */
 .led-bar {
-  background: linear-gradient(90deg, var(--bg-border), var(--accent), var(--bg-border));
+  background: linear-gradient(90deg, var(--led-track), var(--led), var(--led-hi), var(--led), var(--led-track));
   background-size: 200% 100%;
   animation: led-slide 3s linear infinite;
 }
 .led-glow { animation: led-pulse 3.2s ease-in-out infinite; }
+/* light theme: a thin coloured ring keeps the glowing edge crisp on white */
+:root:not(.dark) .led-border::before { padding: 2px; }
+:root:not(.dark) .led-bar { box-shadow: 0 0 10px color-mix(in srgb, var(--led) 35%, transparent); }
 .led-text { animation: led-text 3s ease-in-out infinite; }
 .float-y { animation: float-y 4s ease-in-out infinite; }
 

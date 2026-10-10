@@ -1,9 +1,9 @@
 'use client';
 import { useState, useEffect } from 'react';
 import { supabase } from '@/lib/supabase';
-import { adminDb } from '@/lib/adminDb';
+import { adminDb, toast } from '@/lib/adminDb';
 import { Plus, Trash2, Edit2, UploadCloud, Save } from 'lucide-react';
-import { compressImage } from '@/lib/imageCompress';
+import { uploadFromInput } from '@/lib/uploadImage';
 
 export default function TeamsAdmin() {
   const [teams, setTeams] = useState<any[]>([]);
@@ -81,7 +81,7 @@ export default function TeamsAdmin() {
     e.preventDefault();
     if (!teamName) return;
     const { error } = await adminDb.from('teams').insert([{ name: teamName, league: teamLeague || null }]);
-    if (error) return alert('Xəta: ' + error.message);
+    if (error) return;
     setTeamName(''); setTeamLeague('');
     setIsAddingTeam(false);
     fetchTeams();
@@ -90,27 +90,18 @@ export default function TeamsAdmin() {
   const handleSaveTeamDetails = async () => {
     if (!selectedTeamId) return;
     setSavingDetails(true);
-    const { error: leagueError } = await adminDb.from('teams').update({ league: detailsLeague || null, description: teamDesc || null }).eq('id', selectedTeamId);
-    if (leagueError) { setSavingDetails(false); return alert('Xəta: ' + leagueError.message); }
-    
-    const details = [
-      { key: `team_${selectedTeamId}_pos`, val: teamPos },
-      { key: `team_${selectedTeamId}_desc`, val: teamDesc },
-      { key: `team_${selectedTeamId}_img`, val: teamImg }
-    ];
-
-    for (const d of details) {
-      const { data } = await supabase.from('site_images').select('id').eq('section_key', d.key).maybeSingle();
-      if (data) {
-        await adminDb.from('site_images').update({ image_url: d.val }).eq('section_key', d.key);
-      } else {
-        await adminDb.from('site_images').insert([{ section_key: d.key, image_url: d.val }]);
-      }
-    }
-    
+    const [{ error: teamError }, { error: detailsError }] = await Promise.all([
+      adminDb.from('teams').update({ league: detailsLeague || null, description: teamDesc || null }).eq('id', selectedTeamId).silent(),
+      adminDb.from('site_images').upsert([
+        { section_key: `team_${selectedTeamId}_pos`, image_url: teamPos },
+        { section_key: `team_${selectedTeamId}_desc`, image_url: teamDesc },
+        { section_key: `team_${selectedTeamId}_img`, image_url: teamImg },
+      ], { onConflict: 'section_key' }).silent(),
+    ]);
     setSavingDetails(false);
+    if (teamError || detailsError) return;
+    toast('success', 'Komanda məlumatları yadda saxlanıldı');
     fetchTeams();
-    alert('Komanda məlumatları yadda saxlanıldı!');
   };
 
   const handleDeleteTeam = async (id: string) => {
@@ -134,7 +125,7 @@ export default function TeamsAdmin() {
 
   const handleSavePlayer = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!selectedTeamId || !playerName) return;
+    if (!selectedTeamId || !playerName || uploadingPlayerImg) return;
     const payload = {
       team_id: selectedTeamId,
       name: playerName,
@@ -147,7 +138,7 @@ export default function TeamsAdmin() {
     const { error } = editingPlayerId
       ? await adminDb.from('players').update(payload).eq('id', editingPlayerId)
       : await adminDb.from('players').insert([payload]);
-    if (error) return alert('Xəta: ' + error.message);
+    if (error) return;
     setEditingPlayerId(null); setPlayerBirth('');
     setPlayerName(''); setPlayerPosition(''); setPlayerNumber(''); setPlayerImage('');
     setIsAddingPlayer(false);
@@ -244,17 +235,11 @@ export default function TeamsAdmin() {
                           className="hidden" 
                           disabled={uploadingTeamImg}
                           onChange={async (e) => {
-                            if (e.target.files && e.target.files[0]) {
-                              setUploadingTeamImg(true);
-                              try {
-                                const base64 = await compressImage(e.target.files[0]);
-                                const res = await fetch('/api/upload', { method: 'POST', body: JSON.stringify({ image: base64 }) });
-                                const data = await res.json();
-                                if (data.url) setTeamImg(data.url); else alert('Şəkil yüklənmədi: ' + (data.error || res.status));
-                              } catch (err) { alert('Şəkil yüklənmədi. Yenidən cəhd edin.'); }
-                              setUploadingTeamImg(false);
-                            }
-                          }} 
+                            setUploadingTeamImg(true);
+                            const url = await uploadFromInput(e);
+                            if (url) setTeamImg(url);
+                            setUploadingTeamImg(false);
+                          }}
                         />
                       </label>
                     )}
@@ -296,22 +281,16 @@ export default function TeamsAdmin() {
                         <input 
                           type="file" accept="image/*" className="hidden" disabled={uploadingPlayerImg}
                           onChange={async (e) => {
-                            if (e.target.files && e.target.files[0]) {
-                              setUploadingPlayerImg(true);
-                              try {
-                                const base64 = await compressImage(e.target.files[0]);
-                                const res = await fetch('/api/upload', { method: 'POST', body: JSON.stringify({ image: base64 }) });
-                                const data = await res.json();
-                                if (data.url) setPlayerImage(data.url); else alert('Şəkil yüklənmədi: ' + (data.error || res.status));
-                              } catch (err) { alert('Şəkil yüklənmədi. Yenidən cəhd edin.'); }
-                              setUploadingPlayerImg(false);
-                            }
-                          }} 
+                            setUploadingPlayerImg(true);
+                            const url = await uploadFromInput(e);
+                            if (url) setPlayerImage(url);
+                            setUploadingPlayerImg(false);
+                          }}
                         />
                       </label>
                     )}
                   </div>
-                  <div className="col-span-2 mt-2"><button type="submit" className="w-full bg-accent text-on-accent py-3 rounded-lg font-bold text-xs uppercase tracking-widest">Yadda Saxla</button></div>
+                  <div className="col-span-2 mt-2"><button type="submit" disabled={uploadingPlayerImg} className="w-full bg-accent text-on-accent py-3 rounded-lg font-bold text-xs uppercase tracking-widest disabled:opacity-60">{uploadingPlayerImg ? 'Şəkil yüklənir...' : 'Yadda Saxla'}</button></div>
                 </form>
               )}
 

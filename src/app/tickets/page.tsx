@@ -6,6 +6,7 @@ import Reveal from '@/components/Reveal';
 import TeamLogo from '@/components/TeamLogo';
 import { useFormat } from '@/lib/useFormat';
 import { AnyMatch, matchStart, normalizeMatch } from '@/lib/matchUtils';
+import { useSyncVersion } from '@/lib/siteSync';
 
 const WHATSAPP = '994554477467';
 
@@ -14,6 +15,7 @@ export default function TicketsPage() {
   const [matches, setMatches] = useState<AnyMatch[]>([]);
   const [loading, setLoading] = useState(true);
 
+  const sync = useSyncVersion();
   useEffect(() => {
     async function load() {
       const { data } = await supabase.from('matches').select('*').neq('status', 'finished').order('match_date', { ascending: true });
@@ -22,7 +24,7 @@ export default function TicketsPage() {
       setLoading(false);
     }
     load();
-  }, []);
+  }, [sync]);
 
   return (
     <div className="pt-header pb-20 min-h-screen">

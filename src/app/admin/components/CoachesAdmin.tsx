@@ -1,9 +1,9 @@
 'use client';
 import { useState, useEffect } from 'react';
 import { supabase } from '@/lib/supabase';
-import { adminDb } from '@/lib/adminDb';
+import { adminDb, toast } from '@/lib/adminDb';
 import { Plus, UploadCloud, Star } from 'lucide-react';
-import { compressImage } from '@/lib/imageCompress';
+import { uploadFromInput } from '@/lib/uploadImage';
 
 export default function CoachesAdmin() {
   const [coaches, setCoaches] = useState<any[]>([]);
@@ -11,6 +11,7 @@ export default function CoachesAdmin() {
   const [loading, setLoading] = useState(true);
   const [isAdding, setIsAdding] = useState(false);
   const [uploadingImage, setUploadingImage] = useState(false);
+  const [saving, setSaving] = useState(false);
 
 
   const [editingId, setEditingId] = useState<string | null>(null);
@@ -27,18 +28,12 @@ export default function CoachesAdmin() {
   }, []);
 
   const fetchData = async () => {
-    setLoading(true);
-    const { data: cData } = await supabase.from('coaches').select('*, teams(name)').order('created_at', { ascending: false });
+    const [{ data: cData }, { data: tData }] = await Promise.all([
+      supabase.from('coaches').select('*, teams(name)').order('created_at', { ascending: false }),
+      supabase.from('teams').select('id, name'),
+    ]);
     if (cData) setCoaches(cData);
-    
-    const { data: tData } = await supabase.from('teams').select('id, name');
     if (tData) setTeams(tData);
-    
-    const { data: lsData } = await supabase.from('site_images').select('image_url').eq('section_key', 'leadership_coach_ids').maybeSingle();
-    if (lsData && lsData.image_url) {
-    } else {
-    }
-    
     setLoading(false);
   };
 
@@ -55,28 +50,30 @@ export default function CoachesAdmin() {
 
   const handleSave = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (saving || uploadingImage) return;
     const payload = {
       name,
       role,
       bio,
       license,
-      image_url: imageUrl,
+      image_url: imageUrl || null,
       team_id: teamId || null
     };
 
-    let newId = editingId;
+    setSaving(true);
+    const { data, error } = editingId
+      ? await adminDb.from('coaches').update(payload).eq('id', editingId).select()
+      : await adminDb.from('coaches').insert([payload]).select();
+    setSaving(false);
+    if (error) return;
 
-    if (editingId) {
-      await adminDb.from('coaches').update(payload).eq('id', editingId);
-      alert('Yeniləndi!');
-    } else {
-      const { data: insertedData } = await adminDb.from('coaches').insert([payload]).select();
-      if (insertedData && insertedData.length > 0) newId = insertedData[0].id;
-      alert('Əlavə edildi!');
+    // show the change at once instead of waiting for a full reload
+    const saved = data?.[0];
+    if (saved) {
+      const team = teams.find(t => t.id === saved.team_id);
+      const withTeam = { ...saved, teams: team ? { name: team.name } : null };
+      setCoaches(prev => editingId ? prev.map(c => c.id === editingId ? withTeam : c) : [withTeam, ...prev]);
     }
-
-
-
     setEditingId(null);
     setIsAdding(false);
     resetForm();
@@ -88,10 +85,7 @@ export default function CoachesAdmin() {
     
     // Check if already in leadership
     const { data: existing } = await supabase.from('leadership').select('id').eq('name', coach.name).maybeSingle();
-    if (existing) {
-      alert('Bu şəxs artıq Klub Rəhbərliyində mövcuddur!');
-      return;
-    }
+    if (existing) return toast('error', 'Bu şəxs artıq Klub Rəhbərliyində mövcuddur!');
 
     const { error } = await adminDb.from('leadership').insert([{
       name: coach.name,
@@ -101,14 +95,13 @@ export default function CoachesAdmin() {
       order_num: 0
     }]);
 
-    if (error) alert('Xəta: ' + error.message);
-    else alert(`${coach.name} uğurla Klub Rəhbərliyinə əlavə edildi!`);
+    if (!error) toast('success', `${coach.name} Klub Rəhbərliyinə əlavə edildi`);
   };
 
   const handleDelete = async (id: string) => {
     if (confirm('Silmək istədiyinizə əminsiniz?')) {
-      await adminDb.from('coaches').delete().eq('id', id);
-      fetchData();
+      const { error } = await adminDb.from('coaches').delete().eq('id', id);
+      if (!error) setCoaches(prev => prev.filter(c => c.id !== id));
     }
   };
 
@@ -160,30 +153,17 @@ export default function CoachesAdmin() {
                   className="hidden" 
                   disabled={uploadingImage}
                   onChange={async (e) => {
-                    if (e.target.files && e.target.files[0]) {
-                      setUploadingImage(true);
-                      try {
-                        const base64 = await compressImage(e.target.files[0]);
-                        const res = await fetch('/api/upload', {
-                          method: 'POST',
-                          headers: { 'Content-Type': 'application/json' },
-                          body: JSON.stringify({ image: base64 })
-                        });
-                        const data = await res.json();
-                        if (data.url) setImageUrl(data.url);
-                        else alert('Xəta baş verdi');
-                      } catch (err) {
-                        alert('Xəta baş verdi');
-                      }
-                      setUploadingImage(false);
-                    }
-                  }} 
+                    setUploadingImage(true);
+                    const url = await uploadFromInput(e);
+                    if (url) setImageUrl(url);
+                    setUploadingImage(false);
+                  }}
                 />
               </label>
             )}
           </div>
 
-          <div className="md:col-span-2"><button type="submit" className="w-full bg-accent text-on-accent py-3 rounded-lg font-bold text-xs uppercase tracking-widest">Yadda Saxla</button></div>
+          <div className="md:col-span-2"><button type="submit" disabled={saving || uploadingImage} className="w-full bg-accent text-on-accent py-3 rounded-lg font-bold text-xs uppercase tracking-widest disabled:opacity-60">{saving ? 'Saxlanılır...' : uploadingImage ? 'Şəkil yüklənir...' : 'Yadda Saxla'}</button></div>
         </form>
       )}
 

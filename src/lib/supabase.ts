@@ -19,6 +19,10 @@ function createSafeClient(): SupabaseClient {
       gt: () => mockBuilder,
       lt: () => mockBuilder,
       in: () => mockBuilder,
+      like: () => mockBuilder,
+      ilike: () => mockBuilder,
+      or: () => mockBuilder,
+      upsert: () => mockBuilder,
       order: () => mockBuilder,
       limit: () => mockBuilder,
       single: () => mockBuilder,
@@ -32,6 +36,8 @@ function createSafeClient(): SupabaseClient {
     return {
       from: () => mockBuilder,
       rpc: () => mockBuilder,
+      channel: () => ({ on: () => ({ subscribe: () => ({}) }) }),
+      removeChannel: () => {},
       auth: {
         getUser: async () => ({ data: { user: null }, error: null }),
         getSession: async () => ({ data: { session: null }, error: null }),

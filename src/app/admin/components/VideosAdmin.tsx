@@ -1,7 +1,7 @@
 'use client';
 import { useState, useEffect } from "react";
 import { supabase } from '@/lib/supabase';
-import { adminDb } from '@/lib/adminDb';
+import { adminDb, toast } from '@/lib/adminDb';
 import { Trash2, Plus, PlayCircle } from 'lucide-react';
 
 const getYoutubeId = (url: string) => {
@@ -39,10 +39,10 @@ export default function VideosAdmin() {
 
   const handleAddVideo = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!title || !url) return alert('Bütün xanaları doldurun');
+    if (!title || !url) return toast('error', 'Bütün xanaları doldurun');
     
     const videoId = getYoutubeId(url);
-    if (!videoId) return alert('Düzgün YouTube linki daxil edin');
+    if (!videoId) return toast('error', 'Düzgün YouTube linki daxil edin');
 
     const thumbUrl = `https://img.youtube.com/vi/${videoId}/maxresdefault.jpg`;
 
@@ -64,10 +64,7 @@ export default function VideosAdmin() {
       error = res.error;
     }
     
-    if (error) {
-      alert('Xəta: ' + error.message);
-    } else {
-      alert(editingId ? 'Video yeniləndi!' : 'Video əlavə edildi!');
+    if (!error) {
       setIsAdding(false);
       setTitle(''); setUrl(''); setEditingId(null);
       fetchVideos();

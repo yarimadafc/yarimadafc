@@ -1,4 +1,8 @@
+'use client';
+
+import { useState } from 'react';
 import { isYarimada } from '@/lib/matchUtils';
+import { useTeamLogos } from '@/lib/teamLogos';
 
 interface Props {
   name?: string | null;
@@ -7,19 +11,33 @@ interface Props {
   className?: string;
 }
 
-// Club crest with graceful fallbacks: uploaded logo -> Yarımada crest -> initials.
+// Round club crest everywhere. Source order: logo passed in (e.g. the match's own upload) ->
+// club-wide logo registry -> Yarımada crest -> initials. A broken image falls back too.
 export default function TeamLogo({ name, logo, size = 40, className = '' }: Props) {
+  const logoFor = useTeamLogos();
+  const [failed, setFailed] = useState<string | null>(null);
   const style = { width: size, height: size };
-  if (logo) {
-    return <img src={logo} alt={name || ''} loading="lazy" style={style} className={`object-contain shrink-0 ${className}`} />;
-  }
-  if (isYarimada(name)) {
-    return <img src="/Logo.JPG.jpeg" alt="Yarımada FK" loading="lazy" style={style} className={`object-cover rounded-full shrink-0 ${className}`} />;
+  const src = [logo, logoFor(name), isYarimada(name) ? '/Logo.JPG.jpeg' : null].find(u => u && u !== failed);
+
+  if (src) {
+    const own = src === '/Logo.JPG.jpeg';
+    return (
+      <span data-no-fallback style={style} className={`relative inline-flex shrink-0 items-center justify-center overflow-hidden rounded-full bg-white ring-1 ring-black/10 shadow-sm ${className}`}>
+        <img
+          src={src}
+          alt={name || ''}
+          loading="lazy"
+          decoding="async"
+          onError={() => setFailed(src)}
+          className={own ? 'h-full w-full object-cover' : 'h-[82%] w-[82%] object-contain'}
+        />
+      </span>
+    );
   }
   return (
     <span
       style={{ ...style, fontSize: Math.max(10, size / 3) }}
-      className={`rounded-full bg-bg-card text-text-sec font-bold flex items-center justify-center shrink-0 uppercase ${className}`}
+      className={`rounded-full bg-bg-card ring-1 ring-bg-border text-text-sec font-bold inline-flex items-center justify-center shrink-0 uppercase ${className}`}
       aria-label={name || ''}
     >
       {(name || '?').trim().slice(0, 2)}

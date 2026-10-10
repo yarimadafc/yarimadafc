@@ -8,6 +8,7 @@ import SectionHeading from '@/components/SectionHeading';
 import Reveal from '@/components/Reveal';
 import { useLang } from '@/lib/i18n';
 import { useFormat } from '@/lib/useFormat';
+import { useSyncVersion } from '@/lib/siteSync';
 
 export default function NewsSection() {
   const { t, loc } = useLang();
@@ -15,6 +16,7 @@ export default function NewsSection() {
   const [news, setNews] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
 
+  const sync = useSyncVersion();
   useEffect(() => {
     async function fetchNews() {
       try {
@@ -31,7 +33,7 @@ export default function NewsSection() {
       }
     }
     fetchNews();
-  }, []);
+  }, [sync]);
 
   return (
     <section className="container py-14 md:py-20">

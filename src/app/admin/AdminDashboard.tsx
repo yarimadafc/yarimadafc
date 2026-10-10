@@ -1,6 +1,5 @@
-
 'use client';
-import { compressImage } from '@/lib/imageCompress';
+import { uploadImage } from '@/lib/uploadImage';
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { LogOut, Image as ImageIcon, CheckCircle, UploadCloud, FileText, Video, Image, Trophy, DollarSign, LayoutDashboard, Settings, Trash2, ShoppingCart, Users, PlayCircle } from 'lucide-react';
@@ -57,58 +56,23 @@ export default function AdminDashboard() {
   const handleUpload = async (sectionId: string, file: File) => {
     setLoadingSection(sectionId);
     try {
-      const base64 = await compressImage(file);
-      const uploadRes = await fetch('/api/upload', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ image: base64 })
-      });
-      
-      if (!uploadRes.ok) {
-        throw new Error(`Upload failed with status ${uploadRes.status}`);
-      }
-      
-      const uploadData = await uploadRes.json();
-      
-      if (uploadData.url) {
-        const { error } = await adminDb.from('site_images').upsert({
-          section_key: sectionId,
-          image_url: uploadData.url
-        }, { onConflict: 'section_key' });
-
-        if (!error) {
-          setImages(prev => ({ ...prev, [sectionId]: uploadData.url }));
-          alert('Şəkil uğurla əlavə edildi!');
-        } else {
-          alert('Supabase bazasına yazılarkən xəta: ' + error.message);
-        }
-      } else {
-        alert('ImgBB-yə yüklənərkən xəta oldu.');
-      }
-      setLoadingSection(null);
-    } catch (err: any) {
-      console.error(err);
-      alert('Gözlənilməz xəta baş verdi: ' + err.message);
-      setLoadingSection(null);
-    }
+      const url = await uploadImage(file);
+      const { error } = await adminDb.from('site_images').upsert({ section_key: sectionId, image_url: url }, { onConflict: 'section_key' });
+      if (!error) setImages(prev => ({ ...prev, [sectionId]: url }));
+    } catch { /* uploadImage already showed the error */ }
+    setLoadingSection(null);
   };
 
   const handleDeleteImage = async (sectionId: string) => {
     if (!confirm('Bu şəkli silmək istədiyinizə əminsiniz?')) return;
     setLoadingSection(sectionId);
-    try {
-      const { error } = await adminDb.from('site_images').delete().eq('section_key', sectionId);
-      if (!error) {
-        setImages(prev => {
-          const copy = { ...prev };
-          delete copy[sectionId];
-          return copy;
-        });
-      } else {
-        alert('Xəta: ' + error.message);
-      }
-    } catch (err: any) {
-      alert('Gözlənilməz xəta: ' + err.message);
+    const { error } = await adminDb.from('site_images').delete().eq('section_key', sectionId);
+    if (!error) {
+      setImages(prev => {
+        const copy = { ...prev };
+        delete copy[sectionId];
+        return copy;
+      });
     }
     setLoadingSection(null);
   };
@@ -245,11 +209,8 @@ export default function AdminDashboard() {
           <button onClick={() => setActiveTab('standings')} className={`flex-shrink-0 px-4 py-2 rounded-lg font-bold text-[10px] uppercase tracking-widest transition-colors ${activeTab === 'standings' ? 'bg-accent text-on-accent' : 'bg-gray-800 text-gray-400'}`}>Turnir Cədvəli</button>
           <button onClick={() => setActiveTab('matches')} className={`flex-shrink-0 px-4 py-2 rounded-lg font-bold text-[10px] uppercase tracking-widest transition-colors ${activeTab === 'matches' ? 'bg-accent text-on-accent' : 'bg-gray-800 text-gray-400'}`}>Oyunlar</button>
           <button onClick={() => setActiveTab('shop')} className={`flex-shrink-0 px-4 py-2 rounded-lg font-bold text-[10px] uppercase tracking-widest transition-colors ${activeTab === 'shop' ? 'bg-accent text-on-accent' : 'bg-gray-800 text-gray-400'}`}>Mağaza</button>
-            <button onClick={() => setActiveTab('shop')} className={`w-full flex items-center space-x-3 px-4 py-3 rounded-lg font-bold text-xs uppercase tracking-widest transition-colors ${activeTab === 'shop' ? 'bg-accent text-on-accent' : 'text-gray-400 hover:text-white hover:bg-gray-900'}`}>
-              <ShoppingCart className="w-4 h-4" />
-              <span>Mağaza</span>
-            </button>
-            
+          <button onClick={() => setActiveTab('leadership')} className={`flex-shrink-0 px-4 py-2 rounded-lg font-bold text-[10px] uppercase tracking-widest transition-colors ${activeTab === 'leadership' ? 'bg-accent text-on-accent' : 'bg-gray-800 text-gray-400'}`}>İdarə Heyəti</button>
+          <button onClick={() => setActiveTab('courses')} className={`flex-shrink-0 px-4 py-2 rounded-lg font-bold text-[10px] uppercase tracking-widest transition-colors ${activeTab === 'courses' ? 'bg-accent text-on-accent' : 'bg-gray-800 text-gray-400'}`}>Məşqçi Kursu</button>
         </div>
 
         {activeTab === 'leadership' && <LeadershipAdmin />}
@@ -301,9 +262,9 @@ export default function AdminDashboard() {
                               accept="image/*" 
                               className="hidden" 
                               onChange={(e) => {
-                                if (e.target.files && e.target.files[0]) {
-                                  handleUpload(sec.id, e.target.files[0]);
-                                }
+                                const file = e.target.files?.[0];
+                                e.target.value = '';
+                                if (file) handleUpload(sec.id, file);
                               }}
                             />
                           </>

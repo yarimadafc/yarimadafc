@@ -5,6 +5,7 @@ import { supabase } from '@/lib/supabase';
 import PageHero from '@/components/PageHero';
 import Link from 'next/link';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
+import { useSyncVersion } from '@/lib/siteSync';
 
 export default function ShopPage() {
   const [products, setProducts] = useState<any[]>([]);
@@ -13,6 +14,7 @@ export default function ShopPage() {
   // For image carousels per product
   const [activeImages, setActiveImages] = useState<Record<string, number>>({});
 
+  const sync = useSyncVersion();
   useEffect(() => {
     async function loadProducts() {
       const { data } = await supabase.from('products').select('*').order('created_at', { ascending: false });
@@ -25,7 +27,7 @@ export default function ShopPage() {
       setLoading(false);
     }
     loadProducts();
-  }, []);
+  }, [sync]);
 
   const nextImage = (e: React.MouseEvent, pId: string, max: number) => {
     e.preventDefault();

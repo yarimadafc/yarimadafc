@@ -3,11 +3,13 @@ import { motion } from 'framer-motion';
 import { useState, useEffect } from 'react';
 import { supabase } from '@/lib/supabase';
 import PageHero from '@/components/PageHero';
+import { useSyncVersion } from '@/lib/siteSync';
 
 export default function TransfersPage() {
   const [transfers, setTransfers] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
 
+  const sync = useSyncVersion();
   useEffect(() => {
     async function load() {
       const { data } = await supabase.from('transfers').select('*').order('date', { ascending: false });
@@ -15,7 +17,7 @@ export default function TransfersPage() {
       setLoading(false);
     }
     load();
-  }, []);
+  }, [sync]);
 
   return (
     <div className="pt-header min-h-screen bg-bg-main pb-20">

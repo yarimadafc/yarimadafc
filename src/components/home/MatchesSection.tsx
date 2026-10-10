@@ -8,6 +8,7 @@ import Reveal from '@/components/Reveal';
 import { useLang } from '@/lib/i18n';
 import { useFormat } from '@/lib/useFormat';
 import { isLiveMatch, scoreText, AnyMatch, matchStart, normalizeMatch } from '@/lib/matchUtils';
+import { useSyncVersion } from '@/lib/siteSync';
 
 // Two latest results + the next two fixtures, oldest -> newest.
 function pickMatches(rows: AnyMatch[]): AnyMatch[] {
@@ -28,6 +29,7 @@ export default function MatchesSection() {
   const [matches, setMatches] = useState<AnyMatch[]>([]);
   const [loading, setLoading] = useState(true);
 
+  const sync = useSyncVersion();
   useEffect(() => {
     async function fetchMatches() {
       const { data } = await supabase.from('matches').select('*').order('match_date', { ascending: false }).limit(40);
@@ -35,7 +37,7 @@ export default function MatchesSection() {
       setLoading(false);
     }
     fetchMatches();
-  }, []);
+  }, [sync]);
 
   return (
     <section className="bg-bg-deep py-14 md:py-20">

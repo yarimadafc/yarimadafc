@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { useParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { supabase } from '@/lib/supabase';
+import { useSyncVersion } from '@/lib/siteSync';
 
 export default function NewsArticlePage() {
   const params = useParams();
@@ -12,6 +13,7 @@ export default function NewsArticlePage() {
   const [recommended, setRecommended] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
 
+  const sync = useSyncVersion();
   useEffect(() => {
     async function loadNews() {
       if (!id) return;
@@ -25,7 +27,7 @@ export default function NewsArticlePage() {
       setLoading(false);
     }
     loadNews();
-  }, [id]);
+  }, [id, sync]);
 
   if (loading) {
     return (

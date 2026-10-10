@@ -6,18 +6,20 @@ import { supabase } from '@/lib/supabase';
 import SectionHeading from '@/components/SectionHeading';
 import Reveal from '@/components/Reveal';
 import { useLang } from '@/lib/i18n';
+import { useSyncVersion } from '@/lib/siteSync';
 
 export default function Achievements() {
   const { t, loc } = useLang();
   const [achievements, setAchievements] = useState<any[]>([]);
 
+  const sync = useSyncVersion();
   useEffect(() => {
     async function fetchAchievements() {
       const { data } = await supabase.from('achievements').select('*').order('order_num', { ascending: true }).limit(4);
       if (data) setAchievements(data);
     }
     fetchAchievements();
-  }, []);
+  }, [sync]);
 
   return (
     <section className="py-14 md:py-24">

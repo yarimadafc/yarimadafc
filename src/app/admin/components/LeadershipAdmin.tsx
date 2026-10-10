@@ -2,7 +2,7 @@
 import { useState, useEffect } from 'react';
 import { supabase } from '@/lib/supabase';
 import { adminDb } from '@/lib/adminDb';
-import { compressImage } from '@/lib/imageCompress';
+import { uploadFromInput } from '@/lib/uploadImage';
 import { Trash2, Plus, Edit2 } from 'lucide-react';
 
 export default function LeadershipAdmin() {
@@ -16,6 +16,7 @@ export default function LeadershipAdmin() {
   const [imageUrl, setImageUrl] = useState('');
   const [orderNum, setOrderNum] = useState(0);
   const [uploading, setUploading] = useState(false);
+  const [saving, setSaving] = useState(false);
   const [editingId, setEditingId] = useState<string | null>(null);
 
   useEffect(() => {
@@ -30,23 +31,10 @@ export default function LeadershipAdmin() {
   };
 
   const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    try {
-      if (!e.target.files || e.target.files.length === 0) return;
-      setUploading(true);
-      const file = e.target.files[0];
-      const base64 = await compressImage(file);
-      const res = await fetch('/api/upload', { 
-        method: 'POST', 
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ image: base64 }) 
-      });
-      const data = await res.json();
-      if (data.url) setImageUrl(data.url);
-    } catch (error) {
-      console.error('Upload error:', error);
-    } finally {
-      setUploading(false);
-    }
+    setUploading(true);
+    const url = await uploadFromInput(e);
+    if (url) setImageUrl(url);
+    setUploading(false);
   };
 
   const handleEdit = (L: any) => {
@@ -61,11 +49,14 @@ export default function LeadershipAdmin() {
 
   const handleSave = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (editingId) {
-      await adminDb.from('leadership').update({ name, position, bio, image_url: imageUrl, order_num: orderNum }).eq('id', editingId);
-    } else {
-      await adminDb.from('leadership').insert([{ name, position, bio, image_url: imageUrl, order_num: orderNum }]);
-    }
+    if (saving || uploading) return;
+    const payload = { name, position, bio, image_url: imageUrl || null, order_num: orderNum };
+    setSaving(true);
+    const { error } = editingId
+      ? await adminDb.from('leadership').update(payload).eq('id', editingId)
+      : await adminDb.from('leadership').insert([payload]);
+    setSaving(false);
+    if (error) return; // keep the form so nothing typed is lost
     setIsAdding(false);
     resetForm();
     fetchLeaders();
@@ -118,16 +109,21 @@ export default function LeadershipAdmin() {
             <div>
               <label className="block text-gray-400 text-xs font-bold uppercase mb-2">Şəkil</label>
               <div className="flex items-center space-x-3">
-                {imageUrl && <img src={imageUrl} alt="img" className="w-10 h-10 object-cover rounded" />}
+                {imageUrl && (
+                  <span className="relative group">
+                    <img src={imageUrl} alt="img" className="w-14 h-14 object-cover rounded-full border border-gray-700" />
+                    <button type="button" onClick={() => setImageUrl('')} className="absolute inset-0 rounded-full bg-red-500/80 text-white text-[10px] font-bold opacity-0 group-hover:opacity-100 transition-opacity">SİL</button>
+                  </span>
+                )}
                 <label className="cursor-pointer bg-gray-800 border border-gray-700 px-4 py-2 rounded text-xs font-bold text-white uppercase">
-                  {uploading ? 'Yüklənir...' : 'Seç'}
-                  <input type="file" accept="image/*" onChange={handleImageUpload} className="hidden" />
+                  {uploading ? 'Yüklənir...' : imageUrl ? 'Dəyiş' : 'Seç'}
+                  <input type="file" accept="image/*" onChange={handleImageUpload} className="hidden" disabled={uploading} />
                 </label>
               </div>
             </div>
           </div>
           <div className="flex justify-end pt-4">
-            <button type="submit" className="bg-green-600 hover:bg-green-500 text-white px-6 py-2 rounded-lg font-bold">Yadda Saxla</button>
+            <button type="submit" disabled={saving || uploading} className="bg-green-600 hover:bg-green-500 text-white px-6 py-2 rounded-lg font-bold disabled:opacity-60">{saving ? 'Saxlanılır...' : uploading ? 'Şəkil yüklənir...' : 'Yadda Saxla'}</button>
           </div>
         </form>
       )}

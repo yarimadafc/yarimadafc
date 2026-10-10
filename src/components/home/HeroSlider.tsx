@@ -6,6 +6,7 @@ import { ArrowLeft, ArrowRight } from 'lucide-react';
 import { supabase } from '@/lib/supabase';
 import { useLang } from '@/lib/i18n';
 import NextMatchCard from '@/components/NextMatchCard';
+import { useSyncVersion } from '@/lib/siteSync';
 
 type Slide = { id: string; image: string; title: string; subtitle?: string; href?: string; intro?: boolean; raw?: Record<string, any> };
 
@@ -27,6 +28,7 @@ export default function HeroSlider() {
   const [extra, setExtra] = useState<Slide[]>([]);
   const touchX = useRef<number | null>(null);
 
+  const sync = useSyncVersion();
   useEffect(() => {
     let cancelled = false;
     async function load() {
@@ -56,7 +58,7 @@ export default function HeroSlider() {
     }
     load();
     return () => { cancelled = true; };
-  }, []);
+  }, [sync]);
 
   // intro slide is always first (it keeps the editable site texts, buttons and the next-match card)
   useEffect(() => {

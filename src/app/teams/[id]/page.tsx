@@ -6,6 +6,7 @@ import MatchesAndStandings from '@/components/home/MatchesAndStandings';
 
 import { useState, useEffect } from 'react';
 import { supabase } from '@/lib/supabase';
+import { useSyncVersion } from '@/lib/siteSync';
 
 export default function TeamDetailPage() {
   const params = useParams();
@@ -17,6 +18,7 @@ export default function TeamDetailPage() {
   const [players, setPlayers] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
 
+  const sync = useSyncVersion();
   useEffect(() => {
     async function loadTeam() {
       const { data: teamData } = await supabase.from('teams').select('*, coaches(name)').eq('id', id).single();
@@ -37,7 +39,7 @@ export default function TeamDetailPage() {
       setLoading(false);
     }
     loadTeam();
-  }, [id]);
+  }, [id, sync]);
 
   if (loading) return <div className="pt-header min-h-screen bg-bg-deep pb-20 flex justify-center"><div className="text-accent font-bold tracking-widest uppercase animate-pulse">Yüklənir...</div></div>;
   if (!team) return <div className="pt-header min-h-screen bg-bg-deep pb-20 flex justify-center"><div className="text-text-main font-bold tracking-widest uppercase">Komanda tapılmadı</div></div>;
@@ -124,7 +126,7 @@ export default function TeamDetailPage() {
                 <div className="w-full h-48 md:h-64 bg-bg-deep relative overflow-hidden">
                    {/* Placeholder user icon if image is missing */}
                    {player.image_url ? (
-                     <img src={player.image_url} alt={player.name} className="absolute inset-0 w-full h-full object-cover" />
+                     <img src={player.image_url} alt={player.name} loading="lazy" className="absolute inset-0 w-full h-full object-cover object-top" />
                    ) : (
                      <div className="absolute inset-0 flex items-center justify-center bg-bg-main">
                        <svg className="w-16 h-16 text-text-sec" fill="currentColor" viewBox="0 0 20 20"><path fillRule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clipRule="evenodd" /></svg>

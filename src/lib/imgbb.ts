@@ -12,10 +12,10 @@ export async function uploadToImgBB(imageBase64: string): Promise<string> {
     body: formData,
   });
 
-  const data = await response.json();
+  const data = await response.json().catch(() => null);
 
-  if (!data.success) {
-    throw new Error('ImgBB upload failed: ' + JSON.stringify(data));
+  if (!data?.success) {
+    throw new Error(data?.error?.message || `HTTP ${response.status}`);
   }
 
   return data.data.display_url;

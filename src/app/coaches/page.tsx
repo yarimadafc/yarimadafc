@@ -5,11 +5,13 @@ import { supabase } from '@/lib/supabase';
 import PageHero from '@/components/PageHero';
 import Link from 'next/link';
 import { User } from 'lucide-react';
+import { useSyncVersion } from '@/lib/siteSync';
 
 export default function CoachesPage() {
   const [coaches, setCoaches] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
 
+  const sync = useSyncVersion();
   useEffect(() => {
     async function loadCoaches() {
       const { data } = await supabase.from('coaches').select('*').order('created_at', { ascending: false });
@@ -17,7 +19,7 @@ export default function CoachesPage() {
       setLoading(false);
     }
     loadCoaches();
-  }, []);
+  }, [sync]);
 
   return (
     <div className="pt-header min-h-screen bg-bg-main pb-20 transition-colors duration-500">
@@ -46,7 +48,7 @@ export default function CoachesPage() {
                       <img 
                         src={coach.image_url} 
                         alt={coach.name} 
-                        className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+                        className="absolute inset-0 w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-700"
                       />
                     ) : (
                       <div className="absolute inset-0 flex items-center justify-center bg-bg-deep">

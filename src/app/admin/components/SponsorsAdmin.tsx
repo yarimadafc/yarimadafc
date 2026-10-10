@@ -1,9 +1,9 @@
 
 'use client';
-import { compressImage } from '@/lib/imageCompress';
+import { uploadFromInput } from '@/lib/uploadImage';
 import { useState, useEffect } from 'react';
 import { supabase } from '@/lib/supabase';
-import { adminDb } from '@/lib/adminDb';
+import { adminDb, toast } from '@/lib/adminDb';
 import { Trash2, Plus, UploadCloud } from 'lucide-react';
 
 export default function SponsorsAdmin() {
@@ -28,26 +28,10 @@ export default function SponsorsAdmin() {
   };
 
   const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (!file) return;
     setIsUploading(true);
-    try {
-      const base64 = await compressImage(file);
-      const uploadRes = await fetch('/api/upload', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ image: base64 })
-      });
-      if (!uploadRes.ok) throw new Error(`Status: ${uploadRes.status}`);
-      const uploadData = await uploadRes.json();
-      if (uploadData.url) setLogoUrl(uploadData.url);
-      else alert('Şəkil yüklənərkən xəta oldu');
-      setIsUploading(false);
-    } catch (err) {
-      console.error(err);
-      alert('Şəkil yüklənərkən xəta baş verdi');
-      setIsUploading(false);
-    }
+    const url = await uploadFromInput(e);
+    if (url) setLogoUrl(url);
+    setIsUploading(false);
   };
 
   const handleEdit = (s: any) => {
@@ -59,7 +43,7 @@ export default function SponsorsAdmin() {
 
   const handleAdd = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!name) return alert('Komanda və ya Sponsor adı mütləqdir');
+    if (!name) return toast('error', 'Komanda və ya Sponsor adı mütləqdir');
     
     let error;
     if (editingId) {
@@ -69,9 +53,7 @@ export default function SponsorsAdmin() {
       const res = await adminDb.from('sponsors').insert([{ name, logo_url: logoUrl }]);
       error = res.error;
     }
-    if (error) alert('Xəta: ' + error.message);
-    else {
-      alert(editingId ? 'Sponsor yeniləndi!' : 'Sponsor əlavə edildi!');
+    if (!error) {
       setIsAdding(false);
       setName(''); setLogoUrl(''); setEditingId(null);
       fetchSponsors();

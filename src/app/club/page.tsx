@@ -5,12 +5,14 @@ import Image from 'next/image';
 import { useState, useEffect } from 'react';
 import { supabase } from '@/lib/supabase';
 import Link from 'next/link';
+import { useSyncVersion } from '@/lib/siteSync';
 
 export default function ClubPage() {
   const [aboutBg, setAboutBg] = useState<string>('');
   const [clubTexts, setClubTexts] = useState<Record<string, string>>({});
   const [leadershipCoaches, setLeadershipCoaches] = useState<any[]>([]);
 
+  const sync = useSyncVersion();
   useEffect(() => {
     async function loadAboutImage() {
       try {
@@ -43,7 +45,7 @@ export default function ClubPage() {
       }
     }
     loadAboutImage();
-  }, []);
+  }, [sync]);
 
   
 
@@ -160,7 +162,7 @@ export default function ClubPage() {
               <Link href={`/leadership/${person.id}`} className="bg-bg-sec rounded-2xl overflow-hidden border border-bg-border flex flex-col items-center text-center shadow-2xl group h-full block hover:border-accent transition-colors">
                 <div className="w-full h-64 bg-bg-deep relative overflow-hidden border-b border-bg-border">
                   {person.image_url ? (
-                    <img src={person.image_url} alt={person.name} className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 opacity-80 object-top" />
+                    <img src={person.image_url} alt={person.name} className="absolute inset-0 w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-700" />
                   ) : (
                     <div className="absolute inset-0 flex items-center justify-center">
                       <svg className="w-20 h-20 text-text-sec relative z-0" fill="currentColor" viewBox="0 0 20 20"><path fillRule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clipRule="evenodd" /></svg>

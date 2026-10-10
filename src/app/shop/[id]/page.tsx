@@ -5,6 +5,7 @@ import { ShieldCheck, ChevronLeft, ChevronRight, Check } from 'lucide-react';
 import Link from 'next/link';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
+import { useSyncVersion } from '@/lib/siteSync';
 
 export default function ProductDetail({ params }: { params: Promise<{ id: string }> }) {
   const resolvedParams = use(params);
@@ -12,6 +13,7 @@ export default function ProductDetail({ params }: { params: Promise<{ id: string
   const [loading, setLoading] = useState(true);
   const [currentImgIdx, setCurrentImgIdx] = useState(0);
 
+  const sync = useSyncVersion();
   useEffect(() => {
     async function fetchProduct() {
       const { data } = await supabase.from('products').select('*').eq('id', resolvedParams.id).maybeSingle();
@@ -19,7 +21,7 @@ export default function ProductDetail({ params }: { params: Promise<{ id: string
       setLoading(false);
     }
     fetchProduct();
-  }, [resolvedParams.id]);
+  }, [resolvedParams.id, sync]);
 
   if (loading) {
     return (

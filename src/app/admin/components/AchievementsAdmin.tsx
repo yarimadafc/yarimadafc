@@ -1,9 +1,9 @@
 'use client';
 import { useState, useEffect } from 'react';
 import { supabase } from '@/lib/supabase';
-import { adminDb } from '@/lib/adminDb';
+import { adminDb, toast } from '@/lib/adminDb';
 import { Trash2, Plus } from 'lucide-react';
-import { compressImage } from '@/lib/imageCompress';
+import { uploadFromInput } from '@/lib/uploadImage';
 
 export default function AchievementsAdmin() {
   const [achievements, setAchievements] = useState<any[]>([]);
@@ -40,28 +40,15 @@ export default function AchievementsAdmin() {
   };
 
   const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    try {
-      if (!e.target.files || e.target.files.length === 0) return;
-      setUploadingImage(true);
-      const file = e.target.files[0];
-      const base64 = await compressImage(file);
-      const res = await fetch('/api/upload', { 
-        method: 'POST', 
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ image: base64 }) 
-      });
-      const data = await res.json();
-      if (data.url) setImageUrl(data.url);
-    } catch (error) {
-      console.error('Upload error:', error);
-    } finally {
-      setUploadingImage(false);
-    }
+    setUploadingImage(true);
+    const url = await uploadFromInput(e);
+    if (url) setImageUrl(url);
+    setUploadingImage(false);
   };
 
   const handleAdd = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!title || !count) return alert('Bütün xanaları doldurun');
+    if (!title || !count) return toast('error', 'Bütün xanaları doldurun');
     
     let error;
     if (editingId) {
@@ -74,9 +61,7 @@ export default function AchievementsAdmin() {
       error = res.error;
     }
     
-    if (error) alert('Xəta: ' + error.message);
-    else {
-      alert('Nailiyyət əlavə edildi!');
+    if (!error) {
       setIsAdding(false);
       setTitle(''); setCount(''); setOrderNum(0);
     setDescription('');

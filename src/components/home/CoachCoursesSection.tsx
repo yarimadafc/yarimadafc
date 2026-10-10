@@ -6,17 +6,19 @@ import { supabase } from '@/lib/supabase';
 import { PlayCircle } from 'lucide-react';
 import SectionHeading from '@/components/SectionHeading';
 import Link from 'next/link';
+import { useSyncVersion } from '@/lib/siteSync';
 
 export default function CoachCoursesSection() {
   const [courses, setCourses] = useState<any[]>([]);
 
+  const sync = useSyncVersion();
   useEffect(() => {
     async function fetchCourses() {
       const { data } = await supabase.from('coach_courses').select('*').order('created_at', { ascending: false }).limit(3);
       if (data) setCourses(data);
     }
     fetchCourses();
-  }, []);
+  }, [sync]);
 
   if (courses.length === 0) return null;
 

@@ -242,3 +242,11 @@ end $$;
 -- ---------------------------------------------------------------------------
 -- select tablename, rowsecurity as rls_enabled from pg_tables
 -- where schemaname = 'public' order by tablename;
+
+-- ---------------------------------------------------------------------------
+-- Image storage: public bucket "media" (admin uploads go here via /api/upload,
+-- which also creates the bucket automatically on first upload). Safe to re-run.
+-- ---------------------------------------------------------------------------
+insert into storage.buckets (id, name, public, file_size_limit)
+values ('media', 'media', true, 8388608)
+on conflict (id) do update set public = true;

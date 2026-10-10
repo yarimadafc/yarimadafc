@@ -3,6 +3,7 @@ import { use, useEffect, useState } from 'react';
 import Link from 'next/link';
 import { supabase } from '@/lib/supabase';
 import PageHero from '@/components/PageHero';
+import { useSyncVersion } from '@/lib/siteSync';
 
 const youtubeId = (url?: string) => {
   const m = url?.match(/^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|&v=)([^#&?]*).*/);
@@ -14,6 +15,7 @@ export default function VideoDetailPage({ params }: { params: Promise<{ id: stri
   const [video, setVideo] = useState<any>(null);
   const [loading, setLoading] = useState(true);
 
+  const sync = useSyncVersion();
   useEffect(() => {
     async function load() {
       const { data } = await supabase.from('videos').select('*').eq('id', id).maybeSingle();
@@ -21,7 +23,7 @@ export default function VideoDetailPage({ params }: { params: Promise<{ id: stri
       setLoading(false);
     }
     load();
-  }, [id]);
+  }, [id, sync]);
 
   const yt = youtubeId(video?.url);
 

@@ -5,17 +5,19 @@ import Link from 'next/link';
 import { useState, useEffect } from 'react';
 import { supabase } from '@/lib/supabase';
 import PageHero from '@/components/PageHero';
+import { useSyncVersion } from '@/lib/siteSync';
 
 export default function TeamsPage() {
   const [teams, setTeams] = useState<any[]>([]);
 
+  const sync = useSyncVersion();
   useEffect(() => {
     async function loadTeams() {
       const { data } = await supabase.from('teams').select('*, coaches(name), players(id)').order('created_at', { ascending: false });
       if (data) setTeams(data);
     }
     loadTeams();
-  }, []);
+  }, [sync]);
 
   return (
     <div className="pt-header min-h-screen bg-bg-deep pb-20">

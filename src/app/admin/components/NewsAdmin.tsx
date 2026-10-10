@@ -1,9 +1,9 @@
 
 'use client';
-import { compressImage } from '@/lib/imageCompress';
+import { uploadFromInput } from '@/lib/uploadImage';
 import { useState, useEffect } from 'react';
 import { supabase } from '@/lib/supabase';
-import { adminDb } from '@/lib/adminDb';
+import { adminDb, toast } from '@/lib/adminDb';
 import { Trash2, Plus, UploadCloud } from 'lucide-react';
 
 export default function NewsAdmin() {
@@ -31,30 +31,10 @@ export default function NewsAdmin() {
   };
 
   const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (!file) return;
-    
     setIsUploading(true);
-    try {
-      const base64 = await compressImage(file);
-      const uploadRes = await fetch('/api/upload', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ image: base64 })
-      });
-      if (!uploadRes.ok) throw new Error(`Status: ${uploadRes.status}`);
-      const uploadData = await uploadRes.json();
-      if (uploadData.url) {
-        setImageUrl(uploadData.url);
-      } else {
-        alert('Şəkil yüklənərkən xəta oldu');
-      }
-      setIsUploading(false);
-    } catch (err) {
-      console.error(err);
-      alert('Şəkil yüklənərkən xəta baş verdi');
-      setIsUploading(false);
-    }
+    const url = await uploadFromInput(e);
+    if (url) setImageUrl(url);
+    setIsUploading(false);
   };
 
   const handleEdit = (newsItem: any) => {
@@ -68,7 +48,7 @@ export default function NewsAdmin() {
 
   const handleAddNews = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!title || !content || !imageUrl) return alert('Bütün xanaları doldurun');
+    if (!title || !content || !imageUrl) return toast('error', 'Bütün xanaları doldurun');
     
     let error;
     if (editingId) {
@@ -90,10 +70,7 @@ export default function NewsAdmin() {
       error = res.error;
     }
     
-    if (error) {
-      alert('Xəta: ' + error.message);
-    } else {
-      alert(editingId ? 'Xəbər yeniləndi!' : 'Xəbər əlavə edildi!');
+    if (!error) {
       setIsAdding(false);
       setTitle(''); setContent(''); setImageUrl(''); setCategory('Klub Xəbərləri');
       fetchNews();

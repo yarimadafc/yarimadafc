@@ -2,12 +2,12 @@
 import { useEffect, useMemo, useState } from 'react';
 import { supabase } from '@/lib/supabase';
 import { adminDb, toast } from '@/lib/adminDb';
-import { Save } from 'lucide-react';
+import { Save, Trash2 } from 'lucide-react';
 import { buildPlayerStats, MANUAL_STAT_FIELDS, type ManualStatField } from '@/lib/playerStats';
 import type { AnyMatch } from '@/lib/matchUtils';
 
 type Extra = Record<ManualStatField, number>;
-const LABELS: Record<ManualStatField, string> = {
+export const STAT_LABELS: Record<ManualStatField, string> = {
   stat_games: 'Oyun', stat_starts: 'İlk 11', stat_goals: 'Qol', stat_assists: 'Assist',
   stat_minutes: 'Dəq.', stat_yellow: 'Sarı', stat_red: 'Qırmızı',
 };
@@ -23,7 +23,7 @@ const extraOf = (p: any): Extra =>
 // Squad statistics of one team. The numbers from the match line-ups (Oyunlar -> Heyət & Hadisələr) are
 // calculated automatically; the inputs here are ADDED on top of them (e.g. games played before the site
 // existed). The public statistics page, player profiles and the team page show the total.
-export default function SquadStatsAdmin({ teamId, players, onSaved }: { teamId: string; players: any[]; onSaved: () => void }) {
+export default function SquadStatsAdmin({ teamId, players, onSaved, onDelete }: { teamId: string; players: any[]; onSaved: () => void; onDelete?: (id: string) => void }) {
   const [matches, setMatches] = useState<AnyMatch[]>([]);
   const [extras, setExtras] = useState<Record<string, Extra>>({});
   const [dirty, setDirty] = useState<Set<string>>(new Set());
@@ -66,7 +66,14 @@ export default function SquadStatsAdmin({ teamId, players, onSaved }: { teamId: 
     onSaved();
   };
 
-  if (players.length === 0) return null;
+  if (players.length === 0) {
+    return (
+      <div className="mt-10 bg-gray-800 border border-gray-700 rounded-2xl p-6 text-center">
+        <h3 className="text-accent font-bold uppercase tracking-widest text-sm mb-2">Heyət Statistikası</h3>
+        <p className="text-gray-400 text-sm">Bu komandada hələ futbolçu yoxdur. Yuxarıdan futbolçu əlavə edin — statistikası burada görünəcək.</p>
+      </div>
+    );
+  }
   const cell = 'w-full min-w-[3.25rem] bg-gray-900 border border-gray-700 rounded px-2 py-1.5 text-white text-center text-sm focus:border-accent outline-none';
 
   return (
@@ -89,7 +96,8 @@ export default function SquadStatsAdmin({ teamId, players, onSaved }: { teamId: 
           <thead>
             <tr className="text-gray-400 text-[10px] uppercase tracking-widest">
               <th className="text-left py-2 pr-3 font-bold">Futbolçu</th>
-              {MANUAL_STAT_FIELDS.map(f => <th key={f} className="py-2 px-1 font-bold">{LABELS[f]}</th>)}
+              {MANUAL_STAT_FIELDS.map(f => <th key={f} className="py-2 px-1 font-bold">{STAT_LABELS[f]}</th>)}
+              {onDelete && <th />}
             </tr>
           </thead>
           <tbody>
@@ -106,13 +114,20 @@ export default function SquadStatsAdmin({ teamId, players, onSaved }: { teamId: 
                     const a = auto ? auto[FROM_MATCHES[f]] : 0;
                     return (
                       <td key={f} className="py-2 px-1 text-center align-top">
-                        <input type="number" min={0} value={extra[f] || ''} placeholder="0" onChange={e => setValue(p.id, f, e.target.value)} className={cell} aria-label={`${p.name} — ${LABELS[f]}`} />
+                        <input type="number" min={0} value={extra[f] || ''} placeholder="0" onChange={e => setValue(p.id, f, e.target.value)} className={cell} aria-label={`${p.name} — ${STAT_LABELS[f]}`} />
                         <div className="text-[10px] text-gray-500 mt-1" title="Oyunlardan + əlavə = cəmi">
                           {a} + {extra[f] || 0} = <span className="text-white font-bold">{a + (extra[f] || 0)}</span>
                         </div>
                       </td>
                     );
                   })}
+                  {onDelete && (
+                    <td className="py-2 pl-2 align-top">
+                      <button onClick={() => onDelete(p.id)} className="p-2 text-gray-500 hover:text-red-400" aria-label={`${p.name} — sil`} title="Sil">
+                        <Trash2 className="w-4 h-4" />
+                      </button>
+                    </td>
+                  )}
                 </tr>
               );
             })}

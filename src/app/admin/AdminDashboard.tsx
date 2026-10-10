@@ -23,6 +23,7 @@ import CoachCoursesAdmin from './components/CoachCoursesAdmin';
 import MembersAdmin from './components/MembersAdmin';
 import AnalyticsAdmin from './components/AnalyticsAdmin';
 import TicketsAdmin from './components/TicketsAdmin';
+import PlayerStatsAdmin from './components/PlayerStatsAdmin';
 
 // Sidebar (desktop) and the scrolling tab row (phones) are built from this one list.
 const TABS = [
@@ -33,6 +34,7 @@ const TABS = [
   { id: 'leadership', label: 'Klub Rəhbərliyi', Icon: Users },
   { id: 'staff', label: 'Klub Heyəti', Icon: Users },
   { id: 'teams', label: 'Komandalar', Icon: CheckCircle },
+  { id: 'playerstats', label: 'Futbolçu Statistikası', short: 'Statistika (futbolçu)', Icon: BarChart3 },
   { id: 'coaches', label: 'Məşqçilər', Icon: CheckCircle },
   { id: 'matches', label: 'Oyunlar', Icon: CheckCircle },
   { id: 'standings', label: 'Turnir Cədvəli', Icon: Trophy },
@@ -172,6 +174,7 @@ export default function AdminDashboard() {
         {activeTab === 'leadership' && <LeadershipAdmin group="leadership" />}
         {activeTab === 'staff' && <LeadershipAdmin group="staff" />}
         {activeTab === 'tickets' && <TicketsAdmin />}
+        {activeTab === 'playerstats' && <PlayerStatsAdmin />}
         {activeTab === 'courses' && <CoachCoursesAdmin />}
         {activeTab === 'texts' && <TextsAdmin />}
         {activeTab === 'club' && <ClubAdmin />}

@@ -58,6 +58,7 @@ create table if not exists public.players (
   stat_minutes  integer not null default 0,
   stat_yellow   integer not null default 0,
   stat_red      integer not null default 0,
+  match_log     jsonb not null default '[]'::jsonb, -- games typed in per player
   created_at    timestamptz not null default now()
 );
 create index if not exists players_team_id_idx on public.players(team_id);

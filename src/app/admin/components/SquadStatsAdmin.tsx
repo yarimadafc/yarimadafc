@@ -1,8 +1,9 @@
 'use client';
-import { useEffect, useMemo, useState } from 'react';
+import { Fragment, useEffect, useMemo, useState } from 'react';
 import { supabase } from '@/lib/supabase';
 import { adminDb, toast } from '@/lib/adminDb';
-import { Save, Trash2 } from 'lucide-react';
+import { Save, Trash2, ChevronDown } from 'lucide-react';
+import PlayerMatchLog from './PlayerMatchLog';
 import { buildPlayerStats, MANUAL_STAT_FIELDS, type ManualStatField } from '@/lib/playerStats';
 import type { AnyMatch } from '@/lib/matchUtils';
 
@@ -28,27 +29,29 @@ export default function SquadStatsAdmin({ teamId, players, onSaved, onDelete }: 
   const [extras, setExtras] = useState<Record<string, Extra>>({});
   const [dirty, setDirty] = useState<Set<string>>(new Set());
   const [saving, setSaving] = useState(false);
+  const [open, setOpen] = useState<string | null>(null);
 
-  useEffect(() => {
-    supabase
-      .from('matches')
-      .select('id, tournament, home_team, away_team, home_logo, away_logo, home_score, away_score, match_date, date, status, yarimada_lineup')
-      .in('status', ['finished', 'live'])
-      .then(({ data }) => setMatches(data || []));
-  }, [teamId]);
+  const loadMatches = () => supabase
+    .from('matches')
+    .select('id, tournament, home_team, away_team, home_logo, away_logo, home_score, away_score, match_date, date, status, yarimada_lineup')
+    .in('status', ['finished', 'live'])
+    .then(({ data }) => setMatches(data || []));
+
+  useEffect(() => { loadMatches(); setOpen(null); }, [teamId]);
 
   useEffect(() => {
     setExtras(Object.fromEntries(players.map(p => [p.id, extraOf(p)])));
     setDirty(new Set());
   }, [players]);
 
-  // match numbers only (manual extras are shown separately in the inputs)
+  // numbers from games: line-ups (Oyunlar) + games typed in per player; the stat_* extras are the inputs
   const fromMatches = useMemo(() => {
-    const all = buildPlayerStats(matches);
+    const noExtras = players.map(p => ({ ...p, ...Object.fromEntries(MANUAL_STAT_FIELDS.map(f => [f, 0])) }));
+    const all = buildPlayerStats(matches, {}, noExtras);
     const byId = new Map(all.filter(s => s.playerId).map(s => [s.playerId!, s]));
     const byName = new Map(all.filter(s => !s.playerId).map(s => [s.name.trim().toLocaleLowerCase('az'), s]));
     return (p: any) => byId.get(p.id) || byName.get(String(p.name || '').trim().toLocaleLowerCase('az')) || null;
-  }, [matches]);
+  }, [matches, players]);
 
   const setValue = (id: string, field: ManualStatField, value: string) => {
     setExtras(prev => ({ ...prev, [id]: { ...prev[id], [field]: Math.max(0, parseInt(value) || 0) } }));
@@ -82,8 +85,9 @@ export default function SquadStatsAdmin({ teamId, players, onSaved, onDelete }: 
         <div>
           <h3 className="text-accent font-bold uppercase tracking-widest text-sm">Heyət Statistikası</h3>
           <p className="text-gray-400 text-xs mt-1 max-w-2xl">
-            Boz rəqəmlər oyunların heyət məlumatlarından avtomatik hesablanır. Xanalara yazdığınız rəqəmlər onların üzərinə əlavə olunur
-            (məs. saytdan əvvəlki oyunlar). Cəmi saytdakı Statistika, futbolçu profili və komanda səhifəsində görünür.
+            Futbolçunun adına basın — oyunlar üzrə cədvəl açılır (tarix, rəqib, hesab, qol, assist); orada oyun əlavə edib redaktə edə bilərsiniz.
+            Boz rəqəmlər həmin oyunlardan hesablanır, xanalara yazdığınız rəqəmlər isə onların üzərinə əlavə olunur.
+            Cəmi saytdakı Statistika, futbolçu profili və komanda səhifəsində görünür.
           </p>
         </div>
         <button onClick={save} disabled={saving || !dirty.size} className="bg-accent text-on-accent px-4 py-2 rounded-lg font-bold text-xs uppercase tracking-widest flex items-center space-x-2 disabled:opacity-50">
@@ -105,10 +109,14 @@ export default function SquadStatsAdmin({ teamId, players, onSaved, onDelete }: 
               const auto = fromMatches(p);
               const extra = extras[p.id] || extraOf(p);
               return (
-                <tr key={p.id} className={`border-t border-gray-700 ${dirty.has(p.id) ? 'bg-accent/5' : ''}`}>
-                  <td className="py-2 pr-3 whitespace-nowrap">
-                    <span className="text-gray-500 text-xs mr-2">{p.jersey_number || '-'}</span>
-                    <span className="font-bold">{p.name}</span>
+                <Fragment key={p.id}>
+                <tr className={`border-t border-gray-700 ${dirty.has(p.id) ? 'bg-accent/5' : ''}`}>
+                  <td className="py-2 pr-3 whitespace-nowrap align-top">
+                    <button onClick={() => setOpen(open === p.id ? null : p.id)} className="flex items-center gap-2 text-left hover:text-accent" aria-expanded={open === p.id} title="Oyunlar üzrə statistika">
+                      <span className="text-gray-500 text-xs">{p.jersey_number || '-'}</span>
+                      <span className="font-bold underline decoration-dotted underline-offset-4">{p.name}</span>
+                      <ChevronDown className={`w-4 h-4 text-gray-400 transition-transform ${open === p.id ? 'rotate-180' : ''}`} />
+                    </button>
                   </td>
                   {MANUAL_STAT_FIELDS.map(f => {
                     const a = auto ? auto[FROM_MATCHES[f]] : 0;
@@ -129,6 +137,14 @@ export default function SquadStatsAdmin({ teamId, players, onSaved, onDelete }: 
                     </td>
                   )}
                 </tr>
+                {open === p.id && (
+                  <tr>
+                    <td colSpan={MANUAL_STAT_FIELDS.length + (onDelete ? 2 : 1)}>
+                      <PlayerMatchLog player={p} matches={matches} onSaved={() => { loadMatches(); onSaved(); }} />
+                    </td>
+                  </tr>
+                )}
+                </Fragment>
               );
             })}
           </tbody>

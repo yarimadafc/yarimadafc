@@ -8,7 +8,19 @@ import { isYarimada, sameTeam, type AnyMatch } from '@/lib/matchUtils';
 export const MANUAL_STAT_FIELDS = ['stat_games', 'stat_starts', 'stat_goals', 'stat_assists', 'stat_minutes', 'stat_yellow', 'stat_red'] as const;
 export type ManualStatField = typeof MANUAL_STAT_FIELDS[number];
 
-/** A players row (select '*, teams(name)'); stat_* columns may be missing before the SQL update. */
+/** A game typed in by the admin for one player (players.match_log), e.g. games before the site existed. */
+export interface ManualMatch {
+  id: string;
+  date: string | null;
+  opponent: string;
+  score: string;
+  goals: number;
+  assists: number;
+  minutes: number;
+  starter?: boolean;
+}
+
+/** A players row (select '*, teams(name)'); stat_* / match_log columns may be missing before the SQL update. */
 export interface ManualStatsPlayer {
   id: string;
   name: string;
@@ -41,6 +53,8 @@ export interface PlayerMatchLine {
   assists: number;
   minutes: number;
   starter: boolean;
+  /** 'match' = from a game's line-up (Oyunlar), 'manual' = typed in under Futbolçu Statistikası */
+  source: 'match' | 'manual';
 }
 
 export interface PlayerStat {
@@ -111,11 +125,10 @@ export function buildPlayerStats(matches: AnyMatch[], filter: { team?: string; s
       if (p.events?.includes('yellow_card')) s.yellow += 1;
       if (p.events?.includes('red_card')) s.red += 1;
       if (m.tournament && !s.teams.some(t => sameTeam(t, m.tournament))) s.teams.push(m.tournament);
-      s.matches.push({ matchId: m.id, date, opponent, opponentLogo, score, goals, assists, minutes, starter: !!p.is_starting });
+      s.matches.push({ matchId: m.id, date, opponent, opponentLogo, score, goals, assists, minutes, starter: !!p.is_starting, source: 'match' });
     }
   }
-  // admin-entered extras have no date, so they count for "all seasons" only
-  if (!filter.season) addManualStats(map, manual, filter.team);
+  addManualStats(map, manual, filter);
 
   const list = [...map.values()];
   list.forEach(s => s.matches.sort((a, b) => (b.date || '').localeCompare(a.date || '')));
@@ -124,12 +137,21 @@ export function buildPlayerStats(matches: AnyMatch[], filter: { team?: string; s
 
 const nameKey = (name: string) => `name:${name.trim().toLocaleLowerCase('az')}`;
 
-function addManualStats(map: Map<string, PlayerStat>, players: ManualStatsPlayer[], team?: string) {
+const num = (v: unknown) => Math.max(0, Number(v) || 0);
+
+export function matchLogOf(p: { [field: string]: unknown }): ManualMatch[] {
+  return Array.isArray(p.match_log) ? (p.match_log as ManualMatch[]).filter(e => e && typeof e === 'object') : [];
+}
+
+function addManualStats(map: Map<string, PlayerStat>, players: ManualStatsPlayer[], filter: { team?: string; season?: string }) {
   for (const p of players) {
-    const n = (f: ManualStatField) => Math.max(0, Number(p[f]) || 0);
-    if (!p?.name || MANUAL_STAT_FIELDS.every(f => n(f) === 0)) continue;
+    if (!p?.name) continue;
     const teamName = p.teams?.name || '';
-    if (team && !sameTeam(teamName, team)) continue;
+    if (filter.team && !sameTeam(teamName, filter.team)) continue;
+    // the stat_* totals have no date, so they count for "all seasons" only; typed-in games follow the season filter
+    const n = (f: ManualStatField) => (filter.season ? 0 : num(p[f]));
+    const log = matchLogOf(p).filter(e => !filter.season || seasonOf(e.date) === filter.season);
+    if (MANUAL_STAT_FIELDS.every(f => n(f) === 0) && log.length === 0) continue;
     let s = map.get(p.id) || map.get(nameKey(p.name));
     if (!s) {
       s = { key: p.id, playerId: p.id, name: p.name, number: p.jersey_number != null ? String(p.jersey_number) : null, position: p.position || null, teams: [], games: 0, starts: 0, goals: 0, assists: 0, minutes: 0, yellow: 0, red: 0, matches: [] };
@@ -144,6 +166,18 @@ function addManualStats(map: Map<string, PlayerStat>, players: ManualStatsPlayer
     s.minutes += n('stat_minutes');
     s.yellow += n('stat_yellow');
     s.red += n('stat_red');
+    for (const e of log) {
+      const line: PlayerMatchLine = {
+        matchId: `manual-${e.id}`, date: e.date || null, opponent: e.opponent || '—', opponentLogo: null,
+        score: e.score || '—', goals: num(e.goals), assists: num(e.assists), minutes: num(e.minutes), starter: !!e.starter, source: 'manual',
+      };
+      s.games += 1;
+      if (line.starter) s.starts += 1;
+      s.goals += line.goals;
+      s.assists += line.assists;
+      s.minutes += line.minutes;
+      s.matches.push(line);
+    }
   }
 }
 

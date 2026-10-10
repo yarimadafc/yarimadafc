@@ -9,12 +9,14 @@ interface Props {
   logo?: string | null;
   size?: number;
   className?: string;
+  /** fill the whole circle (crest cropped to a circle) instead of the 70% "fully visible" crest */
+  fill?: boolean;
 }
 
 // Round club crest everywhere. Uploaded logos are drawn at 70% so even a square crest stays fully
 // inside the circle (a square fits a circle only up to 1/√2 ≈ 70.7% of its diameter). Source order: logo passed in (e.g. the match's own upload) ->
 // club-wide logo registry -> Yarımada crest -> initials. A broken image falls back too.
-export default function TeamLogo({ name, logo, size = 40, className = '' }: Props) {
+export default function TeamLogo({ name, logo, size = 40, className = '', fill = false }: Props) {
   const logoFor = useTeamLogos();
   const [failed, setFailed] = useState<string | null>(null);
   const style = { width: size, height: size };
@@ -30,7 +32,7 @@ export default function TeamLogo({ name, logo, size = 40, className = '' }: Prop
           loading="lazy"
           decoding="async"
           onError={() => setFailed(src)}
-          className={own ? 'h-full w-full object-cover' : 'h-[70%] w-[70%] object-contain'}
+          className={own || fill ? 'h-full w-full object-cover' : 'h-[70%] w-[70%] object-contain'}
         />
       </span>
     );

@@ -18,7 +18,7 @@ export default function ClubAdmin() {
       const keys = [
         'about_bg', 'club_about_1', 'club_about_2', 'club_about_title',
         'club_mission', 'club_vision', 'club_values',
-        'club_achievements_title', 'club_achievements_text',
+        'club_achievements_title', 'club_achievements_text', 'club_founded',
       ];
       const { data } = await supabase.from('site_images').select('section_key, image_url').in('section_key', keys);
       
@@ -29,6 +29,7 @@ export default function ClubAdmin() {
         club_vision: 'Azərbaycanın ən böyük və peşəkar uşaq futbol akademiyalarından birinə çevrilərək, milli komandalara və peşəkar klublara davamlı oyunçu yetişdirmək.',
         club_values: 'Hörmət, Dürüstlük, Əzmkarlıq və Sağlam Rəqabət. Biz təkcə yaxşı futbolçu deyil, həm də layiqli vətəndaş yetişdiririk.',
         club_about_title: 'Gələcəyin Çempionları\nBurada Yetişir',
+        club_founded: '2023-02-23',
         club_achievements_title: 'Uğurlarımız & Nailiyyətlər',
         club_achievements_text: 'Qısa zaman ərzində qazandığımız medallar, kuboklar və çempionluqlar klubumuzun inkişafının və məşqçilərimizin zəhmətinin bariz nümunəsidir. Uşaq futbolunda yeni standartlar müəyyən etməkdə davam edirik.',
       };
@@ -65,6 +66,16 @@ export default function ClubAdmin() {
       </div>
 
       <div className="space-y-8 max-w-4xl">
+        {/* Klubun yaranma tarixi -> "Klubun tarixi" səhifəsi */}
+        <div className="bg-gray-800 p-6 rounded-2xl border border-gray-700">
+          <h3 className="text-accent font-bold tracking-widest text-sm uppercase mb-1">Klubun Yaranma Tarixi</h3>
+          <p className="text-gray-400 text-xs mb-4">«Klubun tarixi» səhifəsində görünür.</p>
+          <div className="flex space-x-4 items-center">
+            <input type="date" value={texts['club_founded'] || ''} onChange={e => handleChange('club_founded', e.target.value)} className="bg-gray-900 border border-gray-700 rounded-lg p-3 text-white" />
+            <button onClick={() => handleSave('club_founded')} disabled={saving} className="bg-accent text-on-accent px-4 py-3 rounded-lg font-bold uppercase text-xs">Yadda Saxla</button>
+          </div>
+        </div>
+
         {/* Haqqımızda */}
         <div className="bg-gray-800 p-6 rounded-2xl border border-gray-700 space-y-4">
           <h3 className="text-accent font-bold tracking-widest text-sm uppercase mb-4">Haqqımızda Mətnləri və Şəkli</h3>

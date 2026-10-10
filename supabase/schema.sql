@@ -10,9 +10,8 @@
 --     SUPABASE_SERVICE_ROLE_KEY (service_role bypasses RLS).
 --
 -- Columns are derived from the site code (src/app/admin/components/* and the
--- public pages). Re-running this file is safe only AFTER the old tables are
--- deleted (it uses "create table", not "if not exists", on purpose so that an
--- old table with a different structure cannot be silently kept).
+-- public pages). Safe to re-run: existing tables are kept (only missing ones
+-- are created) and the read-only policies are re-applied.
 -- ============================================================================
 
 -- ---------------------------------------------------------------------------
@@ -30,7 +29,7 @@
 -- Tables
 -- ---------------------------------------------------------------------------
 
-create table public.teams (
+create table if not exists public.teams (
   id          uuid primary key default gen_random_uuid(),
   name        text not null,
   league      text,
@@ -39,7 +38,7 @@ create table public.teams (
   created_at  timestamptz not null default now()
 );
 
-create table public.players (
+create table if not exists public.players (
   id            uuid primary key default gen_random_uuid(),
   team_id       uuid references public.teams(id) on delete cascade,
   name          text not null,
@@ -49,9 +48,9 @@ create table public.players (
   birth_date    date,
   created_at    timestamptz not null default now()
 );
-create index players_team_id_idx on public.players(team_id);
+create index if not exists players_team_id_idx on public.players(team_id);
 
-create table public.coaches (
+create table if not exists public.coaches (
   id         uuid primary key default gen_random_uuid(),
   name       text not null,
   role       text,
@@ -61,9 +60,9 @@ create table public.coaches (
   team_id    uuid references public.teams(id) on delete set null,
   created_at timestamptz not null default now()
 );
-create index coaches_team_id_idx on public.coaches(team_id);
+create index if not exists coaches_team_id_idx on public.coaches(team_id);
 
-create table public.leadership (
+create table if not exists public.leadership (
   id         uuid primary key default gen_random_uuid(),
   name       text not null,
   position   text,
@@ -73,7 +72,7 @@ create table public.leadership (
   created_at timestamptz not null default now()
 );
 
-create table public.matches (
+create table if not exists public.matches (
   id                uuid primary key default gen_random_uuid(),
   tournament        text,
   home_team         text not null,
@@ -106,7 +105,7 @@ create table public.matches (
   created_at        timestamptz not null default now()
 );
 
-create table public.standings (
+create table if not exists public.standings (
   id              uuid primary key default gen_random_uuid(),
   tournament_name text,
   team_name       text not null,
@@ -120,7 +119,7 @@ create table public.standings (
   created_at      timestamptz not null default now()
 );
 
-create table public.news (
+create table if not exists public.news (
   id         uuid primary key default gen_random_uuid(),
   title_az   text not null,
   content_az text,
@@ -130,7 +129,7 @@ create table public.news (
   created_at timestamptz not null default now()
 );
 
-create table public.transfers (
+create table if not exists public.transfers (
   id            uuid primary key default gen_random_uuid(),
   player_name   text not null,
   from_team     text,
@@ -141,7 +140,7 @@ create table public.transfers (
   created_at    timestamptz not null default now()
 );
 
-create table public.videos (
+create table if not exists public.videos (
   id             uuid primary key default gen_random_uuid(),
   title          text not null,
   url            text not null,
@@ -150,7 +149,7 @@ create table public.videos (
   created_at     timestamptz not null default now()
 );
 
-create table public.hero_slides (
+create table if not exists public.hero_slides (
   id         uuid primary key default gen_random_uuid(),
   title      text,
   subtitle   text,
@@ -160,7 +159,7 @@ create table public.hero_slides (
   created_at timestamptz not null default now()
 );
 
-create table public.products (
+create table if not exists public.products (
   id              uuid primary key default gen_random_uuid(),
   title           text not null,
   price           numeric(10,2),
@@ -172,14 +171,14 @@ create table public.products (
   created_at      timestamptz not null default now()
 );
 
-create table public.sponsors (
+create table if not exists public.sponsors (
   id         uuid primary key default gen_random_uuid(),
   name       text not null,
   logo_url   text,
   created_at timestamptz not null default now()
 );
 
-create table public.achievements (
+create table if not exists public.achievements (
   id          uuid primary key default gen_random_uuid(),
   title       text not null,
   count       text,
@@ -189,7 +188,7 @@ create table public.achievements (
   created_at  timestamptz not null default now()
 );
 
-create table public.coach_courses (
+create table if not exists public.coach_courses (
   id          uuid primary key default gen_random_uuid(),
   title       text not null,
   description text,
@@ -200,7 +199,7 @@ create table public.coach_courses (
 
 -- Key/value store for page images and texts (section_key must be unique:
 -- the admin uses upsert ... on conflict (section_key)).
-create table public.site_images (
+create table if not exists public.site_images (
   id          uuid primary key default gen_random_uuid(),
   section_key text not null unique,
   image_url   text,
@@ -208,7 +207,7 @@ create table public.site_images (
 );
 
 -- Stored EN/RU translations of admin-entered text (filled automatically on save)
-create table public.translations (
+create table if not exists public.translations (
   source     text primary key,
   en         text,
   ru         text,

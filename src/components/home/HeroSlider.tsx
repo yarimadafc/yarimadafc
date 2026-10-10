@@ -13,6 +13,37 @@ type Slide = { id: string; image: string; title: string; subtitle?: string; href
 const AUTOPLAY_MS = 6500;
 const INTRO_MS = 9000;
 
+// Fades in only once the image is decoded, then runs the slow zoom on the GPU — starting the animation
+// while the file was still downloading/decoding is what made it freeze and jump.
+function HeroImage({ src, active, priority }: { src: string; active: boolean; priority: boolean }) {
+  const [ready, setReady] = useState(false);
+  const ref = useRef<HTMLImageElement>(null);
+  useEffect(() => {
+    const img = ref.current;
+    if (!img) return;
+    let cancelled = false;
+    const done = () => { if (!cancelled) setReady(true); };
+    if (img.complete && img.naturalWidth > 0) {
+      (img.decode ? img.decode().catch(() => {}) : Promise.resolve()).then(done);
+    }
+    return () => { cancelled = true; };
+  }, [src]);
+  return (
+    <img
+      ref={ref}
+      src={src}
+      alt=""
+      decoding="async"
+      loading={priority ? 'eager' : 'lazy'}
+      {...(priority ? { fetchPriority: 'high' as const } : {})}
+      onLoad={e => { const img = e.currentTarget; (img.decode ? img.decode().catch(() => {}) : Promise.resolve()).then(() => setReady(true)); }}
+      onError={() => setReady(true)}
+      style={{ willChange: active ? 'transform, opacity' : undefined }}
+      className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-500 ${ready ? 'opacity-100' : 'opacity-0'} ${active && ready ? 'animate-[hero-zoom_2.4s_cubic-bezier(.2,.6,.2,1)_both]' : ''}`}
+    />
+  );
+}
+
 export default function HeroSlider() {
   const { t, loc } = useLang();
   const [slides, setSlides] = useState<Slide[]>([]);
@@ -84,7 +115,8 @@ export default function HeroSlider() {
     setPaused(false);
   };
 
-  const frame = 'relative overflow-hidden rounded-2xl bg-bg-sec aspect-[3/4] sm:aspect-[4/3] md:aspect-[16/10] lg:aspect-[2.2/1]';
+  // no animated LED border here: repainting a conic gradient over this large area every frame made Chrome stutter
+  const frame = 'relative overflow-hidden rounded-2xl bg-bg-sec border border-bg-border aspect-[3/4] sm:aspect-[4/3] md:aspect-[16/10] lg:aspect-[2.2/1]';
   const titleOf = (s: Slide) => (s.intro ? `${t(intro.title1)} ${t(intro.title2)}`.trim() : s.raw ? loc(s.raw, 'title') : s.title);
 
   return (
@@ -95,12 +127,12 @@ export default function HeroSlider() {
             <div className={`${frame} animate-pulse`} aria-hidden />
           ) : (
             <>
-              <div className={`${frame} led-border`} onTouchStart={onTouchStart} onTouchEnd={onTouchEnd}>
+              <div className={frame} onTouchStart={onTouchStart} onTouchEnd={onTouchEnd}>
                 {slides.map((s, i) => {
                   const on = i === active;
                   return (
                     <div key={s.id} className={`absolute inset-0 transition-opacity duration-700 ${on ? 'opacity-100 z-[1]' : 'opacity-0 pointer-events-none'}`} aria-hidden={!on}>
-                      {s.image && <img src={s.image} alt="" className={`absolute inset-0 w-full h-full object-cover ${on ? 'animate-[hero-zoom_1.8s_ease-out_both]' : ''}`} loading={i < 2 ? 'eager' : 'lazy'} />}
+                      {s.image && <HeroImage src={s.image} active={on} priority={i === 0} />}
 
                       {s.intro ? (
                         <>

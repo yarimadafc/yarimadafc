@@ -1428,5 +1428,65 @@ export const dictionary: Record<string, { en: string; ru: string }> = {
   "Şəxsi məlumatlarımın emalına razıyam.": {
     "en": "I agree to the processing of my personal data.",
     "ru": "Я согласен(на) на обработку моих персональных данных."
+  },
+  "Hesabdan çıxış": {
+    "en": "Log out",
+    "ru": "Выйти из аккаунта"
+  },
+  "Parolu sıfırla": {
+    "en": "Reset password",
+    "ru": "Сброс пароля"
+  },
+  "Emailinizə göndərilən kodla yeni parol təyin edin.": {
+    "en": "Set a new password with the code sent to your email.",
+    "ru": "Задайте новый пароль с помощью кода из письма."
+  },
+  "Hesabınızın email ünvanını yazın — sizə 6 rəqəmli sıfırlama kodu göndərəcəyik.": {
+    "en": "Enter your account email — we'll send you a 6-digit reset code.",
+    "ru": "Введите адрес эл. почты аккаунта — мы отправим 6-значный код."
+  },
+  "Kodu göndər": {
+    "en": "Send code",
+    "ru": "Отправить код"
+  },
+  "Girişə qayıt": {
+    "en": "Back to login",
+    "ru": "Назад ко входу"
+  },
+  "Emaildəki kod": {
+    "en": "Code from the email",
+    "ru": "Код из письма"
+  },
+  "Parolu yenilə": {
+    "en": "Update password",
+    "ru": "Обновить пароль"
+  },
+  "Kodu yenidən göndər": {
+    "en": "Resend code",
+    "ru": "Отправить код ещё раз"
+  },
+  "Bu email ilə hesab varsa, 6 rəqəmli kod göndərildi. Gələnlər və Spam qovluğunu yoxlayın.": {
+    "en": "If an account exists for this email, a 6-digit code was sent. Check your inbox and spam folder.",
+    "ru": "Если аккаунт с этой почтой существует, мы отправили 6-значный код. Проверьте «Входящие» и «Спам»."
+  },
+  "Emaildəki 6 rəqəmli kodu yazın.": {
+    "en": "Enter the 6-digit code from the email.",
+    "ru": "Введите 6-значный код из письма."
+  },
+  "Parol yeniləndi. Yeni parolla daxil olun.": {
+    "en": "Password updated. Log in with your new password.",
+    "ru": "Пароль обновлён. Войдите с новым паролем."
+  },
+  "Kod yanlışdır və ya vaxtı bitib.": {
+    "en": "The code is wrong or has expired.",
+    "ru": "Код неверный или истёк."
+  },
+  "Çox səhv cəhd. Yeni kod istəyin.": {
+    "en": "Too many wrong attempts. Request a new code.",
+    "ru": "Слишком много неверных попыток. Запросите новый код."
+  },
+  "Email xidməti hələ qurulmayıb. Klubla əlaqə saxlayın.": {
+    "en": "Email service is not set up yet. Please contact the club.",
+    "ru": "Почтовый сервис ещё не настроен. Свяжитесь с клубом."
   }
 };

@@ -26,4 +26,10 @@ export function useMember() {
   return { user, loading };
 }
 
+/** Signs the member out on this device (works offline too) and clears the stored session. */
+export async function signOutMember() {
+  const { error } = await supabase.auth.signOut({ scope: 'local' });
+  if (error) await supabase.auth.signOut({ scope: 'local' }).catch(() => {});
+}
+
 export * from '@/lib/memberValidation';

@@ -5,7 +5,7 @@
 
 const VID_KEY = 'yfk_vid';
 
-function visitorId(): string {
+export function visitorId(): string {
   try {
     let id = localStorage.getItem(VID_KEY);
     if (!id) {

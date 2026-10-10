@@ -66,7 +66,7 @@ export default function HeroSlider() {
     async function load() {
       const [{ data: slideRows }, { data: newsRows }, { data: site }] = await Promise.all([
         supabase.from('hero_slides').select('*').order('sort_order', { ascending: true }).limit(6),
-        supabase.from('news').select('id, title_az, title_en, title_ru, image_url, created_at').order('created_at', { ascending: false }).limit(5),
+        supabase.from('news').select('id, title_az, image_url, created_at').order('created_at', { ascending: false }).limit(5),
         supabase.from('site_images').select('section_key, image_url').in('section_key', ['hero_bg', 'hero_title_1', 'hero_title_2', 'hero_subtitle']),
       ]);
       if (cancelled) return;

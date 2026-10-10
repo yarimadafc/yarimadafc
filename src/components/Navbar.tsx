@@ -4,12 +4,12 @@ import { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { usePathname, useRouter } from 'next/navigation';
-import { Menu, X, Search, ChevronDown, Sun, Moon, Phone, User } from 'lucide-react';
+import { Menu, X, Search, ChevronDown, Sun, Moon, Phone, User, LogOut } from 'lucide-react';
 import NextMatchStrip from '@/components/NextMatchStrip';
 import LanguageSwitcher from '@/components/LanguageSwitcher';
 import { SocialLinks } from '@/components/SocialIcons';
 import { useLang } from '@/lib/i18n';
-import { useMember } from '@/lib/member';
+import { signOutMember, useMember } from '@/lib/member';
 
 type Link_ = { name: string; href: string };
 type Item = Link_ & { children?: Link_[] };
@@ -66,6 +66,11 @@ export default function Navbar() {
   const { user } = useMember();
   const joinHref = user ? '/account' : '/join';
   const joinLabel = user ? 'Hesabım' : 'Bizə qoşul';
+  const logout = async () => {
+    setIsOpen(false);
+    await signOutMember();
+    if (pathname.startsWith('/account')) router.replace('/');
+  };
   const headerRef = useRef<HTMLElement>(null);
   const [headerH, setHeaderH] = useState(120);
   const [isOpen, setIsOpen] = useState(false);
@@ -216,6 +221,11 @@ export default function Navbar() {
                   <Link href={joinHref} className="btn-fx led-border bg-accent text-on-accent font-bold text-xs px-5 py-2 rounded-full whitespace-nowrap">
                     {t(joinLabel)}
                   </Link>
+                  {user && (
+                    <button onClick={logout} className="text-text-sec hover:text-red-500 transition-colors p-1.5" aria-label={t('Hesabdan çıxış')} title={t('Hesabdan çıxış')}>
+                      <LogOut className="w-[18px] h-[18px]" />
+                    </button>
+                  )}
                 </div>
               </div>
 
@@ -331,6 +341,11 @@ export default function Navbar() {
             </nav>
             <Link href={joinHref} className="btn-fx led-border mt-6 block w-full text-center bg-accent text-on-accent font-bold py-4 rounded-xl">{t(joinLabel)}</Link>
             {!user && <Link href="/login" className="mt-3 block w-full text-center border border-bg-border text-text-main font-semibold py-3.5 rounded-xl">{t('Daxil ol')}</Link>}
+            {user && (
+              <button onClick={logout} className="mt-3 flex items-center justify-center gap-2 w-full border border-red-500/50 text-red-500 font-semibold py-3.5 rounded-xl">
+                <LogOut className="w-4 h-4" /> {t('Hesabdan çıxış')}
+              </button>
+            )}
             <div className="flex flex-col items-center gap-5 mt-8 pb-10">
               <a href="tel:0554477467" className="flex items-center gap-2 text-text-sec font-bold tracking-wider"><Phone className="w-4 h-4" /> 055 447 74 67</a>
               <SocialLinks iconClass="w-6 h-6" gap="gap-7" />

@@ -1,5 +1,5 @@
 'use client';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { LogOut, Save, KeyRound } from 'lucide-react';
@@ -7,7 +7,7 @@ import PageHero from '@/components/PageHero';
 import { AuthCard, Field, Notice, inputCls } from '@/components/AuthUI';
 import { supabase } from '@/lib/supabase';
 import { useLang } from '@/lib/i18n';
-import { GENDERS, ageFromBirth, authErrorText, normalizePhone, useMember, validPhone, validateBirth } from '@/lib/member';
+import { GENDERS, ageFromBirth, authErrorText, normalizePhone, signOutMember, useMember, validPhone, validateBirth } from '@/lib/member';
 
 export default function AccountPage() {
   const { t } = useLang();
@@ -21,7 +21,8 @@ export default function AccountPage() {
   const [pwMsg, setPwMsg] = useState<{ kind: 'error' | 'success'; text: string } | null>(null);
   const today = new Date().toISOString().slice(0, 10);
 
-  useEffect(() => { if (!loading && !user) router.replace('/login'); }, [loading, user, router]);
+  const leaving = useRef(false);
+  useEffect(() => { if (!loading && !user && !leaving.current) router.replace('/login'); }, [loading, user, router]);
 
   useEffect(() => {
     if (!user) return;
@@ -73,7 +74,13 @@ export default function AccountPage() {
     setPwMsg({ kind: 'success', text: 'Parol dəyişdirildi.' });
   };
 
-  const logout = async () => { await supabase.auth.signOut(); router.push('/'); };
+  const [signingOut, setSigningOut] = useState(false);
+  const logout = async () => {
+    leaving.current = true; // do not bounce to /login while signing out
+    setSigningOut(true);
+    await signOutMember();
+    router.replace('/');
+  };
 
   if (loading || !user) return <div className="pt-header min-h-screen" />;
   const age = ageFromBirth(p.birth_date);
@@ -81,8 +88,8 @@ export default function AccountPage() {
   return (
     <div className="pt-header pb-20 min-h-screen">
       <PageHero title={t('Hesabım')} subtitle={user.email || ''}>
-        <button onClick={logout} className="btn-fx mt-5 inline-flex items-center gap-2 border border-bg-border px-5 py-2.5 rounded-xl text-sm font-semibold text-text-sec hover:text-text-main">
-          <LogOut className="w-4 h-4" /> {t('Çıxış')}
+        <button onClick={logout} disabled={signingOut} className="btn-fx mt-5 inline-flex items-center gap-2 border border-red-500/50 text-red-500 hover:bg-red-500 hover:text-white px-5 py-2.5 rounded-xl text-sm font-bold transition-colors disabled:opacity-60">
+          <LogOut className="w-4 h-4" /> {signingOut ? t('Gözləyin...') : t('Hesabdan çıxış')}
         </button>
       </PageHero>
       <div className="container space-y-8">

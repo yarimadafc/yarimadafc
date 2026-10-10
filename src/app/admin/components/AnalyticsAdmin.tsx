@@ -1,5 +1,6 @@
 'use client';
 import { useEffect, useState } from 'react';
+import LiveVisitors from './LiveVisitors';
 import { RefreshCw, Users, Eye, ShoppingBag, UserPlus, Table2, BarChart3 } from 'lucide-react';
 
 type Range = 'day' | 'week' | 'month';
@@ -181,6 +182,8 @@ export default function AnalyticsAdmin() {
           </button>
         </div>
       </div>
+
+      <div className="mb-6"><LiveVisitors /></div>
 
       {error ? (
         <div className="bg-red-500/10 border border-red-500/40 text-red-400 rounded-xl p-4 text-sm font-semibold">{error}</div>

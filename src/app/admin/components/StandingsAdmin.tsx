@@ -192,7 +192,7 @@ export default function StandingsAdmin() {
                   <div className="flex items-center gap-3">
                     {logoUrl ? (
                       <span className="relative group w-12 h-12 rounded-full bg-white overflow-hidden flex items-center justify-center shrink-0">
-                        <img src={logoUrl} alt="" className="w-[82%] h-[82%] object-contain" />
+                        <img src={logoUrl} alt="" className="w-[70%] h-[70%] object-contain" />
                         <button type="button" onClick={() => setLogoUrl('')} className="absolute inset-0 bg-red-500/80 text-white text-[10px] font-bold opacity-0 group-hover:opacity-100 transition-opacity">SİL</button>
                       </span>
                     ) : null}
@@ -245,7 +245,7 @@ export default function StandingsAdmin() {
                         <td className="p-4 font-bold">
                           <span className="flex items-center gap-3">
                             <span className="w-8 h-8 rounded-full bg-white overflow-hidden flex items-center justify-center shrink-0">
-                              {logoOf(s.team_name) ? <img src={logoOf(s.team_name)} alt="" className="w-[82%] h-[82%] object-contain" /> : s.team_name.includes('Yarımada') ? <img src="/Logo.JPG.jpeg" alt="" className="w-full h-full object-cover" /> : <span className="text-[10px] text-gray-500 font-black uppercase">{s.team_name.slice(0, 2)}</span>}
+                              {logoOf(s.team_name) ? <img src={logoOf(s.team_name)} alt="" className="w-[70%] h-[70%] object-contain" /> : s.team_name.includes('Yarımada') ? <img src="/Logo.JPG.jpeg" alt="" className="w-full h-full object-cover" /> : <span className="text-[10px] text-gray-500 font-black uppercase">{s.team_name.slice(0, 2)}</span>}
                             </span>
                             <span className={s.team_name.includes('Yarımada') ? 'text-accent' : 'text-white'}>{s.team_name}</span>
                           </span>

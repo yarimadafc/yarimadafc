@@ -112,8 +112,8 @@ export default function StandingsBoard({ matchLimit = 9 }: Props) {
                 <tr key={t.id} className={`border-t border-bg-border ${isYarimada(t.team_name) ? 'bg-bg-card font-bold' : 'font-medium'}`}>
                   <td className="py-3 px-1 sm:px-2 text-center">{i + 1}</td>
                   <td className="py-3 px-1 sm:px-2">
-                    <span className="flex items-center gap-2 min-w-0">
-                      <TeamLogo name={t.team_name} logo={logos[t.team_name]} size={22} />
+                    <span className="flex items-center gap-2.5 min-w-0">
+                      <TeamLogo name={t.team_name} logo={logos[t.team_name]} size={30} />
                       <span className="truncate font-semibold">{t.team_name}</span>
                     </span>
                   </td>
@@ -152,13 +152,13 @@ export default function StandingsBoard({ matchLimit = 9 }: Props) {
                   <div className="flex-1 min-w-0 grid grid-cols-[1fr_auto_1fr] items-center gap-2 sm:gap-3">
                     <span className="flex items-center justify-end gap-2 min-w-0 font-semibold text-text-main">
                       <span className="truncate text-right">{m.home_team}</span>
-                      <TeamLogo name={m.home_team} logo={m.home_logo} size={22} />
+                      <TeamLogo name={m.home_team} logo={m.home_logo} size={26} />
                     </span>
                     <span className="font-bold text-text-main text-center min-w-[3rem]">
                       {scoreText(m)}
                     </span>
                     <span className="flex items-center gap-2 min-w-0 font-semibold text-text-main">
-                      <TeamLogo name={m.away_team} logo={m.away_logo} size={22} />
+                      <TeamLogo name={m.away_team} logo={m.away_logo} size={26} />
                       <span className="truncate">{m.away_team}</span>
                     </span>
                   </div>

@@ -6,10 +6,12 @@ import LiveBadge from '@/components/LiveBadge';
 import MatchesShell from '@/components/MatchesShell';
 import TeamLogo from '@/components/TeamLogo';
 import Reveal from '@/components/Reveal';
+import MatchSquad from '@/components/MatchSquad';
 import { useLang } from '@/lib/i18n';
 import { useFormat } from '@/lib/useFormat';
 import { AnyMatch, isLiveMatch, scoreText, matchStart, normalizeMatch } from '@/lib/matchUtils';
 import { useSyncVersion } from '@/lib/siteSync';
+import { useOrderedTeams } from '@/lib/teamOrder';
 
 function MatchesList() {
   const { t } = useLang();
@@ -20,6 +22,7 @@ function MatchesList() {
   const [loading, setLoading] = useState(true);
   const [league, setLeague] = useState('Hamısı');
   const [, setTick] = useState(0);
+  const { compareNames } = useOrderedTeams('id, name, sort_order');
 
   useEffect(() => {
     const t = setInterval(() => setTick(n => n + 1), 30000);
@@ -36,7 +39,7 @@ function MatchesList() {
     load();
   }, [sync]);
 
-  const leagues = useMemo(() => ['Hamısı', ...Array.from(new Set(matches.map(m => m.tournament || 'Oyun'))).sort()], [matches]);
+  const leagues = useMemo(() => ['Hamısı', ...Array.from(new Set(matches.map(m => m.tournament || 'Oyun'))).sort(compareNames)], [matches, compareNames]);
 
   const list = useMemo(() => {
     const byLeague = matches.filter(m => league === 'Hamısı' || (m.tournament || 'Oyun') === league);
@@ -90,6 +93,7 @@ function MatchesList() {
                     <span className="text-sm font-semibold text-text-main leading-tight line-clamp-2">{m.away_team}</span>
                   </div>
                 </div>
+                <MatchSquad match={m} />
               </article>
               </Reveal>
             );

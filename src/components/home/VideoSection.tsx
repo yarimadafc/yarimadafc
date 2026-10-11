@@ -1,7 +1,6 @@
 'use client';
 import SectionHeading from '@/components/SectionHeading';
 
-import Link from 'next/link';
 import { Play } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { useEffect, useState } from 'react';
@@ -134,18 +133,6 @@ export default function VideoSection() {
               ))}
             </div>
 
-            {/* Bütün Videolar button */}
-            <motion.div 
-              initial={{ opacity: 0 }}
-              whileInView={{ opacity: 1 }}
-              transition={{ delay: 0.8 }}
-              viewport={{ once: true }}
-              className="mt-6 flex justify-end"
-            >
-              <Link href="/media" className="text-text-main font-bold text-sm tracking-widest border-b-2 border-accent pb-1 hover:text-accent transition-colors uppercase">
-                Bütün videolar
-              </Link>
-            </motion.div>
           </div>
 
         </div>

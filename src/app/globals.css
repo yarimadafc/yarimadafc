@@ -112,12 +112,12 @@ input::placeholder, textarea::placeholder {
   color: #9ca3af; /* gray-400 */
 }
 
-/* ===== Layout: wide, edge-to-edge container (no narrow centered column) ===== */
+/* ===== Layout: centred column like neftchi.az — full width up to 1600px, then centred ===== */
 @utility container {
   margin-inline: auto;
   width: 100%;
-  max-width: 2200px;
-  padding-inline: clamp(1rem, 3.2vw, 4rem);
+  max-width: 1600px;
+  padding-inline: clamp(1rem, 3.2vw, 4.4rem); /* ≈62px, as on neftchi.az */
 }
 
 /* space for the fixed header (top bar + header + mobile match strip) */

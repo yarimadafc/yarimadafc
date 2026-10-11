@@ -5,7 +5,7 @@ import { adminDb, toast } from '@/lib/adminDb';
 import { sortTeams } from '@/lib/teamOrder';
 import { uploadFromInput } from '@/lib/uploadImage';
 import { teamLogoKey } from '@/lib/teamLogos';
-import { isYarimada } from '@/lib/matchUtils';
+import { isYarimada, sameTeam } from '@/lib/matchUtils';
 import { entryGoals, entryPlayed } from '@/lib/playerStats';
 import { Trash2, Plus, UploadCloud, Radio, Clock, Users, Play, Pause, Square, AlertCircle, Minus } from 'lucide-react';
 import { calculateLiveMinute, TimerStatus } from '@/lib/matchTimer';
@@ -52,6 +52,10 @@ export default function MatchesAdmin() {
   const [newAwayPlayerName, setNewAwayPlayerName] = useState('');
   const [newAwayPlayerNumber, setNewAwayPlayerNumber] = useState('');
   const [selectedTeamIdForLineup, setSelectedTeamIdForLineup] = useState<string>('');
+  // called-up squad: players can be invited from any team (e.g. a U-11 player for a U-12 away game)
+  const [allPlayers, setAllPlayers] = useState<any[]>([]);
+  const [inviteTeamId, setInviteTeamId] = useState('');
+  const [inviteIds, setInviteIds] = useState<Set<string>>(new Set());
 
   const [uploadingHomeLogo, setUploadingHomeLogo] = useState(false);
   const [uploadingAwayLogo, setUploadingAwayLogo] = useState(false);
@@ -89,7 +93,28 @@ export default function MatchesAdmin() {
   useEffect(() => {
     fetchMatches();
     fetchTeams();
+    supabase.from('players').select('id, name, jersey_number, position, team_id, teams(name)').order('jersey_number', { ascending: true })
+      .then(({ data }) => setAllPlayers(data || []));
   }, []);
+
+  const toEntry = (p: any) => {
+    const teamName = p.teams?.name || teams.find(t => t.id === p.team_id)?.name || '';
+    const invited = !!teamName && !!tournament && !sameTeam(teamName, tournament);
+    return {
+      id: p.id, name: p.name, number: p.jersey_number ?? '', position: p.position,
+      is_starting: false, played: false, goals: 0, assists: 0, events: [],
+      ...(invited ? { invited: true, from_team: teamName } : {}),
+    };
+  };
+
+  const addInvited = () => {
+    const have = new Set(yarimadaLineup.map(e => e.id));
+    const picked = allPlayers.filter(p => inviteIds.has(p.id) && !have.has(p.id));
+    if (!picked.length) return toast('error', 'Oyunçu seçin');
+    setYarimadaLineup(prev => [...prev, ...picked.map(toEntry)]);
+    setInviteIds(new Set());
+    toast('success', `${picked.length} oyunçu heyətə əlavə edildi (yadda saxlamağı unutmayın)`);
+  };
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -115,20 +140,7 @@ export default function MatchesAdmin() {
     if (!selectedTeamIdForLineup) return toast('error', 'Zəhmət olmasa komandanı seçin');
     if (confirm('Mövcud heyət silinəcək və komandanın oyunçuları bura kopyalanacaq. Davam edilsin?')) {
       const { data } = await supabase.from('players').select('*').eq('team_id', selectedTeamIdForLineup);
-      if (data) {
-        const mapped = data.map(p => ({
-          id: p.id,
-          name: p.name,
-          number: p.jersey_number ?? '',
-          position: p.position,
-          is_starting: false,
-          played: false,
-          goals: 0,
-          assists: 0,
-          events: [] // e.g. ['yellow_card', 'red_card', 'injury']
-        }));
-        setYarimadaLineup(mapped);
-      }
+      if (data) setYarimadaLineup(data.map(toEntry)); // events e.g. ['yellow_card', 'red_card', 'injury']
     }
   };
 
@@ -259,7 +271,7 @@ export default function MatchesAdmin() {
     setMatchDate(''); setMatchTime(''); setVenue(''); setHomeScore(''); setAwayScore('');
     setStatus('upcoming'); setIsHero(false); 
     setTimerStatus('stopped'); setTimerStartedAt(null); setElapsedSec(0); setH1(45); setHt(15); setH2(45); setEx1(0); setEx2(0);
-    setYarimadaLineup([]); setAwayLineup([]); setSelectedTeamIdForLineup('');
+    setYarimadaLineup([]); setAwayLineup([]); setSelectedTeamIdForLineup(''); setInviteTeamId(''); setInviteIds(new Set());
     setEditingId(null);
   };
 
@@ -461,7 +473,7 @@ export default function MatchesAdmin() {
             <div className="space-y-6">
               <div className="flex flex-col md:flex-row items-end space-y-4 md:space-y-0 md:space-x-4 bg-black p-4 rounded-xl border border-gray-700">
                 <div className="flex-1 w-full">
-                  <label className="block text-gray-400 text-xs font-bold uppercase mb-2">Bazada olan komandadan oyunçuları çək</label>
+                  <label className="block text-gray-400 text-xs font-bold uppercase mb-2">Komandanın bütün heyətini köçür (mövcud heyəti əvəz edir)</label>
                   <select value={selectedTeamIdForLineup} onChange={e => setSelectedTeamIdForLineup(e.target.value)} className="w-full bg-gray-900 border border-gray-700 rounded-lg p-3 text-white outline-none">
                     <option value="">Komanda seçin...</option>
                     {teams.map(t => (
@@ -472,6 +484,41 @@ export default function MatchesAdmin() {
                 <button type="button" onClick={syncLineup} className="bg-blue-600 hover:bg-blue-500 text-white px-6 py-3 rounded-lg font-bold text-xs uppercase tracking-widest w-full md:w-auto transition-colors">
                   Sinxronlaşdır
                 </button>
+              </div>
+
+              {/* Called-up squad: add single players from any team without replacing the squad */}
+              <div className="bg-black p-4 rounded-xl border border-gray-700">
+                <label className="block text-gray-400 text-xs font-bold uppercase mb-1">Dəvət olunan heyət — istənilən komandadan oyunçu əlavə et</label>
+                <p className="text-gray-500 text-[11px] mb-3">Qonaq oyunlarında heyət dəyişəndə: başqa yaş qrupundan dəvət olunan oyunçuları seçin. Onlar saytda «Dəvətli» işarəsi ilə görünür, statistikası öz profilinə yazılır.</p>
+                <div className="flex flex-col md:flex-row gap-3 mb-3">
+                  <select value={inviteTeamId} onChange={e => { setInviteTeamId(e.target.value); setInviteIds(new Set()); }} className="flex-1 bg-gray-900 border border-gray-700 rounded-lg p-3 text-white outline-none">
+                    <option value="">Komanda seçin...</option>
+                    {teams.map(t => <option key={t.id} value={t.id}>{t.name}</option>)}
+                  </select>
+                  <button type="button" onClick={addInvited} disabled={!inviteIds.size} className="bg-green-600 hover:bg-green-500 disabled:opacity-40 text-white px-6 py-3 rounded-lg font-bold text-xs uppercase tracking-widest whitespace-nowrap">
+                    Seçilənləri heyətə əlavə et{inviteIds.size ? ` (${inviteIds.size})` : ''}
+                  </button>
+                </div>
+                {inviteTeamId && (() => {
+                  const inSquad = new Set(yarimadaLineup.map(e => e.id));
+                  const list = allPlayers.filter(p => p.team_id === inviteTeamId);
+                  if (!list.length) return <p className="text-gray-500 text-sm">Bu komandada oyunçu yoxdur.</p>;
+                  return (
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2">
+                      {list.map(p => {
+                        const already = inSquad.has(p.id);
+                        return (
+                          <label key={p.id} className={`flex items-center gap-2 bg-gray-900 border border-gray-700 rounded-lg px-3 py-2 text-sm ${already ? 'opacity-40' : 'cursor-pointer hover:border-accent'}`}>
+                            <input type="checkbox" disabled={already} checked={already || inviteIds.has(p.id)} onChange={e => setInviteIds(prev => { const n = new Set(prev); if (e.target.checked) n.add(p.id); else n.delete(p.id); return n; })} className="w-4 h-4 accent-green-500" />
+                            <span className="text-gray-500 w-6">{p.jersey_number ?? '-'}</span>
+                            <span className="text-white truncate">{p.name}</span>
+                            {already && <span className="ml-auto text-[10px] text-gray-400 uppercase">heyətdə</span>}
+                          </label>
+                        );
+                      })}
+                    </div>
+                  );
+                })()}
               </div>
 
               <div className="flex flex-col md:flex-row space-y-4 md:space-y-0 md:space-x-4 bg-black p-4 rounded-xl border border-gray-700 mb-6">
@@ -523,7 +570,10 @@ export default function MatchesAdmin() {
                         return (
                           <tr key={p.id || index} className={`border-b border-gray-700/50 hover:bg-gray-800/50 ${played ? '' : 'opacity-50'}`}>
                             <td className="px-3 py-2 text-white font-bold">{p.number}</td>
-                            <td className="px-3 py-2 font-medium text-white whitespace-nowrap">{p.name} <span className="text-gray-400 text-[10px] ml-1 uppercase">({p.position || 'Oyunçu'})</span></td>
+                            <td className="px-3 py-2 font-medium text-white whitespace-nowrap">
+                              {p.name} <span className="text-gray-400 text-[10px] ml-1 uppercase">({p.position || 'Oyunçu'})</span>
+                              {p.invited && <span className="ml-2 text-[9px] font-bold uppercase tracking-widest bg-blue-600/30 text-blue-300 border border-blue-500/40 rounded px-1.5 py-0.5" title="Başqa komandadan dəvət olunub">Dəvətli{p.from_team ? ` · ${p.from_team}` : ''}</span>}
+                            </td>
                             <td className="px-3 py-2 text-center">
                               <input type="checkbox" checked={played} onChange={e => updatePlayer(index, { played: e.target.checked })} className="w-4 h-4 accent-green-500" />
                             </td>

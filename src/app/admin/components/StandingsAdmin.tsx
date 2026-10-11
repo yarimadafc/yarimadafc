@@ -189,7 +189,7 @@ export default function StandingsAdmin() {
                   <div className="flex items-center gap-3">
                     {logoUrl ? (
                       <span className="relative group w-12 h-12 rounded-full bg-white overflow-hidden flex items-center justify-center shrink-0">
-                        <img src={logoUrl} alt="" className="w-[70%] h-[70%] object-contain" />
+                        <img src={logoUrl} alt="" className="w-full h-full object-cover" />
                         <button type="button" onClick={() => setLogoUrl('')} className="absolute inset-0 bg-red-500/80 text-white text-[10px] font-bold opacity-0 group-hover:opacity-100 transition-opacity">SİL</button>
                       </span>
                     ) : null}

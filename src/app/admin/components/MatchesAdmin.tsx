@@ -347,7 +347,7 @@ export default function MatchesAdmin() {
                 <div className="bg-black p-3 rounded-lg border border-gray-700">
                   <label className="block text-gray-400 text-xs font-bold uppercase mb-2">Ev Sahibi Loqosu</label>
                   <div className="flex items-center space-x-3">
-                    {homeLogo && <img src={homeLogo} alt="Home" className="w-10 h-10 object-contain bg-white rounded-full p-1" />}
+                    {homeLogo && <img src={homeLogo} alt="Home" className="w-10 h-10 object-cover bg-white rounded-full" />}
                     <label className="cursor-pointer bg-gray-800 border border-gray-700 hover:border-accent px-4 py-2 rounded text-xs font-bold text-white uppercase transition-colors">
                       {uploadingHomeLogo ? 'Yüklənir...' : 'Cihazdan Seç'}
                       <input type="file" accept="image/*" onChange={e => handleLogoUpload(e, true)} className="hidden" />
@@ -358,7 +358,7 @@ export default function MatchesAdmin() {
                 <div className="bg-black p-3 rounded-lg border border-gray-700">
                   <label className="block text-gray-400 text-xs font-bold uppercase mb-2">Qonaq Loqosu</label>
                   <div className="flex items-center space-x-3">
-                    {awayLogo && <img src={awayLogo} alt="Away" className="w-10 h-10 object-contain bg-white rounded-full p-1" />}
+                    {awayLogo && <img src={awayLogo} alt="Away" className="w-10 h-10 object-cover bg-white rounded-full" />}
                     <label className="cursor-pointer bg-gray-800 border border-gray-700 hover:border-accent px-4 py-2 rounded text-xs font-bold text-white uppercase transition-colors">
                       {uploadingAwayLogo ? 'Yüklənir...' : 'Cihazdan Seç'}
                       <input type="file" accept="image/*" onChange={e => handleLogoUpload(e, false)} className="hidden" />

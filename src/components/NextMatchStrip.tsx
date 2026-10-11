@@ -43,9 +43,9 @@ export default function NextMatchStrip({ compact = false }: { compact?: boolean 
   if (compact) {
     return (
       <Link href="/matches" className="flex items-center justify-center gap-2 h-full px-3 text-[11px] text-text-sec whitespace-nowrap overflow-hidden">
-        <TeamLogo fill name={match.home_team} logo={match.home_logo} size={18} />
+        <TeamLogo name={match.home_team} logo={match.home_logo} size={18} />
         <span className="text-text-main font-semibold truncate max-w-[34vw]">{match.home_team} – {match.away_team}</span>
-        <TeamLogo fill name={match.away_team} logo={match.away_logo} size={18} />
+        <TeamLogo name={match.away_team} logo={match.away_logo} size={18} />
         {match.date && <span className="hidden min-[400px]:inline">· {formatShortDate(match.date)}</span>}
         {match.time && <span className="hidden min-[400px]:inline">{match.time}</span>}
         {status && <span className="hidden sm:inline">· {status}</span>}
@@ -58,8 +58,8 @@ export default function NextMatchStrip({ compact = false }: { compact?: boolean 
     <Link href="/matches" className="flex items-center min-w-0 text-[13px] text-text-main divide-x divide-bg-border overflow-hidden hover:text-accent transition-colors">
       <span className={cell}>{match.tournament || t('Oyun')}</span>
       <span className={`${cell} flex items-center gap-2`}>
-        <TeamLogo fill name={match.home_team} logo={match.home_logo} size={26} />
-        <TeamLogo fill name={match.away_team} logo={match.away_logo} size={26} />
+        <TeamLogo name={match.home_team} logo={match.home_logo} size={26} />
+        <TeamLogo name={match.away_team} logo={match.away_logo} size={26} />
       </span>
       {match.stadium && <span className={`${cell} hidden 2xl:block truncate max-w-[260px]`}>{match.stadium}</span>}
       {match.date && <span className={cell}>{formatDashDate(match.date)}</span>}

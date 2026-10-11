@@ -9,21 +9,19 @@ interface Props {
   logo?: string | null;
   size?: number;
   className?: string;
-  /** fill the whole circle (crest cropped to a circle) instead of the 70% "fully visible" crest */
-  fill?: boolean;
 }
 
-// Round club crest everywhere. Uploaded logos are drawn at 70% so even a square crest stays fully
-// inside the circle (a square fits a circle only up to 1/√2 ≈ 70.7% of its diameter). Source order: logo passed in (e.g. the match's own upload) ->
-// club-wide logo registry -> Yarımada crest -> initials. A broken image falls back too.
-export default function TeamLogo({ name, logo, size = 40, className = '', fill = false }: Props) {
+// Round club crest everywhere: every logo is cut to a circle and fills it completely (object-cover), so all
+// crests look the same size on the calendar, standings, next-match cards and the top strip.
+// Source order: logo passed in (e.g. the match's own upload) -> club-wide logo registry -> Yarımada crest
+// -> initials. A broken image falls back too.
+export default function TeamLogo({ name, logo, size = 40, className = '' }: Props) {
   const logoFor = useTeamLogos();
   const [failed, setFailed] = useState<string | null>(null);
   const style = { width: size, height: size };
   const src = [logo, logoFor(name), isYarimada(name) ? '/Logo.JPG.jpeg' : null].find(u => u && u !== failed);
 
   if (src) {
-    const own = src === '/Logo.JPG.jpeg';
     return (
       <span data-no-fallback style={style} className={`relative inline-flex shrink-0 items-center justify-center overflow-hidden rounded-full bg-white ring-1 ring-black/10 shadow-sm ${className}`}>
         <img
@@ -32,7 +30,7 @@ export default function TeamLogo({ name, logo, size = 40, className = '', fill =
           loading="lazy"
           decoding="async"
           onError={() => setFailed(src)}
-          className={own || fill ? 'h-full w-full object-cover' : 'h-[70%] w-[70%] object-contain'}
+          className="h-full w-full object-cover"
         />
       </span>
     );

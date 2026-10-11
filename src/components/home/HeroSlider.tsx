@@ -128,50 +128,37 @@ export default function HeroSlider() {
             <div className={`${frame} animate-pulse`} aria-hidden />
           ) : (
             <>
+              {/* Only the photos change; the texts, buttons and match cards on top stay in place. */}
               <div className={frame} onTouchStart={onTouchStart} onTouchEnd={onTouchEnd}>
                 {slides.map((s, i) => {
                   const on = i === active;
                   return (
                     <div key={s.id} className={`absolute inset-0 transition-opacity duration-700 ${on ? 'opacity-100 z-[1]' : 'opacity-0 pointer-events-none'}`} aria-hidden={!on}>
                       {s.image && <HeroImage src={s.image} active={on} priority={i === 0} />}
-
-                      {s.intro ? (
-                        <>
-                          <div className="absolute inset-0 bg-gradient-to-t lg:bg-gradient-to-r from-bg-main via-bg-main/70 to-bg-main/20" />
-                          <div className="absolute inset-0 flex flex-col lg:flex-row items-center justify-end lg:justify-between gap-6 p-5 sm:p-10 lg:p-14 xl:p-20">
-                            <div className="w-full lg:max-w-2xl text-center lg:text-left">
-                              {on && (
-                                <>
-                                  <h1 className="text-[1.75rem] sm:text-4xl xl:text-5xl font-black text-text-main leading-[1.1] tracking-tight drop-shadow-2xl animate-[rise_.8s_ease-out_both]">
-                                    {t(intro.title1)} <span className="block text-accent led-text">{t(intro.title2)}</span>
-                                  </h1>
-                                  <p className="mt-4 text-sm sm:text-base text-text-sec max-w-xl mx-auto lg:mx-0 font-medium animate-[rise_.8s_.2s_ease-out_both]">{t(intro.subtitle)}</p>
-                                  <div className="mt-6 lg:mt-8 flex flex-col sm:flex-row gap-3 justify-center lg:justify-start animate-[rise_.8s_.4s_ease-out_both]">
-                                    <Link href="/register" className="btn-fx led-border bg-accent text-on-accent px-8 py-3.5 rounded-xl font-black uppercase tracking-widest text-xs sm:text-sm text-center">{t('Akademiyaya qoşul')}</Link>
-                                    <Link href="/matches" className="btn-fx border border-bg-border bg-bg-deep/70 backdrop-blur text-text-main px-8 py-3.5 rounded-xl font-bold uppercase tracking-widest text-xs sm:text-sm text-center hover:border-accent">{t('Oyunlar cədvəli')}</Link>
-                                  </div>
-                                </>
-                              )}
-                            </div>
-                            <div className="hidden lg:flex flex-col gap-3 w-full max-w-sm shrink-0">
-                              {on && <NextMatchCard compact className="animate-[rise_.9s_.3s_ease-out_both]" />}
-                              {on && <LastResultCard className="animate-[rise_.9s_.45s_ease-out_both]" />}
-                            </div>
-                          </div>
-                        </>
-                      ) : (
-                        <>
-                          <div className="absolute inset-0 bg-gradient-to-t from-bg-main/90 via-bg-main/10 to-transparent lg:from-bg-main/40" />
-                          {s.href && <Link href={s.href} className="absolute inset-0 z-10" aria-label={titleOf(s)} tabIndex={on ? 0 : -1} />}
-                          <div className="lg:hidden absolute inset-x-0 bottom-0 z-[5] p-5 sm:p-8 pointer-events-none">
-                            <h2 className="text-xl sm:text-3xl font-extrabold text-text-main leading-tight line-clamp-3">{titleOf(s)}</h2>
-                            {s.subtitle && <p className="mt-2 text-sm text-text-sec line-clamp-2">{s.subtitle}</p>}
-                          </div>
-                        </>
-                      )}
+                      {!s.intro && s.href && <Link href={s.href} className="absolute inset-0 z-10" aria-label={titleOf(s)} tabIndex={on ? 0 : -1} />}
                     </div>
                   );
                 })}
+                {/* one gradient for every photo, so the fixed text is always readable */}
+                <div className="absolute inset-0 z-[2] pointer-events-none bg-gradient-to-t lg:bg-gradient-to-r from-bg-main via-bg-main/70 to-bg-main/20" />
+
+                <div className="absolute inset-0 z-[15] pointer-events-none flex flex-col lg:flex-row items-center justify-end lg:justify-between gap-6 p-5 sm:p-10 lg:py-14 lg:pl-20 lg:pr-20 xl:p-20 xl:pl-24 xl:pr-24">
+                  <div className="w-full lg:max-w-2xl text-center lg:text-left">
+                    <h1 className="text-[1.75rem] sm:text-4xl xl:text-5xl font-black text-text-main leading-[1.1] tracking-tight drop-shadow-2xl animate-[rise_.8s_ease-out_both]">
+                      {t(intro.title1)} <span className="block text-accent led-text">{t(intro.title2)}</span>
+                    </h1>
+                    <p className="mt-4 text-sm sm:text-base text-text-sec max-w-xl mx-auto lg:mx-0 font-medium animate-[rise_.8s_.2s_ease-out_both]">{t(intro.subtitle)}</p>
+                    <div className="mt-6 lg:mt-8 flex flex-col sm:flex-row gap-3 justify-center lg:justify-start animate-[rise_.8s_.4s_ease-out_both] pointer-events-auto">
+                      <Link href="/register" className="btn-fx led-border bg-accent text-on-accent px-8 py-3.5 rounded-xl font-black uppercase tracking-widest text-xs sm:text-sm text-center">{t('Akademiyaya qoşul')}</Link>
+                      <Link href="/matches" className="btn-fx border border-bg-border bg-bg-deep/70 backdrop-blur text-text-main px-8 py-3.5 rounded-xl font-bold uppercase tracking-widest text-xs sm:text-sm text-center hover:border-accent">{t('Oyunlar cədvəli')}</Link>
+                    </div>
+                  </div>
+                  {/* Desktop: next match + last result */}
+                  <div className="hidden lg:flex flex-col gap-3 w-full max-w-sm shrink-0 pointer-events-auto">
+                    <NextMatchCard compact className="animate-[rise_.9s_.3s_ease-out_both]" />
+                    <LastResultCard className="animate-[rise_.9s_.45s_ease-out_both]" />
+                  </div>
+                </div>
               </div>
 
               {count > 1 && (

@@ -1,10 +1,13 @@
 'use client';
-import { uploadImage } from '@/lib/uploadImage';
-import { useState, useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { LogOut, BarChart3, Image as ImageIcon, CheckCircle, UploadCloud, FileText, Video, Trophy, DollarSign, LayoutDashboard, Trash2, ShoppingCart, Users, PlayCircle, Ticket } from 'lucide-react';
+import {
+  LogOut, BarChart3, Image as ImageIcon, FileText, Video, HandCoins, LayoutDashboard, ShoppingCart, Users,
+  GraduationCap, Ticket, Newspaper, CalendarDays, Shirt, ListOrdered, ArrowLeftRight, Building2, UserCog, Award, Activity, UserCheck,
+} from 'lucide-react';
 import { supabase } from '@/lib/supabase';
 import { adminDb } from '@/lib/adminDb';
+import ImageField from './components/ImageField';
 import NewsAdmin from './components/NewsAdmin';
 import VideosAdmin from './components/VideosAdmin';
 import HeroAdmin from './components/HeroAdmin';
@@ -25,56 +28,145 @@ import AnalyticsAdmin from './components/AnalyticsAdmin';
 import TicketsAdmin from './components/TicketsAdmin';
 import PlayerStatsAdmin from './components/PlayerStatsAdmin';
 
-// Sidebar (desktop) and the scrolling tab row (phones) are built from this one list.
-const TABS = [
-  { id: 'analytics', label: 'Statistika', Icon: BarChart3 },
-  { id: 'images', label: 'Sayt Şəkilləri', short: 'Şəkillər', Icon: ImageIcon },
-  { id: 'texts', label: 'Sayt Yazıları', Icon: FileText },
-  { id: 'club', label: 'Klub (Haqqımızda)', short: 'Klub', Icon: FileText },
-  { id: 'leadership', label: 'Klub Rəhbərliyi', Icon: Users },
-  { id: 'staff', label: 'Klub Heyəti', Icon: Users },
-  { id: 'teams', label: 'Komandalar', Icon: CheckCircle },
-  { id: 'playerstats', label: 'Futbolçu Statistikası', short: 'Statistika (futbolçu)', Icon: BarChart3 },
-  { id: 'coaches', label: 'Məşqçilər', Icon: CheckCircle },
-  { id: 'matches', label: 'Oyunlar', Icon: CheckCircle },
-  { id: 'standings', label: 'Turnir Cədvəli', Icon: Trophy },
-  { id: 'tickets', label: 'Biletlər', Icon: Ticket },
-  { id: 'news', label: 'Xəbərlər', Icon: FileText },
-  { id: 'hero', label: 'Ana Səhifə Slayderi', short: 'Slayder', Icon: LayoutDashboard },
-  { id: 'transfers', label: 'Transferlər', Icon: Users },
-  { id: 'videos', label: 'Videolar', Icon: Video },
-  { id: 'achievements', label: 'Nailiyyətlər', Icon: Trophy },
-  { id: 'sponsors', label: 'Sponsorlar', Icon: DollarSign },
-  { id: 'courses', label: 'Məşqçi Kursu', Icon: PlayCircle },
-  { id: 'shop', label: 'Mağaza', Icon: ShoppingCart },
-  { id: 'members', label: 'Üzvlər', Icon: Users },
+type Tab = { id: string; label: string; Icon: typeof BarChart3 };
+
+// The menu is grouped the same way as the public site, so every section is easy to find.
+// Sidebar (desktop) and the dropdown (phones) are both built from this one list.
+const GROUPS: { title: string; tabs: Tab[] }[] = [
+  { title: 'Ümumi', tabs: [
+    { id: 'analytics', label: 'Sayt statistikası', Icon: Activity },
+    { id: 'members', label: 'Üzvlər', Icon: UserCheck },
+  ] },
+  { title: 'Ana səhifə', tabs: [
+    { id: 'hero', label: 'Slayder', Icon: LayoutDashboard },
+    { id: 'images', label: 'Sayt şəkilləri', Icon: ImageIcon },
+    { id: 'texts', label: 'Sayt yazıları', Icon: FileText },
+  ] },
+  { title: 'Xəbərlər və media', tabs: [
+    { id: 'news', label: 'Xəbərlər', Icon: Newspaper },
+    { id: 'videos', label: 'Videolar', Icon: Video },
+  ] },
+  { title: 'Oyunlar', tabs: [
+    { id: 'matches', label: 'Oyunlar və nəticələr', Icon: CalendarDays },
+    { id: 'standings', label: 'Turnir cədvəli', Icon: ListOrdered },
+    { id: 'tickets', label: 'Biletlər', Icon: Ticket },
+  ] },
+  { title: 'Komandalar', tabs: [
+    { id: 'teams', label: 'Komandalar və oyunçular', Icon: Shirt },
+    { id: 'playerstats', label: 'Futbolçu statistikası', Icon: BarChart3 },
+    { id: 'transfers', label: 'Transferlər', Icon: ArrowLeftRight },
+  ] },
+  { title: 'Klub', tabs: [
+    { id: 'club', label: 'Klub haqqında', Icon: Building2 },
+    { id: 'leadership', label: 'Rəhbərlik', Icon: UserCog },
+    { id: 'staff', label: 'Klub heyəti', Icon: Users },
+    { id: 'achievements', label: 'Nailiyyətlər', Icon: Award },
+    { id: 'sponsors', label: 'Sponsorlar', Icon: HandCoins },
+  ] },
+  { title: 'Akademiya', tabs: [
+    { id: 'coaches', label: 'Məşqçilər', Icon: Users },
+    { id: 'courses', label: 'Məşqçi kursu', Icon: GraduationCap },
+  ] },
+  { title: 'Mağaza', tabs: [
+    { id: 'shop', label: 'Məhsullar', Icon: ShoppingCart },
+  ] },
 ];
+const TABS = GROUPS.flatMap(g => g.tabs);
+const STORAGE_KEY = 'admin.tab';
+
+const IMAGE_SECTIONS = [
+  { id: 'hero_bg', title: 'Ana səhifə arxa fonu', desc: 'Ana səhifənin ən yuxarısındakı böyük arxa fon şəkli.' },
+  { id: 'about_bg', title: 'Klub haqqında', desc: 'Klub haqqında səhifəsinin yuxarı fon şəkli.' },
+  { id: 'quick_shop', title: 'Sürətli keçid: Mağaza', desc: 'Ana səhifədəki Mağaza keçidinin şəkli.' },
+  { id: 'quick_academy', title: 'Sürətli keçid: Akademiya', desc: 'Ana səhifədəki Akademiya keçidinin şəkli.' },
+];
+
+function SiteImages() {
+  const [images, setImages] = useState<Record<string, string>>({});
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    supabase.from('site_images').select('section_key, image_url').then(({ data }) => {
+      const map: Record<string, string> = {};
+      (data || []).forEach(img => { map[img.section_key] = img.image_url; });
+      setImages(map);
+      setLoading(false);
+    });
+  }, []);
+
+  const save = async (key: string, url: string) => {
+    const { error } = url
+      ? await adminDb.from('site_images').upsert({ section_key: key, image_url: url }, { onConflict: 'section_key' })
+      : await adminDb.from('site_images').delete().eq('section_key', key);
+    if (!error) setImages(prev => ({ ...prev, [key]: url }));
+  };
+
+  return (
+    <div>
+      <h2 className="text-2xl font-black uppercase tracking-widest mb-2">Sayt şəkilləri</h2>
+      <p className="text-gray-400 text-sm mb-8">Saytın müxtəlif yerlərində görünən əsas şəkillər. «Redaktə et» ilə şəkli kəsə və ya vacib hissəni seçə bilərsiniz.</p>
+      {loading ? (
+        <div className="text-accent text-center mt-10 font-bold uppercase tracking-widest animate-pulse">Yüklənir...</div>
+      ) : (
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          {IMAGE_SECTIONS.map(sec => (
+            <div key={sec.id} className="bg-gray-800 border border-gray-700 rounded-2xl p-6">
+              <h3 className="text-sm font-bold text-white mb-1 uppercase tracking-wide">{sec.title}</h3>
+              <p className="text-gray-400 text-xs mb-4">{sec.desc}</p>
+              <ImageField value={images[sec.id]} onChange={url => save(sec.id, url)} options={{ quality: sec.id.endsWith('_bg') ? 'high' : 'normal' }} />
+            </div>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+}
+
+function Section({ id }: { id: string }) {
+  switch (id) {
+    case 'analytics': return <AnalyticsAdmin />;
+    case 'members': return <MembersAdmin />;
+    case 'hero': return <HeroAdmin />;
+    case 'images': return <SiteImages />;
+    case 'texts': return <TextsAdmin />;
+    case 'news': return <NewsAdmin />;
+    case 'videos': return <VideosAdmin />;
+    case 'matches': return <MatchesAdmin />;
+    case 'standings': return <StandingsAdmin />;
+    case 'tickets': return <TicketsAdmin />;
+    case 'teams': return <TeamsAdmin />;
+    case 'playerstats': return <PlayerStatsAdmin />;
+    case 'transfers': return <TransfersAdmin />;
+    case 'club': return <ClubAdmin />;
+    case 'leadership': return <LeadershipAdmin group="leadership" />;
+    case 'staff': return <LeadershipAdmin group="staff" />;
+    case 'achievements': return <AchievementsAdmin />;
+    case 'sponsors': return <SponsorsAdmin />;
+    case 'coaches': return <CoachesAdmin />;
+    case 'courses': return <CoachCoursesAdmin />;
+    case 'shop': return <ShopAdmin />;
+    default: return null;
+  }
+}
 
 export default function AdminDashboard() {
   const router = useRouter();
   const [activeTab, setActiveTab] = useState('analytics');
-  const [loadingSection, setLoadingSection] = useState<string | null>(null);
-  const [images, setImages] = useState<Record<string, string>>({});
-  const [isFetching, setIsFetching] = useState(true);
 
-  // Load existing images from Supabase
+  // reopen the section that was open before a reload
   useEffect(() => {
-    async function loadImages() {
-      try {
-        const { data, error } = await supabase.from('site_images').select('section_key, image_url');
-        if (data && !error) {
-          const map: Record<string, string> = {};
-          data.forEach(img => { map[img.section_key] = img.image_url; });
-          setImages(map);
-        }
-      } catch (err) {
-        console.error('Failed to load images:', err);
-      } finally {
-        setIsFetching(false);
-      }
-    }
-    loadImages();
+    try {
+      const saved = localStorage.getItem(STORAGE_KEY);
+      // eslint-disable-next-line react-hooks/set-state-in-effect -- browser-only value, read once after mount
+      if (saved && TABS.some(t => t.id === saved)) setActiveTab(saved);
+    } catch { /* ignore */ }
   }, []);
+
+  const open = (id: string) => {
+    setActiveTab(id);
+    try { localStorage.setItem(STORAGE_KEY, id); } catch { /* ignore */ }
+    window.scrollTo({ top: 0 });
+  };
 
   const handleLogout = async () => {
     await fetch('/api/admin/logout', { method: 'POST' });
@@ -82,48 +174,15 @@ export default function AdminDashboard() {
     router.refresh();
   };
 
-  const handleUpload = async (sectionId: string, file: File) => {
-    setLoadingSection(sectionId);
-    try {
-      // background images fill the screen -> high-resolution upload
-      const url = await uploadImage(file, sectionId.endsWith('_bg') ? 'high' : 'normal');
-      const { error } = await adminDb.from('site_images').upsert({ section_key: sectionId, image_url: url }, { onConflict: 'section_key' });
-      if (!error) setImages(prev => ({ ...prev, [sectionId]: url }));
-    } catch { /* uploadImage already showed the error */ }
-    setLoadingSection(null);
-  };
-
-  const handleDeleteImage = async (sectionId: string) => {
-    if (!confirm('Bu şəkli silmək istədiyinizə əminsiniz?')) return;
-    setLoadingSection(sectionId);
-    const { error } = await adminDb.from('site_images').delete().eq('section_key', sectionId);
-    if (!error) {
-      setImages(prev => {
-        const copy = { ...prev };
-        delete copy[sectionId];
-        return copy;
-      });
-    }
-    setLoadingSection(null);
-  };
-
-  const imageSections = [
-    { id: 'hero_bg', title: 'Əsas Səhifə Arxa Fon (Hero)', desc: 'Ana səhifənin ən yuxarısındakı böyük arxa fon şəkli.' },
-    { id: 'about_bg', title: 'Haqqımızda / Klub', desc: 'Haqqımızda səhifəsinin yuxarı fon şəkli.' },
-    { id: 'quick_shop', title: 'Sürətli Keçid: Onlayn Mağaza', desc: 'Ana səhifədəki Onlayn Mağaza keçidinin şəkli.' },
-    
-    { id: 'quick_academy', title: 'Sürətli Keçid: Akademiya', desc: 'Ana səhifədəki Akademiya keçidinin şəkli.' },
-  ];
-
   return (
     <div className="min-h-screen bg-black text-white flex flex-col md:flex-row">
-      
       {/* Sidebar */}
-      <aside className="w-full md:w-64 bg-gray-800 border-r border-gray-700 flex flex-col justify-between hidden md:flex sticky top-0 h-screen">
+      <aside className="w-64 bg-gray-800 border-r border-gray-700 flex-col justify-between hidden md:flex sticky top-0 h-screen">
         <div className="flex flex-col min-h-0">
           <div className="p-6 border-b border-gray-700 flex items-center space-x-4">
             <div className="w-10 h-10 rounded-full border-2 border-accent overflow-hidden">
-               <img src="/Logo.JPG.jpeg" alt="Logo" className="w-full h-full object-cover" />
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src="/Logo.JPG.jpeg" alt="Logo" className="w-full h-full object-cover" />
             </div>
             <div>
               <h1 className="font-black tracking-widest text-xs uppercase text-accent">Yarımada FK</h1>
@@ -131,12 +190,17 @@ export default function AdminDashboard() {
             </div>
           </div>
 
-          <nav className="p-4 space-y-1 overflow-y-auto min-h-0">
-            {TABS.map(({ id, label, Icon }) => (
-              <button key={id} onClick={() => setActiveTab(id)} className={`w-full flex items-center space-x-3 px-4 py-2.5 rounded-lg font-bold text-xs uppercase tracking-widest transition-colors ${activeTab === id ? 'bg-accent text-on-accent' : 'text-gray-400 hover:text-white hover:bg-gray-900'}`}>
-                <Icon className="w-4 h-4" />
-                <span>{label}</span>
-              </button>
+          <nav className="p-3 overflow-y-auto min-h-0 space-y-4" aria-label="Admin bölmələri">
+            {GROUPS.map(group => (
+              <div key={group.title}>
+                <p className="px-3 mb-1 text-[10px] font-bold uppercase tracking-[0.2em] text-gray-500">{group.title}</p>
+                {group.tabs.map(({ id, label, Icon }) => (
+                  <button key={id} onClick={() => open(id)} aria-current={activeTab === id ? 'page' : undefined} className={`w-full flex items-center gap-3 px-3 py-2 rounded-lg font-semibold text-[13px] text-left transition-colors ${activeTab === id ? 'bg-accent text-on-accent' : 'text-gray-300 hover:text-white hover:bg-gray-900'}`}>
+                    <Icon className="w-4 h-4 shrink-0" />
+                    <span>{label}</span>
+                  </button>
+                ))}
+              </div>
             ))}
           </nav>
         </div>
@@ -144,123 +208,40 @@ export default function AdminDashboard() {
         <div className="p-4 border-t border-gray-700">
           <button onClick={handleLogout} className="w-full flex items-center justify-center space-x-2 text-gray-400 hover:text-white transition-colors text-xs font-bold uppercase tracking-widest px-4 py-3 bg-gray-900 rounded-lg">
             <LogOut className="w-4 h-4" />
-            <span>Çıxış Et</span>
+            <span>Çıxış et</span>
           </button>
         </div>
       </aside>
 
       {/* Main Content */}
-      <main className="flex-1 p-4 md:p-8 overflow-y-auto">
-        {/* Mobile Header */}
-        <div className="md:hidden flex items-center justify-between mb-8 pb-4 border-b border-gray-700">
-          <div className="flex items-center space-x-3">
-             <div className="w-8 h-8 rounded-full border border-accent overflow-hidden">
-               <img src="/Logo.JPG.jpeg" alt="Logo" className="w-full h-full object-cover" />
-             </div>
-             <h1 className="font-black tracking-widest text-[10px] uppercase text-accent">Admin</h1>
-          </div>
-          <button onClick={handleLogout} className="text-gray-400">
-            <LogOut className="w-5 h-5" />
-          </button>
-        </div>
-
-        {/* Mobile Tabs */}
-        <div className="md:hidden flex overflow-x-auto space-x-2 pb-4 mb-6 scrollbar-hide">
-          {TABS.map(({ id, label, short }) => (
-            <button key={id} onClick={() => setActiveTab(id)} className={`flex-shrink-0 px-4 py-2 rounded-lg font-bold text-[10px] uppercase tracking-widest transition-colors ${activeTab === id ? 'bg-accent text-on-accent' : 'bg-gray-800 text-gray-400'}`}>{short || label}</button>
-          ))}
-        </div>
-
-        {activeTab === 'leadership' && <LeadershipAdmin group="leadership" />}
-        {activeTab === 'staff' && <LeadershipAdmin group="staff" />}
-        {activeTab === 'tickets' && <TicketsAdmin />}
-        {activeTab === 'playerstats' && <PlayerStatsAdmin />}
-        {activeTab === 'courses' && <CoachCoursesAdmin />}
-        {activeTab === 'texts' && <TextsAdmin />}
-        {activeTab === 'club' && <ClubAdmin />}
-        {activeTab === 'coaches' && <CoachesAdmin />}
-        {activeTab === 'teams' && <TeamsAdmin />}
-        {activeTab === 'images' && (
-          <div>
-            <h2 className="text-2xl font-black uppercase tracking-widest mb-2">Sayt Şəkilləri</h2>
-            <p className="text-gray-400 text-sm mb-8">Saytın müxtəlif yerlərində görünən əsas şəkilləri buradan yeniləyə bilərsiniz.</p>
-
-            {isFetching ? (
-              <div className="text-accent text-center mt-10 font-bold uppercase tracking-widest animate-pulse">Məlumatlar Yüklənir...</div>
-            ) : (
-              <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
-                {imageSections.map((sec) => (
-                  <div key={sec.id} className="bg-gray-800 border border-gray-700 rounded-2xl p-6 flex flex-col justify-between hover:border-accent/30 transition-colors">
-                    
-                    <div className="w-full h-40 bg-gray-900 rounded-xl mb-4 overflow-hidden relative border border-gray-700 flex items-center justify-center">
-                      {images[sec.id] ? (
-                        <img src={images[sec.id]} alt={sec.title} className="w-full h-full object-cover" />
-                      ) : (
-                        <div className="text-gray-600 flex flex-col items-center">
-                          <ImageIcon className="w-8 h-8 mb-2" />
-                          <span className="text-[10px] uppercase tracking-widest font-bold">Şəkil Yoxdur</span>
-                        </div>
-                      )}
-                    </div>
-
-                    <div>
-                      <h3 className="text-sm font-bold text-white mb-2 uppercase tracking-wide">{sec.title}</h3>
-                      <p className="text-gray-400 text-xs mb-6 h-10 line-clamp-2">
-                        {sec.desc}
-                      </p>
-                    </div>
-                    
-                    <div className="flex space-x-2">
-                      <label className={`flex-1 bg-gray-900 ${loadingSection === sec.id ? 'opacity-50 cursor-not-allowed' : 'hover:bg-accent hover:text-on-accent cursor-pointer'} text-white border border-gray-700 font-bold text-[10px] uppercase tracking-widest py-3 rounded-lg transition-all flex items-center justify-center space-x-2`}>
-                        {loadingSection === sec.id ? (
-                          <span>YÜKLƏNİR...</span>
-                        ) : (
-                          <>
-                            <UploadCloud className="w-4 h-4" />
-                            <span>{images[sec.id] ? 'DƏYİŞ' : 'YÜKLƏ'}</span>
-                            <input 
-                              type="file" 
-                              accept="image/*" 
-                              className="hidden" 
-                              onChange={(e) => {
-                                const file = e.target.files?.[0];
-                                e.target.value = '';
-                                if (file) handleUpload(sec.id, file);
-                              }}
-                            />
-                          </>
-                        )}
-                      </label>
-                      {images[sec.id] && (
-                        <button 
-                          onClick={() => handleDeleteImage(sec.id)}
-                          disabled={loadingSection === sec.id}
-                          className="bg-red-500/10 text-red-500 hover:bg-red-500 hover:text-white border border-red-500/20 font-bold text-[10px] uppercase tracking-widest px-4 rounded-lg transition-colors flex items-center justify-center"
-                          title="Şəkli Sil"
-                        >
-                          <Trash2 className="w-4 h-4" />
-                        </button>
-                      )}
-                    </div>
-                  </div>
-                ))}
+      <main className="flex-1 min-w-0 p-4 md:p-8">
+        {/* Phones: header + one clear section picker instead of a long scrolling row */}
+        <div className="md:hidden mb-6 pb-4 border-b border-gray-700 space-y-4">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center space-x-3">
+              <div className="w-8 h-8 rounded-full border border-accent overflow-hidden">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img src="/Logo.JPG.jpeg" alt="Logo" className="w-full h-full object-cover" />
               </div>
-            )}
+              <h1 className="font-black tracking-widest text-[10px] uppercase text-accent">Admin</h1>
+            </div>
+            <button onClick={handleLogout} className="flex items-center gap-2 text-gray-400 text-xs font-bold uppercase" aria-label="Çıxış et">
+              <LogOut className="w-5 h-5" />
+            </button>
           </div>
-        )}
+          <label className="block">
+            <span className="sr-only">Bölmə</span>
+            <select value={activeTab} onChange={e => open(e.target.value)} className="w-full bg-gray-800 border border-gray-700 rounded-lg p-3 text-white font-semibold">
+              {GROUPS.map(group => (
+                <optgroup key={group.title} label={group.title}>
+                  {group.tabs.map(t => <option key={t.id} value={t.id}>{t.label}</option>)}
+                </optgroup>
+              ))}
+            </select>
+          </label>
+        </div>
 
-        {activeTab === 'news' && <NewsAdmin />}
-        {activeTab === 'videos' && <VideosAdmin />}
-          {activeTab === 'hero' && <HeroAdmin />}
-        {activeTab === 'achievements' && <AchievementsAdmin />}
-        {activeTab === 'sponsors' && <SponsorsAdmin />}
-          {activeTab === 'transfers' && <TransfersAdmin />}
-          {activeTab === 'standings' && <StandingsAdmin />}
-          {activeTab === 'matches' && <MatchesAdmin />}
-        {activeTab === 'shop' && <ShopAdmin />}
-        {activeTab === 'members' && <MembersAdmin />}
-        {activeTab === 'analytics' && <AnalyticsAdmin />}
-
+        <Section id={activeTab} />
       </main>
     </div>
   );

@@ -4,6 +4,8 @@ import { supabase } from '@/lib/supabase';
 import { adminDb, toast } from '@/lib/adminDb';
 import { Trash2, Plus, Edit2, X } from 'lucide-react';
 import { uploadFromInput } from '@/lib/uploadImage';
+import { focusStyle } from '@/lib/imageFocus';
+import EditImageButton from './EditImageButton';
 
 export default function ShopAdmin() {
   const [products, setProducts] = useState<any[]>([]);
@@ -31,12 +33,12 @@ export default function ShopAdmin() {
     fetchProducts();
   }, []);
 
-  const fetchProducts = async () => {
+  async function fetchProducts() {
     setLoading(true);
     const { data } = await supabase.from('products').select('*').order('created_at', { ascending: false });
     if (data) setProducts(data);
     setLoading(false);
-  };
+  }
 
   const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     if (images.length >= 5) {
@@ -169,11 +171,16 @@ export default function ShopAdmin() {
               <label className="block text-gray-400 text-xs font-bold uppercase mb-4">Şəkillər (1-5 ədəd)</label>
               <div className="flex flex-wrap gap-4 items-center">
                 {images.map((img, idx) => (
-                  <div key={idx} className="relative w-24 h-24 rounded-lg overflow-hidden border border-gray-700 group">
-                    <img src={img} alt="img" className="w-full h-full object-cover" />
-                    <button type="button" onClick={() => removeImage(idx)} className="absolute inset-0 bg-black/60 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
-                      <Trash2 className="text-red-500 w-6 h-6" />
-                    </button>
+                  <div key={idx} className="w-24 flex flex-col gap-1.5">
+                    <div className="w-24 h-24 rounded-lg overflow-hidden border border-gray-700">
+                      <img src={img} alt="img" className="w-full h-full object-cover" style={focusStyle(img)} />
+                    </div>
+                    <div className="flex gap-1">
+                      <EditImageButton url={img} onChange={url => setImages(prev => prev.map((x, i) => (i === idx ? url : x)))} className="flex-1 justify-center !px-1" />
+                      <button type="button" onClick={() => removeImage(idx)} className="px-2 rounded-lg border border-gray-700 text-red-400 hover:bg-red-500 hover:text-white" title="Sil" aria-label="Şəkli sil">
+                        <Trash2 className="w-3.5 h-3.5" />
+                      </button>
+                    </div>
                   </div>
                 ))}
                 {images.length < 5 && (

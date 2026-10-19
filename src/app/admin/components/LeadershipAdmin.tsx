@@ -2,7 +2,7 @@
 import { useState, useEffect } from 'react';
 import { supabase } from '@/lib/supabase';
 import { adminDb } from '@/lib/adminDb';
-import { uploadFromInput } from '@/lib/uploadImage';
+import ImageField from './ImageField';
 import { Trash2, Plus, Edit2 } from 'lucide-react';
 
 // "leadership" = Klub rəhbərliyi, "staff" = Klub heyəti. Both are rows of the leadership table (group_type);
@@ -36,19 +36,13 @@ export default function LeadershipAdmin({ group = 'leadership' }: { group?: Peop
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [group]);
 
-  const fetchLeaders = async () => {
+  async function fetchLeaders() {
     setLoading(true);
     const { data } = await supabase.from('leadership').select('*').order('order_num', { ascending: true });
     if (data) setLeaders(data.filter(L => groupOf(L) === group));
     setLoading(false);
-  };
+  }
 
-  const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    setUploading(true);
-    const url = await uploadFromInput(e);
-    if (url) setImageUrl(url);
-    setUploading(false);
-  };
 
   const handleEdit = (L: any) => {
     setName(L.name);
@@ -82,9 +76,9 @@ export default function LeadershipAdmin({ group = 'leadership' }: { group?: Peop
     }
   };
 
-  const resetForm = () => {
+  function resetForm() {
     setName(''); setPosition(''); setBio(''); setImageUrl(''); setOrderNum(0); setEditingId(null);
-  };
+  }
 
   if (loading) return <div className="text-white p-6">Yüklənir...</div>;
 
@@ -122,21 +116,7 @@ export default function LeadershipAdmin({ group = 'leadership' }: { group?: Peop
               <label className="block text-gray-400 text-xs font-bold uppercase mb-2">Sıralama (Məs: 1 öndə)</label>
               <input type="number" value={orderNum} onChange={e => setOrderNum(Number(e.target.value))} className="w-full bg-gray-900 border border-gray-700 rounded p-3 text-white" />
             </div>
-            <div>
-              <label className="block text-gray-400 text-xs font-bold uppercase mb-2">Şəkil</label>
-              <div className="flex items-center space-x-3">
-                {imageUrl && (
-                  <span className="relative group">
-                    <img src={imageUrl} alt="img" className="w-14 h-14 object-cover rounded-full border border-gray-700" />
-                    <button type="button" onClick={() => setImageUrl('')} className="absolute inset-0 rounded-full bg-red-500/80 text-white text-[10px] font-bold opacity-0 group-hover:opacity-100 transition-opacity">SİL</button>
-                  </span>
-                )}
-                <label className="cursor-pointer bg-gray-800 border border-gray-700 px-4 py-2 rounded text-xs font-bold text-white uppercase">
-                  {uploading ? 'Yüklənir...' : imageUrl ? 'Dəyiş' : 'Seç'}
-                  <input type="file" accept="image/*" onChange={handleImageUpload} className="hidden" disabled={uploading} />
-                </label>
-              </div>
-            </div>
+            <ImageField label="Şəkil" shape="portrait" value={imageUrl} onChange={setImageUrl} options={{ aspect: 3 / 4 }} onBusy={setUploading} />
           </div>
           <div className="flex justify-end pt-4">
             <button type="submit" disabled={saving || uploading} className="bg-green-600 hover:bg-green-500 text-white px-6 py-2 rounded-lg font-bold disabled:opacity-60">{saving ? 'Saxlanılır...' : uploading ? 'Şəkil yüklənir...' : 'Yadda Saxla'}</button>

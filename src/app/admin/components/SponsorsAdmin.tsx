@@ -1,10 +1,10 @@
 
 'use client';
-import { uploadFromInput } from '@/lib/uploadImage';
+import ImageField from './ImageField';
 import { useState, useEffect } from 'react';
 import { supabase } from '@/lib/supabase';
 import { adminDb, toast } from '@/lib/adminDb';
-import { Trash2, Plus, UploadCloud } from 'lucide-react';
+import { Trash2, Plus } from 'lucide-react';
 
 export default function SponsorsAdmin() {
   const [sponsors, setSponsors] = useState<any[]>([]);
@@ -20,19 +20,13 @@ export default function SponsorsAdmin() {
     fetchSponsors();
   }, []);
 
-  const fetchSponsors = async () => {
+  async function fetchSponsors() {
     setLoading(true);
     const { data } = await supabase.from('sponsors').select('*').order('created_at', { ascending: false });
     if (data) setSponsors(data);
     setLoading(false);
-  };
+  }
 
-  const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    setIsUploading(true);
-    const url = await uploadFromInput(e);
-    if (url) setLogoUrl(url);
-    setIsUploading(false);
-  };
 
   const handleEdit = (s: any) => {
     setName(s.name);
@@ -85,18 +79,8 @@ export default function SponsorsAdmin() {
             <label className="block text-gray-400 text-xs font-bold uppercase mb-2">Sponsorun Adı</label>
             <input type="text" value={name} onChange={e => setName(e.target.value)} className="w-full bg-gray-900 border border-gray-700 rounded-lg p-3 text-white focus:border-accent outline-none" required />
           </div>
-          <div>
-            <label className="block text-gray-400 text-xs font-bold uppercase mb-2">Sponsor Loqosu (Şəffaf PNG tövsiyə olunur)</label>
-            <div className="flex items-center space-x-4">
-              <label className="bg-gray-900 border border-gray-700 hover:border-accent text-gray-400 px-4 py-3 rounded-lg cursor-pointer flex items-center space-x-2 transition-colors">
-                <UploadCloud className="w-5 h-5" />
-                <span className="text-xs font-bold uppercase">{isUploading ? 'Yüklənir...' : 'Loqo Seç'}</span>
-                <input type="file" accept="image/*" onChange={handleImageUpload} className="hidden" />
-              </label>
-              {logoUrl && <img src={logoUrl} alt="Preview" className="h-12 object-contain bg-white rounded p-1" />}
-            </div>
-          </div>
-          <button type="submit" className="w-full bg-accent text-on-accent py-3 rounded-lg font-bold text-xs uppercase hover:bg-text-main hover:text-bg-main transition-colors">Yadda Saxla</button>
+          <ImageField label="Sponsor loqosu (şəffaf PNG tövsiyə olunur)" shape="square" contain value={logoUrl} onChange={setLogoUrl} onBusy={setIsUploading} />
+          <button type="submit" disabled={isUploading} className="disabled:opacity-50 w-full bg-accent text-on-accent py-3 rounded-lg font-bold text-xs uppercase hover:bg-text-main hover:text-bg-main transition-colors">Yadda Saxla</button>
         </form>
       )}
 

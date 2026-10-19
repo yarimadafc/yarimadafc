@@ -118,7 +118,6 @@ export default function Footer() {
             <Link href="/news" className="inline-block text-text-main font-bold text-xs md:text-sm hover:text-accent hover:translate-x-1 transition-all duration-300">Xəbərlər</Link>
             <Link href="/club" className="inline-block text-text-main font-bold text-xs md:text-sm hover:text-accent hover:translate-x-1 transition-all duration-300">Haqqımızda</Link>
             <Link href="/matches" className="inline-block text-text-main font-bold text-xs md:text-sm hover:text-accent hover:translate-x-1 transition-all duration-300">Oyunlar</Link>
-            <Link href="/stats" className="inline-block text-text-main font-bold text-xs md:text-sm hover:text-accent hover:translate-x-1 transition-all duration-300">Statistika</Link>
             <Link href="/social" className="inline-block text-text-main font-bold text-xs md:text-sm hover:text-accent hover:translate-x-1 transition-all duration-300">Sosial media</Link>
           </div>
 

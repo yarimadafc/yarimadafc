@@ -5,6 +5,7 @@ import { useState, useEffect } from 'react';
 import { supabase } from '@/lib/supabase';
 import Link from 'next/link';
 import { useSyncVersion } from '@/lib/siteSync';
+import { bgStyle, focusStyle } from '@/lib/imageFocus';
 
 function PeopleSection({ eyebrow, title, people }: { eyebrow: string; title: string; people: any[] }) {
   if (people.length === 0) return null;
@@ -20,7 +21,7 @@ function PeopleSection({ eyebrow, title, people }: { eyebrow: string; title: str
             <Link href={`/leadership/${person.id}`} className="bg-bg-sec rounded-2xl overflow-hidden border border-bg-border flex flex-col items-center text-center shadow-2xl group h-full hover:border-accent transition-colors">
               <div className="w-full h-56 bg-bg-deep relative overflow-hidden border-b border-bg-border">
                 {person.image_url ? (
-                  <img src={person.image_url} alt={person.name} className="absolute inset-0 w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-700" />
+                  <img src={person.image_url} style={focusStyle(person.image_url)} alt={person.name} className="absolute inset-0 w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-700" />
                 ) : (
                   <div className="absolute inset-0 flex items-center justify-center">
                     <svg className="w-16 h-16 text-text-sec relative z-0" fill="currentColor" viewBox="0 0 20 20"><path fillRule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clipRule="evenodd" /></svg>
@@ -90,7 +91,7 @@ export default function ClubPage() {
       <div className="w-full bg-bg-sec py-12 md:py-16 border-b border-bg-border relative overflow-hidden">
         <div 
           className="absolute inset-0 bg-cover bg-center opacity-10"
-          style={{ backgroundImage: `url(${aboutBg})` }}
+          style={aboutBg ? bgStyle(aboutBg) : undefined}
         ></div>
         <div className="absolute inset-0 bg-gradient-to-t from-bg-deep to-transparent"></div>
         <div className="container relative z-10 text-center">
@@ -139,7 +140,7 @@ export default function ClubPage() {
             transition={{ duration: 0.8 }}
             className="relative h-[400px] md:h-[500px] w-full rounded-2xl overflow-hidden border border-bg-border shadow-2xl"
           >
-            <img src={aboutBg || '/Logo.JPG.jpeg'} alt="Yarımada FK" className={`absolute inset-0 w-full h-full ${aboutBg ? 'object-cover' : 'object-contain p-16 bg-bg-sec'}`} />
+            <img src={aboutBg || '/Logo.JPG.jpeg'} style={focusStyle(aboutBg || '/Logo.JPG.jpeg')} alt="Yarımada FK" className={`absolute inset-0 w-full h-full ${aboutBg ? 'object-cover' : 'object-contain p-16 bg-bg-sec'}`} />
           </motion.div>
         </div>
       </div>

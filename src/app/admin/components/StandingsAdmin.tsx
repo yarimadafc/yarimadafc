@@ -3,16 +3,15 @@ import { useState, useEffect } from 'react';
 import { supabase } from '@/lib/supabase';
 import { adminDb } from '@/lib/adminDb';
 import { sortTeams } from '@/lib/teamOrder';
-import { uploadFromInput } from '@/lib/uploadImage';
+import ImageField from './ImageField';
 import { LOGO_PREFIX, normalizeTeamName, teamLogoKey } from '@/lib/teamLogos';
 import { sameTeam } from '@/lib/matchUtils';
-import { Plus, Trash2, Edit2, ChevronRight, ArrowLeft, UploadCloud } from 'lucide-react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { Plus, Trash2, Edit2, ChevronRight, ArrowLeft } from 'lucide-react';
 
 export default function StandingsAdmin() {
   const [standings, setStandings] = useState<any[]>([]);
   const [teams, setTeams] = useState<any[]>([]);
-  const [loading, setLoading] = useState(true);
+  const [, setLoading] = useState(true);
 
   // States
   const [activeLeague, setActiveLeague] = useState<string | null>(null);
@@ -55,7 +54,7 @@ export default function StandingsAdmin() {
   }, []);
 
   // team logos from the shared registry (also filled automatically by match logo uploads)
-  const fetchLogos = async () => {
+  async function fetchLogos() {
     const [{ data: reg }, { data: mt }] = await Promise.all([
       supabase.from('site_images').select('section_key, image_url').like('section_key', `${LOGO_PREFIX}%`),
       supabase.from('matches').select('home_team, home_logo, away_team, away_logo'),
@@ -67,20 +66,20 @@ export default function StandingsAdmin() {
     });
     (reg || []).forEach((r: any) => { if (r.image_url) map[r.section_key.slice(LOGO_PREFIX.length)] = r.image_url; });
     setLogos(map);
-  };
+  }
 
-  const fetchTeams = async () => {
+  async function fetchTeams() {
     // '*' + client sort: the admin's team order (works before the sort_order column exists, too)
     const { data } = await supabase.from('teams').select('*');
     if (data) setTeams(sortTeams(data));
-  };
+  }
 
-  const fetchStandings = async () => {
+  async function fetchStandings() {
     setLoading(true);
     const { data } = await supabase.from('standings').select('*').order('points', { ascending: false });
     if (data) setStandings(data);
     setLoading(false);
-  };
+  }
 
   const handleEdit = (s: any) => {
     setTeamName(s.team_name);
@@ -185,25 +184,7 @@ export default function StandingsAdmin() {
                   <input type="text" value={teamName} onChange={e => { setTeamName(e.target.value); if (!logoUrl) setLogoUrl(logoOf(e.target.value)); }} className="w-full bg-gray-900 border border-gray-700 rounded-lg p-3 text-white" required />
                 </div>
                 <div className="col-span-2 md:col-span-1">
-                  <label className="block text-gray-400 text-xs font-bold uppercase mb-2">Komanda Loqosu</label>
-                  <div className="flex items-center gap-3">
-                    {logoUrl ? (
-                      <span className="relative group w-12 h-12 rounded-full bg-white overflow-hidden flex items-center justify-center shrink-0">
-                        <img src={logoUrl} alt="" className="w-full h-full object-cover" />
-                        <button type="button" onClick={() => setLogoUrl('')} className="absolute inset-0 bg-red-500/80 text-white text-[10px] font-bold opacity-0 group-hover:opacity-100 transition-opacity">SİL</button>
-                      </span>
-                    ) : null}
-                    <label className={`flex-1 flex items-center justify-center gap-2 bg-gray-900 border border-gray-700 rounded-lg p-3 cursor-pointer hover:border-accent transition-colors ${uploadingLogo ? 'opacity-50' : ''}`}>
-                      <UploadCloud className="w-4 h-4 text-gray-400" />
-                      <span className="text-gray-400 text-[10px] font-bold uppercase">{uploadingLogo ? 'Yüklənir...' : logoUrl ? 'Dəyiş' : 'Seç'}</span>
-                      <input type="file" accept="image/*" className="hidden" disabled={uploadingLogo} onChange={async e => {
-                        setUploadingLogo(true);
-                        const url = await uploadFromInput(e);
-                        if (url) setLogoUrl(url);
-                        setUploadingLogo(false);
-                      }} />
-                    </label>
-                  </div>
+                  <ImageField label="Komanda loqosu" shape="logo" value={logoUrl} onChange={setLogoUrl} options={{ aspect: 1 }} onBusy={setUploadingLogo} />
                 </div>
                 <div><label className="block text-gray-400 text-xs font-bold uppercase mb-2">Oyun (Avto)</label><input type="number" value={played} readOnly className="w-full bg-gray-900/50 border border-gray-700 rounded-lg p-3 text-gray-400 cursor-not-allowed" /></div>
                 <div><label className="block text-gray-400 text-xs font-bold uppercase mb-2">Qələbə</label><input type="number" value={won} onChange={e => recalc(Number(e.target.value), drawn, lost)} className="w-full bg-gray-900 border border-gray-700 rounded-lg p-3 text-white" /></div>

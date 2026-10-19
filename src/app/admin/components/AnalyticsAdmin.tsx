@@ -162,7 +162,7 @@ export default function AnalyticsAdmin() {
     <div>
       <div className="flex flex-wrap justify-between items-center gap-3 mb-6 border-b border-gray-700 pb-4">
         <div>
-          <h2 className="text-2xl font-black uppercase tracking-widest text-white mb-2">Statistika</h2>
+          <h2 className="text-2xl font-black uppercase tracking-widest text-white mb-2">Sayt statistikası</h2>
           <p className="text-gray-400 text-sm">Sayta daxil olanlar, mağaza sifarişləri və qeydiyyatlar — {hint}.</p>
         </div>
         <div className="flex flex-wrap gap-2">

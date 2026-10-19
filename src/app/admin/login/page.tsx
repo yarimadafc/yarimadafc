@@ -29,7 +29,7 @@ export default function AdminLogin() {
       } else {
         setError(data.message || 'Giriş uğursuz oldu.');
       }
-    } catch (err) {
+    } catch {
       setError('Xəta baş verdi.');
     } finally {
       setLoading(false);

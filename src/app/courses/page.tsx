@@ -6,6 +6,7 @@ import PageHero from '@/components/PageHero';
 import Link from 'next/link';
 import { PlayCircle } from 'lucide-react';
 import { useSyncVersion } from '@/lib/siteSync';
+import { focusStyle } from '@/lib/imageFocus';
 
 export default function CoursesPage() {
   const [courses, setCourses] = useState<any[]>([]);
@@ -42,7 +43,7 @@ export default function CoursesPage() {
                 <Link href={`/courses/${course.id}`} className="led-border led-hover card-fx block h-full group cursor-pointer bg-bg-sec rounded-3xl overflow-hidden border border-bg-border flex flex-col">
                   <div className="relative aspect-video overflow-hidden shrink-0">
                     <img 
-                      src={course.image_url || '/Logo.JPG.jpeg'} 
+                      src={course.image_url || '/Logo.JPG.jpeg'} style={focusStyle(course.image_url || '/Logo.JPG.jpeg')} 
                       alt={course.title} 
                       className="absolute inset-0 w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
                     />

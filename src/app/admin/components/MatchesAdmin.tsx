@@ -3,11 +3,11 @@ import { useState, useEffect } from 'react';
 import { supabase } from '@/lib/supabase';
 import { adminDb, toast } from '@/lib/adminDb';
 import { sortTeams } from '@/lib/teamOrder';
-import { uploadFromInput } from '@/lib/uploadImage';
+import ImageField from './ImageField';
 import { teamLogoKey } from '@/lib/teamLogos';
 import { isYarimada, sameTeam } from '@/lib/matchUtils';
 import { entryGoals, entryPlayed } from '@/lib/playerStats';
-import { Trash2, Plus, UploadCloud, Radio, Clock, Users, Play, Pause, Square, AlertCircle, Minus } from 'lucide-react';
+import { Trash2, Plus, Clock, Users, Play, Pause, Square, Minus } from 'lucide-react';
 import { calculateLiveMinute, TimerStatus } from '@/lib/matchTimer';
 
 export default function MatchesAdmin() {
@@ -49,8 +49,6 @@ export default function MatchesAdmin() {
   const [awayLineup, setAwayLineup] = useState<any[]>([]);
   const [newPlayerName, setNewPlayerName] = useState('');
   const [newPlayerNumber, setNewPlayerNumber] = useState('');
-  const [newAwayPlayerName, setNewAwayPlayerName] = useState('');
-  const [newAwayPlayerNumber, setNewAwayPlayerNumber] = useState('');
   const [selectedTeamIdForLineup, setSelectedTeamIdForLineup] = useState<string>('');
   // called-up squad: players can be invited from any team (e.g. a U-11 player for a U-12 away game)
   const [allPlayers, setAllPlayers] = useState<any[]>([]);
@@ -123,18 +121,18 @@ export default function MatchesAdmin() {
     return () => clearInterval(interval);
   }, [timerStatus, timerStartedAt, elapsedSec, h1, h2, ex1, ex2]);
 
-  const fetchMatches = async () => {
+  async function fetchMatches() {
     setLoading(true);
     const { data } = await supabase.from('matches').select('*').order('match_date', { ascending: true });
     if (data) setMatches(data);
     setLoading(false);
-  };
+  }
 
-  const fetchTeams = async () => {
+  async function fetchTeams() {
     // '*' + client sort: the admin's team order (works before the sort_order column exists, too)
     const { data } = await supabase.from('teams').select('*');
     if (data) setTeams(sortTeams(data));
-  };
+  }
 
   const syncLineup = async () => {
     if (!selectedTeamIdForLineup) return toast('error', 'Zəhmət olmasa komandanı seçin');
@@ -172,13 +170,6 @@ export default function MatchesAdmin() {
   const lineupGoals = yarimadaLineup.reduce((sum, p) => sum + (entryPlayed(p) ? entryGoals(p) : 0), 0);
   const ourScore = isYarimada(homeTeam) ? homeScore : isYarimada(awayTeam) ? awayScore : '';
 
-  const handleLogoUpload = async (e: React.ChangeEvent<HTMLInputElement>, isHome: boolean) => {
-    const setUploading = isHome ? setUploadingHomeLogo : setUploadingAwayLogo;
-    setUploading(true);
-    const url = await uploadFromInput(e);
-    if (url) (isHome ? setHomeLogo : setAwayLogo)(url);
-    setUploading(false);
-  };
 
   const handleEdit = (m: any) => {
     setTournament(m.tournament || '');
@@ -357,25 +348,11 @@ export default function MatchesAdmin() {
                 </div>
 
                 <div className="bg-black p-3 rounded-lg border border-gray-700">
-                  <label className="block text-gray-400 text-xs font-bold uppercase mb-2">Ev Sahibi Loqosu</label>
-                  <div className="flex items-center space-x-3">
-                    {homeLogo && <img src={homeLogo} alt="Home" className="w-10 h-10 object-cover bg-white rounded-full" />}
-                    <label className="cursor-pointer bg-gray-800 border border-gray-700 hover:border-accent px-4 py-2 rounded text-xs font-bold text-white uppercase transition-colors">
-                      {uploadingHomeLogo ? 'Yüklənir...' : 'Cihazdan Seç'}
-                      <input type="file" accept="image/*" onChange={e => handleLogoUpload(e, true)} className="hidden" />
-                    </label>
-                  </div>
+                  <ImageField label="Ev sahibi loqosu" shape="logo" value={homeLogo} onChange={setHomeLogo} options={{ aspect: 1 }} onBusy={setUploadingHomeLogo} />
                 </div>
 
                 <div className="bg-black p-3 rounded-lg border border-gray-700">
-                  <label className="block text-gray-400 text-xs font-bold uppercase mb-2">Qonaq Loqosu</label>
-                  <div className="flex items-center space-x-3">
-                    {awayLogo && <img src={awayLogo} alt="Away" className="w-10 h-10 object-cover bg-white rounded-full" />}
-                    <label className="cursor-pointer bg-gray-800 border border-gray-700 hover:border-accent px-4 py-2 rounded text-xs font-bold text-white uppercase transition-colors">
-                      {uploadingAwayLogo ? 'Yüklənir...' : 'Cihazdan Seç'}
-                      <input type="file" accept="image/*" onChange={e => handleLogoUpload(e, false)} className="hidden" />
-                    </label>
-                  </div>
+                  <ImageField label="Qonaq loqosu" shape="logo" value={awayLogo} onChange={setAwayLogo} options={{ aspect: 1 }} onBusy={setUploadingAwayLogo} />
                 </div>
 
                 <div>

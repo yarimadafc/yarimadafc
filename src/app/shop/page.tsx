@@ -7,6 +7,7 @@ import Link from 'next/link';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { useSyncVersion } from '@/lib/siteSync';
 import { trackEvent } from '@/lib/track';
+import { focusStyle } from '@/lib/imageFocus';
 
 export default function ShopPage() {
   const [products, setProducts] = useState<any[]>([]);
@@ -70,7 +71,7 @@ export default function ShopPage() {
                     {p.images && p.images.length > 0 ? (
                       <>
                         <Link href={`/shop/${p.id}`} className="w-full h-full block">
-                          <img src={p.images[currentImgIdx]} alt={p.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                          <img src={p.images[currentImgIdx]} style={focusStyle(p.images[currentImgIdx])} alt={p.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
                         </Link>
                         {hasMultipleImages && (
                           <>

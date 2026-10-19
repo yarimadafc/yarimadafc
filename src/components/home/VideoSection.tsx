@@ -6,6 +6,7 @@ import { motion } from 'framer-motion';
 import { useEffect, useState } from 'react';
 import { supabase } from '@/lib/supabase';
 import { useSyncVersion } from '@/lib/siteSync';
+import { focusStyle } from '@/lib/imageFocus';
 
 const getYoutubeId = (url: string) => {
   const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/;
@@ -64,7 +65,7 @@ export default function VideoSection() {
                    ></iframe>
                  ) : (
                    <div className="cursor-pointer absolute inset-0 w-full h-full" onClick={() => setPlayingId(mainVideo.id)}>
-                     <img src={mainVideo.thumbnail_url} alt={mainVideo.title} className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
+                     <img src={mainVideo.thumbnail_url} style={focusStyle(mainVideo.thumbnail_url)} alt={mainVideo.title} className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
                      
                      {/* Play Button Overlay */}
                      <div className="absolute bottom-4 md:bottom-6 left-4 md:left-6 right-4 flex flex-col items-start z-10">
@@ -111,7 +112,7 @@ export default function VideoSection() {
                          ></iframe>
                       ) : (
                         <div className="cursor-pointer absolute inset-0 w-full h-full" onClick={() => setPlayingId(video.id)}>
-                          <img src={video.thumbnail_url} alt={video.title} className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                          <img src={video.thumbnail_url} style={focusStyle(video.thumbnail_url)} alt={video.title} className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
                           <div className="absolute bottom-2 left-2 w-8 h-8 bg-accent rounded-lg flex items-center justify-center shadow-md group-hover:bg-text-main hover:text-bg-main transition-colors z-10">
                             <Play className="w-4 h-4 text-on-accent fill-current ml-0.5" />
                           </div>

@@ -2,14 +2,14 @@
 import { useState, useEffect } from 'react';
 import { supabase } from '@/lib/supabase';
 import { adminDb, toast } from '@/lib/adminDb';
-import { Plus, Trash2, Edit2, UploadCloud, Save, ChevronUp, ChevronDown } from 'lucide-react';
+import { Plus, Trash2, Edit2, Save, ChevronUp, ChevronDown } from 'lucide-react';
 import { sortTeams } from '@/lib/teamOrder';
 import SquadStatsAdmin from './SquadStatsAdmin';
-import { uploadFromInput } from '@/lib/uploadImage';
+import ImageField from './ImageField';
 
 export default function TeamsAdmin() {
   const [teams, setTeams] = useState<any[]>([]);
-  const [loading, setLoading] = useState(true);
+  const [, setLoading] = useState(true);
 
   // Team adding state
   const [isAddingTeam, setIsAddingTeam] = useState(false);
@@ -42,12 +42,12 @@ export default function TeamsAdmin() {
     fetchTeams();
   }, []);
 
-  const fetchTeams = async () => {
+  async function fetchTeams() {
     setLoading(true);
     const { data } = await supabase.from('teams').select('*');
     if (data) setTeams(sortTeams(data));
     setLoading(false);
-  };
+  }
 
   // Up / down arrows: the order is saved as teams.sort_order (1, 2, 3 ...) and the public site
   // (teams, academy, standings tabs, statistics filters, admin lists) uses the same order.
@@ -245,38 +245,13 @@ export default function TeamsAdmin() {
                     <label className="block text-gray-400 text-xs font-bold uppercase mb-2">Cari Mövqe</label>
                     <input type="text" value={teamPos} onChange={e => setTeamPos(e.target.value)} placeholder="Məs: 3-cü yer" className="w-full bg-gray-900 border border-gray-700 rounded-lg p-3 text-white" />
                   </div>
-                  <div>
-                    <label className="block text-gray-400 text-xs font-bold uppercase mb-2">Komanda Şəkli (16:9 formatı)</label>
-                    {teamImg ? (
-                      <div className="relative w-full h-[50px] bg-gray-900 border border-gray-700 rounded-lg overflow-hidden group">
-                        <img src={teamImg} alt="Preview" className="w-full h-full object-cover opacity-50" />
-                        <button type="button" onClick={() => setTeamImg('')} className="absolute inset-0 text-white font-bold text-xs uppercase tracking-widest flex items-center justify-center hover:bg-red-500/80 transition-colors">Şəkli Sil</button>
-                      </div>
-                    ) : (
-                      <label className={`w-full h-[50px] flex items-center justify-center space-x-2 bg-gray-900 border border-gray-700 rounded-lg cursor-pointer hover:border-accent transition-colors ${uploadingTeamImg ? 'opacity-50' : ''}`}>
-                        <UploadCloud className="w-4 h-4 text-gray-400" />
-                        <span className="text-gray-400 text-[10px] font-bold uppercase">{uploadingTeamImg ? 'Yüklənir...' : 'Cihazdan Şəkil Seç'}</span>
-                        <input 
-                          type="file" 
-                          accept="image/*" 
-                          className="hidden" 
-                          disabled={uploadingTeamImg}
-                          onChange={async (e) => {
-                            setUploadingTeamImg(true);
-                            const url = await uploadFromInput(e);
-                            if (url) setTeamImg(url);
-                            setUploadingTeamImg(false);
-                          }}
-                        />
-                      </label>
-                    )}
-                  </div>
+                  <ImageField label="Komanda şəkli" value={teamImg} onChange={setTeamImg} onBusy={setUploadingTeamImg} />
                   <div className="md:col-span-2">
                     <label className="block text-gray-400 text-xs font-bold uppercase mb-2">Əlavə Məlumat</label>
                     <textarea value={teamDesc} onChange={e => setTeamDesc(e.target.value)} placeholder="Komanda haqqında qısa məlumat..." className="w-full bg-gray-900 border border-gray-700 rounded-lg p-3 text-white h-20" />
                   </div>
                 </div>
-                <button onClick={handleSaveTeamDetails} disabled={savingDetails} className="bg-accent text-on-accent px-4 py-2 rounded-lg font-bold text-xs uppercase tracking-widest flex items-center space-x-2">
+                <button onClick={handleSaveTeamDetails} disabled={savingDetails || uploadingTeamImg} className="bg-accent text-on-accent px-4 py-2 rounded-lg font-bold text-xs uppercase tracking-widest flex items-center space-x-2">
                   <Save className="w-4 h-4" /> <span>{savingDetails ? 'Saxlanılır...' : 'Məlumatları Yadda Saxla'}</span>
                 </button>
               </div>
@@ -295,27 +270,7 @@ export default function TeamsAdmin() {
                   <div className="col-span-2 md:col-span-1"><label className="block text-gray-400 text-xs font-bold uppercase mb-2">Nömrə</label><input type="number" value={playerNumber} onChange={e => setPlayerNumber(e.target.value)} className="w-full bg-gray-900 border border-gray-700 rounded-lg p-3 text-white" /></div>
                   <div className="col-span-2 md:col-span-1"><label className="block text-gray-400 text-xs font-bold uppercase mb-2">Doğum tarixi</label><input type="date" value={playerBirth} onChange={e => setPlayerBirth(e.target.value)} className="w-full bg-gray-900 border border-gray-700 rounded-lg p-3 text-white" /></div>
                   <div className="col-span-2 md:col-span-1">
-                    <label className="block text-gray-400 text-xs font-bold uppercase mb-2">Oyunçu Şəkli</label>
-                    {playerImage ? (
-                      <div className="relative w-12 h-12 bg-gray-900 border border-gray-700 rounded-full overflow-hidden group">
-                        <img src={playerImage} alt="Preview" className="w-full h-full object-cover" />
-                        <button type="button" onClick={() => setPlayerImage('')} className="absolute inset-0 bg-red-500/80 text-white text-[8px] font-bold opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">SIL</button>
-                      </div>
-                    ) : (
-                      <label className={`flex items-center space-x-2 bg-gray-900 border border-gray-700 rounded-lg p-3 cursor-pointer hover:border-accent transition-colors ${uploadingPlayerImg ? 'opacity-50' : ''}`}>
-                        <UploadCloud className="w-4 h-4 text-gray-400 shrink-0" />
-                        <span className="text-gray-400 text-[10px] font-bold uppercase truncate">{uploadingPlayerImg ? 'Yüklənir...' : 'Cihazdan Şəkil Seç'}</span>
-                        <input 
-                          type="file" accept="image/*" className="hidden" disabled={uploadingPlayerImg}
-                          onChange={async (e) => {
-                            setUploadingPlayerImg(true);
-                            const url = await uploadFromInput(e);
-                            if (url) setPlayerImage(url);
-                            setUploadingPlayerImg(false);
-                          }}
-                        />
-                      </label>
-                    )}
+                    <ImageField label="Oyunçu şəkli" shape="portrait" value={playerImage} onChange={setPlayerImage} options={{ aspect: 3 / 4 }} onBusy={setUploadingPlayerImg} />
                   </div>
                   <div className="col-span-2 mt-2"><button type="submit" disabled={uploadingPlayerImg} className="w-full bg-accent text-on-accent py-3 rounded-lg font-bold text-xs uppercase tracking-widest disabled:opacity-60">{uploadingPlayerImg ? 'Şəkil yüklənir...' : 'Yadda Saxla'}</button></div>
                 </form>

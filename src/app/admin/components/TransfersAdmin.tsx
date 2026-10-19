@@ -2,7 +2,7 @@
 import { useState, useEffect } from 'react';
 import { supabase } from '@/lib/supabase';
 import { adminDb, toast } from '@/lib/adminDb';
-import { uploadFromInput } from '@/lib/uploadImage';
+import ImageField from './ImageField';
 import { Trash2, Plus, Edit2 } from 'lucide-react';
 
 export default function TransfersAdmin() {
@@ -23,19 +23,13 @@ export default function TransfersAdmin() {
     fetchTransfers();
   }, []);
 
-  const fetchTransfers = async () => {
+  async function fetchTransfers() {
     setLoading(true);
     const { data } = await supabase.from('transfers').select('*').order('date', { ascending: false });
     if (data) setTransfers(data);
     setLoading(false);
-  };
+  }
 
-  const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    setUploading(true);
-    const url = await uploadFromInput(e);
-    if (url) setImageUrl(url);
-    setUploading(false);
-  };
 
   const handleSave = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -115,18 +109,11 @@ export default function TransfersAdmin() {
               <input type="text" value={toTeam} onChange={e => setToTeam(e.target.value)} className="w-full bg-gray-900 border border-gray-700 rounded p-3 text-white" />
             </div>
             <div className="md:col-span-2">
-              <label className="block text-gray-400 text-xs font-bold uppercase mb-2">Oyunçu Şəkli</label>
-              <div className="flex items-center space-x-3">
-                {imageUrl && <img src={imageUrl} alt="img" className="w-16 h-16 object-cover rounded" />}
-                <label className="cursor-pointer bg-black border border-gray-700 px-4 py-2 rounded text-xs font-bold text-white uppercase">
-                  {uploading ? 'Yüklənir...' : 'Şəkil Seç'}
-                  <input type="file" accept="image/*" onChange={handleImageUpload} className="hidden" />
-                </label>
-              </div>
+              <ImageField label="Oyunçu şəkli" shape="portrait" value={imageUrl} onChange={setImageUrl} options={{ aspect: 3 / 4 }} onBusy={setUploading} />
             </div>
           </div>
           <div className="flex justify-end pt-4">
-            <button type="submit" className="bg-green-600 hover:bg-green-500 text-white px-6 py-2 rounded-lg font-bold">Yadda Saxla</button>
+            <button type="submit" disabled={uploading} className="disabled:opacity-50 bg-green-600 hover:bg-green-500 text-white px-6 py-2 rounded-lg font-bold">Yadda Saxla</button>
           </div>
         </form>
       )}

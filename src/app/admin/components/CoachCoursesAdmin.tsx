@@ -2,7 +2,7 @@
 import { useState, useEffect } from 'react';
 import { supabase } from '@/lib/supabase';
 import { adminDb } from '@/lib/adminDb';
-import { uploadFromInput } from '@/lib/uploadImage';
+import ImageField from './ImageField';
 import { Trash2, Plus, Edit2, PlayCircle } from 'lucide-react';
 
 export default function CoachCoursesAdmin() {
@@ -21,19 +21,13 @@ export default function CoachCoursesAdmin() {
     fetchCourses();
   }, []);
 
-  const fetchCourses = async () => {
+  async function fetchCourses() {
     setLoading(true);
     const { data } = await supabase.from('coach_courses').select('*').order('created_at', { ascending: false });
     if (data) setCourses(data);
     setLoading(false);
-  };
+  }
 
-  const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    setUploading(true);
-    const url = await uploadFromInput(e);
-    if (url) setImageUrl(url);
-    setUploading(false);
-  };
 
   const handleEdit = (c: any) => {
     setTitle(c.title);
@@ -97,18 +91,11 @@ export default function CoachCoursesAdmin() {
               <textarea value={description} onChange={e => setDescription(e.target.value)} rows={3} className="w-full bg-gray-900 border border-gray-700 rounded p-3 text-white"></textarea>
             </div>
             <div className="md:col-span-2">
-              <label className="block text-gray-400 text-xs font-bold uppercase mb-2">Kapak Şəkli (Thumbnail)</label>
-              <div className="flex items-center space-x-3">
-                {imageUrl && <img src={imageUrl} alt="img" className="w-16 h-10 object-cover rounded" />}
-                <label className="cursor-pointer bg-gray-800 border border-gray-700 px-4 py-2 rounded text-xs font-bold text-white uppercase">
-                  {uploading ? 'Yüklənir...' : 'Seç'}
-                  <input type="file" accept="image/*" onChange={handleImageUpload} className="hidden" />
-                </label>
-              </div>
+              <ImageField label="Kapak şəkli" value={imageUrl} onChange={setImageUrl} onBusy={setUploading} />
             </div>
           </div>
           <div className="flex justify-end pt-4">
-            <button type="submit" className="bg-green-600 hover:bg-green-500 text-white px-6 py-2 rounded-lg font-bold">Yadda Saxla</button>
+            <button type="submit" disabled={uploading} className="disabled:opacity-50 bg-green-600 hover:bg-green-500 text-white px-6 py-2 rounded-lg font-bold">Yadda Saxla</button>
           </div>
         </form>
       )}

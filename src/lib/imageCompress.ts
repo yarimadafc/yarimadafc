@@ -20,13 +20,20 @@ const readAsDataURL = (file: Blob) =>
 // bytes of the file behind a base64 data URL
 const dataUrlBytes = (url: string) => Math.ceil(((url.length - url.indexOf(',') - 1) * 3) / 4);
 
+// formats every browser can show; anything else (HEIC from iPhones...) is always converted
+const WEB_SAFE = /^image\/(jpeg|png|webp|avif)$/;
+
 export const compressImage = async (file: File, quality: ImageQuality = 'normal'): Promise<string> => {
   const p = PROFILES[quality];
-  if (file.size <= p.keepOriginalBytes || file.type === 'image/svg+xml' || file.type === 'image/gif') {
-    return readAsDataURL(file);
-  }
+  if (file.type === 'image/svg+xml' || file.type === 'image/gif') return readAsDataURL(file);
+  if (WEB_SAFE.test(file.type) && file.size <= p.keepOriginalBytes) return readAsDataURL(file);
   try {
     const bitmap = await createImageBitmap(file);
+    // already small enough: upload untouched, so the photo is never re-compressed twice
+    if (WEB_SAFE.test(file.type) && file.size <= p.maxBytes && Math.max(bitmap.width, bitmap.height) <= p.maxSide) {
+      bitmap.close();
+      return readAsDataURL(file);
+    }
     const scale = Math.min(1, p.maxSide / Math.max(bitmap.width, bitmap.height));
     const canvas = document.createElement('canvas');
     canvas.width = Math.round(bitmap.width * scale);
@@ -35,6 +42,7 @@ export const compressImage = async (file: File, quality: ImageQuality = 'normal'
     ctx.imageSmoothingEnabled = true;
     ctx.imageSmoothingQuality = 'high';
     ctx.drawImage(bitmap, 0, 0, canvas.width, canvas.height);
+    bitmap.close();
     // WebP keeps transparency (logos) and is small; fall back to JPEG where WebP encoding is unsupported.
     // Quality only steps down if the file would still be too big to upload.
     let out = '';

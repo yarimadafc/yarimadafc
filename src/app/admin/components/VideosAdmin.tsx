@@ -23,12 +23,12 @@ export default function VideosAdmin() {
     fetchVideos();
   }, []);
 
-  const fetchVideos = async () => {
+  async function fetchVideos() {
     setLoading(true);
     const { data } = await supabase.from('videos').select('*').order('created_at', { ascending: false });
     if (data) setVideos(data);
     setLoading(false);
-  };
+  }
 
   const handleEdit = (v: any) => {
     setTitle(v.title);
@@ -85,8 +85,8 @@ export default function VideosAdmin() {
           <h2 className="text-2xl font-black uppercase tracking-widest text-white mb-2">Videolar İdarəetməsi</h2>
           <p className="text-gray-400 text-sm">Youtube linki əlavə etmək kifayətdir, şəkil avtomatik çəkiləcək.</p>
         </div>
-        <button onClick={() => setIsAdding(!isAdding)} className="bg-accent text-on-accent px-4 py-2 rounded-lg font-bold text-xs uppercase tracking-widest flex items-center space-x-2 hover:bg-text-main hover:text-bg-main transition-colors">
-          {isAdding ? <span onClick={() => { setEditingId(null); setTitle(''); setUrl(''); }}>Ləğv Et</span> : <><Plus className="w-4 h-4" /><span>Yeni Video</span></>}
+        <button onClick={() => { setIsAdding(!isAdding); setEditingId(null); setTitle(''); setUrl(''); }} className="bg-accent text-on-accent px-4 py-2 rounded-lg font-bold text-xs uppercase tracking-widest flex items-center space-x-2 hover:bg-text-main hover:text-bg-main transition-colors">
+          {isAdding ? <span>Ləğv Et</span> : <><Plus className="w-4 h-4" /><span>Yeni Video</span></>}
         </button>
       </div>
 

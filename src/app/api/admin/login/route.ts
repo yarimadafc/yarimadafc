@@ -12,7 +12,8 @@ function clientIp(request: NextRequest): string {
 export async function POST(request: NextRequest) {
   try {
     const adminPassword = process.env.ADMIN_PASSWORD;
-    if (!adminPassword) {
+    const adminEmail = process.env.ADMIN_EMAIL;
+    if (!adminPassword || !adminEmail) {
       return NextResponse.json({ success: false, message: 'Admin giriş konfiqurasiya olunmayıb.' }, { status: 503 });
     }
 
@@ -24,9 +25,8 @@ export async function POST(request: NextRequest) {
     }
 
     const { email, password } = await request.json();
-    const adminEmail = process.env.ADMIN_EMAIL || 'nagialiyevbusiness@gmail.com';
 
-    const emailOk = await safeEqual(String(email ?? ''), adminEmail);
+    const emailOk = await safeEqual(String(email ?? '').trim().toLowerCase(), adminEmail.trim().toLowerCase());
     const passwordOk = await safeEqual(String(password ?? ''), adminPassword);
 
     if (emailOk && passwordOk) {

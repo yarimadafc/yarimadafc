@@ -17,6 +17,13 @@ export default function TeamsPage() {
 
       {/* Teams Grid */}
       <div className="container mt-16 md:mt-24">
+        {/* player statistics live in the Teams section */}
+        <div className="mb-8 flex justify-end">
+          <Link href="/stats" className="btn-fx led-border inline-flex items-center gap-2 bg-bg-sec border border-bg-border hover:border-accent text-text-main px-5 py-3 rounded-xl font-bold uppercase tracking-widest text-xs">
+            Statistika
+            <svg xmlns="http://www.w3.org/2000/svg" className="w-4 h-4 text-accent" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5l7 7-7 7" /></svg>
+          </Link>
+        </div>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 gap-8">
           {teams.map((team, i) => (
             <motion.div 

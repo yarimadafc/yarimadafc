@@ -2,15 +2,12 @@
 import { useState, useEffect } from 'react';
 import { supabase } from '@/lib/supabase';
 import { adminDb } from '@/lib/adminDb';
-import { UploadCloud } from 'lucide-react';
-import { uploadFromInput } from '@/lib/uploadImage';
-import { Save } from 'lucide-react';
+import ImageField from './ImageField';
 
 export default function ClubAdmin() {
   const [texts, setTexts] = useState<Record<string, string>>({});
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
-  const [uploadingImage, setUploadingImage] = useState(false);
 
   useEffect(() => {
     async function loadTexts() {
@@ -81,33 +78,15 @@ export default function ClubAdmin() {
           <h3 className="text-accent font-bold tracking-widest text-sm uppercase mb-4">Haqqımızda Mətnləri və Şəkli</h3>
           
           <div className="mb-6">
-            <label className="block text-gray-400 text-xs font-bold uppercase tracking-widest mb-2">Haqqımızda Şəkli (Arxa Plan)</label>
-            {texts['about_bg'] ? (
-              <div className="relative w-full h-40 bg-gray-900 border border-gray-700 rounded-lg overflow-hidden group mb-2">
-                <img src={texts['about_bg']} alt="Preview" className="w-full h-full object-cover" />
-                <button type="button" onClick={() => { handleChange('about_bg', ''); handleSave('about_bg'); }} className="absolute inset-0 bg-red-500/80 text-white font-bold opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center uppercase tracking-widest">Şəkli Sil</button>
-              </div>
-            ) : (
-              <label className={`w-full flex flex-col items-center justify-center space-y-2 bg-gray-900 border-2 border-dashed border-gray-700 rounded-lg p-8 cursor-pointer hover:border-accent transition-colors ${uploadingImage ? 'opacity-50' : ''}`}>
-                <UploadCloud className="w-8 h-8 text-gray-400" />
-                <span className="text-gray-400 text-xs font-bold uppercase tracking-widest">{uploadingImage ? 'YÜKLƏNİR...' : 'CİHAZDAN ŞƏKİL SEÇ'}</span>
-                <input 
-                  type="file" 
-                  accept="image/*" 
-                  className="hidden" 
-                  disabled={uploadingImage}
-                  onChange={async (e) => {
-                    setUploadingImage(true);
-                    const url = await uploadFromInput(e, 'high');
-                    if (url) {
-                      handleChange('about_bg', url);
-                      await adminDb.from('site_images').upsert({ section_key: 'about_bg', image_url: url }, { onConflict: 'section_key' });
-                    }
-                    setUploadingImage(false);
-                  }}
-                />
-              </label>
-            )}
+            <ImageField
+              label="Haqqımızda şəkli (arxa plan)"
+              value={texts['about_bg']}
+              options={{ quality: 'high' }}
+              onChange={async url => {
+                handleChange('about_bg', url);
+                await adminDb.from('site_images').upsert({ section_key: 'about_bg', image_url: url }, { onConflict: 'section_key' });
+              }}
+            />
           </div>
           
           <div>

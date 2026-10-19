@@ -2,12 +2,12 @@
 import { useState, useEffect, useMemo } from 'react';
 import { supabase } from '@/lib/supabase';
 import { useParams } from 'next/navigation';
-import { motion } from 'framer-motion';
 import { useSyncVersion } from '@/lib/siteSync';
 import TeamLogo from '@/components/TeamLogo';
 import { formatShortDate } from '@/lib/matchUtils';
 import { buildPlayerStats } from '@/lib/playerStats';
 import { usePlayerStatsData } from '@/lib/usePlayerStats';
+import { focusStyle } from '@/lib/imageFocus';
 
 export default function PlayerDetailPage() {
   const params = useParams();
@@ -49,7 +49,7 @@ export default function PlayerDetailPage() {
           {/* Photo */}
           <div className="w-full md:w-2/5 lg:w-1/3 bg-bg-deep relative z-10 aspect-[3/4] md:aspect-auto">
             {player.image_url && !photoBroken ? (
-              <img data-no-fallback src={player.image_url} alt={player.name} onError={() => setPhotoBroken(true)} className="w-full h-full object-cover object-top" />
+              <img data-no-fallback src={player.image_url} style={focusStyle(player.image_url)} alt={player.name} onError={() => setPhotoBroken(true)} className="w-full h-full object-cover object-top" />
             ) : (
               <div className="w-full h-full flex items-center justify-center">
                 <svg className="w-32 h-32 text-text-sec" fill="currentColor" viewBox="0 0 20 20"><path fillRule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clipRule="evenodd" /></svg>

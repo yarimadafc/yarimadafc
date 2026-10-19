@@ -5,8 +5,8 @@ import { useEffect, useState } from 'react';
 import { supabase } from '@/lib/supabase';
 import { PlayCircle } from 'lucide-react';
 import SectionHeading from '@/components/SectionHeading';
-import Link from 'next/link';
 import { useSyncVersion } from '@/lib/siteSync';
+import { focusStyle } from '@/lib/imageFocus';
 
 export default function CoachCoursesSection() {
   const [courses, setCourses] = useState<any[]>([]);
@@ -40,7 +40,7 @@ export default function CoachCoursesSection() {
             >
               <div className="relative h-56 overflow-hidden">
                 <img 
-                  src={course.image_url || '/Logo.JPG.jpeg'} 
+                  src={course.image_url || '/Logo.JPG.jpeg'} style={focusStyle(course.image_url || '/Logo.JPG.jpeg')} 
                   alt={course.title} 
                   className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
                 />

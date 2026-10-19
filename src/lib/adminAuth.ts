@@ -4,6 +4,7 @@ export const SESSION_MAX_AGE = 60 * 60 * 24 * 7; // 7 days
 
 const encoder = new TextEncoder();
 
+// Prefer a dedicated ADMIN_SESSION_SECRET; ADMIN_PASSWORD is only a fallback until it is configured.
 function getSecret(): string {
   return process.env.ADMIN_SESSION_SECRET || process.env.ADMIN_PASSWORD || '';
 }

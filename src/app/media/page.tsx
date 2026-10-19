@@ -5,6 +5,7 @@ import { supabase } from '@/lib/supabase';
 import PageHero from '@/components/PageHero';
 import { motion } from 'framer-motion';
 import { useSyncVersion } from '@/lib/siteSync';
+import { focusStyle } from '@/lib/imageFocus';
 
 const getYoutubeId = (url: string) => {
   const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/;
@@ -66,7 +67,7 @@ export default function Page() {
                     ></iframe>
                   ) : (
                     <div className="cursor-pointer absolute inset-0 w-full h-full group" onClick={() => setPlayingId(video.id)}>
-                      <img src={video.thumbnail_url} alt={video.title} className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                      <img src={video.thumbnail_url} style={focusStyle(video.thumbnail_url)} alt={video.title} className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
                       <div className="absolute inset-0 bg-black/20 group-hover:bg-black/40 transition-colors"></div>
                       <div className="absolute inset-0 flex items-center justify-center">
                         <div className="w-10 h-10 bg-accent rounded-full flex items-center justify-center shadow-lg group-hover:bg-text-main hover:text-bg-main group-hover:scale-110 transition-all duration-300">

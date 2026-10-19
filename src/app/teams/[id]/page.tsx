@@ -9,6 +9,7 @@ import { supabase } from '@/lib/supabase';
 import { useSyncVersion } from '@/lib/siteSync';
 import { buildPlayerStats, type PlayerStat } from '@/lib/playerStats';
 import { usePlayerStatsData } from '@/lib/usePlayerStats';
+import { bgStyle, focusStyle } from '@/lib/imageFocus';
 
 export default function TeamDetailPage() {
   const params = useParams();
@@ -61,7 +62,7 @@ export default function TeamDetailPage() {
       {/* Header Profile */}
       <div className="w-full bg-bg-sec py-12 md:py-16 border-b border-bg-border relative overflow-hidden">
         {teamImg ? (
-          <div className="absolute inset-0 bg-cover bg-center opacity-30" style={{ backgroundImage: `url(${teamImg})` }}></div>
+          <div className="absolute inset-0 bg-cover bg-center opacity-30" style={bgStyle(teamImg)}></div>
         ) : (
           <div className="absolute inset-0 bg-[url('/Logo.JPG.jpeg')] bg-center bg-no-repeat bg-contain opacity-[0.06] blur-sm"></div>
         )}
@@ -136,7 +137,7 @@ export default function TeamDetailPage() {
                 <div className="w-full h-48 md:h-64 bg-bg-deep relative overflow-hidden">
                    {/* Placeholder user icon if image is missing */}
                    {player.image_url ? (
-                     <img src={player.image_url} alt={player.name} loading="lazy" className="absolute inset-0 w-full h-full object-cover object-top" />
+                     <img src={player.image_url} style={focusStyle(player.image_url)} alt={player.name} loading="lazy" className="absolute inset-0 w-full h-full object-cover object-top" />
                    ) : (
                      <div className="absolute inset-0 flex items-center justify-center bg-bg-main">
                        <svg className="w-16 h-16 text-text-sec" fill="currentColor" viewBox="0 0 20 20"><path fillRule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clipRule="evenodd" /></svg>

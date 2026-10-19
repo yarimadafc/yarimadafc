@@ -5,6 +5,7 @@ import '@fontsource-variable/montserrat/index.css';
 import '@fontsource-variable/oswald/index.css';
 import './globals.css';
 import ClientLayout from '@/components/ClientLayout';
+import { SITE_URL } from '@/lib/site';
 
 const jetbrains = JetBrains_Mono({ 
   subsets: ['latin'],
@@ -18,8 +19,17 @@ export const viewport: Viewport = {
 };
 
 export const metadata: Metadata = {
+  metadataBase: new URL(SITE_URL),
   title: 'Yarımada FK | Rəsmi Vebsayt',
   description: 'Yarımada Futbol Klubunun rəsmi vebsaytı.',
+  openGraph: {
+    type: 'website',
+    siteName: 'Yarımada FK',
+    title: 'Yarımada FK | Rəsmi Vebsayt',
+    description: 'Yarımada Futbol Klubunun rəsmi vebsaytı.',
+    locale: 'az_AZ',
+    images: ['/Logo.JPG.jpeg'],
+  },
   icons: {
     icon: '/Logo.JPG.jpeg',
     shortcut: '/Logo.JPG.jpeg',
@@ -43,5 +53,3 @@ export default function RootLayout({
     </html>
   );
 }
-
-// Force rebuild: cache invalidation

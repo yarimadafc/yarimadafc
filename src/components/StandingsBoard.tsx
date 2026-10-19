@@ -6,7 +6,7 @@ import { supabase } from '@/lib/supabase';
 import TeamLogo from '@/components/TeamLogo';
 import Reveal from '@/components/Reveal';
 import { useLang } from '@/lib/i18n';
-import { isLiveMatch, scoreText, AnyMatch, formatShortDate, isYarimada, matchStart, normalizeMatch, teamKey } from '@/lib/matchUtils';
+import { scoreText, AnyMatch, formatShortDate, isYarimada, matchStart, normalizeMatch, teamKey } from '@/lib/matchUtils';
 import { useSyncVersion } from '@/lib/siteSync';
 import { useOrderedTeams } from '@/lib/teamOrder';
 
@@ -155,7 +155,6 @@ export default function StandingsBoard({ matchLimit = 9 }: Props) {
             <div className="py-12 text-center text-text-sec text-sm border-t border-bg-border">{t('Bu turnir üçün oyun yoxdur.')}</div>
           ) : (
             leagueMatches.map(m => {
-              const played = m.status === 'finished' || isLiveMatch(m);
               return (
                 <Link href="/matches" key={m.id} className="flex items-center gap-3 px-4 py-3 border-t border-bg-border text-sm hover:bg-bg-card transition-colors">
                   <div className="w-14 shrink-0 text-text-sec text-xs leading-tight">

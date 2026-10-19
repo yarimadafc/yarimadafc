@@ -9,6 +9,7 @@ import Reveal from '@/components/Reveal';
 import { useLang } from '@/lib/i18n';
 import { useFormat } from '@/lib/useFormat';
 import { useSyncVersion } from '@/lib/siteSync';
+import { focusStyle } from '@/lib/imageFocus';
 
 export default function NewsSection() {
   const { t, loc } = useLang();
@@ -57,7 +58,7 @@ export default function NewsSection() {
               >
                 <div className={`relative w-full overflow-hidden bg-bg-card ${big ? 'aspect-[16/9] md:aspect-[2/1]' : 'aspect-[16/10]'}`}>
                   {item.image_url && (
-                    <img src={item.image_url} alt={loc(item, 'title')} loading={i < 2 ? 'eager' : 'lazy'} className="absolute inset-0 w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" />
+                    <img src={item.image_url} style={focusStyle(item.image_url)} alt={loc(item, 'title')} loading={i < 2 ? 'eager' : 'lazy'} className="absolute inset-0 w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" />
                   )}
                 </div>
 

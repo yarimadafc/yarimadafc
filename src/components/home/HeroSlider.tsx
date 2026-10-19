@@ -1,6 +1,6 @@
 'use client';
 
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import Link from 'next/link';
 import { ArrowLeft, ArrowRight } from 'lucide-react';
 import { supabase } from '@/lib/supabase';
@@ -8,6 +8,7 @@ import { useLang } from '@/lib/i18n';
 import NextMatchCard from '@/components/NextMatchCard';
 import LastResultCard from '@/components/LastResultCard';
 import { useSyncVersion } from '@/lib/siteSync';
+import { focusStyle } from '@/lib/imageFocus';
 
 type Slide = { id: string; image: string; title: string; subtitle?: string; href?: string; intro?: boolean; raw?: Record<string, any> };
 
@@ -34,6 +35,7 @@ function HeroImage({ src, active, priority }: { src: string; active: boolean; pr
     <img
       ref={ref}
       src={src}
+      style={focusStyle(src)}
       alt=""
       decoding="async"
       loading={priority ? 'eager' : 'lazy'}
@@ -47,7 +49,6 @@ function HeroImage({ src, active, priority }: { src: string; active: boolean; pr
 
 export default function HeroSlider() {
   const { t, loc } = useLang();
-  const [slides, setSlides] = useState<Slide[]>([]);
   const [loading, setLoading] = useState(true);
   const [active, setActive] = useState(0);
   const [paused, setPaused] = useState(false);
@@ -93,9 +94,10 @@ export default function HeroSlider() {
   }, [sync]);
 
   // intro slide is always first (it keeps the editable site texts, buttons and the next-match card)
-  useEffect(() => {
-    setSlides([{ id: 'intro', intro: true, image: intro.bg, title: `${intro.title1} ${intro.title2}`.trim() }, ...extra]);
-  }, [intro, extra]);
+  const slides = useMemo<Slide[]>(
+    () => [{ id: 'intro', intro: true, image: intro.bg, title: `${intro.title1} ${intro.title2}`.trim() }, ...extra],
+    [intro, extra],
+  );
 
   const count = slides.length;
   const go = useCallback((i: number) => count && setActive(((i % count) + count) % count), [count]);
@@ -175,7 +177,7 @@ export default function HeroSlider() {
                     {slides.map((s, i) => (
                       <button key={s.id} onClick={() => go(i)} className={`w-[min(17%,240px)] shrink text-left rounded-xl overflow-hidden bg-bg-sec border transition-all duration-300 ${i === active ? 'border-accent shadow-xl -translate-y-1 led-glow' : 'border-bg-border hover:border-text-sec hover:-translate-y-0.5'}`} aria-label={titleOf(s)}>
                         <div className="aspect-video bg-bg-card overflow-hidden">
-                          {s.image ? <img src={s.image} alt="" className="w-full h-full object-cover" loading="lazy" /> : s.intro ? <img src="/Logo.JPG.jpeg" alt="" className="w-full h-full object-contain p-3" /> : null}
+                          {s.image ? <img src={s.image} style={focusStyle(s.image)} alt="" className="w-full h-full object-cover" loading="lazy" /> : s.intro ? <img src="/Logo.JPG.jpeg" alt="" className="w-full h-full object-contain p-3" /> : null}
                         </div>
                         <p className={`p-3 text-[13px] font-semibold leading-snug line-clamp-3 min-h-[4.6em] ${i === active ? 'text-text-main' : 'text-text-sec'}`}>{titleOf(s)}</p>
                       </button>

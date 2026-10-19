@@ -1,10 +1,10 @@
 'use client';
-import { motion } from 'framer-motion';
 import { useParams } from 'next/navigation';
 import { useState, useEffect } from 'react';
 import { supabase } from '@/lib/supabase';
 import Link from 'next/link';
 import { useSyncVersion } from '@/lib/siteSync';
+import { focusStyle } from '@/lib/imageFocus';
 
 export default function CoachDetailPage() {
   const params = useParams();
@@ -47,7 +47,7 @@ export default function CoachDetailPage() {
           {/* Coach Photo */}
           <div className="w-full md:w-1/4 xl:w-1/5 h-[300px] md:h-[400px] relative bg-bg-main flex-shrink-0 border-r border-bg-border">
             {coach.image_url ? (
-              <img src={coach.image_url} alt={coach.name} className="absolute inset-0 w-full h-full object-cover object-top" />
+              <img src={coach.image_url} style={focusStyle(coach.image_url)} alt={coach.name} className="absolute inset-0 w-full h-full object-cover object-top" />
             ) : (
               <div className="absolute inset-0 flex items-center justify-center">
                  <svg className="w-24 h-24 text-text-sec" fill="currentColor" viewBox="0 0 20 20"><path fillRule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clipRule="evenodd" /></svg>

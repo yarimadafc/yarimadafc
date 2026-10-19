@@ -4,7 +4,8 @@ import { createHash, randomInt, timingSafeEqual } from 'crypto';
 export const CODE_TTL_MIN = 15;
 export const MAX_CODE_ATTEMPTS = 5;
 
-const pepper = () => process.env.PASSWORD_RESET_SECRET || process.env.SUPABASE_SERVICE_ROLE_KEY || '';
+const pepper = () => process.env.PASSWORD_RESET_SECRET || '';
+export const resetConfigured = () => Boolean(pepper() && process.env.RESEND_API_KEY);
 
 export const newCode = () => String(randomInt(0, 1_000_000)).padStart(6, '0');
 

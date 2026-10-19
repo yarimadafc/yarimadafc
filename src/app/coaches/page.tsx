@@ -6,6 +6,7 @@ import PageHero from '@/components/PageHero';
 import Link from 'next/link';
 import { User } from 'lucide-react';
 import { useSyncVersion } from '@/lib/siteSync';
+import { focusStyle } from '@/lib/imageFocus';
 
 export default function CoachesPage() {
   const [coaches, setCoaches] = useState<any[]>([]);
@@ -46,7 +47,7 @@ export default function CoachesPage() {
                   <div className="led-border led-hover card-fx relative w-full aspect-[3/4] rounded-2xl overflow-hidden mb-6 bg-bg-sec border border-bg-border">
                     {coach.image_url ? (
                       <img 
-                        src={coach.image_url} 
+                        src={coach.image_url} style={focusStyle(coach.image_url)} 
                         alt={coach.name} 
                         className="absolute inset-0 w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-700"
                       />

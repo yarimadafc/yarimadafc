@@ -5,6 +5,7 @@ import { useParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { supabase } from '@/lib/supabase';
 import { useSyncVersion } from '@/lib/siteSync';
+import { focusStyle } from '@/lib/imageFocus';
 
 export default function NewsArticlePage() {
   const params = useParams();
@@ -73,7 +74,7 @@ export default function NewsArticlePage() {
 
           {/* Small Image */}
           <div className="w-full aspect-video md:aspect-[21/9] bg-black rounded-2xl overflow-hidden mb-10 shadow-lg relative">
-            <img src={news.image_url || '/Logo.JPG.jpeg'} alt={news.title_az} className="absolute inset-0 w-full h-full object-cover" />
+            <img src={news.image_url || '/Logo.JPG.jpeg'} style={focusStyle(news.image_url || '/Logo.JPG.jpeg')} alt={news.title_az} className="absolute inset-0 w-full h-full object-cover" />
           </div>
 
           <div className="prose prose-invert max-w-none text-text-sec">
@@ -93,7 +94,7 @@ export default function NewsArticlePage() {
               {recommended.map(item => (
                 <Link href={"/news/" + item.id} key={item.id} className="group bg-bg-sec border border-bg-border rounded-xl overflow-hidden hover:-translate-y-1 transition-transform">
                   <div className="h-40 bg-black relative">
-                     <img src={item.image_url} alt={item.title_az} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                     <img src={item.image_url} style={focusStyle(item.image_url)} alt={item.title_az} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
                   </div>
                   <div className="p-4">
                     <h4 className="text-text-main font-bold text-sm line-clamp-2 group-hover:text-accent transition-colors">{item.title_az}</h4>

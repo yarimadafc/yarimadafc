@@ -12,6 +12,7 @@ import { formatShortDate, teamKey } from '@/lib/matchUtils';
 import { buildPlayerStats, byAssists, byGoals, seasonOf, PlayerStat } from '@/lib/playerStats';
 import { PlayerInfo, usePlayerStatsData } from '@/lib/usePlayerStats';
 import { useOrderedTeams } from '@/lib/teamOrder';
+import { focusStyle } from '@/lib/imageFocus';
 
 type Tab = 'goals' | 'assists' | 'all';
 type SortKey = 'games' | 'starts' | 'goals' | 'assists' | 'minutes';
@@ -28,7 +29,7 @@ function Avatar({ stat, info, size = 44 }: { stat: PlayerStat; info?: PlayerInfo
   return (
     <span data-no-fallback style={{ width: size, height: size }} className="relative shrink-0 rounded-full overflow-hidden bg-bg-card ring-2 ring-bg-border inline-flex items-center justify-center">
       {src ? (
-        <img src={src} alt={stat.name} loading="lazy" onError={() => setBroken(true)} className="w-full h-full object-cover object-top" />
+        <img src={src} style={focusStyle(src)} alt={stat.name} loading="lazy" onError={() => setBroken(true)} className="w-full h-full object-cover object-top" />
       ) : (
         <span className="font-bold text-text-sec" style={{ fontSize: size / 2.8 }}>{stat.number || stat.name.slice(0, 1)}</span>
       )}

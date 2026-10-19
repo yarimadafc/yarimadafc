@@ -1,4 +1,5 @@
 'use client';
+import { useState } from 'react';
 import Link from 'next/link';
 import TeamLogo from '@/components/TeamLogo';
 import { useNextMatch } from '@/lib/useNextMatch';
@@ -12,6 +13,7 @@ export default function NextMatchCard({ className = '', compact = false }: { cla
   const { match, loading } = useNextMatch();
   const { t } = useLang();
   const { longDate } = useFormat();
+  const [now] = useState(() => Date.now());
 
   if (loading) return <div className={`rounded-2xl bg-bg-card/60 animate-pulse h-64 ${className}`} aria-hidden />;
 
@@ -26,7 +28,7 @@ export default function NextMatchCard({ className = '', compact = false }: { cla
   }
 
   const live = isLiveMatch(match);
-  const started = !live && (matchStart(match)?.getTime() ?? Infinity) <= Date.now();
+  const started = !live && (matchStart(match)?.getTime() ?? Infinity) <= now;
 
   return (
     <Link href="/matches" className={`group led-border led-glow block rounded-2xl bg-bg-card/90 backdrop-blur-md shadow-2xl ${compact ? 'p-4' : 'p-5 sm:p-6'} ${className}`}>

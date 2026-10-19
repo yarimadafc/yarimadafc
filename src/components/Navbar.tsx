@@ -28,7 +28,12 @@ const menuItems: Item[] = [
       { name: 'Biletlər', href: '/tickets' },
     ],
   },
-  { name: 'Komandalar', href: '/teams' },
+  {
+    name: 'Komandalar', href: '/teams', children: [
+      { name: 'Bütün komandalar', href: '/teams' },
+      { name: 'Statistika', href: '/stats' },
+    ],
+  },
   {
     name: 'Akademiya', href: '/academy', children: [
       { name: 'Akademiya', href: '/academy' },
@@ -41,13 +46,6 @@ const menuItems: Item[] = [
       { name: 'Təqvim', href: '/matches' },
       { name: 'Nəticələr', href: '/matches?tab=results' },
       { name: 'Turnir cədvəli', href: '/standings' },
-    ],
-  },
-  {
-    name: 'Statistika', href: '/stats', children: [
-      { name: 'Ən çox qol vuranlar', href: '/stats?tab=goals' },
-      { name: 'Ən çox assist edənlər', href: '/stats?tab=assists' },
-      { name: 'Bütün futbolçular', href: '/stats?tab=all' },
     ],
   },
   {

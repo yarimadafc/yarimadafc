@@ -1,10 +1,10 @@
 
 'use client';
-import { uploadFromInput } from '@/lib/uploadImage';
+import ImageField from './ImageField';
 import { useState, useEffect } from 'react';
 import { supabase } from '@/lib/supabase';
 import { adminDb, toast } from '@/lib/adminDb';
-import { Trash2, Plus, UploadCloud } from 'lucide-react';
+import { Trash2, Plus } from 'lucide-react';
 
 export default function NewsAdmin() {
   const [news, setNews] = useState<any[]>([]);
@@ -23,27 +23,22 @@ export default function NewsAdmin() {
     fetchNews();
   }, []);
 
-  const fetchNews = async () => {
+  async function fetchNews() {
     setLoading(true);
     const { data } = await supabase.from('news').select('*').order('created_at', { ascending: false });
     if (data) setNews(data);
     setLoading(false);
-  };
+  }
 
-  const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    setIsUploading(true);
-    const url = await uploadFromInput(e);
-    if (url) setImageUrl(url);
-    setIsUploading(false);
-  };
 
   const handleEdit = (newsItem: any) => {
     setTitle(newsItem.title_az);
     setContent(newsItem.content_az);
-    setCategory(newsItem.category || 'Əsas Komanda');
+    setCategory(newsItem.category || 'Klub Xəbərləri');
     setImageUrl(newsItem.image_url || '');
     setEditingId(newsItem.id);
     setIsAdding(true);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
   const handleAddNews = async (e: React.FormEvent) => {
@@ -72,7 +67,7 @@ export default function NewsAdmin() {
     
     if (!error) {
       setIsAdding(false);
-      setTitle(''); setContent(''); setImageUrl(''); setCategory('Klub Xəbərləri');
+      setTitle(''); setContent(''); setImageUrl(''); setCategory('Klub Xəbərləri'); setEditingId(null);
       fetchNews();
     }
   };
@@ -92,10 +87,10 @@ export default function NewsAdmin() {
           <p className="text-gray-400 text-sm">Saytdakı xəbərləri buradan əlavə edib silə bilərsiniz.</p>
         </div>
         <button 
-          onClick={() => setIsAdding(!isAdding)} 
+          onClick={() => { setIsAdding(!isAdding); setEditingId(null); setTitle(''); setContent(''); setImageUrl(''); setCategory('Klub Xəbərləri'); }}
           className="bg-accent text-on-accent px-4 py-2 rounded-lg font-bold text-xs uppercase tracking-widest flex items-center space-x-2 hover:bg-text-main hover:text-bg-main transition-colors"
         >
-          {isAdding ? <span onClick={() => { setEditingId(null); setTitle(''); setContent(''); setImageUrl(''); }}>Ləğv Et</span> : <><Plus className="w-4 h-4" /><span>Yeni Xəbər</span></>}
+          {isAdding ? <span>Ləğv Et</span> : <><Plus className="w-4 h-4" /><span>Yeni Xəbər</span></>}
         </button>
       </div>
 
@@ -108,27 +103,18 @@ export default function NewsAdmin() {
           <div>
             <label className="block text-gray-400 text-xs font-bold uppercase tracking-widest mb-2">Kateqoriya</label>
             <select value={category} onChange={e => setCategory(e.target.value)} className="w-full bg-gray-900 border border-gray-700 rounded-lg p-3 text-white focus:border-accent outline-none">
+              <option value="Klub Xəbərləri">Klub Xəbərləri</option>
               <option value="Əsas Komanda">Əsas Komanda</option>
               <option value="Akademiya">Akademiya</option>
               <option value="Rəsmi">Rəsmi</option>
             </select>
           </div>
-          <div>
-            <label className="block text-gray-400 text-xs font-bold uppercase tracking-widest mb-2">Əsas Şəkil</label>
-            <div className="flex items-center space-x-4">
-              <label className="bg-gray-900 border border-gray-700 hover:border-accent text-gray-400 px-4 py-3 rounded-lg cursor-pointer flex items-center space-x-2 transition-colors">
-                <UploadCloud className="w-5 h-5" />
-                <span className="text-xs font-bold uppercase">{isUploading ? 'Yüklənir...' : 'Şəkil Seç'}</span>
-                <input type="file" accept="image/*" onChange={handleImageUpload} className="hidden" />
-              </label>
-              {imageUrl && <img src={imageUrl} alt="Preview" className="h-12 w-12 object-cover rounded-md" />}
-            </div>
-          </div>
+          <ImageField label="Əsas şəkil" value={imageUrl} onChange={setImageUrl} onBusy={setIsUploading} />
           <div>
             <label className="block text-gray-400 text-xs font-bold uppercase tracking-widest mb-2">Xəbər Mətni</label>
             <textarea value={content} onChange={e => setContent(e.target.value)} className="w-full bg-gray-900 border border-gray-700 rounded-lg p-3 text-white focus:border-accent outline-none h-32" placeholder="Mətn..." required></textarea>
           </div>
-          <button type="submit" className="w-full bg-accent text-on-accent py-3 rounded-lg font-bold text-xs uppercase tracking-widest hover:bg-text-main hover:text-bg-main transition-colors">Yadda Saxla</button>
+          <button type="submit" disabled={isUploading} className="disabled:opacity-50 w-full bg-accent text-on-accent py-3 rounded-lg font-bold text-xs uppercase tracking-widest hover:bg-text-main hover:text-bg-main transition-colors">Yadda Saxla</button>
         </form>
       )}
 

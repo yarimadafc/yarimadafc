@@ -3,13 +3,13 @@ import { useState, useEffect } from 'react';
 import { supabase } from '@/lib/supabase';
 import { adminDb, toast } from '@/lib/adminDb';
 import { sortTeams } from '@/lib/teamOrder';
-import { Plus, UploadCloud, Star } from 'lucide-react';
-import { uploadFromInput } from '@/lib/uploadImage';
+import { Plus, Star } from 'lucide-react';
+import ImageField from './ImageField';
 
 export default function CoachesAdmin() {
   const [coaches, setCoaches] = useState<any[]>([]);
   const [teams, setTeams] = useState<any[]>([]);
-  const [loading, setLoading] = useState(true);
+  const [, setLoading] = useState(true);
   const [isAdding, setIsAdding] = useState(false);
   const [uploadingImage, setUploadingImage] = useState(false);
   const [saving, setSaving] = useState(false);
@@ -28,7 +28,7 @@ export default function CoachesAdmin() {
     fetchData();
   }, []);
 
-  const fetchData = async () => {
+  async function fetchData() {
     const [{ data: cData }, { data: tData }] = await Promise.all([
       supabase.from('coaches').select('*, teams(name)').order('created_at', { ascending: false }),
       supabase.from('teams').select('*'),
@@ -36,7 +36,7 @@ export default function CoachesAdmin() {
     if (cData) setCoaches(cData);
     if (tData) setTeams(sortTeams(tData));
     setLoading(false);
-  };
+  }
 
   const handleEdit = (c: any) => {
     setName(c.name);
@@ -138,30 +138,7 @@ export default function CoachesAdmin() {
             <textarea value={bio} onChange={e => setBio(e.target.value)} placeholder="Məşqçi haqqında məlumat..." className="w-full bg-gray-900 border border-gray-700 rounded-lg p-3 text-white h-24 custom-scrollbar" />
           </div>
           <div className="md:col-span-2">
-            <label className="block text-gray-400 text-xs font-bold uppercase mb-2">Məşqçinin Şəkli (3:4 formatı tövsiyə olunur)</label>
-            {imageUrl ? (
-              <div className="relative w-32 h-40 bg-gray-900 border border-gray-700 rounded-lg overflow-hidden group">
-                <img src={imageUrl} alt="Preview" className="w-full h-full object-cover" />
-                <button type="button" onClick={() => setImageUrl('')} className="absolute inset-0 bg-red-500/80 text-white font-bold opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">SIL</button>
-              </div>
-            ) : (
-              <label className={`w-full flex items-center justify-center space-x-2 bg-gray-900 border border-gray-700 rounded-lg p-4 cursor-pointer hover:border-accent transition-colors ${uploadingImage ? 'opacity-50' : ''}`}>
-                <UploadCloud className="w-5 h-5 text-gray-400" />
-                <span className="text-gray-400 text-xs font-bold uppercase">{uploadingImage ? 'YÜKLƏNİR...' : 'CİHAZDAN ŞƏKİL SEÇ'}</span>
-                <input 
-                  type="file" 
-                  accept="image/*" 
-                  className="hidden" 
-                  disabled={uploadingImage}
-                  onChange={async (e) => {
-                    setUploadingImage(true);
-                    const url = await uploadFromInput(e);
-                    if (url) setImageUrl(url);
-                    setUploadingImage(false);
-                  }}
-                />
-              </label>
-            )}
+            <ImageField label="Məşqçinin şəkli" shape="portrait" value={imageUrl} onChange={setImageUrl} options={{ aspect: 3 / 4 }} onBusy={setUploadingImage} />
           </div>
 
           <div className="md:col-span-2"><button type="submit" disabled={saving || uploadingImage} className="w-full bg-accent text-on-accent py-3 rounded-lg font-bold text-xs uppercase tracking-widest disabled:opacity-60">{saving ? 'Saxlanılır...' : uploadingImage ? 'Şəkil yüklənir...' : 'Yadda Saxla'}</button></div>

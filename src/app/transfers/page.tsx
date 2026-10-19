@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import { supabase } from '@/lib/supabase';
 import PageHero from '@/components/PageHero';
 import { useSyncVersion } from '@/lib/siteSync';
+import { focusStyle } from '@/lib/imageFocus';
 
 // incoming = green, outgoing = red, loan = amber (the badge used to be plain white in dark mode)
 const typeColor = (type?: string | null) => {
@@ -53,7 +54,7 @@ export default function TransfersPage() {
                 
                 <div className="w-24 h-24 rounded-full overflow-hidden bg-bg-deep border-4 border-bg-border mb-4 mt-6">
                   {t.image_url ? (
-                    <img src={t.image_url} alt={t.player_name} className="w-full h-full object-cover" />
+                    <img src={t.image_url} style={focusStyle(t.image_url)} alt={t.player_name} className="w-full h-full object-cover" />
                   ) : (
                     <div className="w-full h-full flex items-center justify-center text-text-sec">?</div>
                   )}

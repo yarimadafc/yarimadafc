@@ -6,6 +6,7 @@ import { motion, Variants } from 'framer-motion';
 import { useEffect, useState } from 'react';
 import { supabase } from '@/lib/supabase';
 import { useSyncVersion } from '@/lib/siteSync';
+import { focusStyle } from '@/lib/imageFocus';
 
 export default function QuickLinks() {
   const [images, setImages] = useState<Record<string, string>>({});
@@ -77,7 +78,7 @@ export default function QuickLinks() {
                 <div className="w-full sm:w-1/2 min-h-[170px] sm:min-h-[210px] bg-bg-deep relative overflow-hidden">
                   {images[link.key] ? (
                     <img 
-                      src={images[link.key]} 
+                      src={images[link.key]} style={focusStyle(images[link.key])} 
                       alt={link.title} 
                       className="absolute inset-0 w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 opacity-80 group-hover:opacity-100"
                     />

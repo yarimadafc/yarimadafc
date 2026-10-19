@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { clientIp, findMemberByEmail, maskEmail, memberAdminDb, tooManyRequests } from '@/lib/memberServer';
 import { validEmail } from '@/lib/memberValidation';
-import { CODE_TTL_MIN, hashCode, newCode, sendResetEmail } from '@/lib/resetCode';
+import { CODE_TTL_MIN, hashCode, newCode, resetConfigured, sendResetEmail } from '@/lib/resetCode';
 
 // Step 1 of "forgot password": emails a 6-digit code. Always answers the same way whether or not
 // the email has an account, so nobody can use this form to find out who is registered.
@@ -12,8 +12,8 @@ export async function POST(request: NextRequest) {
   }
   const { email } = await request.json().catch(() => ({ email: '' }));
   if (typeof email !== 'string' || !validEmail(email)) return NextResponse.json({ error: 'Email düzgün deyil.' }, { status: 400 });
-  if (!process.env.RESEND_API_KEY) {
-    console.error('password reset: RESEND_API_KEY is not set');
+  if (!resetConfigured()) {
+    console.error('password reset: RESEND_API_KEY or PASSWORD_RESET_SECRET is not set');
     return NextResponse.json({ error: 'Email xidməti hələ qurulmayıb. Klubla əlaqə saxlayın.' }, { status: 503 });
   }
   const db = memberAdminDb();

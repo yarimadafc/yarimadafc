@@ -7,6 +7,7 @@ import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import { useSyncVersion } from '@/lib/siteSync';
 import { trackEvent } from '@/lib/track';
+import { focusStyle } from '@/lib/imageFocus';
 
 export default function ProductDetail({ params }: { params: Promise<{ id: string }> }) {
   const resolvedParams = use(params);
@@ -93,7 +94,7 @@ export default function ProductDetail({ params }: { params: Promise<{ id: string
                 <div className="flex space-x-3 overflow-x-auto pb-2 custom-scrollbar">
                   {product.images.map((img: string, idx: number) => (
                     <button key={idx} onClick={() => setCurrentImgIdx(idx)} className={`flex-shrink-0 w-20 h-20 bg-bg-main rounded-xl overflow-hidden border-2 transition-all ${currentImgIdx === idx ? 'border-accent opacity-100' : 'border-transparent opacity-50 hover:opacity-100'}`}>
-                      <img src={img} alt="" className="w-full h-full object-cover" />
+                      <img src={img} style={focusStyle(img)} alt="" className="w-full h-full object-cover" />
                     </button>
                   ))}
                 </div>

@@ -1500,5 +1500,37 @@ export const dictionary: Record<string, { en: string; ru: string }> = {
   "Bağla": {
     "en": "Close",
     "ru": "Закрыть"
+  },
+  "Son oyun": {
+    "en": "Last match",
+    "ru": "Последний матч"
+  },
+  "Qələbə": {
+    "en": "Win",
+    "ru": "Победа"
+  },
+  "Məğlubiyyət": {
+    "en": "Defeat",
+    "ru": "Поражение"
+  },
+  "Heç-heçə": {
+    "en": "Draw",
+    "ru": "Ничья"
+  },
+  "Heyət": {
+    "en": "Squad",
+    "ru": "Состав"
+  },
+  "Dəvətli": {
+    "en": "Called up",
+    "ru": "Приглашён"
+  },
+  "dəvətli": {
+    "en": "called up",
+    "ru": "приглашён"
+  },
+  "Dəvət olunub": {
+    "en": "Called up",
+    "ru": "Приглашён"
   }
 };

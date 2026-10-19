@@ -74,7 +74,7 @@ function SearchResults() {
         Axtarış <span className="text-accent">Nəticələri</span>
       </h1>
       <p className="text-text-sec font-bold tracking-widest text-xs uppercase mb-8">
-        Sorğu: "{query}"
+        Sorğu: &ldquo;{query}&rdquo;
       </p>
 
       {loading ? (
@@ -99,7 +99,7 @@ function SearchResults() {
         <div className="bg-bg-sec p-12 rounded-2xl border border-bg-border text-center">
           <div className="text-5xl mb-4">🔍</div>
           <h3 className="text-text-main font-bold text-xl mb-2">Heç nə tapılmadı</h3>
-          <p className="text-text-sec">"{query}" sorğunuza uyğun nəticə yoxdur. Başqa sözlərlə yoxlayın.</p>
+          <p className="text-text-sec">&ldquo;{query}&rdquo; sorğunuza uyğun nəticə yoxdur. Başqa sözlərlə yoxlayın.</p>
         </div>
       )}
     </>

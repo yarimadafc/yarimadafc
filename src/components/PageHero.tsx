@@ -1,5 +1,6 @@
 'use client';
 import Reveal from '@/components/Reveal';
+import { bgStyle } from '@/lib/imageFocus';
 
 interface Props {
   title: string;
@@ -13,7 +14,7 @@ interface Props {
 export default function PageHero({ title, subtitle, bg, children }: Props) {
   return (
     <div className="container relative mb-10 md:mb-14">
-      {bg && <div className="absolute inset-y-0 right-0 w-1/2 bg-cover bg-center opacity-[0.12] [mask-image:linear-gradient(to_left,#000,transparent)] pointer-events-none" style={{ backgroundImage: `url(${bg})` }} aria-hidden />}
+      {bg && <div className="absolute inset-y-0 right-0 w-1/2 bg-cover bg-center opacity-[0.12] [mask-image:linear-gradient(to_left,#000,transparent)] pointer-events-none" style={bgStyle(bg)} aria-hidden />}
       <Reveal variant="left" className="relative">
         <span className="block w-14 h-[3px] led-bar rounded-full mb-4" aria-hidden />
         <h1 className="text-2xl md:text-4xl font-extrabold tracking-tight text-text-main leading-tight">{title}</h1>

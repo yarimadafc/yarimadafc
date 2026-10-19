@@ -2,7 +2,7 @@
 import { useState, useEffect } from 'react';
 import { supabase } from '@/lib/supabase';
 import { adminDb, toast } from '@/lib/adminDb';
-import { uploadFromInput } from '@/lib/uploadImage';
+import ImageField from './ImageField';
 import { Trash2, Plus, Edit2 } from 'lucide-react';
 
 export default function HeroAdmin() {
@@ -22,19 +22,13 @@ export default function HeroAdmin() {
     fetchSlides();
   }, []);
 
-  const fetchSlides = async () => {
+  async function fetchSlides() {
     setLoading(true);
     const { data } = await supabase.from('hero_slides').select('*').order('sort_order', { ascending: true });
     if (data) setSlides(data);
     setLoading(false);
-  };
+  }
 
-  const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    setUploading(true);
-    const url = await uploadFromInput(e, 'high'); // full-width slide: keep it sharp
-    if (url) setImageUrl(url);
-    setUploading(false);
-  };
 
   const handleSave = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -105,18 +99,11 @@ export default function HeroAdmin() {
               <input type="text" value={linkUrl} onChange={e => setLinkUrl(e.target.value)} className="w-full bg-gray-900 border border-gray-700 rounded p-3 text-white" />
             </div>
             <div className="md:col-span-2">
-              <label className="block text-gray-400 text-xs font-bold uppercase mb-2">Slayd Şəkli (Zəruridir)</label>
-              <div className="flex items-center space-x-3">
-                {imageUrl && <img src={imageUrl} alt="img" className="w-32 h-16 object-cover rounded" />}
-                <label className="cursor-pointer bg-black border border-gray-700 px-4 py-2 rounded text-xs font-bold text-white uppercase">
-                  {uploading ? 'Yüklənir...' : 'Şəkil Seç'}
-                  <input type="file" accept="image/*" onChange={handleImageUpload} className="hidden" />
-                </label>
-              </div>
+              <ImageField label="Slayd şəkli (zəruridir)" hint="Kompüterdə enli, telefonda şaquli kəsilir — «Redaktə et» ilə vacib hissəni seçin." value={imageUrl} onChange={setImageUrl} options={{ quality: 'high' }} onBusy={setUploading} />
             </div>
           </div>
           <div className="flex justify-end pt-4">
-            <button type="submit" className="bg-green-600 hover:bg-green-500 text-white px-6 py-2 rounded-lg font-bold">Yadda Saxla</button>
+            <button type="submit" disabled={uploading} className="disabled:opacity-50 bg-green-600 hover:bg-green-500 text-white px-6 py-2 rounded-lg font-bold">Yadda Saxla</button>
           </div>
         </form>
       )}

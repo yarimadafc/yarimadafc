@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react';
 import { supabase } from '@/lib/supabase';
 import { adminDb, toast } from '@/lib/adminDb';
 import { Trash2, Plus } from 'lucide-react';
-import { uploadFromInput } from '@/lib/uploadImage';
+import ImageField from './ImageField';
 
 export default function AchievementsAdmin() {
   const [achievements, setAchievements] = useState<any[]>([]);
@@ -22,12 +22,12 @@ export default function AchievementsAdmin() {
     fetchAchievements();
   }, []);
 
-  const fetchAchievements = async () => {
+  async function fetchAchievements() {
     setLoading(true);
     const { data } = await supabase.from('achievements').select('*').order('order_num', { ascending: true });
     if (data) setAchievements(data);
     setLoading(false);
-  };
+  }
 
   const handleEdit = (a: any) => {
     setTitle(a.title);
@@ -39,12 +39,6 @@ export default function AchievementsAdmin() {
     setIsAdding(true);
   };
 
-  const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    setUploadingImage(true);
-    const url = await uploadFromInput(e);
-    if (url) setImageUrl(url);
-    setUploadingImage(false);
-  };
 
   const handleAdd = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -84,8 +78,8 @@ export default function AchievementsAdmin() {
           <h2 className="text-2xl font-black uppercase tracking-widest text-white mb-2">Nailiyyətlər</h2>
           <p className="text-gray-400 text-sm">Klubun uğurlarını statistika formatında əlavə edin.</p>
         </div>
-        <button onClick={() => setIsAdding(!isAdding)} className="bg-accent text-on-accent px-4 py-2 rounded-lg font-bold text-xs uppercase tracking-widest flex items-center space-x-2">
-          {isAdding ? <span onClick={() => { setEditingId(null); setTitle(''); setCount(''); setOrderNum(0); }}>Ləğv Et</span> : <><Plus className="w-4 h-4" /><span>Yeni Əlavə Et</span></>}
+        <button onClick={() => { setIsAdding(!isAdding); setEditingId(null); setTitle(''); setCount(''); setOrderNum(0); setImageUrl(''); }} className="bg-accent text-on-accent px-4 py-2 rounded-lg font-bold text-xs uppercase tracking-widest flex items-center space-x-2">
+          {isAdding ? <span>Ləğv Et</span> : <><Plus className="w-4 h-4" /><span>Yeni Əlavə Et</span></>}
         </button>
       </div>
 
@@ -108,21 +102,9 @@ export default function AchievementsAdmin() {
               <label className="block text-gray-400 text-xs font-bold uppercase mb-2">Sıra Nömrəsi</label>
               <input type="number" value={orderNum} onChange={e => setOrderNum(Number(e.target.value))} className="w-full bg-gray-900 border border-gray-700 rounded-lg p-3 text-white focus:border-accent outline-none" required />
             </div>
-            <div>
-              <label className="block text-gray-400 text-xs font-bold uppercase mb-2">Şəkil (İstəyə bağlı)</label>
-              <div className="flex items-center space-x-3">
-                {imageUrl && <img src={imageUrl} alt="preview" className="w-10 h-10 object-cover rounded" />}
-                <label className="cursor-pointer bg-gray-900 border border-gray-700 px-4 py-3 rounded-lg text-xs font-bold text-gray-400 uppercase">
-                  {uploadingImage ? 'Yüklənir...' : 'Cihazdan Seç'}
-                  <input type="file" accept="image/*" onChange={handleImageUpload} className="hidden" />
-                </label>
-                {imageUrl && (
-                  <button type="button" onClick={() => setImageUrl('')} className="text-red-500 text-xs font-bold">SIL</button>
-                )}
-              </div>
-            </div>
+            <ImageField label="Şəkil (istəyə bağlı)" value={imageUrl} onChange={setImageUrl} onBusy={setUploadingImage} />
           </div>
-          <button type="submit" className="w-full bg-accent text-on-accent py-3 rounded-lg font-bold text-xs uppercase hover:bg-text-main hover:text-bg-main transition-colors">Yadda Saxla</button>
+          <button type="submit" disabled={uploadingImage} className="disabled:opacity-50 w-full bg-accent text-on-accent py-3 rounded-lg font-bold text-xs uppercase hover:bg-text-main hover:text-bg-main transition-colors">Yadda Saxla</button>
         </form>
       )}
 

@@ -18,7 +18,7 @@ export default function AccountWatcher() {
   const pathname = usePathname();
   const [notice, setNotice] = useState(false);
   const pathRef = useRef(pathname);
-  pathRef.current = pathname;
+  useEffect(() => { pathRef.current = pathname; }, [pathname]);
   const lastCheck = useRef(0);
 
   useEffect(() => {

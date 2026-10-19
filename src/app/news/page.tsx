@@ -8,6 +8,7 @@ import PageHero from '@/components/PageHero';
 import { useLang } from '@/lib/i18n';
 import { useFormat } from '@/lib/useFormat';
 import { useSyncVersion } from '@/lib/siteSync';
+import { focusStyle } from '@/lib/imageFocus';
 
 export default function NewsPage() {
   const { loc } = useLang();
@@ -68,7 +69,7 @@ export default function NewsPage() {
               >
                 <Link href={`/news/${item.id}`} className="group led-border led-hover card-fx flex flex-col h-full bg-bg-sec rounded-xl overflow-hidden hover:bg-bg-card">
                   <div className="w-full aspect-[4/3] bg-bg-deep relative overflow-hidden">
-                    <img src={item.image_url || '/Logo.JPG.jpeg'} alt={loc(item, 'title')} className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
+                    <img src={item.image_url || '/Logo.JPG.jpeg'} style={focusStyle(item.image_url || '/Logo.JPG.jpeg')} alt={loc(item, 'title')} className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
                   </div>
                   <div className="p-4 flex flex-col flex-grow">
                     <div className="flex items-center space-x-3 mb-3">

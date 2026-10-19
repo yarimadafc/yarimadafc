@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react';
 import { supabase } from '@/lib/supabase';
 import { adminDb } from '@/lib/adminDb';
 import ImageField from './ImageField';
+import NumberInput from './NumberInput';
 import { Trash2, Plus, Edit2 } from 'lucide-react';
 
 // "leadership" = Klub rəhbərliyi, "staff" = Klub heyəti. Both are rows of the leadership table (group_type);
@@ -114,7 +115,7 @@ export default function LeadershipAdmin({ group = 'leadership' }: { group?: Peop
             </div>
             <div>
               <label className="block text-gray-400 text-xs font-bold uppercase mb-2">Sıralama (Məs: 1 öndə)</label>
-              <input type="number" value={orderNum} onChange={e => setOrderNum(Number(e.target.value))} className="w-full bg-gray-900 border border-gray-700 rounded p-3 text-white" />
+              <NumberInput value={orderNum} onChange={setOrderNum} className="w-full bg-gray-900 border border-gray-700 rounded p-3 text-white" />
             </div>
             <ImageField label="Şəkil" shape="portrait" value={imageUrl} onChange={setImageUrl} options={{ aspect: 3 / 4 }} onBusy={setUploading} />
           </div>

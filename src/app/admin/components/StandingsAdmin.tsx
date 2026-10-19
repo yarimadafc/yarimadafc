@@ -4,6 +4,7 @@ import { supabase } from '@/lib/supabase';
 import { adminDb } from '@/lib/adminDb';
 import { sortTeams } from '@/lib/teamOrder';
 import ImageField from './ImageField';
+import NumberInput from './NumberInput';
 import { LOGO_PREFIX, normalizeTeamName, teamLogoKey } from '@/lib/teamLogos';
 import { sameTeam } from '@/lib/matchUtils';
 import { Plus, Trash2, Edit2, ChevronRight, ArrowLeft } from 'lucide-react';
@@ -187,11 +188,11 @@ export default function StandingsAdmin() {
                   <ImageField label="Komanda loqosu" shape="logo" value={logoUrl} onChange={setLogoUrl} options={{ aspect: 1 }} onBusy={setUploadingLogo} />
                 </div>
                 <div><label className="block text-gray-400 text-xs font-bold uppercase mb-2">Oyun (Avto)</label><input type="number" value={played} readOnly className="w-full bg-gray-900/50 border border-gray-700 rounded-lg p-3 text-gray-400 cursor-not-allowed" /></div>
-                <div><label className="block text-gray-400 text-xs font-bold uppercase mb-2">Qələbə</label><input type="number" value={won} onChange={e => recalc(Number(e.target.value), drawn, lost)} className="w-full bg-gray-900 border border-gray-700 rounded-lg p-3 text-white" /></div>
-                <div><label className="block text-gray-400 text-xs font-bold uppercase mb-2">Heç-Heçə</label><input type="number" value={drawn} onChange={e => recalc(won, Number(e.target.value), lost)} className="w-full bg-gray-900 border border-gray-700 rounded-lg p-3 text-white" /></div>
-                <div><label className="block text-gray-400 text-xs font-bold uppercase mb-2">Məğlubiyyət</label><input type="number" value={lost} onChange={e => recalc(won, drawn, Number(e.target.value))} className="w-full bg-gray-900 border border-gray-700 rounded-lg p-3 text-white" /></div>
-                <div className="col-span-2"><label className="block text-green-400 text-xs font-bold uppercase mb-2">Vurduğu Qol (VQ)</label><input type="number" value={gf} onChange={e => setGf(Number(e.target.value))} className="w-full bg-gray-900 border border-gray-700 rounded-lg p-3 text-white" /></div>
-                <div className="col-span-2"><label className="block text-red-400 text-xs font-bold uppercase mb-2">Buraxdığı Top (BT)</label><input type="number" value={ga} onChange={e => setGa(Number(e.target.value))} className="w-full bg-gray-900 border border-gray-700 rounded-lg p-3 text-white" /></div>
+                <div><label className="block text-gray-400 text-xs font-bold uppercase mb-2">Qələbə</label><NumberInput value={won} onChange={n => recalc(n, drawn, lost)} className="w-full bg-gray-900 border border-gray-700 rounded-lg p-3 text-white" /></div>
+                <div><label className="block text-gray-400 text-xs font-bold uppercase mb-2">Heç-Heçə</label><NumberInput value={drawn} onChange={n => recalc(won, n, lost)} className="w-full bg-gray-900 border border-gray-700 rounded-lg p-3 text-white" /></div>
+                <div><label className="block text-gray-400 text-xs font-bold uppercase mb-2">Məğlubiyyət</label><NumberInput value={lost} onChange={n => recalc(won, drawn, n)} className="w-full bg-gray-900 border border-gray-700 rounded-lg p-3 text-white" /></div>
+                <div className="col-span-2"><label className="block text-green-400 text-xs font-bold uppercase mb-2">Vurduğu Qol (VQ)</label><NumberInput value={gf} onChange={setGf} className="w-full bg-gray-900 border border-gray-700 rounded-lg p-3 text-white" /></div>
+                <div className="col-span-2"><label className="block text-red-400 text-xs font-bold uppercase mb-2">Buraxdığı Top (BT)</label><NumberInput value={ga} onChange={setGa} className="w-full bg-gray-900 border border-gray-700 rounded-lg p-3 text-white" /></div>
                 <div className="col-span-2 md:col-span-4"><label className="block text-accent text-xs font-bold uppercase mb-2">Xal (Avto)</label><input type="number" value={points} readOnly className="w-full bg-gray-900/50 border border-accent/50 rounded-lg p-3 text-accent font-black cursor-not-allowed" /></div>
                 <div className="col-span-2 md:col-span-4 mt-2">
                    <button type="submit" disabled={saving || uploadingLogo} className="w-full bg-accent text-on-accent py-3 rounded-lg font-bold text-xs uppercase tracking-widest disabled:opacity-60">{saving ? 'Saxlanılır...' : uploadingLogo ? 'Loqo yüklənir...' : 'Yadda Saxla'}</button>

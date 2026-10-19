@@ -4,6 +4,7 @@ import { supabase } from '@/lib/supabase';
 import { adminDb, toast } from '@/lib/adminDb';
 import { sortTeams } from '@/lib/teamOrder';
 import ImageField from './ImageField';
+import NumberInput from './NumberInput';
 import { teamLogoKey } from '@/lib/teamLogos';
 import { isYarimada, sameTeam } from '@/lib/matchUtils';
 import { entryGoals, entryPlayed } from '@/lib/playerStats';
@@ -424,23 +425,23 @@ export default function MatchesAdmin() {
               <div className="grid grid-cols-2 md:grid-cols-5 gap-4 bg-gray-900 p-4 rounded-xl border border-gray-700">
                 <div>
                   <label className="block text-gray-400 text-[10px] font-bold uppercase mb-2">1-ci hissə (Dəq)</label>
-                  <input type="number" value={h1} onChange={e => setH1(Number(e.target.value))} className="w-full bg-gray-800 border border-gray-700 rounded p-2 text-white" />
+                  <NumberInput value={h1} onChange={setH1} className="w-full bg-gray-800 border border-gray-700 rounded p-2 text-white" />
                 </div>
                 <div>
                   <label className="block text-gray-400 text-[10px] font-bold uppercase mb-2">Fasilə (Dəq)</label>
-                  <input type="number" value={ht} onChange={e => setHt(Number(e.target.value))} className="w-full bg-gray-800 border border-gray-700 rounded p-2 text-white" />
+                  <NumberInput value={ht} onChange={setHt} className="w-full bg-gray-800 border border-gray-700 rounded p-2 text-white" />
                 </div>
                 <div>
                   <label className="block text-gray-400 text-[10px] font-bold uppercase mb-2">2-ci hissə (Dəq)</label>
-                  <input type="number" value={h2} onChange={e => setH2(Number(e.target.value))} className="w-full bg-gray-800 border border-gray-700 rounded p-2 text-white" />
+                  <NumberInput value={h2} onChange={setH2} className="w-full bg-gray-800 border border-gray-700 rounded p-2 text-white" />
                 </div>
                 <div>
                   <label className="block text-gray-400 text-[10px] font-bold uppercase mb-2">1-ci hissəyə əlavə</label>
-                  <input type="number" value={ex1} onChange={e => setEx1(Number(e.target.value))} className="w-full bg-gray-800 border border-gray-700 rounded p-2 text-white" />
+                  <NumberInput value={ex1} onChange={setEx1} className="w-full bg-gray-800 border border-gray-700 rounded p-2 text-white" />
                 </div>
                 <div>
                   <label className="block text-gray-400 text-[10px] font-bold uppercase mb-2">2-ci hissəyə əlavə</label>
-                  <input type="number" value={ex2} onChange={e => setEx2(Number(e.target.value))} className="w-full bg-gray-800 border border-gray-700 rounded p-2 text-white" />
+                  <NumberInput value={ex2} onChange={setEx2} className="w-full bg-gray-800 border border-gray-700 rounded p-2 text-white" />
                 </div>
               </div>
             </div>

@@ -4,6 +4,7 @@ import { supabase } from '@/lib/supabase';
 import { adminDb, toast } from '@/lib/adminDb';
 import { Trash2, Plus } from 'lucide-react';
 import ImageField from './ImageField';
+import NumberInput from './NumberInput';
 
 export default function AchievementsAdmin() {
   const [achievements, setAchievements] = useState<any[]>([]);
@@ -100,7 +101,7 @@ export default function AchievementsAdmin() {
             </div>
             <div>
               <label className="block text-gray-400 text-xs font-bold uppercase mb-2">Sıra Nömrəsi</label>
-              <input type="number" value={orderNum} onChange={e => setOrderNum(Number(e.target.value))} className="w-full bg-gray-900 border border-gray-700 rounded-lg p-3 text-white focus:border-accent outline-none" required />
+              <NumberInput value={orderNum} onChange={setOrderNum} className="w-full bg-gray-900 border border-gray-700 rounded-lg p-3 text-white focus:border-accent outline-none" required />
             </div>
             <ImageField label="Şəkil (istəyə bağlı)" value={imageUrl} onChange={setImageUrl} onBusy={setUploadingImage} />
           </div>

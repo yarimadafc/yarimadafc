@@ -16,7 +16,6 @@ export default function JoinPage() {
   const [agree, setAgree] = useState(false);
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState('');
-  const [done, setDone] = useState(false);
   const set = (k: keyof typeof v) => (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => setV(p => ({ ...p, [k]: e.target.value }));
   const today = new Date().toISOString().slice(0, 10);
 
@@ -54,18 +53,9 @@ export default function JoinPage() {
       if (loginErr) return setError(authErrorText(loginErr.message));
       return router.push('/account');
     }
-    if (res && res.status !== 503) {
-      setBusy(false);
-      return setError(json.error || 'Xəta baş verdi. Yenidən cəhd edin.');
-    }
-
-    // 2) fallback (server key missing): normal Supabase sign-up
-    const { data, error: err } = await supabase.auth.signUp({ email, password: v.password, options: { data: profile } });
+    // sign-up only goes through the server (it validates every field), never straight to Supabase
     setBusy(false);
-    if (err) return setError(authErrorText(err.message));
-    if (data.user && data.user.identities?.length === 0) return setError('Bu email artıq qeydiyyatdan keçib. Daxil olun.');
-    if (data.session) return router.push('/account');
-    setDone(true); // email confirmation turned on in Supabase
+    return setError(res && res.status !== 503 ? json.error || 'Xəta baş verdi. Yenidən cəhd edin.' : 'Qeydiyyat hazırda mümkün deyil. Bir az sonra yenidən cəhd edin.');
   };
 
   return (
@@ -73,9 +63,6 @@ export default function JoinPage() {
       <PageHero title={t('Bizə qoşul')} subtitle={t('Hesab yaradın: akademiya və klub xəbərləri üçün şəxsi kabinetinizə daxil olun.')} />
       <div className="container">
         <AuthCard>
-          {done ? (
-            <Notice kind="success">{t('Qeydiyyat tamamlandı. Emailinizə göndərilən təsdiq linkinə klikləyin, sonra daxil olun.')}</Notice>
-          ) : (
             <form onSubmit={submit} className="space-y-5" noValidate>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
                 <Field label="Ad" required><input className={inputCls} autoComplete="given-name" value={v.first_name} onChange={set('first_name')} maxLength={80} /></Field>
@@ -108,7 +95,6 @@ export default function JoinPage() {
                 <span className="text-sm text-text-sec">{t('Artıq hesabınız var?')} <Link href="/login" className="text-accent font-semibold hover:underline">{t('Daxil olun')}</Link></span>
               </div>
             </form>
-          )}
         </AuthCard>
       </div>
     </div>

@@ -20,7 +20,7 @@ export function ageFromBirth(birth?: string | null, now = new Date()): number | 
 /** Returns an error message (Azerbaijani UI text) or null when the value is fine. */
 export function validateBirth(birth: string): string | null {
   const d = new Date(birth);
-  if (!birth || isNaN(d.getTime())) return 'Doğum tarixini seçin.';
+  if (!birth || !/^\d{4}-\d{2}-\d{2}$/.test(birth) || isNaN(d.getTime())) return 'Doğum tarixini seçin.';
   const age = ageFromBirth(birth);
   if (age === null || age < 0 || age > 100) return 'Doğum tarixi düzgün deyil.';
   return null;

@@ -1,10 +1,9 @@
 'use client';
 import { useState, useEffect } from 'react';
 import { supabase } from '@/lib/supabase';
-import { adminDb, toast } from '@/lib/adminDb';
+import { adminDb, toast, openAdminTab } from '@/lib/adminDb';
 import { Plus, Trash2, Edit2, Save, ChevronUp, ChevronDown } from 'lucide-react';
 import { sortTeams } from '@/lib/teamOrder';
-import SquadStatsAdmin from './SquadStatsAdmin';
 import ImageField from './ImageField';
 
 export default function TeamsAdmin() {
@@ -303,7 +302,14 @@ export default function TeamsAdmin() {
                 {players.length === 0 && !isAddingPlayer && <div className="col-span-full text-center text-gray-400 py-10 bg-gray-800 rounded-2xl border border-gray-700">Bu komandada oyunçu yoxdur.</div>}
               </div>
 
-              <SquadStatsAdmin teamId={selectedTeamId} players={players} onSaved={() => fetchPlayers(selectedTeamId)} />
+              {/* statistics are kept in one place only */}
+              <div className="mt-10 bg-gray-800 border border-gray-700 rounded-2xl p-5 flex flex-wrap items-center justify-between gap-4">
+                <div>
+                  <h3 className="text-accent font-bold uppercase tracking-widest text-sm">Statistika</h3>
+                  <p className="text-gray-400 text-xs mt-1 max-w-xl">Bu komandanın futbolçularının qol, assist və oyun rəqəmləri «Futbolçu statistikası» bölməsindədir.</p>
+                </div>
+                <button type="button" onClick={() => openAdminTab('playerstats')} className="bg-accent text-on-accent px-4 py-2 rounded-lg font-bold text-xs uppercase tracking-widest">Statistikaya keç</button>
+              </div>
             </>
           ) : (
              <div className="flex justify-center items-center h-full min-h-[200px] border-2 border-dashed border-gray-700 rounded-2xl text-gray-400 font-bold uppercase text-xs tracking-widest">

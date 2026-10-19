@@ -5,11 +5,13 @@ import { useParams } from 'next/navigation';
 import { useSyncVersion } from '@/lib/siteSync';
 import TeamLogo from '@/components/TeamLogo';
 import { formatShortDate } from '@/lib/matchUtils';
-import { buildPlayerStats } from '@/lib/playerStats';
+import { buildPlayerStats, findPlayerStat } from '@/lib/playerStats';
 import { usePlayerStatsData } from '@/lib/usePlayerStats';
 import { focusStyle } from '@/lib/imageFocus';
+import { useLang } from '@/lib/i18n';
 
 export default function PlayerDetailPage() {
+  const { tn } = useLang();
   const params = useParams();
   const id = params.id as string;
   const [player, setPlayer] = useState<any>(null);
@@ -19,8 +21,7 @@ export default function PlayerDetailPage() {
   const stat = useMemo(() => {
     if (!player) return null;
     const all = buildPlayerStats(matches, {}, playerList);
-    const lower = player.name.trim().toLocaleLowerCase('az');
-    return all.find(s => s.playerId === player.id) || all.find(s => !s.playerId && s.name.trim().toLocaleLowerCase('az') === lower) || null;
+    return findPlayerStat(all, player);
   }, [matches, player, playerList]);
 
   const sync = useSyncVersion();
@@ -60,7 +61,7 @@ export default function PlayerDetailPage() {
           {/* Details */}
           <div className="w-full md:w-3/5 lg:w-2/3 p-8 md:p-12 relative z-10 flex flex-col justify-center">
             <div className="inline-block bg-accent text-bg-main px-4 py-1 rounded-full text-[10px] font-bold uppercase tracking-widest mb-6">
-              {player.teams?.name || 'Komanda'}
+              {player.teams?.name ? tn(player.teams.name) : 'Komanda'}
             </div>
             
             <h1 className="text-3xl md:text-5xl font-black text-text-main uppercase tracking-tighter mb-2">{player.name}</h1>
@@ -106,7 +107,7 @@ export default function PlayerDetailPage() {
               {stat.matches.map(m => (
                 <div key={m.matchId} className="grid grid-cols-[4.5rem_1fr_3.5rem_2.5rem_2.5rem_3rem] gap-2 items-center px-4 py-3 border-t border-bg-border text-sm">
                   <span className="text-text-sec text-xs">{formatShortDate(m.date) || '—'}</span>
-                  <span className="flex items-center gap-2 min-w-0"><TeamLogo name={m.opponent} logo={m.opponentLogo} size={22} /><span className="truncate font-semibold">{m.opponent}</span></span>
+                  <span className="flex items-center gap-2 min-w-0"><TeamLogo name={m.opponent} logo={m.opponentLogo} size={22} /><span className="truncate font-semibold" data-no-translate>{tn(m.opponent)}</span></span>
                   <span className="text-center font-semibold tabular-nums">{m.score}</span>
                   <span className={`text-center tabular-nums ${m.goals ? 'font-extrabold' : 'text-text-sec'}`}>{m.goals || '–'}</span>
                   <span className={`text-center tabular-nums ${m.assists ? 'font-extrabold' : 'text-text-sec'}`}>{m.assists || '–'}</span>

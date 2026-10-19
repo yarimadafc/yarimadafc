@@ -4,7 +4,7 @@ import { supabase } from '@/lib/supabase';
 import { adminDb, toast } from '@/lib/adminDb';
 import { Save, Trash2, ChevronDown } from 'lucide-react';
 import PlayerMatchLog from './PlayerMatchLog';
-import { buildPlayerStats, MANUAL_STAT_FIELDS, type ManualStatField } from '@/lib/playerStats';
+import { buildPlayerStats, findPlayerStat, MANUAL_STAT_FIELDS, type ManualStatField } from '@/lib/playerStats';
 import type { AnyMatch } from '@/lib/matchUtils';
 
 type Extra = Record<ManualStatField, number>;
@@ -33,8 +33,8 @@ export default function SquadStatsAdmin({ teamId, players, onSaved, onDelete }: 
 
   const loadMatches = () => supabase
     .from('matches')
-    .select('id, tournament, home_team, away_team, home_logo, away_logo, home_score, away_score, match_date, date, status, yarimada_lineup')
-    .in('status', ['finished', 'live'])
+    // all games: which ones count (finished / live / past with a score) is decided in buildPlayerStats, as on the site
+    .select('id, tournament, home_team, away_team, home_logo, away_logo, home_score, away_score, match_date, match_time, date, status, timer_status, yarimada_lineup')
     .then(({ data }) => setMatches(data || []));
 
   useEffect(() => { loadMatches(); setOpen(null); }, [teamId]);
@@ -48,9 +48,7 @@ export default function SquadStatsAdmin({ teamId, players, onSaved, onDelete }: 
   const fromMatches = useMemo(() => {
     const noExtras = players.map(p => ({ ...p, ...Object.fromEntries(MANUAL_STAT_FIELDS.map(f => [f, 0])) }));
     const all = buildPlayerStats(matches, {}, noExtras);
-    const byId = new Map(all.filter(s => s.playerId).map(s => [s.playerId!, s]));
-    const byName = new Map(all.filter(s => !s.playerId).map(s => [s.name.trim().toLocaleLowerCase('az'), s]));
-    return (p: any) => byId.get(p.id) || byName.get(String(p.name || '').trim().toLocaleLowerCase('az')) || null;
+    return (p: any) => findPlayerStat(all, p);
   }, [matches, players]);
 
   const setValue = (id: string, field: ManualStatField, value: string) => {
@@ -83,11 +81,10 @@ export default function SquadStatsAdmin({ teamId, players, onSaved, onDelete }: 
     <div className="mt-10 bg-gray-800 border border-gray-700 rounded-2xl p-6">
       <div className="flex flex-wrap items-start justify-between gap-4 mb-4">
         <div>
-          <h3 className="text-accent font-bold uppercase tracking-widest text-sm">Heyət Statistikası</h3>
+          <h3 className="text-accent font-bold uppercase tracking-widest text-sm">Komandanın futbolçuları</h3>
           <p className="text-gray-400 text-xs mt-1 max-w-2xl">
-            Futbolçunun adına basın — oyunlar üzrə cədvəl açılır (tarix, rəqib, hesab, qol, assist); orada oyun əlavə edib redaktə edə bilərsiniz.
-            Boz rəqəmlər həmin oyunlardan hesablanır, xanalara yazdığınız rəqəmlər isə onların üzərinə əlavə olunur.
-            Cəmi saytdakı Statistika, futbolçu profili və komanda səhifəsində görünür.
+            Hər xananın altında: <b className="text-gray-300">oyunlardan</b> + <b className="text-gray-300">əlavə</b> = <b className="text-white">cəmi</b>.
+            Xanaya yalnız saytdan əvvəlki oyunların rəqəmlərini yazın. Futbolçunun adına bassanız, oyun-oyun cədvəli açılır.
           </p>
         </div>
         <button onClick={save} disabled={saving || !dirty.size} className="bg-accent text-on-accent px-4 py-2 rounded-lg font-bold text-xs uppercase tracking-widest flex items-center space-x-2 disabled:opacity-50">

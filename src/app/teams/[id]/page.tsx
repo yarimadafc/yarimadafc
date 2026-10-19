@@ -7,11 +7,13 @@ import MatchesAndStandings from '@/components/home/MatchesAndStandings';
 import { useState, useEffect, useMemo } from 'react';
 import { supabase } from '@/lib/supabase';
 import { useSyncVersion } from '@/lib/siteSync';
-import { buildPlayerStats, type PlayerStat } from '@/lib/playerStats';
+import { buildPlayerStats, findPlayerStat, type PlayerStat } from '@/lib/playerStats';
 import { usePlayerStatsData } from '@/lib/usePlayerStats';
 import { bgStyle, focusStyle } from '@/lib/imageFocus';
+import { useLang } from '@/lib/i18n';
 
 export default function TeamDetailPage() {
+  const { tn } = useLang();
   const params = useParams();
   const id = params.id as string;
   const [team, setTeam] = useState<any>(null);
@@ -24,9 +26,7 @@ export default function TeamDetailPage() {
   const { matches, playerList } = usePlayerStatsData();
   const statOf = useMemo(() => {
     const all = buildPlayerStats(matches, {}, playerList);
-    const byId = new Map(all.filter(s => s.playerId).map(s => [s.playerId!, s]));
-    const byName = new Map(all.filter(s => !s.playerId).map(s => [s.name.trim().toLocaleLowerCase('az'), s]));
-    return (p: any): PlayerStat | null => byId.get(p.id) || byName.get(String(p.name || '').trim().toLocaleLowerCase('az')) || null;
+    return (p: any): PlayerStat | null => findPlayerStat(all, p);
   }, [matches, playerList]);
 
   const sync = useSyncVersion();
@@ -80,7 +80,7 @@ export default function TeamDetailPage() {
             animate={{ opacity: 1, y: 0 }}
             className="text-2xl md:text-4xl font-black text-text-main uppercase tracking-tighter mb-2"
           >
-            {team.name}
+            {tn(team.name)}
           </motion.h1>
           <motion.p 
             initial={{ opacity: 0 }}

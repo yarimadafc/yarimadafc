@@ -27,11 +27,10 @@ export async function machineTranslate(text: string, to: Lang): Promise<string |
   }
 }
 
-// Fields whose values are free text written by the admin (names are deliberately excluded).
+// Fields whose values are free text written by the admin (team and tournament names are excluded:
+// they are written per language by lib/teamNames.ts instead of being translated).
 const FIELDS: Record<string, string[]> = {
   news: ['title_az', 'content_az', 'category'],
-  matches: ['tournament'],
-  standings: ['tournament_name'],
   teams: ['league', 'description'],
   players: ['position'],
   coaches: ['role', 'bio'],

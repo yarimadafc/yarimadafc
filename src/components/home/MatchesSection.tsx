@@ -43,7 +43,7 @@ function pickFeatured(rows: AnyMatch[]): AnyMatch[] {
 }
 
 export default function MatchesSection() {
-  const { t } = useLang();
+  const { t, tn } = useLang();
   const { longDate } = useFormat();
   const [matches, setMatches] = useState<AnyMatch[]>([]);
   const [loading, setLoading] = useState(true);
@@ -70,21 +70,21 @@ export default function MatchesSection() {
               return (
                 <Reveal key={m.id} delay={i * 0.1} variant="scale">
                 <Link href="/matches" className="group led-border led-hover card-fx h-full bg-bg-main rounded-xl border border-bg-border flex flex-col text-center overflow-hidden">
-                  <div className="py-5 px-4 text-text-main font-bold text-base border-b border-bg-border">{m.tournament || t('Oyun')}</div>
+                  <div className="py-5 px-4 text-text-main font-bold text-base border-b border-bg-border" data-no-translate>{m.tournament ? tn(m.tournament) : t('Oyun')}</div>
                   <div className="py-3 px-4 text-text-sec text-sm leading-relaxed border-b border-bg-border min-h-[4.2em]">
                     {longDate(m.date)}{m.time && `, ${m.time}`}{m.stadium && `, ${m.stadium}`}
                   </div>
                   <div className="flex items-center justify-between gap-2 px-4 py-6 flex-grow">
                     <div className="flex flex-col items-center gap-2 w-[38%] min-w-0">
                       <TeamLogo name={m.home_team} logo={m.home_logo} size={44} />
-                      <span className="text-text-main text-sm font-medium leading-tight w-full line-clamp-2">{m.home_team}</span>
+                      <span className="text-text-main text-sm font-medium leading-tight w-full line-clamp-2" data-no-translate>{tn(m.home_team)}</span>
                     </div>
                     <span className={`font-extrabold text-text-main whitespace-nowrap ${played ? 'text-2xl' : 'text-xl text-text-sec'}`}>
                       {scoreText(m)}
                     </span>
                     <div className="flex flex-col items-center gap-2 w-[38%] min-w-0">
                       <TeamLogo name={m.away_team} logo={m.away_logo} size={44} />
-                      <span className="text-text-main text-sm font-medium leading-tight w-full line-clamp-2">{m.away_team}</span>
+                      <span className="text-text-main text-sm font-medium leading-tight w-full line-clamp-2" data-no-translate>{tn(m.away_team)}</span>
                     </div>
                   </div>
                   <div className="py-4 text-text-main font-semibold text-sm border-t border-bg-border group-hover:bg-accent group-hover:text-on-accent transition-colors">{t('Təqvim')}</div>

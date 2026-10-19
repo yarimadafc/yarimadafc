@@ -49,8 +49,10 @@ function persist() {
 }
 
 // Only longer sentences go to the translation service, so names and short labels are never "translated".
-function worthTranslating(text: string): boolean {
+function worthTranslating(text: string, lang: Lang): boolean {
   const t = text.trim();
+  // already written in the target language by the page itself (team names, plural forms...)
+  if (lang === 'ru' && /[А-Яа-яЁё]/.test(t)) return false;
   if (t.length < 24 || t.split(/\s+/).length < 4) return false;
   if (/^[\d\s.,:;\-–/+()%]+$/.test(t) || /https?:|@\w+\.\w+/.test(t)) return false;
   return true;
@@ -93,7 +95,7 @@ function translate(value: string, lang: Lang, node?: Text): string | null {
   if (hit) return value.replace(key, hit);
   const saved = stored.get(`${lang}\0${key}`);
   if (saved) return value.replace(key, saved);
-  if (lang === 'az' || !worthTranslating(key)) return null;
+  if (lang === 'az' || !worthTranslating(key, lang)) return null;
   const remote = memo.get(`${lang}\0${key}`);
   if (remote) return value.replace(key, remote);
   if (remote === undefined && node) schedule(key, node, lang);

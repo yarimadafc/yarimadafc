@@ -5,8 +5,10 @@ import { supabase } from '@/lib/supabase';
 import Link from 'next/link';
 import { useSyncVersion } from '@/lib/siteSync';
 import { focusStyle } from '@/lib/imageFocus';
+import { useLang } from '@/lib/i18n';
 
 export default function CoachDetailPage() {
+  const { tn } = useLang();
   const params = useParams();
   const id = params.id as string;
   const [coach, setCoach] = useState<any>(null);
@@ -71,7 +73,7 @@ export default function CoachDetailPage() {
               </div>
               <div className="flex flex-col">
                 <span className="text-text-sec text-[10px] uppercase font-bold tracking-widest mb-1">Aid Olduğu Komanda</span>
-                <span className="text-text-main font-medium text-lg">{coach.teams?.name || 'Ümumi Akademiya'}</span>
+                <span className="text-text-main font-medium text-lg" data-no-translate>{coach.teams?.name ? tn(coach.teams.name) : 'Ümumi Akademiya'}</span>
               </div>
             </div>
 

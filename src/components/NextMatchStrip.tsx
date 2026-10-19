@@ -11,7 +11,7 @@ import { formatDashDate, formatShortDate, isLiveMatch, matchStart } from '@/lib/
 // Info strip: league | crests | stadium | date | time | countdown (or live score).
 export default function NextMatchStrip({ compact = false }: { compact?: boolean }) {
   const { match, loading } = useNextMatch();
-  const { t } = useLang();
+  const { t, tn } = useLang();
   const { countdown } = useFormat();
   const [now, setNow] = useState<number>(0);
 
@@ -44,7 +44,7 @@ export default function NextMatchStrip({ compact = false }: { compact?: boolean 
     return (
       <Link href="/matches" className="flex items-center justify-center gap-2 h-full px-3 text-[11px] text-text-sec whitespace-nowrap overflow-hidden">
         <TeamLogo name={match.home_team} logo={match.home_logo} size={18} />
-        <span className="text-text-main font-semibold truncate max-w-[34vw]">{match.home_team} – {match.away_team}</span>
+        <span className="text-text-main font-semibold truncate max-w-[34vw]" data-no-translate>{tn(match.home_team)} – {tn(match.away_team)}</span>
         <TeamLogo name={match.away_team} logo={match.away_logo} size={18} />
         {match.date && <span className="hidden min-[400px]:inline">· {formatShortDate(match.date)}</span>}
         {match.time && <span className="hidden min-[400px]:inline">{match.time}</span>}
@@ -56,7 +56,7 @@ export default function NextMatchStrip({ compact = false }: { compact?: boolean 
   const cell = 'px-4 first:pl-0 whitespace-nowrap';
   return (
     <Link href="/matches" className="flex items-center min-w-0 text-[13px] text-text-main divide-x divide-bg-border overflow-hidden hover:text-accent transition-colors">
-      <span className={cell}>{match.tournament || t('Oyun')}</span>
+      <span className={cell} data-no-translate>{match.tournament ? tn(match.tournament) : t('Oyun')}</span>
       <span className={`${cell} flex items-center gap-2`}>
         <TeamLogo name={match.home_team} logo={match.home_logo} size={26} />
         <TeamLogo name={match.away_team} logo={match.away_logo} size={26} />

@@ -4,8 +4,10 @@ import Link from 'next/link';
 
 import PageHero from '@/components/PageHero';
 import { useOrderedTeams } from '@/lib/teamOrder';
+import { useLang } from '@/lib/i18n';
 
 export default function TeamsPage() {
+  const { tn } = useLang();
   // admin order (Komandalar -> arrows), same as everywhere else on the site
   const { teams } = useOrderedTeams<any>('*, coaches(name), players(id)');
 
@@ -39,7 +41,7 @@ export default function TeamsPage() {
                   
                   <div>
                     <div className="flex items-center justify-between mb-8">
-                      <h2 className="text-2xl md:text-3xl font-black text-text-main uppercase tracking-tighter">{team.name}</h2>
+                      <h2 className="text-2xl md:text-3xl font-black text-text-main uppercase tracking-tighter" data-no-translate>{tn(team.name)}</h2>
                       <div className="w-12 h-12 rounded-full border-2 border-accent p-1 flex items-center justify-center">
                         <div className="w-full h-full bg-bg-deep rounded-full flex items-center justify-center relative overflow-hidden">
                           <img src="/Logo.JPG.jpeg" alt="Yarımada FK" className="w-full h-full object-cover" />

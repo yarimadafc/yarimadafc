@@ -7,6 +7,12 @@ export function toast(kind: 'success' | 'error', message: string) {
   if (typeof window !== 'undefined') window.dispatchEvent(new CustomEvent('admin-toast', { detail: { kind, message } }));
 }
 
+/** Switches the admin panel to another section (listened to by AdminDashboard). */
+export const OPEN_TAB_EVENT = 'admin-open-tab';
+export function openAdminTab(id: string) {
+  if (typeof window !== 'undefined') window.dispatchEvent(new CustomEvent(OPEN_TAB_EVENT, { detail: id }));
+}
+
 // Tells public-site tabs open in this browser to reload their data right away
 // (other devices are notified by the server through Supabase Realtime, see lib/siteSync.ts).
 function broadcastChange(table: string) {

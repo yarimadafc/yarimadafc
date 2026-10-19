@@ -9,7 +9,7 @@ import Reveal from '@/components/Reveal';
 import TeamLogo from '@/components/TeamLogo';
 import { useLang } from '@/lib/i18n';
 import { formatShortDate, teamKey } from '@/lib/matchUtils';
-import { buildPlayerStats, byAssists, byGoals, seasonOf, PlayerStat } from '@/lib/playerStats';
+import { buildPlayerStats, byAssists, byGoals, countedMatches, seasonOf, PlayerStat } from '@/lib/playerStats';
 import { PlayerInfo, usePlayerStatsData } from '@/lib/usePlayerStats';
 import { useOrderedTeams } from '@/lib/teamOrder';
 import { focusStyle } from '@/lib/imageFocus';
@@ -22,6 +22,24 @@ const TABS: { id: Tab; label: string }[] = [
   { id: 'assists', label: 'Ən çox assist edənlər' },
   { id: 'all', label: 'Bütün futbolçular' },
 ];
+
+// "4 goals" / "1 goal", "2 гола" / "5 голов": numbers agree with their word in English and Russian
+type CountWord = 'qol' | 'assist' | 'oyun' | 'futbolçu';
+const COUNT_WORDS: Record<CountWord, { az: string; en: [string, string]; ru: [string, string, string] }> = {
+  qol: { az: 'qol', en: ['goal', 'goals'], ru: ['гол', 'гола', 'голов'] },
+  assist: { az: 'assist', en: ['assist', 'assists'], ru: ['передача', 'передачи', 'передач'] },
+  oyun: { az: 'oyun', en: ['match', 'matches'], ru: ['матч', 'матча', 'матчей'] },
+  futbolçu: { az: 'futbolçu', en: ['player', 'players'], ru: ['игрок', 'игрока', 'игроков'] },
+};
+function countWord(n: number, word: CountWord, lang: 'az' | 'en' | 'ru'): string {
+  const w = COUNT_WORDS[word];
+  if (lang === 'en') return w.en[n === 1 ? 0 : 1];
+  if (lang === 'ru') {
+    const a = Math.abs(n) % 100, b = a % 10;
+    return w.ru[a > 10 && a < 20 ? 2 : b === 1 ? 0 : b >= 2 && b <= 4 ? 1 : 2];
+  }
+  return w.az;
+}
 
 function Avatar({ stat, info, size = 44 }: { stat: PlayerStat; info?: PlayerInfo; size?: number }) {
   const [broken, setBroken] = useState(false);
@@ -38,7 +56,7 @@ function Avatar({ stat, info, size = 44 }: { stat: PlayerStat; info?: PlayerInfo
 }
 
 function MatchLines({ stat }: { stat: PlayerStat }) {
-  const { t } = useLang();
+  const { t, tn } = useLang();
   return (
     <div className="px-4 pb-4 pt-1 animate-[fade-in_.25s_ease-out_both]">
       <div className="rounded-lg border border-bg-border overflow-hidden">
@@ -49,7 +67,7 @@ function MatchLines({ stat }: { stat: PlayerStat }) {
         {stat.matches.map(m => (
           <div key={m.matchId} className="grid grid-cols-[4.5rem_1fr_3.5rem_2.5rem_2.5rem_3rem] gap-2 items-center px-3 py-2 border-t border-bg-border text-sm">
             <span className="text-text-sec text-xs">{formatShortDate(m.date) || '—'}</span>
-            <span className="flex items-center gap-2 min-w-0"><TeamLogo name={m.opponent} logo={m.opponentLogo} size={20} /><span className="truncate">{m.opponent}</span></span>
+            <span className="flex items-center gap-2 min-w-0"><TeamLogo name={m.opponent} logo={m.opponentLogo} size={20} /><span className="truncate" data-no-translate>{tn(m.opponent)}</span></span>
             <span className="text-center font-semibold tabular-nums">{m.score}</span>
             <span className={`text-center tabular-nums ${m.goals ? 'font-extrabold text-text-main' : 'text-text-sec'}`}>{m.goals || '–'}</span>
             <span className={`text-center tabular-nums ${m.assists ? 'font-extrabold text-text-main' : 'text-text-sec'}`}>{m.assists || '–'}</span>
@@ -67,7 +85,7 @@ function MatchLines({ stat }: { stat: PlayerStat }) {
 }
 
 function StatsView() {
-  const { t } = useLang();
+  const { t, tn, lang } = useLang();
   const router = useRouter();
   const pathname = usePathname();
   const params = useSearchParams();
@@ -102,9 +120,9 @@ function StatsView() {
     goals: stats.reduce((n, s) => n + s.goals, 0),
     assists: stats.reduce((n, s) => n + s.assists, 0),
     players: stats.length,
-    // played matches, or the largest per-player game count when admin-entered games exceed them
-    games: Math.max(new Set(stats.flatMap(s => s.matches.map(m => m.matchId))).size, ...stats.map(s => s.games), 0),
-  }), [stats]);
+    // the team's played games (also those without a line-up), or more when admin-entered games exceed them
+    games: Math.max(countedMatches(matches, { team: team || undefined, season: season || undefined }).length, ...stats.map(s => s.games), 0),
+  }), [stats, matches, team, season]);
 
   const setTab = (id: Tab) => { setOpen(null); router.replace(`${pathname}?tab=${id}`, { scroll: false }); };
   const metric = (s: PlayerStat) => (tab === 'assists' ? s.assists : s.goals);
@@ -121,7 +139,7 @@ function StatsView() {
         <div className="flex flex-col lg:flex-row lg:items-center gap-4 mb-6">
           <div className="flex gap-2 overflow-x-auto no-scrollbar -mx-4 px-4 lg:mx-0 lg:px-0 flex-1">
             <button onClick={() => setTeam('')} className={pill(team === '')}>{t('Bütün komandalar')}</button>
-            {teams.map(x => <button key={x} onClick={() => setTeam(x)} className={pill(team === x)}>{x}</button>)}
+            {teams.map(x => <button key={x} onClick={() => setTeam(x)} className={pill(team === x)}>{tn(x)}</button>)}
           </div>
           {seasons.length > 0 && (
             <label className="relative shrink-0">
@@ -138,16 +156,16 @@ function StatsView() {
         {/* Totals */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4 mb-8">
           {[
-            { icon: Goal, label: 'Qol', value: totals.goals },
-            { icon: Footprints, label: 'Assist', value: totals.assists },
-            { icon: Timer, label: 'Oyun', value: totals.games },
-            { icon: Users, label: 'Futbolçu', value: totals.players },
-          ].map(({ icon: Icon, label, value }) => (
-            <div key={label} className="led-border bg-bg-sec rounded-xl p-4 md:p-5 flex items-center gap-4">
+            { icon: Goal, word: 'qol' as const, value: totals.goals },
+            { icon: Footprints, word: 'assist' as const, value: totals.assists },
+            { icon: Timer, word: 'oyun' as const, value: totals.games },
+            { icon: Users, word: 'futbolçu' as const, value: totals.players },
+          ].map(({ icon: Icon, word, value }) => (
+            <div key={word} className="led-border bg-bg-sec rounded-xl p-4 md:p-5 flex items-center gap-4">
               <span className="w-11 h-11 rounded-full bg-bg-card flex items-center justify-center shrink-0"><Icon className="w-5 h-5 text-accent" /></span>
               <span>
                 <span className="block text-2xl md:text-3xl font-extrabold tabular-nums text-text-main leading-none">{loading ? '–' : value}</span>
-                <span className="block mt-1 text-xs uppercase tracking-wider text-text-sec">{t(label)}</span>
+                <span className="block mt-1 text-xs uppercase tracking-wider text-text-sec" data-no-translate>{countWord(loading ? 0 : value, word, lang)}</span>
               </span>
             </div>
           ))}
@@ -180,11 +198,11 @@ function StatsView() {
                     <Avatar stat={s} info={s.playerId ? players[s.playerId] : undefined} size={56} />
                     <span className="min-w-0 flex-1">
                       <span className="block font-bold text-text-main truncate">{s.name}</span>
-                      <span className="block text-xs text-text-sec truncate">{s.teams.join(', ')}{s.number ? ` · №${s.number}` : ''}</span>
+                      <span className="block text-xs text-text-sec truncate" data-no-translate>{s.teams.map(tn).join(', ')}{s.number ? ` · №${s.number}` : ''}</span>
                     </span>
                     <span className="text-right">
                       <span className="block text-3xl font-extrabold tabular-nums text-text-main leading-none">{metric(s)}</span>
-                      <span className="block text-[11px] uppercase tracking-wider text-text-sec mt-1">{tab === 'goals' ? t('qol') : t('assist')}</span>
+                      <span className="block text-[11px] uppercase tracking-wider text-text-sec mt-1">{countWord(metric(s), tab === 'goals' ? 'qol' : 'assist', lang)}</span>
                     </span>
                   </button>
                 </Reveal>
@@ -200,9 +218,9 @@ function StatsView() {
                     <Avatar stat={s} info={s.playerId ? players[s.playerId] : undefined} size={40} />
                     <span className="min-w-0 flex-1">
                       <span className="block font-semibold text-text-main truncate">{s.name}</span>
-                      <span className="block text-xs text-text-sec truncate">{s.teams.join(', ')} · {s.games} {t('oyun')}</span>
+                      <span className="block text-xs text-text-sec truncate" data-no-translate>{s.teams.map(tn).join(', ')} · {s.games} {countWord(s.games, 'oyun', lang)}</span>
                     </span>
-                    <span className="hidden sm:block text-xs text-text-sec tabular-nums w-24 text-right">{tab === 'goals' ? `${s.assists} ${t('assist')}` : `${s.goals} ${t('qol')}`}</span>
+                    <span className="hidden sm:block text-xs text-text-sec tabular-nums w-24 text-right">{tab === 'goals' ? `${s.assists} ${countWord(s.assists, 'assist', lang)}` : `${s.goals} ${countWord(s.goals, 'qol', lang)}`}</span>
                     <span className="text-xl font-extrabold tabular-nums text-text-main w-10 text-right">{metric(s)}</span>
                     <ChevronDown className={`w-4 h-4 text-text-sec transition-transform ${open === s.key ? 'rotate-180' : ''}`} />
                   </button>
@@ -228,7 +246,7 @@ function StatsView() {
                     <Avatar stat={s} info={s.playerId ? players[s.playerId] : undefined} size={36} />
                     <span className="min-w-0">
                       <span className="block font-semibold text-text-main truncate">{s.name}</span>
-                      <span className="block text-xs text-text-sec truncate">{s.teams.join(', ')}{s.position ? ` · ${s.position}` : ''}</span>
+                      <span className="block text-xs text-text-sec truncate" data-no-translate>{s.teams.map(tn).join(', ')}{s.position ? ` · ${t(s.position.trim())}` : ''}</span>
                     </span>
                   </span>
                   <span className="text-center tabular-nums">{s.games}</span>

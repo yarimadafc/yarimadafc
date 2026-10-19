@@ -6,7 +6,7 @@ import {
   GraduationCap, Ticket, Newspaper, CalendarDays, Shirt, ListOrdered, ArrowLeftRight, Building2, UserCog, Award, Activity, UserCheck,
 } from 'lucide-react';
 import { supabase } from '@/lib/supabase';
-import { adminDb } from '@/lib/adminDb';
+import { adminDb, OPEN_TAB_EVENT } from '@/lib/adminDb';
 import ImageField from './components/ImageField';
 import NewsAdmin from './components/NewsAdmin';
 import VideosAdmin from './components/VideosAdmin';
@@ -167,6 +167,19 @@ export default function AdminDashboard() {
     try { localStorage.setItem(STORAGE_KEY, id); } catch { /* ignore */ }
     window.scrollTo({ top: 0 });
   };
+
+  // sections can send the admin to another section (e.g. Komandalar -> Futbolçu statistikası)
+  useEffect(() => {
+    const onOpen = (e: Event) => {
+      const id = (e as CustomEvent<string>).detail;
+      if (!TABS.some(t => t.id === id)) return;
+      setActiveTab(id);
+      try { localStorage.setItem(STORAGE_KEY, id); } catch { /* ignore */ }
+      window.scrollTo({ top: 0 });
+    };
+    window.addEventListener(OPEN_TAB_EVENT, onOpen);
+    return () => window.removeEventListener(OPEN_TAB_EVENT, onOpen);
+  }, []);
 
   const handleLogout = async () => {
     await fetch('/api/admin/logout', { method: 'POST' });

@@ -9,7 +9,7 @@ import { isLiveMatch, matchStart, type AnyMatch } from '@/lib/matchUtils';
 
 // "Next match" card with the rotating LED border; the data comes from useFeaturedMatches (one team at a time).
 export default function NextMatchCard({ match, loading = false, className = '', compact = false }: { match: AnyMatch | null; loading?: boolean; className?: string; compact?: boolean }) {
-  const { t } = useLang();
+  const { t, tn } = useLang();
   const { longDate } = useFormat();
   const [now] = useState(() => Date.now());
 
@@ -32,7 +32,7 @@ export default function NextMatchCard({ match, loading = false, className = '', 
     <Link href="/matches" className={`group led-border led-glow block rounded-2xl bg-bg-card/90 backdrop-blur-md shadow-2xl ${compact ? 'p-4' : 'p-5 sm:p-6'} ${className}`}>
       <div className={`flex justify-between items-center gap-3 ${compact ? 'mb-3' : 'mb-6'}`}>
         <span className="text-accent text-[10px] font-bold uppercase tracking-widest px-2 py-1 bg-accent/10 rounded border border-accent/20 whitespace-nowrap">{t('Növbəti oyun')}</span>
-        <span className="text-text-sec text-[11px] font-medium truncate">{match.tournament}</span>
+        <span className="text-text-sec text-[11px] font-medium truncate" data-no-translate>{tn(match.tournament)}</span>
       </div>
 
       <div className={`relative flex items-center justify-between ${compact ? 'mb-3' : 'mb-7'}`}>
@@ -40,7 +40,7 @@ export default function NextMatchCard({ match, loading = false, className = '', 
           <div className={`rounded-full border border-bg-border bg-bg-main flex items-center justify-center overflow-hidden float-y ${compact ? 'w-12 h-12' : 'w-16 h-16'}`}>
             <TeamLogo name={match.home_team} logo={match.home_logo} size={compact ? 40 : 52} />
           </div>
-          <span className="font-bold text-text-main text-xs text-center line-clamp-2">{match.home_team}</span>
+          <span className="font-bold text-text-main text-xs text-center line-clamp-2" data-no-translate>{tn(match.home_team)}</span>
         </div>
 
         <div className="flex flex-col items-center z-10">
@@ -62,7 +62,7 @@ export default function NextMatchCard({ match, loading = false, className = '', 
           <div className={`rounded-full border border-bg-border bg-bg-main flex items-center justify-center overflow-hidden float-y ${compact ? 'w-12 h-12' : 'w-16 h-16'}`} style={{ animationDelay: '.6s' }}>
             <TeamLogo name={match.away_team} logo={match.away_logo} size={compact ? 40 : 52} />
           </div>
-          <span className="font-bold text-text-main text-xs text-center line-clamp-2">{match.away_team}</span>
+          <span className="font-bold text-text-main text-xs text-center line-clamp-2" data-no-translate>{tn(match.away_team)}</span>
         </div>
       </div>
 

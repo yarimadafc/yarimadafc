@@ -92,6 +92,11 @@ export function seasonOf(date?: string | null): string | null {
 
 const counted = (m: AnyMatch) => isFinished(m) || m.status === 'live';
 
+/** Games of our teams that count for the statistics (played or live), with the same team / season filter. */
+export function countedMatches(matches: AnyMatch[], filter: { team?: string; season?: string } = {}): AnyMatch[] {
+  return matches.filter(m => counted(m) && (!filter.team || sameTeam(m.tournament, filter.team)) && (!filter.season || seasonOf(m.match_date || m.date) === filter.season));
+}
+
 export function buildPlayerStats(matches: AnyMatch[], filter: { team?: string; season?: string } = {}, manual: ManualStatsPlayer[] = []): PlayerStat[] {
   const map = new Map<string, PlayerStat>();
   for (const m of matches) {
@@ -129,13 +134,46 @@ export function buildPlayerStats(matches: AnyMatch[], filter: { team?: string; s
     }
   }
   addManualStats(map, manual, filter);
+  mergeSamePlayer(map, manual);
 
   const list = [...map.values()];
   list.forEach(s => s.matches.sort((a, b) => (b.date || '').localeCompare(a.date || '')));
   return list;
 }
 
-const nameKey = (name: string) => `name:${name.trim().toLocaleLowerCase('az')}`;
+const nameKey = (name: string) => `name:${name.trim().replace(/\s+/g, ' ').toLocaleLowerCase('az')}`;
+
+// One row per person. Line-up entries typed by name get the registered player of that name (for the profile
+// link), and rows with the same full name are joined: in the academy that is the same child playing for
+// two age groups (invited to the U-12 and registered in the U-13, for example).
+function mergeSamePlayer(map: Map<string, PlayerStat>, players: ManualStatsPlayer[]) {
+  const registered = new Map<string, ManualStatsPlayer[]>();
+  players.forEach(p => { if (p?.name) registered.set(nameKey(p.name), [...(registered.get(nameKey(p.name)) || []), p]); });
+  const groups = new Map<string, [string, PlayerStat][]>();
+  for (const entry of map.entries()) groups.set(nameKey(entry[1].name), [...(groups.get(nameKey(entry[1].name)) || []), entry]);
+
+  for (const [k, rows] of groups) {
+    // keep the row of the player with the most games (a registered one first)
+    rows.sort(([, a], [, b]) => Number(!!b.playerId) - Number(!!a.playerId) || b.games - a.games);
+    const [, into] = rows[0];
+    if (!into.playerId) {
+      const same = registered.get(k);
+      if (same?.length === 1) {
+        into.playerId = same[0].id;
+        into.number ??= same[0].jersey_number != null ? String(same[0].jersey_number) : null;
+      }
+    }
+    for (const [key, s] of rows.slice(1)) {
+      into.games += s.games; into.starts += s.starts; into.goals += s.goals; into.assists += s.assists;
+      into.minutes += s.minutes; into.yellow += s.yellow; into.red += s.red;
+      into.matches.push(...s.matches);
+      s.teams.forEach(t => { if (!into.teams.some(x => sameTeam(x, t))) into.teams.push(t); });
+      into.number ??= s.number;
+      into.position ??= s.position;
+      map.delete(key);
+    }
+  }
+}
 
 const num = (v: unknown) => Math.max(0, Number(v) || 0);
 
@@ -179,6 +217,12 @@ function addManualStats(map: Map<string, PlayerStat>, players: ManualStatsPlayer
       s.matches.push(line);
     }
   }
+}
+
+/** The statistics row of a player (rows are one per person, see mergeSamePlayer). */
+export function findPlayerStat(all: PlayerStat[], player: { id: string; name?: string | null }): PlayerStat | null {
+  const k = player.name ? nameKey(player.name) : '';
+  return all.find(s => s.playerId === player.id) || (k ? all.find(s => nameKey(s.name) === k) : undefined) || null;
 }
 
 export const byGoals = (a: PlayerStat, b: PlayerStat) => b.goals - a.goals || b.assists - a.assists || a.games - b.games || a.name.localeCompare(b.name);

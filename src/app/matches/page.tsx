@@ -14,7 +14,7 @@ import { useSyncVersion } from '@/lib/siteSync';
 import { useOrderedTeams } from '@/lib/teamOrder';
 
 function MatchesList() {
-  const { t } = useLang();
+  const { t, tn } = useLang();
   const { longDate } = useFormat();
   const params = useSearchParams();
   const tab = params.get('tab') === 'results' ? 'results' : 'fixtures';
@@ -56,7 +56,7 @@ function MatchesList() {
           {leagues.map(l => (
             <button key={l} role="tab" aria-selected={league === l} onClick={() => setLeague(l)}
               className={`shrink-0 text-sm md:text-base font-semibold pb-2 border-b-2 transition-colors ${league === l ? 'text-text-main border-accent' : 'text-text-sec border-transparent hover:text-text-main'}`}>
-              {l === 'Hamısı' ? t('Hamısı') : l}
+              {l === 'Hamısı' ? t('Hamısı') : tn(l)}
             </button>
           ))}
         </div>
@@ -75,14 +75,14 @@ function MatchesList() {
             return (
               <Reveal key={m.id} delay={(i % 6) * 0.06} variant="scale">
               <article className="led-border led-hover card-fx h-full bg-bg-sec rounded-xl border border-bg-border overflow-hidden text-center">
-                <div className="py-4 px-4 font-bold text-text-main border-b border-bg-border">{m.tournament || t('Oyun')}</div>
+                <div className="py-4 px-4 font-bold text-text-main border-b border-bg-border" data-no-translate>{m.tournament ? tn(m.tournament) : t('Oyun')}</div>
                 <div className="py-3 px-4 text-sm text-text-sec border-b border-bg-border">
                   {longDate(m.date)}{m.time && `, ${m.time}`}{m.stadium && `, ${m.stadium}`}
                 </div>
                 <div className="flex items-center justify-between gap-2 px-4 py-6">
                   <div className="flex flex-col items-center gap-2 w-[38%] min-w-0">
                     <TeamLogo name={m.home_team} logo={m.home_logo} size={52} />
-                    <span className="text-sm font-semibold text-text-main leading-tight line-clamp-2">{m.home_team}</span>
+                    <span className="text-sm font-semibold text-text-main leading-tight line-clamp-2" data-no-translate>{tn(m.home_team)}</span>
                   </div>
                   <div className="flex flex-col items-center gap-1">
                     <span className="text-2xl font-extrabold text-text-main whitespace-nowrap">{scoreText(m)}</span>
@@ -90,7 +90,7 @@ function MatchesList() {
                   </div>
                   <div className="flex flex-col items-center gap-2 w-[38%] min-w-0">
                     <TeamLogo name={m.away_team} logo={m.away_logo} size={52} />
-                    <span className="text-sm font-semibold text-text-main leading-tight line-clamp-2">{m.away_team}</span>
+                    <span className="text-sm font-semibold text-text-main leading-tight line-clamp-2" data-no-translate>{tn(m.away_team)}</span>
                   </div>
                 </div>
                 <MatchSquad match={m} />

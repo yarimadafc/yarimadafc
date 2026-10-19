@@ -2,6 +2,7 @@
 
 import { createContext, useCallback, useContext, useEffect, useMemo, useState } from 'react';
 import { dictionary } from '@/lib/dictionary';
+import { localTeamName } from '@/lib/teamNames';
 
 export type Lang = 'az' | 'en' | 'ru';
 export const LANGS: { code: Lang; label: string; locale: string }[] = [
@@ -18,10 +19,12 @@ interface Ctx {
   t: (az: string) => string;
   /** Pick `field_en` / `field_ru` from a database row, falling back to Azerbaijani. */
   loc: (row: Record<string, any> | null | undefined, field: string) => string;
+  /** Team / tournament name in the current language (Yarımada FK -> Yarimada FC / Ярымада ФК). */
+  tn: (name?: string | null) => string;
 }
 
 const LangContext = createContext<Ctx>({
-  lang: 'az', locale: 'az-AZ', setLang: () => {}, t: s => s, loc: (row, f) => row?.[`${f}_az`] ?? row?.[f] ?? '',
+  lang: 'az', locale: 'az-AZ', setLang: () => {}, t: s => s, loc: (row, f) => row?.[`${f}_az`] ?? row?.[f] ?? '', tn: n => n ?? '',
 });
 
 const STORAGE_KEY = 'lang';
@@ -52,6 +55,7 @@ export function LanguageProvider({ children }: { children: React.ReactNode }) {
       if (!row) return '';
       return (lang !== 'az' && row[`${field}_${lang}`]) || row[`${field}_az`] || row[field] || '';
     },
+    tn: name => localTeamName(name, lang),
   }), [lang, setLang]);
 
   return <LangContext.Provider value={value}>{children}</LangContext.Provider>;

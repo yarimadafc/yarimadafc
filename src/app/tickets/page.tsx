@@ -10,8 +10,10 @@ import { useSyncVersion } from '@/lib/siteSync';
 
 import { CLUB_WHATSAPP } from '@/lib/contact';
 import { TICKETS_DEFAULTS, useSiteTexts, waNumber } from '@/lib/siteTexts';
+import { useLang } from '@/lib/i18n';
 
 export default function TicketsPage() {
+  const { tn } = useLang();
   const { longDate } = useFormat();
   const [matches, setMatches] = useState<AnyMatch[]>([]);
   const [loading, setLoading] = useState(true);
@@ -46,12 +48,12 @@ export default function TicketsPage() {
                 <Reveal key={m.id} variant="scale" delay={(i % 4) * 0.08}>
                   <div className="led-border led-hover card-fx h-full bg-bg-sec rounded-xl border border-bg-border p-5 md:p-6 flex flex-col sm:flex-row sm:items-center gap-5">
                     <div className="flex-1 min-w-0">
-                      <div className="text-text-sec text-xs font-semibold mb-3">{m.tournament || 'Oyun'}</div>
+                      <div className="text-text-sec text-xs font-semibold mb-3" data-no-translate>{m.tournament ? tn(m.tournament) : 'Oyun'}</div>
                       <div className="flex items-center gap-3 mb-3">
                         <TeamLogo name={m.home_team} logo={m.home_logo} size={40} />
-                        <span className="font-bold text-text-main truncate">{m.home_team}</span>
+                        <span className="font-bold text-text-main truncate" data-no-translate>{tn(m.home_team)}</span>
                         <span className="text-text-sec">–</span>
-                        <span className="font-bold text-text-main truncate">{m.away_team}</span>
+                        <span className="font-bold text-text-main truncate" data-no-translate>{tn(m.away_team)}</span>
                         <TeamLogo name={m.away_team} logo={m.away_logo} size={40} />
                       </div>
                       <div className="text-text-sec text-sm">{longDate(m.date)}{m.time && `, ${m.time}`}{m.stadium && ` · ${m.stadium}`}</div>

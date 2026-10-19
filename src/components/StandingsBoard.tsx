@@ -16,8 +16,15 @@ interface Props {
 }
 
 // League tabs + standings table + fixtures/results list (Neftçi-style).
+// table headings per language: [short, full] (the same letters mean different things in each language)
+const COLUMNS: Record<'az' | 'en' | 'ru', [string, string][]> = {
+  az: [['O', 'Oyun'], ['Q', 'Qələbə'], ['H', 'Heç-heçə'], ['M', 'Məğlubiyyət'], ['VQ', 'Vurulan qol'], ['BQ', 'Buraxılan qol'], ['Xal', 'Xal']],
+  en: [['P', 'Played'], ['W', 'Won'], ['D', 'Drawn'], ['L', 'Lost'], ['GF', 'Goals for'], ['GA', 'Goals against'], ['Pts', 'Points']],
+  ru: [['И', 'Игры'], ['В', 'Победы'], ['Н', 'Ничьи'], ['П', 'Поражения'], ['ЗМ', 'Забитые мячи'], ['ПМ', 'Пропущенные мячи'], ['О', 'Очки']],
+};
+
 export default function StandingsBoard({ matchLimit = 9 }: Props) {
-  const { t } = useLang();
+  const { t, tn, lang } = useLang();
   const [standings, setStandings] = useState<any[]>([]);
   const [matches, setMatches] = useState<AnyMatch[]>([]);
   const [picked, setPicked] = useState('');
@@ -102,7 +109,7 @@ export default function StandingsBoard({ matchLimit = 9 }: Props) {
             onClick={() => setActive(l.key)}
             className={`shrink-0 text-sm md:text-base font-semibold pb-2 border-b-2 transition-all hover:-translate-y-0.5 ${active === l.key ? 'text-text-main border-accent' : 'text-text-sec border-transparent hover:text-text-main'}`}
           >
-            {l.label}
+            {tn(l.label)}
           </button>
         ))}
       </div>
@@ -116,8 +123,8 @@ export default function StandingsBoard({ matchLimit = 9 }: Props) {
               <tr>
                 <th className={`${th} w-8 sm:w-12`}>№</th>
                 <th className="py-4 px-1 sm:px-2 text-left font-medium">{t('Komanda')}</th>
-                {['O', 'Q', 'B', 'M', 'VQ', 'BQ'].map(h => <th key={h} className={`${th} w-7 sm:w-10`}>{h}</th>)}
-                <th className={`${th} w-9 sm:w-12`}>{t('Xal')}</th>
+                {COLUMNS[lang].slice(0, 6).map(([h, title]) => <th key={h} title={title} data-no-translate className={`${th} w-7 sm:w-10`}>{h}</th>)}
+                <th title={COLUMNS[lang][6][1]} data-no-translate className={`${th} w-9 sm:w-12`}>{COLUMNS[lang][6][0]}</th>
               </tr>
             </thead>
             <tbody>
@@ -127,7 +134,7 @@ export default function StandingsBoard({ matchLimit = 9 }: Props) {
                   <td className="py-3 px-1 sm:px-2">
                     <span className="flex items-center gap-2.5 min-w-0">
                       <TeamLogo name={t.team_name} logo={logos[t.team_name]} size={30} />
-                      <span className="truncate font-semibold">{t.team_name}</span>
+                      <span className="truncate font-semibold" data-no-translate>{tn(t.team_name)}</span>
                     </span>
                   </td>
                   <td className="py-3 px-1 sm:px-2 text-center">{t.played ?? 0}</td>
@@ -163,7 +170,7 @@ export default function StandingsBoard({ matchLimit = 9 }: Props) {
                   </div>
                   <div className="flex-1 min-w-0 grid grid-cols-[1fr_auto_1fr] items-center gap-2 sm:gap-3">
                     <span className="flex items-center justify-end gap-2 min-w-0 font-semibold text-text-main">
-                      <span className="truncate text-right">{m.home_team}</span>
+                      <span className="truncate text-right" data-no-translate>{tn(m.home_team)}</span>
                       <TeamLogo name={m.home_team} logo={m.home_logo} size={26} />
                     </span>
                     <span className="font-bold text-text-main text-center min-w-[3rem]">
@@ -171,7 +178,7 @@ export default function StandingsBoard({ matchLimit = 9 }: Props) {
                     </span>
                     <span className="flex items-center gap-2 min-w-0 font-semibold text-text-main">
                       <TeamLogo name={m.away_team} logo={m.away_logo} size={26} />
-                      <span className="truncate">{m.away_team}</span>
+                      <span className="truncate" data-no-translate>{tn(m.away_team)}</span>
                     </span>
                   </div>
                 </Link>

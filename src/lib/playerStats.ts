@@ -1,4 +1,4 @@
-import { isYarimada, sameTeam, type AnyMatch } from '@/lib/matchUtils';
+import { isFinished, isYarimada, sameTeam, type AnyMatch } from '@/lib/matchUtils';
 
 // Player statistics are derived from the match line-ups the admin fills in
 // (matches.yarimada_lineup: one entry per player with goals / assists / minutes),
@@ -90,7 +90,7 @@ export function seasonOf(date?: string | null): string | null {
   return `${start}/${String(start + 1).slice(2)}`;
 }
 
-const counted = (m: AnyMatch) => m.status === 'finished' || m.status === 'live';
+const counted = (m: AnyMatch) => isFinished(m) || m.status === 'live';
 
 export function buildPlayerStats(matches: AnyMatch[], filter: { team?: string; season?: string } = {}, manual: ManualStatsPlayer[] = []): PlayerStat[] {
   const map = new Map<string, PlayerStat>();

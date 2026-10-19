@@ -21,8 +21,7 @@ export function usePlayerStatsData() {
       const [{ data: mt }, { data: pl }] = await Promise.all([
         supabase
           .from('matches')
-          .select('id, tournament, home_team, away_team, home_logo, away_logo, home_score, away_score, match_date, date, status, yarimada_lineup')
-          .in('status', ['finished', 'live'])
+          .select('id, tournament, home_team, away_team, home_logo, away_logo, home_score, away_score, match_date, match_time, date, status, timer_status, yarimada_lineup')
           .order('match_date', { ascending: false }),
         // '*' so the admin-entered stat_* extras come along (and nothing breaks before those columns exist)
         supabase.from('players').select('*, teams(name)'),

@@ -5,8 +5,7 @@ import Link from 'next/link';
 import { ArrowLeft, ArrowRight } from 'lucide-react';
 import { supabase } from '@/lib/supabase';
 import { useLang } from '@/lib/i18n';
-import NextMatchCard from '@/components/NextMatchCard';
-import LastResultCard from '@/components/LastResultCard';
+import FeaturedMatches from '@/components/FeaturedMatches';
 import { useSyncVersion } from '@/lib/siteSync';
 import { focusStyle } from '@/lib/imageFocus';
 
@@ -157,8 +156,7 @@ export default function HeroSlider() {
                   </div>
                   {/* Desktop: next match + last result */}
                   <div className="hidden lg:flex flex-col gap-3 w-full max-w-sm shrink-0 pointer-events-auto">
-                    <NextMatchCard compact className="animate-[rise_.9s_.3s_ease-out_both]" />
-                    <LastResultCard className="animate-[rise_.9s_.45s_ease-out_both]" />
+                    <div className="animate-[rise_.9s_.3s_ease-out_both]"><FeaturedMatches /></div>
                   </div>
                 </div>
               </div>
@@ -191,9 +189,8 @@ export default function HeroSlider() {
 
         {/* phones / tablets: next match + last result under the slider (the slide itself is too small for them) */}
         {!loading && (
-          <div className="lg:hidden grid grid-cols-1 sm:grid-cols-2 gap-3 mt-4">
-            <NextMatchCard />
-            <LastResultCard />
+          <div className="lg:hidden mt-4">
+            <FeaturedMatches layout="grid" />
           </div>
         )}
 

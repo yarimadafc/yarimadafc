@@ -2,15 +2,13 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import TeamLogo from '@/components/TeamLogo';
-import { useNextMatch } from '@/lib/useNextMatch';
 import { useLang } from '@/lib/i18n';
 import { useFormat } from '@/lib/useFormat';
 import LiveBadge from '@/components/LiveBadge';
-import { isLiveMatch, matchStart } from '@/lib/matchUtils';
+import { isLiveMatch, matchStart, type AnyMatch } from '@/lib/matchUtils';
 
-// "Next match" card with the rotating LED border (restored from the previous hero).
-export default function NextMatchCard({ className = '', compact = false }: { className?: string; compact?: boolean }) {
-  const { match, loading } = useNextMatch();
+// "Next match" card with the rotating LED border; the data comes from useFeaturedMatches (one team at a time).
+export default function NextMatchCard({ match, loading = false, className = '', compact = false }: { match: AnyMatch | null; loading?: boolean; className?: string; compact?: boolean }) {
   const { t } = useLang();
   const { longDate } = useFormat();
   const [now] = useState(() => Date.now());

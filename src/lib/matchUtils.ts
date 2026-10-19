@@ -95,9 +95,23 @@ export function isLiveMatch(m: AnyMatch): boolean {
   return m.status === 'live' || ['running_first', 'running_second', 'halftime'].includes(m.timer_status);
 }
 
+const hasScore = (m: AnyMatch) => m.home_score != null && m.home_score !== '' && m.away_score != null && m.away_score !== '';
+const PLAYED_MS = 2 * 60 * 60 * 1000; // a youth game is over about 2 h after kick-off
+
+/**
+ * A match counts as played when the admin marked it finished, or when its kick-off is over 2 h ago and a
+ * score was entered (the score is often typed in while the status is left on "upcoming").
+ */
+export function isFinished(m: AnyMatch, now = Date.now()): boolean {
+  if (m.status === 'finished') return true;
+  if (isLiveMatch(m) || !hasScore(m)) return false;
+  const start = matchStart(m);
+  return !!start && start.getTime() + PLAYED_MS <= now;
+}
+
 /** Score to display: live matches default to 0-0, finished matches only show an entered score. */
 export function scoreText(m: AnyMatch): string {
   if (isLiveMatch(m)) return `${m.home_score ?? 0} - ${m.away_score ?? 0}`;
-  if (m.status === 'finished' && m.home_score != null && m.away_score != null) return `${m.home_score} - ${m.away_score}`;
+  if (isFinished(m) && hasScore(m)) return `${m.home_score} - ${m.away_score}`;
   return '-';
 }

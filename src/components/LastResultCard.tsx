@@ -1,14 +1,12 @@
 'use client';
 import Link from 'next/link';
 import TeamLogo from '@/components/TeamLogo';
-import { useLastResult } from '@/lib/useNextMatch';
 import { useLang } from '@/lib/i18n';
 import { useFormat } from '@/lib/useFormat';
-import { isYarimada } from '@/lib/matchUtils';
+import { isYarimada, type AnyMatch } from '@/lib/matchUtils';
 
 // Compact "last result" card shown next to the next-match card on the home page.
-export default function LastResultCard({ className = '' }: { className?: string }) {
-  const { match, loading } = useLastResult();
+export default function LastResultCard({ match, loading = false, className = '' }: { match: AnyMatch | null; loading?: boolean; className?: string }) {
   const { t } = useLang();
   const { longDate } = useFormat();
 

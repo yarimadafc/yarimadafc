@@ -9,7 +9,7 @@ import Reveal from '@/components/Reveal';
 import MatchSquad from '@/components/MatchSquad';
 import { useLang } from '@/lib/i18n';
 import { useFormat } from '@/lib/useFormat';
-import { AnyMatch, isLiveMatch, scoreText, matchStart, normalizeMatch } from '@/lib/matchUtils';
+import { AnyMatch, isFinished, isLiveMatch, scoreText, matchStart, normalizeMatch } from '@/lib/matchUtils';
 import { useSyncVersion } from '@/lib/siteSync';
 import { useOrderedTeams } from '@/lib/teamOrder';
 
@@ -45,8 +45,8 @@ function MatchesList() {
     const byLeague = matches.filter(m => league === 'Hamısı' || (m.tournament || 'Oyun') === league);
     const byTime = (a: AnyMatch, b: AnyMatch) => (matchStart(a)?.getTime() ?? 0) - (matchStart(b)?.getTime() ?? 0);
     return tab === 'results'
-      ? byLeague.filter(m => m.status === 'finished').sort((a, b) => byTime(b, a))
-      : byLeague.filter(m => m.status !== 'finished').sort(byTime);
+      ? byLeague.filter(m => isFinished(m)).sort((a, b) => byTime(b, a))
+      : byLeague.filter(m => !isFinished(m)).sort(byTime);
   }, [matches, league, tab]);
 
   return (

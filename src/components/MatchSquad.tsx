@@ -4,7 +4,7 @@ import Link from 'next/link';
 import { ChevronDown } from 'lucide-react';
 import { useLang } from '@/lib/i18n';
 import { entryGoals, entryPlayed, type LineupEntry } from '@/lib/playerStats';
-import type { AnyMatch } from '@/lib/matchUtils';
+import { isFinished, type AnyMatch } from '@/lib/matchUtils';
 
 const UUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
 
@@ -16,7 +16,7 @@ export default function MatchSquad({ match }: { match: AnyMatch }) {
   const squad: (LineupEntry & { invited?: boolean; from_team?: string })[] = Array.isArray(match.yarimada_lineup) ? match.yarimada_lineup : [];
   if (squad.length === 0) return null;
 
-  const finished = match.status === 'finished' || match.status === 'live';
+  const finished = isFinished(match) || match.status === 'live';
   // starters first, then by shirt number
   const list = [...squad].sort((a, b) => Number(!!b.is_starting) - Number(!!a.is_starting) || (Number(a.number) || 99) - (Number(b.number) || 99));
   const invited = squad.filter(p => p.invited).length;

@@ -6,7 +6,7 @@ import { sortTeams } from '@/lib/teamOrder';
 import ImageField from './ImageField';
 import NumberInput from './NumberInput';
 import { teamLogoKey } from '@/lib/teamLogos';
-import { isYarimada, sameTeam } from '@/lib/matchUtils';
+import { isFinished, isYarimada, normalizeMatch, sameTeam } from '@/lib/matchUtils';
 import { entryGoals, entryPlayed } from '@/lib/playerStats';
 import { Trash2, Plus, Clock, Users, Play, Pause, Square, Minus } from 'lucide-react';
 import { calculateLiveMinute, TimerStatus } from '@/lib/matchTimer';
@@ -206,6 +206,13 @@ export default function MatchesAdmin() {
     e.preventDefault();
     if (!homeTeam || !awayTeam) return toast('error', 'Komandaların adını qeyd edin.');
 
+    // a past match with both scores typed in is a result: mark it finished, so it moves to "Nəticələr"
+    // and the home page shows the next game instead
+    const kickoff = matchDate ? new Date(`${matchDate}T${(matchTime || '00:00').slice(0, 5)}:00`).getTime() : NaN;
+    const scored = homeScore !== '' && awayScore !== '';
+    const finalStatus = status === 'upcoming' && scored && kickoff <= Date.now() ? 'finished' : status;
+    if (finalStatus !== status) toast('success', 'Hesab yazıldığı üçün oyun «Bitdi» kimi qeyd olundu');
+
     const payload = {
       tournament: tournament || null,
       home_team: homeTeam,
@@ -217,7 +224,7 @@ export default function MatchesAdmin() {
       away_logo: awayLogo,
       home_score: homeScore === '' ? null : homeScore,
       away_score: awayScore === '' ? null : awayScore,
-      status: status,
+      status: finalStatus,
       is_hero: isHero,
       timer_status: timerStatus,
       timer_started_at: timerStartedAt,
@@ -600,7 +607,7 @@ export default function MatchesAdmin() {
                   {m.is_hero && <span className="bg-accent text-on-accent text-[9px] font-black uppercase tracking-widest px-2 py-0.5 rounded">Ana Səhifə</span>}
                   
                   {m.status === 'live' && <span className="bg-red-500 text-white text-[9px] font-black uppercase tracking-widest px-2 py-0.5 rounded animate-pulse">Canlı: {calculateLiveMinute(m.timer_status, m.timer_started_at, m.elapsed_seconds, m.half_1_duration, m.half_2_duration, m.extra_time_1, m.extra_time_2)}</span>}
-                  {m.status === 'finished' && <span className="bg-gray-700 text-white text-[9px] font-black uppercase tracking-widest px-2 py-0.5 rounded">Bitdi</span>}
+                  {isFinished(normalizeMatch(m)) && <span className="bg-gray-700 text-white text-[9px] font-black uppercase tracking-widest px-2 py-0.5 rounded">Bitdi</span>}
                   
                   <span className="text-gray-400 text-[10px] uppercase font-bold tracking-widest">{m.tournament}</span>
                 </div>

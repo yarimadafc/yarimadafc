@@ -7,7 +7,7 @@ import TeamLogo from '@/components/TeamLogo';
 import Reveal from '@/components/Reveal';
 import { useLang } from '@/lib/i18n';
 import { useFormat } from '@/lib/useFormat';
-import { isLiveMatch, scoreText, AnyMatch, matchStart, normalizeMatch } from '@/lib/matchUtils';
+import { isFinished, isLiveMatch, scoreText, AnyMatch, matchStart, normalizeMatch } from '@/lib/matchUtils';
 import { useSyncVersion } from '@/lib/siteSync';
 import { ageOf } from '@/lib/teamOrder';
 
@@ -16,8 +16,8 @@ const byStart = (a: AnyMatch, b: AnyMatch) => (matchStart(a)?.getTime() ?? 0) - 
 // Two latest results + the next two fixtures, oldest -> newest.
 function pickMatches(rows: AnyMatch[], count = 4): AnyMatch[] {
   const sorted = [...rows].sort(byStart);
-  const finished = sorted.filter(m => m.status === 'finished');
-  const upcoming = sorted.filter(m => m.status !== 'finished');
+  const finished = sorted.filter(m => isFinished(m));
+  const upcoming = sorted.filter(m => !isFinished(m));
   const half = Math.ceil(count / 2);
   const picked = [...finished.slice(-half), ...upcoming.slice(0, count - half)];
   if (picked.length < count) {
@@ -66,7 +66,7 @@ export default function MatchesSection() {
         {loading ? null : matches.length > 0 ? (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-5">
             {matches.map((m, i) => {
-              const played = m.status === 'finished' || isLiveMatch(m);
+              const played = isFinished(m) || isLiveMatch(m);
               return (
                 <Reveal key={m.id} delay={i * 0.1} variant="scale">
                 <Link href="/matches" className="group led-border led-hover card-fx h-full bg-bg-main rounded-xl border border-bg-border flex flex-col text-center overflow-hidden">

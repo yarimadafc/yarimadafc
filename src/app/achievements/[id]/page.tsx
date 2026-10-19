@@ -2,6 +2,7 @@ import { supabase } from '@/lib/supabase';
 import { notFound } from 'next/navigation';
 import Link from 'next/link';
 import { Trophy } from 'lucide-react';
+import SyncRefresh from '@/components/SyncRefresh';
 
 export const revalidate = 0;
 
@@ -15,6 +16,7 @@ export default async function AchievementDetail({ params }: { params: Promise<{ 
 
   return (
     <div className="bg-bg-deep min-h-screen pt-header pb-24 font-sans text-text-main">
+      <SyncRefresh />
       <div className="container">
         <Link href="/" className="btn-fx inline-flex items-center text-accent font-bold text-xs uppercase tracking-widest hover:text-text-main mb-8">
           &larr; Ana Səhifəyə Qayıt

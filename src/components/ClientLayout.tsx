@@ -44,8 +44,8 @@ export default function ClientLayout({ children }: { children: React.ReactNode }
         </main>
         {!isAdminPath && <Footer />}
       </div>
-      </SiteSyncProvider>
       <DomTranslator />
+      </SiteSyncProvider>
       <SiteTracker />
       {!isAdminPath && <AccountWatcher />}
     </LanguageProvider>

@@ -2,6 +2,7 @@
 import { useEffect } from 'react';
 import { usePathname } from 'next/navigation';
 import { useLang, type Lang } from '@/lib/i18n';
+import { useSyncVersion } from '@/lib/siteSync';
 import { dictionary } from '@/lib/dictionary';
 
 // Translates static Azerbaijani UI text anywhere in the page (also text inside pages that do not call t()).
@@ -21,11 +22,13 @@ let currentLang: Lang = 'az';
 const stored = new Map<string, string>(); // admin content translated on save: `${lang}\0${source}`
 const storedLoaded = new Set<string>();
 
-async function loadStored(lang: Lang): Promise<boolean> {
-  if (lang === 'az' || storedLoaded.has(lang)) return false;
-  storedLoaded.add(lang);
+async function loadStored(lang: Lang, version = 0): Promise<boolean> {
+  const tag = `${lang}:${version}`;
+  if (lang === 'az' || storedLoaded.has(tag)) return false;
+  storedLoaded.add(tag);
   try {
-    const res = await fetch(`/api/translate-public?lang=${lang}`);
+    // the version skips the CDN copy after an admin change, so new translations show up at once
+    const res = await fetch(`/api/translate-public?lang=${lang}${version ? `&v=${version}` : ''}`);
     if (!res.ok) return false;
     const json = await res.json();
     Object.entries(json.translations || {}).forEach(([k, v]) => stored.set(`${lang}\0${k}`, v as string));
@@ -146,12 +149,13 @@ function walk(root: Node, lang: Lang) {
 export default function DomTranslator() {
   const { lang } = useLang();
   const pathname = usePathname();
+  const sync = useSyncVersion();
 
   useEffect(() => {
     if (pathname.startsWith('/admin')) return;
     currentLang = lang;
     walk(document.body, lang);
-    loadStored(lang).then(changed => { if (changed && currentLang === lang) walk(document.body, lang); });
+    loadStored(lang, sync).then(changed => { if (changed && currentLang === lang) walk(document.body, lang); });
     const observer = new MutationObserver(mutations => {
       for (const m of mutations) {
         if (m.type === 'characterData') processText(m.target as Text, lang);
@@ -161,7 +165,7 @@ export default function DomTranslator() {
     });
     observer.observe(document.body, { childList: true, subtree: true, characterData: true, attributes: true, attributeFilter: ATTRS });
     return () => observer.disconnect();
-  }, [lang, pathname]);
+  }, [lang, pathname, sync]);
 
   return null;
 }

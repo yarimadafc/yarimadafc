@@ -41,6 +41,15 @@ export function LanguageProvider({ children }: { children: React.ReactNode }) {
 
   useEffect(() => { document.documentElement.lang = lang; }, [lang]);
 
+  // switching the language in one tab switches it in the other open tabs too
+  useEffect(() => {
+    const onStorage = (e: StorageEvent) => {
+      if (e.key === STORAGE_KEY && e.newValue && LANGS.some(l => l.code === e.newValue)) setLangState(e.newValue as Lang);
+    };
+    window.addEventListener('storage', onStorage);
+    return () => window.removeEventListener('storage', onStorage);
+  }, []);
+
   const setLang = useCallback((l: Lang) => {
     setLangState(l);
     try { localStorage.setItem(STORAGE_KEY, l); } catch { /* ignore */ }

@@ -134,6 +134,7 @@ export function buildPlayerStats(matches: AnyMatch[], filter: { team?: string; s
     }
   }
   addManualStats(map, manual, filter);
+  applyCurrentDetails(map, manual);
   mergeSamePlayer(map, manual);
 
   const list = [...map.values()];
@@ -142,6 +143,19 @@ export function buildPlayerStats(matches: AnyMatch[], filter: { team?: string; s
 }
 
 const nameKey = (name: string) => `name:${name.trim().replace(/\s+/g, ' ').toLocaleLowerCase('az')}`;
+
+// Line-ups keep the name / number a player had when the game was saved; show the current ones from
+// Komandalar instead, so renaming a player or changing the shirt number updates every page.
+function applyCurrentDetails(map: Map<string, PlayerStat>, players: ManualStatsPlayer[]) {
+  const byId = new Map(players.filter(p => p?.id).map(p => [p.id, p]));
+  for (const s of map.values()) {
+    const p = s.playerId ? byId.get(s.playerId) : undefined;
+    if (!p) continue;
+    if (p.name?.trim()) s.name = p.name.trim();
+    if (p.jersey_number != null) s.number = String(p.jersey_number);
+    if (p.position) s.position = p.position;
+  }
+}
 
 // One row per person. Line-up entries typed by name get the registered player of that name (for the profile
 // link), and rows with the same full name are joined: in the academy that is the same child playing for

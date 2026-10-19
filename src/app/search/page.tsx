@@ -3,12 +3,14 @@ import { useState, useEffect } from 'react';
 import { useSearchParams } from 'next/navigation';
 import { Suspense } from 'react';
 import { supabase } from '@/lib/supabase';
+import { useSyncVersion } from '@/lib/siteSync';
 import { motion } from 'framer-motion';
 import Link from 'next/link';
 
 function SearchResults() {
   const searchParams = useSearchParams();
   const query = searchParams.get('q') || '';
+  const sync = useSyncVersion();
   
   const [loading, setLoading] = useState(true);
   const [results, setResults] = useState<{ title: string; desc: string; link: string; type: string }[]>([]);
@@ -66,7 +68,7 @@ function SearchResults() {
       setLoading(false);
     }
     doSearch();
-  }, [query]);
+  }, [query, sync]);
 
   return (
     <>

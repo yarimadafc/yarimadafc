@@ -9,7 +9,7 @@ import { supabase } from '@/lib/supabase';
 import { adminDb, OPEN_TAB_EVENT } from '@/lib/adminDb';
 import ImageField from './components/ImageField';
 import NewsAdmin from './components/NewsAdmin';
-import VideosAdmin from './components/VideosAdmin';
+import GalleryAdmin from './components/GalleryAdmin';
 import HeroAdmin from './components/HeroAdmin';
 import TransfersAdmin from './components/TransfersAdmin';
 import StandingsAdmin from './components/StandingsAdmin';
@@ -44,7 +44,7 @@ const GROUPS: { title: string; tabs: Tab[] }[] = [
   ] },
   { title: 'Xəbərlər və media', tabs: [
     { id: 'news', label: 'Xəbərlər', Icon: Newspaper },
-    { id: 'videos', label: 'Videolar', Icon: Video },
+    { id: 'videos', label: 'Fotoqalereya', Icon: Video },
   ] },
   { title: 'Oyunlar', tabs: [
     { id: 'matches', label: 'Oyunlar və nəticələr', Icon: CalendarDays },
@@ -130,7 +130,7 @@ function Section({ id }: { id: string }) {
     case 'images': return <SiteImages />;
     case 'texts': return <TextsAdmin />;
     case 'news': return <NewsAdmin />;
-    case 'videos': return <VideosAdmin />;
+    case 'videos': return <GalleryAdmin />;
     case 'matches': return <MatchesAdmin />;
     case 'standings': return <StandingsAdmin />;
     case 'tickets': return <TicketsAdmin />;

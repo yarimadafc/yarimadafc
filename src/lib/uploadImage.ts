@@ -78,3 +78,21 @@ export async function uploadFromInput(e: React.ChangeEvent<HTMLInputElement>, op
     return null;
   }
 }
+
+export type GalleryUpload = { url: string; thumb: string; width: number | null; height: number | null };
+
+/** Photo gallery upload (many files at once, no editor): high quality -> ImgBB (Supabase Storage fallback). */
+export async function uploadGalleryPhoto(file: File): Promise<GalleryUpload> {
+  if (!isImage(file)) throw new Error(`${file.name}: yalnız şəkil faylı seçin.`);
+  const image = await compressImage(file, 'high');
+  const res = await fetch('/api/upload', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ image, target: 'gallery' }),
+  });
+  const data = await res.json().catch(() => ({}));
+  if (!res.ok || !data.url) {
+    throw new Error(data.error || (res.status === 401 ? 'Sessiya bitib, yenidən daxil olun.' : res.status === 413 ? 'Şəkil çox böyükdür.' : `Yükləmə alınmadı (HTTP ${res.status})`));
+  }
+  return { url: data.url, thumb: data.thumb || data.url, width: data.width ?? null, height: data.height ?? null };
+}

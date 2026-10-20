@@ -38,6 +38,7 @@ const FIELDS: Record<string, string[]> = {
   achievements: ['title', 'description'],
   coach_courses: ['title', 'description'],
   videos: ['title'],
+  gallery_photos: ['title'],
   products: ['title', 'description', 'colors'],
   transfers: ['transfer_type'],
   hero_slides: ['title', 'subtitle'],

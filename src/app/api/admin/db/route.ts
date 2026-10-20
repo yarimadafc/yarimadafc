@@ -5,7 +5,7 @@ import { collectTexts, translateAndStore } from '@/lib/contentTranslate';
 import { broadcastSiteChange } from '@/lib/siteSyncServer';
 
 const ALLOWED_TABLES = new Set([
-  'achievements', 'coach_courses', 'coaches', 'hero_slides', 'leadership', 'matches',
+  'achievements', 'coach_courses', 'coaches', 'gallery_photos', 'hero_slides', 'leadership', 'matches',
   'news', 'players', 'products', 'site_images', 'sponsors', 'standings', 'teams', 'transfers', 'videos',
 ]);
 const ALLOWED_ACTIONS = new Set(['insert', 'update', 'upsert', 'delete']);

@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { createClient } from '@supabase/supabase-js';
-import { uploadToImgBB } from '@/lib/imgbb';
+import { uploadToImgBB, uploadToImgBBDetailed } from '@/lib/imgbb';
 import { requireAdmin } from '@/lib/adminGuard';
 
 const BUCKET = 'media';
@@ -42,8 +42,9 @@ export async function POST(request: NextRequest) {
   if (denied) return denied;
 
   let image: unknown;
+  let target: unknown;
   try {
-    ({ image } = await request.json());
+    ({ image, target } = await request.json());
   } catch {
     return NextResponse.json({ error: 'Fayl oxunmadı (çox böyük ola bilər).' }, { status: 400 });
   }
@@ -63,6 +64,26 @@ export async function POST(request: NextRequest) {
   }
 
   const errors: string[] = [];
+
+  // Photo gallery: ImgBB first (original + lighter "medium" copy for the grid), Supabase Storage as fallback.
+  if (target === 'gallery') {
+    if (process.env.IMGBB_API_KEY) {
+      try {
+        return NextResponse.json(await uploadToImgBBDetailed(base64Data));
+      } catch (e) {
+        errors.push(`ImgBB: ${(e as Error).message}`);
+      }
+    }
+    try {
+      const url = await uploadToSupabase(bytes, mime);
+      return NextResponse.json({ url, thumb: url, width: null, height: null });
+    } catch (e) {
+      errors.push(`Supabase: ${(e as Error).message}`);
+    }
+    console.error('Gallery upload error:', errors.join(' | '));
+    return NextResponse.json({ error: `Şəkil yüklənmədi. ${errors.join(' | ')}` }, { status: 500 });
+  }
+
   try {
     return NextResponse.json({ url: await uploadToSupabase(bytes, mime) });
   } catch (e) {
@@ -79,3 +100,6 @@ export async function POST(request: NextRequest) {
   console.error('Upload error:', errors.join(' | '));
   return NextResponse.json({ error: `Şəkil yüklənmədi. ${errors.join(' | ')}` }, { status: 500 });
 }
+
+// ImgBB uploads can take a while for large photos.
+export const maxDuration = 60;
